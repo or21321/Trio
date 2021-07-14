@@ -52,14 +52,25 @@ export const boardStore = {
       },
    },
    actions: {
-      async loadBoards(content) {
+      async loadBoards({ commit }) {
          try {
             const boards = await boardService.query()
-            content.commit({ type: 'loadBoards', boards })
+            commit({ type: 'loadBoards', boards })
             return boards
          }
          catch (err) {
             console.log('Cannot load boards', err);
+            throw err;
+         }
+      },
+      async loadBoard({ commit }, { boardId }) {
+         try {
+            const board = await boardService.getById(boardId)
+            commit({ type: 'setCurrBoardId', boardId })
+            return board
+         }
+         catch (err) {
+            console.log('Cannot load board', err);
             throw err;
          }
       },
@@ -109,19 +120,27 @@ export const boardStore = {
             const savedGroup = await boardService.saveGroup(group, boardId);
             commit({ type: 'saveGroup', isUpdate, savedGroup, boardId });
          } catch (err) {
+            console.log('Cannot save card', group, ',', err);
+            throw err;
+         }
+      },
+      async saveCard({ commit }, { card, groupId, boardId }) {
+         const isUpdate = (card._id) ? true : false;
+         try {
+            const savedCard = await boardService.saveCard(card, groupId, boardId);
+            commit({ type: 'saveCard', isUpdate, savedCard, groupId, boardId });
+         } catch (err) {
             console.log('Cannot save card', card, ',', err);
             throw err;
          }
-   },
-   async saveCard({ commit }, { card, groupId, boardId }) {
-      const isUpdate = (card._id) ? true : false;
-      try {
-         const savedCard = await boardService.saveCard(card, groupId, boardId);
-         commit({ type: 'saveCard', isUpdate, savedCard, groupId, boardId });
-      } catch (err) {
-         console.log('Cannot save card', card, ',', err);
-         throw err;
+      },
+      async getCardById(context, { cardId, groupId, boardId }) {
+         try {
+            return boardService.getCardById(cardId, groupId, boardId)
+         } catch (err) {
+            console.log('Cannot save card', cardId, ',', err);
+            throw err;
+         }
       }
-   },
-}
+   }
 }

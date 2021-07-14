@@ -9,12 +9,17 @@ export default {
   props: {
     card: {
       type: Object,
-      required: true,
+      required: true
+
     },
+    groupId: {
+      type: String,
+      required: true
+    }
   },
   methods: {
     toCardDetails() {
-      console.log("toCardDetails(), card.id", this.card.id);
+      this.$router.push(`${this.$route.path}/g/${this.groupId}/c/${this.card.id}`);
     },
   },
 };

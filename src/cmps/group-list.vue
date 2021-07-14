@@ -8,9 +8,10 @@
     </span>
     <div class="card-preview-list">
       <card-preview
-        v-for="card in group.tasks"
+        v-for="card in group.cards"
         :key="card.id"
         :card="card"
+        :groupId="group.id"
       ></card-preview>
     </div>
       <card-compose 

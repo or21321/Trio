@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import { boardStore } from './modules/board.store'
+import { userStore } from './modules/user.store'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -8,8 +9,11 @@ export default new Vuex.Store({
   },
   mutations: {
   },
-  actions: {
+   actions: {
+     
   },
-  modules: {
+   modules: {
+      boardStore,
+      userStore,
   }
 })

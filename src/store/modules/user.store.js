@@ -75,12 +75,7 @@ export const userStore = {
 
       async getMiniUser(content, { userId }) {
          try {
-            const user = await userService.getById(userId);
-            return {
-               _id: user._id,
-               fullname: user.fullname,
-               imgUrl: user.imgUrl,
-            }
+            return await userService.getMiniUser(userId);
          } catch (err) {
             console.log('userStore: Error in getById user', err)
             throw err

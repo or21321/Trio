@@ -4,19 +4,35 @@
     align-items: center;
     justify-content: space-between;
     color: #95959b;
+    font-family: Segoe-UI-Bold;
 
-    .nav {  
+    .nav {
         display: flex;
+        align-items: center;
 
-        .boards {   
+        & > :first-child {
+            padding: 0 8.5px 0 7.5px;
+        }
+        & > :last-child {
+            padding: 0 7.5px;
+        }
+
+        .wh {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .boards {
             // overflow: hidden;
             // padding: 0 8px 0 2px;
             // max-width: 150px
         }
     }
 
-    .logo { 
-        font-family: Segoe-UI-Bold;
+    .logo {
         font-size: 1.5rem;
         height: 30px;
         margin-top: 1px;

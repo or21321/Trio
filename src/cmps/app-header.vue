@@ -1,8 +1,10 @@
 <template>
   <section class="app-header">
     <nav class="nav">
-    <router-link class="btn-container material-icons" to="/">home</router-link> 
-    <router-link class="btn-container" :to="'/b/'+123"><span class="material-icons">developer_board</span>Boards</router-link>
+      <div class="wh">
+    <router-link class="btn-container" to="/"><span class="material-icons">home</span></router-link> 
+      </div>
+    <button class="btn-container" :to="'/b/'+123"><span class="material-icons">developer_board</span><span class="boards">Boards</span></button>
       <!-- <button @click="toTodoApp" class="nav-icon material-icons">apps</button>
       <button @click="toHomepage" class="nav-icon material-icons">home</button> -->
       <!-- <div class="search-container"> -->

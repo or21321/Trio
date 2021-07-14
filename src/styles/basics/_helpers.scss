@@ -13,4 +13,12 @@
     margin: 0 4px 0 0;
     padding: 0;
     white-space: nowrap;
+    min-width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.material-icons {   
+   font-size: 20px;
 }

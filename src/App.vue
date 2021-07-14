@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div class="app">
     <app-header v-if="!isHome"></app-header>
-    <router-view />
+    <router-view/>
   </div>
 </template>
 

@@ -162,33 +162,34 @@ async function addActivity(activity, boardId) {
 
 function getEmptyBoard() {
     return {
-        "title": "",
-        "style": {},
-        "labels": [],
-        "members": [],
-        "groups": [],
-        "activities": []
+        title: "",
+        isStarred: false,
+        style: {},
+        labels: [],
+        members: [],
+        groups: [],
+        activities: []
     }
 }
 
 function getEmptyGroup() {
     return {
-        "title": "",
-        "cards": [],
-        "style": {}
+        title: "",
+        cards: [],
+        style: {}
     }
 }
 
 function getEmptyCard() {
     return {
-        "title": "",
-        "description": "",
-        "comments": [],
-        "checklists": [],
-        "members": [],
-        "labelIds": [],
-        "dueDate": null,
-        "style": {}
+        title: "",
+        description: "",
+        comments: [],
+        checklists: [],
+        members: [],
+        labelIds: [],
+        dueDate: null,
+        style: {}
     }
 }
 

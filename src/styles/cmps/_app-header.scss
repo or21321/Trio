@@ -1,0 +1,51 @@
+.app-header {
+    background-color: #273240b0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #95959b;
+    font-family: Segoe-UI-Bold;
+
+    .nav {
+        display: flex;
+        align-items: center;
+
+        & > button :first-child {
+            padding: 0 8px 0 7.5px;
+        }
+        & > button :last-child {
+            padding: 0 7.5px 0 0;
+        }
+
+        .wh {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .boards {
+            // overflow: hidden;
+            // padding: 0 8px 0 2px;
+            // max-width: 150px
+        }
+    }
+
+    .logo {
+        font-size: 1.5rem;
+        height: 30px;
+        margin-top: 1px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .header-features {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+}

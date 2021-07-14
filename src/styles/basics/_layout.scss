@@ -1,6 +1,10 @@
+.app-main { 
+   flex-grow: 1;
+}
 
-.main-layout {
-   margin: 0px 10px;
+
+// .main-layout {
+//    margin: 0px 10px;
 
    //  @include for-narrow-layout {
    //      @include layout-columns($break-narrow);
@@ -14,5 +18,5 @@
    //  @include for-wide-layout {
    //      @include layout-columns($break-wide);
    //  }
-}
+// }
 

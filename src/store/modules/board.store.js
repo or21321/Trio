@@ -96,15 +96,6 @@ export const boardStore = {
             throw err;
          }
       },
-      // async setCurrBoardId({ commit }, { boardId }) {
-      //    try {
-      //       const board = await boardService.getById(boardId);
-      //       commit({ type: 'setCurrBoardId', board })
-      //    } catch (err) {
-      //       console.log('Cannot get board ', boardId, ',', err);
-      //       throw err;
-      //    }
-      // },
       async addActivity({ commit }, { activity, boardId }) {
          try {
             await boardService.addActivity(activity, boardId);

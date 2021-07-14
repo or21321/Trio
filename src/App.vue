@@ -30,8 +30,8 @@ export default {
     "$route.path": {
       immediate: true,
       handler() {
-        console.log("path", this.$route.path);
         if (this.$route.path === "/") this.isHome = true;
+        else this.isHome = false
       },
     },
   },

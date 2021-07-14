@@ -1,6 +1,10 @@
 <template>
   <div class="board-wrapper app-main" v-if="board">
-    <board-header :title="board.title"> </board-header>
+    <board-header
+      :title="board.title"
+      :star="board.isStarred"
+      @toggleStar="toggleStar"
+    ></board-header>
     <div class="board-canvas">
       <groupList
         v-for="group in board.groups"
@@ -44,7 +48,12 @@ export default {
       return this.$store.getters.currBoard
     }
   },
-  methods: {},
+  methods: {
+    toggleStar() {
+      this.board.isStarred = !this.board.isStarred;
+      this.$store.dispatch({ type: "saveBoard", board: this.board });
+    }
+  },
   data() {
     return {
       // board: null,

@@ -24,13 +24,13 @@ export const userService = {
 // userService.signup({fullname: 'Muki G', username: 'muki', password:'123', score: 100})
 
 function getUsers() {
-   return storageService.query('user')
+   return storageService.query('users')
    // return httpService.get(`user`)
 }
 
 async function getById(userId) {
    try {
-      const user = await storageService.get('user', userId)
+      const user = await storageService.get('users', userId)
       // const user = await httpService.get(`user/${userId}`)
       // gWatchedUser = user;
       return user;
@@ -43,7 +43,7 @@ async function getById(userId) {
 
 // async function update(user) {
 //    try {
-//       await storageService.put('user', user)
+//       await storageService.put('users', user)
 //       // user = await httpService.put(`user/${user._id}`, user)
 //       // Handle case in which admin updates other user's details
 //       if (getLoggedinUser()._id === user._id) _saveLocalUser(user)
@@ -56,9 +56,9 @@ async function getById(userId) {
 
 async function login(userCred) {
    try {
-      const users = await storageService.query('user')
-      const user = users.find(user => user.username === userCred.username)
-      return _saveLocalUser(user)
+      const users = await storageService.query('users')
+      const user = users.find(user => user.username === userCred.username && user.password === userCred.password)
+      if (user) return _saveLocalUser(user)
       // const user = await httpService.post('auth/login', userCred)
       // socketService.emit('login', user._id);
       // if (user) return _saveLocalUser(user)
@@ -69,7 +69,7 @@ async function login(userCred) {
 }
 async function signup(userCred) {
    try {
-      const user = await storageService.post('user', userCred)
+      const user = await storageService.post('users', userCred)
       // const user = await httpService.post('auth/signup', userCred)
       // socketService.emit('set-user-socket', user._id);
       return _saveLocalUser(user)
@@ -132,7 +132,7 @@ async function getMiniUser(userId) {
     // Here we are listening to changes for the watched user (comming from other browsers)
 //     window.addEventListener('storage', async () => {
 //         if (!gWatchedUser) return;
-//         const freshUsers = await storageService.query('user')
+//         const freshUsers = await storageService.query('users')
 //         const watchedUser = freshUsers.find(u => u._id === gWatchedUser._id)
 //         if (!watchedUser) return;
 //         if (gWatchedUser.score !== watchedUser.score) {

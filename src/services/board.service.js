@@ -166,7 +166,6 @@ async function getCardById(cardId, groupId, boardId) {
    try {
       const board = await getById(boardId)
       const group = board.groups.find(group => group.id === groupId);
-      console.log('group', group)
       return group.cards.find(card => card.id === cardId);
    } catch (err) {
       console.log('Error:', err);
@@ -210,6 +209,7 @@ function _createDemoBoard() {
   return {
         _id: "b101",
         title: "Robot dev proj",
+        isStarred: true,
         createdAt: 1589983468418,
         createdBy: {
           _id: "u101",

@@ -56,5 +56,11 @@
         // & > span:last-child {
         //     margin-left: 4px;
         // }
+        &.star {
+            padding: 0 6px;
+        }
+        &.star.selected {
+            color: yellow;
+        }
     }
 }

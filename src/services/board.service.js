@@ -1,4 +1,5 @@
 import { storageService } from "./storage.service.js";
+import { userService } from "./user.service.js";
 import { utilService } from "./util-service.js";
 // import axios from 'axios'
 import { httpService } from './http.service.js'
@@ -133,14 +134,7 @@ async function saveCard(card, groupId, boardId) {
         } else {
             card.id = utilService.makeId()
             card.createdAt = Date.now()
-            // TODO: Add byMember when user service is ready
-            // card.byMember: 
-            // { 
-            // "_id": "u101",
-            // "username": "Tal",
-            // "fullname": "Tal Tarablus",
-            // "imgUrl": "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg"
-            // }
+            card.byMember = userService.getMiniUser(userService.getLoggedinUser()._id)
             board.groups[groupIdx].cards.push(card)
         }
         await save(board)

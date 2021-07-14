@@ -1,14 +1,13 @@
 <template>
   <div class="app">
     <app-header v-if="!isHome"></app-header>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 
 <script>
 import appHeader from "@/cmps/app-header";
-
 
 export default {
   components: {
@@ -19,8 +18,13 @@ export default {
       isHome: false,
     };
   },
-  created() {
+  async created() {
     console.log("App created");
+    try {
+      await this.$store.dispatch({ type: "loadBoards" });
+    } catch (err) {
+      console.log("ERROR cannot load boards");
+    }
   },
   watch: {
     "$route.path": {

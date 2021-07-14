@@ -1,7 +1,7 @@
-// import { storageService } from './async-storage.service'
+import { storageService } from './storage.service.js'
 // import { httpService } from './http.service'
 // import { socketService, SOCKET_EVENT_USER_UPDATED } from './socket.service'
-// const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
+const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 // const SCORE_FOR_REVIEW = 10
 // var gWatchedUser = null;
 
@@ -32,7 +32,7 @@ async function getById(userId) {
    try {
       const user = await storageService.get('user', userId)
       // const user = await httpService.get(`user/${userId}`)
-      gWatchedUser = user;
+      // gWatchedUser = user;
       return user;
    } catch (err) {
       console.log('userService: Error in getById user', err)
@@ -99,7 +99,7 @@ function getLoggedinUser() {
 }
 
 async function signupAsGuest() {
-   user = {
+   const user = {
       fullname: 'Guest' + Date.now() % 10000,
       username: 'Guest',
       password: 'Guest',

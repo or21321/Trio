@@ -1,6 +1,6 @@
 <template>
   <div class="group-list">
-      <card-preview v-for="card in group.tasks" :key="card.id" :card="card"></card-preview>
+      <card-preview v-for="card in group.tasks" :key="card.id" :groupId="group.id" :card="card"></card-preview>
   </div>
 </template>
 

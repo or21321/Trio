@@ -1,5 +1,5 @@
 import { storageService } from "./storage.service.js";
-// import { utilService } from "./util-service.js";
+import { utilService } from "./util-service.js";
 // import axios from 'axios'
 import { httpService } from './http.service.js'
 const KEY = 'boards'
@@ -7,10 +7,17 @@ const KEY = 'boards'
 
 export const boardService = {
     query,
-    remove,
-    save,
-    getEmptyBoard,
     getById,
+    remove,
+    removeGroup,
+    removeCard,
+    save,
+    saveGroup,
+    saveCard,
+    getEmptyBoard,
+    getEmptyGroup,
+    getEmptyCard,
+    addActivity
     // addReview
 }
 
@@ -37,6 +44,7 @@ async function getById(boardId) {
     }
     // return axios.get(`http://localhost:3200/api/board/${boardId}`).then(res => res.data)
 }
+
 async function remove(boardId) {
     try {
         return storageService.remove(KEY, boardId)
@@ -51,7 +59,7 @@ async function remove(boardId) {
 
 async function save(board) {
     try {
-        console.log('save', board); 
+        console.log('save', board);
         // var queryParams = `vendor=${board.vendor}&maxSpeed=${board.maxSpeed}`
         if (board._id) {
             // queryParams += `&_id=${board._id}`
@@ -64,28 +72,125 @@ async function save(board) {
             return storageService.post(KEY, board)
             // const boardToSave = await httpService.post(`board`, board)
             // const savedBoard = await boardToSave
-            console.log('from service boardToSave', boardToSave);
+            // console.log('from service boardToSave', boardToSave);
             // return boardToSave
             // return axios.get(`/api/board/add?${queryParams}`).then(res => res.data)
         }
-
     } catch (err) {
         console.log('Error:', err);
     }
 }
 
-
-function getEmptyBoard() {
-    return {
-        // _id: null,
-        name: '',
-        price: null,
-        type: '',
-        // createdAt: null,
-        inStock: ''
+async function removeGroup(groupId, boardId) {
+    try {
+        const board = await getById(boardId)
+        const idx = board.groups.findIndex(group => group.id === groupId)
+        board.groups.splice(idx, 1)
+        return storageService.save(KEY, boardId)
+    } catch (err) {
+        console.log('Error:', err);
     }
 }
 
+async function saveGroup(group, boardId) {
+    try {
+        console.log('save', group, 'in board:', boardId);
+        const board = await getById(boardId)
+        if (group.id) {
+            const groupIdx = board.groups.findIndex(group => group.id === groupId)
+            board.groups.splice(groupIdx, 1, group)
+        } else {
+            group.id = utilService.makeId()
+            board.groups.push(group)
+        }
+        await save(board)
+        return group
+    } catch (err) {
+        console.log('Error:', err);
+    }
+}
+
+async function removeCard(cardId, groupId, boardId) {
+    try {
+        const board = await getById(boardId)
+        const groupIdx = board.groups.findIndex(group => group.id === groupId)
+        const cardIdx = board.groups[groupIdx].cards.findIndex(card => card.id === cardId)
+        board.groups[groupIdx].cards.splice(cardIdx, 1)
+        return storageService.save(KEY, boardId)
+    } catch (err) {
+        console.log('Error:', err);
+    }
+}
+
+async function saveCard(card, groupId, boardId) {
+    try {
+        console.log('save', card, 'in group:', groupId, 'in board:', boardId);
+        const board = await getById(boardId)
+        const groupIdx = board.groups.findIndex(group => group.id === groupId)
+        if (card.id) {
+            const cardIdx = board.groups[groupIdx].cards.findIndex(card => card.id === cardId)
+            board.groups[groupIdx].cards.splice(cardIdx, 1, card)
+        } else {
+            card.id = utilService.makeId()
+            card.createdAt = Date.now()
+            // TODO: Add byMember when user service is ready
+            // card.byMember: 
+            // { 
+            // "_id": "u101",
+            // "username": "Tal",
+            // "fullname": "Tal Tarablus",
+            // "imgUrl": "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg"
+            // }
+            board.groups[groupIdx].cards.push(card)
+        }
+        await save(board)
+        return card
+    } catch (err) {
+        console.log('Error:', err);
+    }
+}
+
+async function addActivity(activity, boardId) {
+    try {
+        const board = await getById(boardId)
+        board.activities.push(activity)
+        return save(board)
+    } catch (err) {
+        console.log('Error:', err);
+    }
+}
+
+function getEmptyBoard() {
+    return {
+        "title": "",
+        "style": {},
+        "labels": [],
+        "members": [],
+        "groups": [],
+        "activities": []
+    }
+}
+
+function getEmptyGroup() {
+    return {
+        "title": "",
+        "cards": [],
+        "style": {}
+    }
+}
+
+function getEmptyCard() {
+    return {
+        "title": "",
+        "description": "",
+        "comments": [],
+        "checklists": [],
+        "members": [],
+        "labelIds": [],
+        "dueDate": null,
+        "style": {}
+    }
+}
 
 // async function addReview(review) {  
 //     const reviewToSave = await httpService.post('review', review)

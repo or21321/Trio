@@ -1,0 +1,27 @@
+// SETUP
+@import 'setup/typography';
+@import 'setup/variables';
+@import 'setup/mixins';
+@import 'setup/functions';
+// BASICS
+@import 'basics/helpers';
+@import 'basics/base';
+@import 'basics/layout';
+// COMPONENTS
+@import 'cmps/app-header';
+@import 'cmps/board-compose';
+@import 'cmps/board-header';
+@import 'cmps/board-list';
+@import 'cmps/card-compose';
+@import 'cmps/card-edit-popup';
+@import 'cmps/card-preview-edit';
+@import 'cmps/card-preview';
+@import 'cmps/group-list';
+@import 'cmps/side-menu';
+//PAGES
+@import 'pages/app';
+@import 'pages/board';
+@import 'pages/card-details';
+@import 'pages/home-page';
+@import 'pages/login-signup';
+@import 'pages/user-details';

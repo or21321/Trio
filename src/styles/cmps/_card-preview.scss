@@ -6,4 +6,9 @@
     margin: 0 9.5px;
     border-radius: 3px;
     color: #54637c;
+    min-height: 60px;
+
+    &:hover {   
+        cursor: pointer;
+    }
 }

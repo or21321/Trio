@@ -4,11 +4,13 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    max-height: 100%;
     position: relative;
     white-space: normal;
-    width: 272px;
+    min-width: 272px;
     position: relative;
+    height: fit-content;
+    max-height: calc(100vh - 112.5px);
+    // max-height: calc(100vh - 90px);
 
     .group-header {
         flex: 0 0 auto;
@@ -32,18 +34,69 @@
         // float: left;
         padding: 6px;
 
-        &:hover {   
+        &:hover {
             background-color: darken(#ebecf0, 5);
+            cursor: pointer;
         }
     }
 
-    .card-preview-container {
+    .card-preview-list {
         display: flex;
         flex-direction: column;
         gap: 8px;
+        overflow-y: scroll;
 
         & > :last-child {
             margin-bottom: 8px;
+        }
+
+        &::-webkit-scrollbar {
+            // height: 12px;
+            // width: 12px;
+            height: 8px;
+            width: 8px;
+            /* width: 7.5px; */
+            border-radius: 20px;
+        }
+
+        /* Track */
+
+        &::-webkit-scrollbar-track {
+            /* border-radius: 20px; */
+            // background: #f1f1f1;
+            // background: #ffffff;
+            //    background: rgba(0,0,0,.3);
+            background: rgba(9, 30, 66, 0.08);
+            //    background: rgba(0,0,0,.15);
+            padding-top: 5px;
+            border-radius: 7px;
+        }
+
+        // &::-webkit-scrollbar-track:hover {
+        //     background-color: rgb(228, 228, 228);
+        // }
+
+        /* Handle */
+
+        &::-webkit-scrollbar-thumb {
+            /* border-radius: 130px; */
+            // background-color: darkgoldenrod;
+            // background: linear-gradient(
+            //     0deg,
+            //     rgba(34, 195, 191, 1) 0%,
+            //     rgb(59, 85, 84) 30%,
+            //     rgb(126, 56, 167) 70%,
+            //     rgb(243, 97, 214) 100%
+            // );
+            background-color: #bfc4ce;
+            border-radius: 5px;
+            height: 195px;
+        }
+
+        &::-webkit-scrollbar-button {
+            display: block;
+            height: 4px;
+            width: 4px;
         }
     }
 }

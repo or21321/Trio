@@ -1,0 +1,92 @@
+.card-compose-btn {
+    width: 89%;
+    align-self: baseline;
+    display: flex;
+    justify-content: baseline;
+    align-items: center;
+    margin-bottom: 8px;
+    margin-left: 12px;
+    color: #5e6c84;
+    border-radius: 3px;
+    margin-top: 3px;
+    padding: 4px;
+    &:hover {
+        cursor: pointer;
+        background-color: darken(#ebecf0, 5);
+    }
+}
+.card-compose {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    textarea {
+        font-size: 14px;
+        padding: 6px 8px 6px;
+        color: #4b5a74;
+        text-decoration: none;
+        width: 89%;
+        border-radius: 3px;
+        border: 0px;
+        outline: none;
+        border-radius: 3px;
+        background-color: #ffffff;
+        overflow: hidden;
+        overflow-wrap: break-word;
+        resize: none;
+        height: 54px;
+        font-size: 14px;
+        letter-spacing: -1px;
+        font-family: Segoe-UI;
+    }
+
+    .compose-features {
+        align-self: baseline;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & button:first-child {
+            background-color: #0079bf;
+            padding: 10px;
+            border-radius: 3px;
+            margin: 0px 0px 8px 8px;
+            color: #ffffff;
+            transition: background-color 0.3s;
+            margin-left: 15.5px;
+            margin-right: 9.5px;
+            // color: #7e899b;
+        }
+
+        & button:first-child:hover {
+            background-color: darken(#0079bf, 5);
+            // background-color: rgba(9, 30, 66, 0.04);
+        }
+
+        & button:nth-child(2) {
+            // color: #7e899b;
+            // padding-bottom: 10px;
+            color: rgb(151, 151, 151);
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        & button:nth-child(2):hover {
+            // color: rgb(105, 105, 105);
+            color: darken(rgb(151, 151, 151), 30);
+        }
+
+        .card-compose-options-btn {
+            position: absolute;
+            bottom: 17px;
+            right: 14.5px;
+            font-size: 24.5px;
+            padding: 3px;
+            border-radius: 3px;
+            color: #6b778c;
+            &:hover {
+                background-color: darken(#ebecf0, 10);
+            }
+        }
+    }
+}

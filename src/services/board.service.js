@@ -1,5 +1,5 @@
 import { storageService } from "./storage.service.js";
-import { userService } from "./user.service.js";
+// import { userService } from "./user.service.js";
 import { utilService } from "./util.service.js";
 // import axios from 'axios'
 // import { httpService } from './http.service.js'
@@ -109,6 +109,7 @@ async function saveGroup(group, boardId) {
       } else {
          group.id = utilService.makeId()
          board.groups.push(group)
+         return group
       }
       await save(board)
       return group
@@ -139,10 +140,11 @@ async function saveCard(card, groupId, boardId) {
         } else {
             card.id = utilService.makeId()
             card.createdAt = Date.now()
-            card.byMember = userService.getMiniUser(userService.getLoggedinUser()._id)
+            // card.byMember = userService.getMiniUser(userService.getLoggedinUser()._id)
             board.groups[groupIdx].cards.push(card)
         }
-        await save(board)
+         await save(board)
+        // console.log('from service save', card);
         return card
     } catch (err) {
         console.log('Error:', err);

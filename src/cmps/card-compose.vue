@@ -11,7 +11,7 @@
       <button @click="add">Add card</button>
       <button @click="toggleCompose" class="material-icons">close</button>
       <span
-        @click="openGroupExtrasMenu"
+        @click="openComposeOptions"
         class="material-icons card-compose-options-btn"
       >
         more_horiz
@@ -63,6 +63,9 @@ export default {
       console.log("toggleCompose()");
       this.isComposeOn = !this.isComposeOn;
     },
+    openComposeOptions() {  
+      console.log('openComposeOptions()');
+    }
   },
 };
 </script>

@@ -1,6 +1,8 @@
 <template>
   <div class="board app-main">
-    <h2>{{ board.title }}</h2>
+    <board-header :title="board.title">
+
+    </board-header>
 
     <div class="board-groups">
       <groupList
@@ -14,10 +16,12 @@
 
 <script>
 import groupList from "@/cmps/group-list";
+import boardHeader from "@/cmps/board-header"
 
 export default {
   components: {
     groupList,
+    boardHeader
   },
   created() {
     console.log("board created, boardId:", this.boardId);

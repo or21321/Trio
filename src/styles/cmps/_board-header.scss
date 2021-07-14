@@ -1,0 +1,58 @@
+.board-header {
+    height: auto;
+    padding: 8px 4px 4px 8px;
+    position: relative;
+
+    .board-header-btn {
+        // font-size: 18px;
+        // font-weight: 700;
+        // line-height: 32px;
+        // padding: 0 12px;
+        // width: fit-content;
+        background-color: rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+        color: #fff;
+        cursor: default;
+        float: left;
+        font-size: 14px;
+        height: 32px;
+        line-height: 32px;
+        margin: 0 4px 4px 0;
+        max-width: 400px;
+        overflow: hidden;
+        padding-left: 32px;
+        position: relative;
+        text-decoration: none;
+        text-overflow: ellipsis;
+
+        // First button on board-header in Trello
+        // width: fit-content;
+        // font-size: 18px;
+        // padding-right: 5px;
+        // padding-left: 5px;
+        // float: left;
+        // display: inline-flex;
+        // margin-right: 4px;
+        // white-space: nowrap;
+
+        // & > span:first-child {
+        //     display: inline-flex;
+        //     height: 100%;
+        //     width: 100%;
+        //     justify-content: center;
+        //     align-items: center;
+        //     flex-direction: row;
+        // }
+
+        // & > span:nth-child(2) {
+        //     display: inline-flex;
+        //     height: 100%;
+        //     width: 100%;
+        //     padding: 0 0 0 2px;
+        // }
+
+        // & > span:last-child {
+        //     margin-left: 4px;
+        // }
+    }
+}

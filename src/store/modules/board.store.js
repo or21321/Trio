@@ -96,15 +96,6 @@ export const boardStore = {
             throw err;
          }
       },
-      async setCurrBoardId({ commit }, { boardId }) {
-         try {
-            const board = await boardService.getById(boardId);
-            commit({ type: 'setCurrBoardId', board })
-         } catch (err) {
-            console.log('Cannot get board ', boardId, ',', err);
-            throw err;
-         }
-      },
       async addActivity({ commit }, { activity, boardId }) {
          try {
             await boardService.addActivity(activity, boardId);
@@ -125,7 +116,7 @@ export const boardStore = {
          }
       },
       async saveCard({ commit }, { card, groupId, boardId }) {
-         const isUpdate = (card._id) ? true : false;
+         const isUpdate = (card.id) ? true : false;
          try {
             const savedCard = await boardService.saveCard(card, groupId, boardId);
             commit({ type: 'saveCard', isUpdate, savedCard, groupId, boardId });

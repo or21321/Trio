@@ -164,7 +164,6 @@ async function getCardById(cardId, groupId, boardId) {
    try {
       const board = await getById(boardId)
       const group = board.groups.find(group => group.id === groupId);
-      console.log('group', group)
       return group.cards.find(card => card.id === cardId);
    } catch (err) {
       console.log('Error:', err);

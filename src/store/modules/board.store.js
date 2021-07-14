@@ -31,8 +31,8 @@ export const boardStore = {
          const idx = state.boards.findIndex(board => board._id === boardId)
          state.boards[idx].activity.push(activity)
       },
+
       saveCard(state, { isUpdate, card, groupId}) {
-         // const board = state.boards.find(board => board._id === boardId)
          const groupIdx = state.currBoard.groups.findIndex(group => group.id === groupId)
          if (isUpdate) {
             const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(currCard => currCard.id === card.id)
@@ -42,7 +42,6 @@ export const boardStore = {
          }
       },
       saveGroup(state, { isUpdate, group }) {
-         // const board = state.boards.find(board => board._id === boardId)
          if (isUpdate) {
             const groupIdx = state.currBoard.groups.findIndex(currGroup => currGroup.id === group.id)
             state.currBoard.groups.splice(groupIdx, 1, group)
@@ -124,7 +123,7 @@ export const boardStore = {
             const savedCard = await boardService.saveCard(card, groupId, boardId);
             console.log('savedCard from store after save', savedCard);
             commit({ type: 'saveCard', isUpdate, card: savedCard, groupId });
-            
+            return savedCard;
          } catch (err) {
             console.log('Cannot save card', card, ',', err);
             throw err;
@@ -132,9 +131,17 @@ export const boardStore = {
       },
       async getCardById(context, { cardId, groupId, boardId }) {
          try {
-            return boardService.getCardById(cardId, groupId, boardId)
+            return await boardService.getCardById(cardId, groupId, boardId)
          } catch (err) {
-            console.log('Cannot save card', cardId, ',', err);
+            console.log('Cannot get card', cardId, ',', err);
+            throw err;
+         }
+      },
+      async getGroupById(context, { groupId, boardId }) {
+         try {
+            return boardService.getGroupById(groupId, boardId)
+         } catch (err) {
+            console.log('Cannot get group', groupId, ',', err);
             throw err;
          }
       }

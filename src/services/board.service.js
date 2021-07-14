@@ -19,7 +19,8 @@ export const boardService = {
    getEmptyGroup,
    getEmptyCard,
    addActivity,
-   getCardById
+   getCardById,
+   getGroupById
    // addReview
 }
 
@@ -66,7 +67,6 @@ async function remove(boardId) {
 
 async function save(board) {
    try {
-      console.log('save', board);
       // var queryParams = `vendor=${board.vendor}&maxSpeed=${board.maxSpeed}`
       if (board._id) {
          // queryParams += `&_id=${board._id}`
@@ -132,7 +132,6 @@ async function removeCard(cardId, groupId, boardId) {
 
 async function saveCard(card, groupId, boardId) {
     try {
-        console.log('save', card, 'in group:', groupId, 'in board:', boardId);
         const board = await getById(boardId)
         const groupIdx = board.groups.findIndex(group => group.id === groupId)
         if (card.id) {
@@ -167,6 +166,15 @@ async function getCardById(cardId, groupId, boardId) {
       const board = await getById(boardId)
       const group = board.groups.find(group => group.id === groupId);
       return group.cards.find(card => card.id === cardId);
+   } catch (err) {
+      console.log('Error:', err);
+   }
+}
+
+async function getGroupById(groupId, boardId) {
+   try {
+      const board = await getById(boardId)
+      return board.groups.find(group => group.id === groupId);
    } catch (err) {
       console.log('Error:', err);
    }

@@ -34,10 +34,11 @@
 
         &:hover {   
             background-color: darken(#ebecf0, 5);
+            cursor: pointer;
         }
     }
 
-    .card-preview-container {
+    .card-preview-list {
         display: flex;
         flex-direction: column;
         gap: 8px;

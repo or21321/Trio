@@ -1,0 +1,6 @@
+.card-compose-btn {
+    &:hover {
+        cursor: pointer;
+        background-color: darken(#ebecf0, 5);
+    }
+}

@@ -1,7 +1,6 @@
 <template>
   <div @click="toCardDetails" class="card-preview">
-    <span class="card-preview-title">Title: {{ card.title }}</span>
-    <p>Id: {{ card.id }}</p>
+    <span class="card-preview-title">{{ card.title }}</span>
   </div>
 </template>
 

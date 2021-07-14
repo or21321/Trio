@@ -6,6 +6,7 @@
         v-for="group in board.groups"
         :key="group.id"
         :group="group"
+        :boardId="board._id"
       ></groupList>
     </div>
   </div>

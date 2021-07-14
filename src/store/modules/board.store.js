@@ -31,14 +31,14 @@ export const boardStore = {
          const idx = state.boards.findIndex(board => board._id === boardId)
          state.boards[idx].activity.push(activity)
       },
-      saveCard(state, { isUpdate, card, groupId, boardId }) {
+      saveCard(state, { isUpdate, savedCard, groupId, boardId }) {
          const board = state.boards.find(board => board._id === boardId)
          const group = board.groups.find(group => group.id === groupId)
          if (isUpdate) {
-            const cardIdx = group.cards.findIndex(currCard => currCard.id === card.id)
-            group.cards.splice(cardIdx, 1, card)
+            const cardIdx = group.cards.findIndex(card => card.id === savedCard.id)
+            group.cards.splice(cardIdx, 1, savedCard)
          } else {
-            group.cards.push(card)
+            group.cards.push(savedCard)
          }
       },
       saveGroup(state, { isUpdate, group, boardId }) {
@@ -120,6 +120,7 @@ export const boardStore = {
          try {
             const savedCard = await boardService.saveCard(card, groupId, boardId);
             commit({ type: 'saveCard', isUpdate, savedCard, groupId, boardId });
+            return savedCard
          } catch (err) {
             console.log('Cannot save card', card, ',', err);
             throw err;
@@ -129,7 +130,15 @@ export const boardStore = {
          try {
             return boardService.getCardById(cardId, groupId, boardId)
          } catch (err) {
-            console.log('Cannot save card', cardId, ',', err);
+            console.log('Cannot get card', cardId, ',', err);
+            throw err;
+         }
+      },
+      async getGroupById(context, { groupId, boardId }) {
+         try {
+            return boardService.getGroupById(groupId, boardId)
+         } catch (err) {
+            console.log('Cannot get group', groupId, ',', err);
             throw err;
          }
       }

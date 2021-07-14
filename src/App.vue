@@ -1,32 +1,37 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <app-header v-if="!isHome"></app-header>
+    <router-view />
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-#nav {
-  padding: 30px;
+<script>
+import appHeader from "@/cmps/app-header";
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+export default {
+  components: {
+    appHeader,
+  },
+  data() {
+    return {
+      isHome: false,
+    };
+  },
+  created() {
+    console.log("App created");
+  },
+  watch: {
+    "$route.path": {
+      immediate: true,
+      handler() {
+        console.log("path", this.$route.path);
+        if (this.$route.path === "/") this.isHome = true;
+      },
+    },
+  },
+};
+</script>
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+
+

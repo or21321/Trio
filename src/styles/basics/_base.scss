@@ -3,11 +3,17 @@
 }
 
 html {
-
+    height: 100%;
+    color: #172b4d;
+    font-family: Segoe-UI;
+    font-size: 14px;
+    // line-height: 20px;
+    font-weight: 400;
 }
 
 body {
     margin: 0;
+    height: 100%;
 }
 
 h1,
@@ -15,8 +21,9 @@ h2,
 h3,
 h4,
 h5,
-h6 {
-    margin: 0 0 1rem;
+h6,
+p {
+    margin: 0;
 }
 
 ul {
@@ -33,4 +40,7 @@ a {
 
 button {
     cursor: pointer;
+    padding: 0;
+    border: 0;
+    background-color: inherit;
 }

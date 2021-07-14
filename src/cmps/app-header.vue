@@ -1,34 +1,60 @@
 <template>
-  <div id="nav">
+  <section class="app-header">
+    <nav class="nav">
+    <router-link class="btn-container material-icons" to="/">home</router-link> 
+    <router-link class="btn-container" :to="'/b/'+123"><span class="material-icons">developer_board</span>Boards</router-link>
+      <!-- <button @click="toTodoApp" class="nav-icon material-icons">apps</button>
+      <button @click="toHomepage" class="nav-icon material-icons">home</button> -->
+      <!-- <div class="search-container"> -->
+      <!-- <input
+        class="search"
+        v-on:keyup="filter"
+        placeholder="Search"
+        v-model="filterBy.txt"
+        debounce="2000"
+      /> -->
+      <!-- <input class="search" @input="filter" placeholder="Search" v-model="filterBy.txt" debounce="2000"> -->
+      <!-- <span class="material-icons">search</span> -->
+      <!-- </div> -->
+    </nav>
+    <div class="logo">
+      <span class="material-icons">space_dashboard</span>
+      Trio
+    </div>
+    <!-- <div class="logo">
+      <span class="material-icons">space_dashboard</span> Pokito
+    </div> -->
+    <div class="header-features">
+      <button @click="openBoardCompose" class="material-icons">add</button>
+      <!-- <span @click="toggleUserProfile" class="material-icons">add</span> -->
+
+      <div @click="openUserMenu">
+        <p>Avatar</p>
+      </div>
+<!-- 
+      <div v-if="loggedinUser" class="avatar" @click="toggleUserProfile">
+        <img :src="avatarUrl" />
+      </div> -->
+    </div>
+  </section>
+<!-- 
+  <div class="app-header">
+    
     <router-link to="/">Home</router-link> |
     <router-link :to="'/b/'+123">Board</router-link>
-  </div>
+  </div> -->
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {  
+    openBoardCompose() {  
+      console.log('openBoardCompose()');
+    },
+    openUserMenu() {  
+      console.log('openUserMenu()');
+    }
+  },
+};
 </script>
 
-
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>

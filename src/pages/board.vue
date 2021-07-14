@@ -1,7 +1,14 @@
 <template>
-  <div class="board">
-    <h2>{{board.title}}</h2>
-    <groupList v-for="group in board.groups" :key="group.id" :group="group"></groupList>
+  <div class="board app-main">
+    <h2>{{ board.title }}</h2>
+
+    <div class="board-groups">
+      <groupList
+        v-for="group in board.groups"
+        :key="group.id"
+        :group="group"
+      ></groupList>
+    </div>
   </div>
 </template>
 

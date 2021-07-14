@@ -1,4 +1,9 @@
 .board {    
     display: flex;
-    gap: 25px;
+    flex-direction: column;
+    
+    .board-groups {
+        display: flex;
+        gap: 25px;
+    }
 }

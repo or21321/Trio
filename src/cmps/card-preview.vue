@@ -1,5 +1,5 @@
 <template>
-  <div class="card-preview">
+  <div @click="toCardDetails" class="card-preview">
      <p>Title: {{card.title}}</p> 
      <p>Id: {{card.id}}</p> 
   </div>
@@ -12,6 +12,11 @@ export default {
             type: Object,
             required: true
         }
-    }
+    },
+    methods: {
+        toCardDetails() {
+            console.log('toCardDetails(), card.id', this.card.id);
+        }
+    },
 }
 </script>

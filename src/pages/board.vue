@@ -1,9 +1,8 @@
 <template>
-  <div class="board app-main" v-if="board">
-    <h2>{{ board.title }}</h2>
-
-    <div class="board-groups">
-      <groupList
+  <div class="board-wrapper app-main" v-if="board">
+    <board-header :title="board.title"> </board-header>
+    <div class="board-canvas">
+     <groupList
         v-for="group in board.groups"
         :key="group.id"
         :group="group"
@@ -15,10 +14,12 @@
 
 <script>
 import groupList from "@/cmps/group-list";
+import boardHeader from "@/cmps/board-header";
 
 export default {
   components: {
     groupList,
+    boardHeader,
   },
   async created() {
     console.log("board created, boardId:", this.boardId);

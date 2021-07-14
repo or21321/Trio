@@ -1,3 +1,10 @@
 .card-preview { 
-    border: 1px solid grey;
+    overflow: hidden;
+    padding: 6px 8px 2px;
+    position: relative;
+    z-index: 10;
+    background-color: #ffffff;
+    margin: 0 9.5px;
+    border-radius: 3px;
+    color: #54637c;
 }

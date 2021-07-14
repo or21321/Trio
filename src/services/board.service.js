@@ -1,5 +1,6 @@
 import { storageService } from "./storage.service.js";
-import { utilService } from "./util.service.js";
+import { userService } from "./user.service.js";
+import { utilService } from "./util-service.js";
 // import axios from 'axios'
 // import { httpService } from './http.service.js'
 const KEY = 'boards'
@@ -129,31 +130,24 @@ async function removeCard(cardId, groupId, boardId) {
 }
 
 async function saveCard(card, groupId, boardId) {
-   try {
-      console.log('save', card, 'in group:', groupId, 'in board:', boardId);
-      const board = await getById(boardId)
-      const groupIdx = board.groups.findIndex(group => group.id === groupId)
-      if (card.id) {
-         const cardIdx = board.groups[groupIdx].cards.findIndex(currCard => currCard.id === card.id)
-         board.groups[groupIdx].cards.splice(cardIdx, 1, card)
-      } else {
-         card.id = utilService.makeId()
-         card.createdAt = Date.now()
-         // TODO: Add byMember when user service is ready
-         // card.byMember: 
-         // { 
-         // "_id": "u101",
-         // "username": "Tal",
-         // "fullname": "Tal Tarablus",
-         // "imgUrl": "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg"
-         // }
-         board.groups[groupIdx].cards.push(card)
-      }
-      await save(board)
-      return card
-   } catch (err) {
-      console.log('Error:', err);
-   }
+    try {
+        console.log('save', card, 'in group:', groupId, 'in board:', boardId);
+        const board = await getById(boardId)
+        const groupIdx = board.groups.findIndex(group => group.id === groupId)
+        if (card.id) {
+            const cardIdx = board.groups[groupIdx].cards.findIndex(currCard => currCard.id === card.id)
+            board.groups[groupIdx].cards.splice(cardIdx, 1, card)
+        } else {
+            card.id = utilService.makeId()
+            card.createdAt = Date.now()
+            card.byMember = userService.getMiniUser(userService.getLoggedinUser()._id)
+            board.groups[groupIdx].cards.push(card)
+        }
+        await save(board)
+        return card
+    } catch (err) {
+        console.log('Error:', err);
+    }
 }
 
 async function addActivity(activity, boardId) {

@@ -43,7 +43,6 @@ export const userStore = {
             console.log('userStore: Error in signup', err)
             throw err
          }
-
       },
       async logout({ commit }) {
          try {
@@ -64,15 +63,31 @@ export const userStore = {
          }
       },
 
-      async loginAsGuest({ commit }) {
+      async signupAsGuest({ commit }) {
          try {
-            const guestUser = await userService.loginAsGuest();
+            const guestUser = await userService.signupAsGuest();
             commit({ type: 'setLoggedinUser', guestUser })
          } catch (err) {
-            console.log('userStore: Error in loadUsers', err)
+            console.log('userStore: Error in signup As Guest', err)
+            throw err
+         }
+      },
+
+      async getMiniUser(content, { userId }) {
+         try {
+            const user = await userService.getById(userId);
+            return {
+               _id: user._id,
+               fullname: user.fullname,
+               imgUrl: user.imgUrl,
+            }
+         } catch (err) {
+            console.log('userStore: Error in getById user', err)
             throw err
          }
       }
+
+
       // async loadAndWatchUser({ commit }, { userId }) {
       //    try {
       //       const user = await userService.getById(userId);

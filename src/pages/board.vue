@@ -2,12 +2,13 @@
   <div class="board-wrapper app-main" v-if="board">
     <board-header :title="board.title"> </board-header>
     <div class="board-canvas">
-     <groupList
+      <groupList
         v-for="group in board.groups"
         :key="group.id"
         :group="group"
         :boardId="board._id"
       ></groupList>
+      <group-compose :boardId="boardId"></group-compose>
     </div>
     <router-view />
   </div>
@@ -16,16 +17,18 @@
 <script>
 import groupList from "@/cmps/group-list";
 import boardHeader from "@/cmps/board-header";
+import groupCompose from '@/cmps/group-compose'
 
 export default {
   components: {
     groupList,
     boardHeader,
+    groupCompose
   },
   async created() {
     console.log("board created, boardId:", this.boardId);
     try {
-      this.board = await this.$store.dispatch({
+      await this.$store.dispatch({
         type: "loadBoard",
         boardId: this.$route.params.boardId,
       });
@@ -37,15 +40,17 @@ export default {
     boardId() {
       return this.$route.params.boardId;
     },
+    board() {
+      return this.$store.getters.currBoard
+    }
   },
   methods: {},
   data() {
     return {
-      board: null,
+      // board: null,
     };
   },
 };
-
 </script>
 
 

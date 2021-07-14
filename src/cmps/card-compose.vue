@@ -1,7 +1,7 @@
 <template>
   <div v-if="isComposeOn" class="card-compose">
     <textarea
-      v-model="cardToEdit.txt"
+      v-model="cardToEdit.title"
       id=""
       cols="38"
       rows="3"
@@ -10,14 +10,17 @@
     <div class="compose-features">
       <button @click="add">Add card</button>
       <button @click="toggleCompose" class="material-icons">close</button>
+      <span
+        @click="openGroupExtrasMenu"
+        class="material-icons card-compose-options-btn"
+      >
+        more_horiz
+      </span>
     </div>
   </div>
-  <div 
-  @click=toggleCompose 
-  v-else 
-  class="card-compose-btn"
-  >
-    BTN
+  <div @click="toggleCompose" v-else class="card-compose-btn">
+    <span class="material-icons">add</span>
+    Add a card
   </div>
 </template>
 
@@ -38,7 +41,7 @@ export default {
   data() {
     return {
       cardToEdit: boardService.getEmptyCard(),
-      isComposeOn: false
+      isComposeOn: false,
     };
   },
   created() {
@@ -46,13 +49,20 @@ export default {
   },
   methods: {
     add() {
-      console.log(this.groupId, this.boardId);
-      // this.$emit("addCard");
+      console.log(this.groupId, this.boardId, this.cardToEdit.title);
+      this.$store.dispatch({
+        type: "saveCard",
+        card: this.cardToEdit,
+        groupId: this.groupId,
+        boardId: this.boardId,
+      });
+      this.cardToEdit = boardService.getEmptyCard();
+      this.toggleCompose();
     },
     toggleCompose() {
-      console.log('toggleCompose()');
-      this.isComposeOn = !this.isComposeOn
-    }
+      console.log("toggleCompose()");
+      this.isComposeOn = !this.isComposeOn;
+    },
   },
 };
 </script>

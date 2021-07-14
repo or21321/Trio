@@ -3,15 +3,15 @@ import { boardService } from '@/services/board.service.js'
 export const boardStore = {
    state: {
       boards: [],
-      currBoardId: null,
+      currBoard: null,
    },
    getters: {
       boards({ boards }) { return boards },
-      currBoardId({ currBoardId }) { return currBoardId }
+      currBoard({ currBoard }) { return currBoard }
    },
    mutations: {
-      setCurrBoardId(state, { boardId }) {
-         state.CurrBoardId = boardId
+      setCurrBoard(state, { board }) {
+         state.currBoard = board
       },
       loadBoards(state, { boards }) {
          state.boards = boards
@@ -31,23 +31,24 @@ export const boardStore = {
          const idx = state.boards.findIndex(board => board._id === boardId)
          state.boards[idx].activity.push(activity)
       },
-      saveCard(state, { isUpdate, card, groupId, boardId }) {
-         const board = state.boards.find(board => board._id === boardId)
-         const group = board.groups.find(group => group.id === groupId)
+      saveCard(state, { isUpdate, card, groupId}) {
+         // const board = state.boards.find(board => board._id === boardId)
+         const groupIdx = state.currBoard.groups.findIndex(group => group.id === groupId)
          if (isUpdate) {
-            const cardIdx = group.cards.findIndex(currCard => currCard.id === card.id)
-            group.cards.splice(cardIdx, 1, card)
+            const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(currCard => currCard.id === card.id)
+            state.currBoard.groups[groupIdx].cards.splice(cardIdx, 1, card)
          } else {
-            group.cards.push(card)
+            state.currBoard.groups[groupIdx].cards.push(card)
          }
       },
-      saveGroup(state, { isUpdate, group, boardId }) {
-         const board = state.boards.find(board => board._id === boardId)
+      saveGroup(state, { isUpdate, group }) {
+         // const board = state.boards.find(board => board._id === boardId)
          if (isUpdate) {
-            const groupIdx = board.groups.findIndex(currGroup => currGroup.id === group.id)
-            board.groups.splice(groupIdx, 1, group)
+            const groupIdx = state.currBoard.groups.findIndex(currGroup => currGroup.id === group.id)
+            state.currBoard.groups.splice(groupIdx, 1, group)
          } else {
-            board.groups.push(group)
+            console.log('commiting group', group, isUpdate);
+            state.currBoard.groups.push(group)
          }
       },
    },
@@ -66,8 +67,7 @@ export const boardStore = {
       async loadBoard({ commit }, { boardId }) {
          try {
             const board = await boardService.getById(boardId)
-            commit({ type: 'setCurrBoardId', boardId })
-            return board
+            commit({ type: 'setCurrBoard', board })
          }
          catch (err) {
             console.log('Cannot load board', err);
@@ -96,15 +96,15 @@ export const boardStore = {
             throw err;
          }
       },
-      async setCurrBoardId({ commit }, { boardId }) {
-         try {
-            const board = await boardService.getById(boardId);
-            commit({ type: 'setCurrBoardId', board })
-         } catch (err) {
-            console.log('Cannot get board ', boardId, ',', err);
-            throw err;
-         }
-      },
+      // async setCurrBoardId({ commit }, { boardId }) {
+      //    try {
+      //       const board = await boardService.getById(boardId);
+      //       commit({ type: 'setCurrBoardId', board })
+      //    } catch (err) {
+      //       console.log('Cannot get board ', boardId, ',', err);
+      //       throw err;
+      //    }
+      // },
       async addActivity({ commit }, { activity, boardId }) {
          try {
             await boardService.addActivity(activity, boardId);
@@ -115,20 +115,25 @@ export const boardStore = {
          }
       },
       async saveGroup({ commit }, { group, boardId }) {
-         const isUpdate = (group._id) ? true : false;
+         const isUpdate = (group.id) ? true : false;
          try {
             const savedGroup = await boardService.saveGroup(group, boardId);
-            commit({ type: 'saveGroup', isUpdate, savedGroup, boardId });
+            console.log('fk me lf', savedGroup);
+            commit({ type: 'saveGroup', isUpdate, group: savedGroup });
          } catch (err) {
             console.log('Cannot save card', group, ',', err);
             throw err;
          }
       },
       async saveCard({ commit }, { card, groupId, boardId }) {
-         const isUpdate = (card._id) ? true : false;
+         console.log('from store', card, groupId, boardId);
+         const isUpdate = (card.id) ? true : false;
          try {
+            console.log('from store', card, groupId, boardId);
             const savedCard = await boardService.saveCard(card, groupId, boardId);
-            commit({ type: 'saveCard', isUpdate, savedCard, groupId, boardId });
+            console.log('savedCard from store after save', savedCard);
+            commit({ type: 'saveCard', isUpdate, card: savedCard, groupId });
+            
          } catch (err) {
             console.log('Cannot save card', card, ',', err);
             throw err;

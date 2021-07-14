@@ -11,7 +11,7 @@ export default {
     card: {
       type: Object,
       required: true
-      
+
     },
     groupId: {
       type: String,

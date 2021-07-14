@@ -31,6 +31,7 @@ export default {
       immediate: true,
       handler() {
         if (this.$route.path === "/") this.isHome = true;
+        else this.isHome = false
       },
     },
   },

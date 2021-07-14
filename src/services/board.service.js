@@ -207,6 +207,7 @@ function _createDemoBoard() {
   return {
         _id: "b101",
         title: "Robot dev proj",
+        isStarred: true,
         createdAt: 1589983468418,
         createdBy: {
           _id: "u101",

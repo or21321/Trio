@@ -1,9 +1,15 @@
-.board {    
+.board-wrapper {
     display: flex;
     flex-direction: column;
-    
-    .board-groups {
+
+    .board-canvas {
         display: flex;
-        gap: 25px;
+        gap: 10px;
+        margin-left: 8.5px;
     }
+
+    // .board-groups {
+    //     display: flex;
+    //     gap: 25px;
+    // }
 }

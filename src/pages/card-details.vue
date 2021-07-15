@@ -15,16 +15,21 @@
         <section class="description grid-details">
           <span class="material-icons-outlined">subject</span>
           <h1 class="title-description">Description</h1>
+          <div class="text-container">
           <contenteditable
             class="description-text"
             tag="div"
-            :contenteditable="isEditable"
+            :contenteditable="true"
             v-model="card.description"
             placeholder="Add a more detailed description..."
             :noNL="false"
             :noHTML="true"
             @input="saveCard"
           />
+          <el-button type="primary">save</el-button>
+          <button class="btn-close"> X</button>
+
+          </div>
         </section>
         <section
           class="attachments grid-details"
@@ -93,8 +98,9 @@ export default {
       groupId: this.$route.params.groupId,
       cardId: this.$route.params.cardId,
       groupName: null,
-      isEditable: true,
       isLoading: false,
+      type:null,
+      isPopupShow:false
     };
   },
   watch: {
@@ -135,7 +141,10 @@ export default {
     closeCardDetails() {
       this.$router.push(`/b/${this.boardId}`);
     },
-    setPopup() {},
+    setPopup(value) {
+       this.isPopupShow = true
+       this.type = value;
+    },
     async onUploadImg(ev) {
       try {
         this.isLoading = true;
@@ -153,7 +162,6 @@ export default {
       } finally {
         this.isLoading = false;
       }
-      console.log("this.card", this.card);
     },
     async saveCard() {
       try {

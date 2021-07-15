@@ -9,13 +9,14 @@
    overflow-y: scroll;
    cursor: pointer;
    display: grid;
+   min-height: 600px;
+   max-height: fit-content;
    grid-template-columns: 1fr minmax(300px,700px) 1fr;
    .card-container{
       grid-column: 2;
       z-index: 25;
       cursor: auto;
-      height: 600px;
-     
+   
       background-color: #f4f5f7;
       transform: translateY(10%);
 
@@ -81,32 +82,34 @@
             display: grid;
             grid-template-columns: 24px 1fr;
             grid-template-rows: 30px 1fr;
-            .description-text{
-               resize: none;
-               border:0;
-               white-space: pre-line;
-               max-width: 70ch;
-               min-width: 30ch;
-               min-height: 7ch;
-               cursor: pointer;
-               &:focus{
-                  background-color: #fff;
-                  outline: 2px solid $clr-outline;
-                  cursor: text;
-                  margin-left: 8px;
-                  min-height: 15ch;
-               }
-               &:empty {
-                  margin-left: 8px;
-                  background-color: rgb(231, 231, 231);
-                  &::before{
-                     content: attr(placeholder);
-                  }
-                  &:hover{
-                     background-color: rgb(223, 223, 223);
-                  }
+            .text-container{
+               .description-text{
+                  resize: none;
+                  border:0;
+                  white-space: pre-line;
+                  max-width: 70ch;
+                  min-width: 30ch;
+                  min-height: 7ch;
+                  cursor: pointer;
                   &:focus{
                      background-color: #fff;
+                     outline: 2px solid $clr-outline;
+                     cursor: text;
+                     padding:4px 8px;
+                     min-height: 15ch;
+                  }
+                  &:empty {
+                     margin-left: 8px;
+                     background-color: rgb(231, 231, 231);
+                     &::before{
+                        content: attr(placeholder);
+                     }
+                     &:hover{
+                        background-color: rgb(223, 223, 223);
+                     }
+                     &:focus{
+                        background-color: #fff;
+                     }
                   }
                }
             }
@@ -137,6 +140,7 @@
                color:#5e6c84;
             }
             button,label{
+               cursor: pointer;
                background-color:rgba(9,30,66,.04);
                width: 170px;
                color:#091e42;

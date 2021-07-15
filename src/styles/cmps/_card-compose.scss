@@ -23,10 +23,10 @@
     textarea {
         font-size: 14px;
         // padding: 6px 8px 6px;
-        padding: 6px 8px 2px;;
+        padding: 6px 8px 2px;
         color: #4b5a74;
         text-decoration: none;
-        width: 89%;
+        width: 90.56%;
         border-radius: 3px;
         border: 0px;
         outline: none;
@@ -38,7 +38,12 @@
         height: 67px;
         font-size: 14px;
         letter-spacing: -1px;
-        font-family: Segoe-UI;
+        margin-right: 7px;
+        
+        &:placeholder-shown { 
+            font-family: Segoe-UI;
+            font-size: 14px;
+        }
     }
 
     .compose-features {
@@ -54,7 +59,7 @@
             margin: 0px 0px 8px 8px;
             color: #ffffff;
             transition: background-color 0.3s;
-            margin-left: 14px;
+            margin-left: 8.5px;
             margin-right: 9.5px;
             // color: #7e899b;
         }
@@ -86,7 +91,9 @@
             border-radius: 3px;
             color: #6b778c;
             &:hover {
-                background-color: darken(#ebecf0, 10);
+                background-color: darken(#ebecf0, 7.5);
+                color: rgb(48, 46, 46);
+                cursor: pointer;
             }
         }
     }

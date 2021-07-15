@@ -2,9 +2,14 @@
   <section class="app-header">
     <nav class="nav">
       <div class="wh">
-    <router-link class="btn-container" to="/"><span class="material-icons">home</span></router-link> 
+        <router-link class="btn-container" to="/"
+          ><span class="material-icons-outlined">home</span></router-link
+        >
       </div>
-    <button class="btn-container" :to="'/b/'+123"><span class="material-icons">developer_board</span><span class="boards">Boards</span></button>
+      <button class="btn-container" :to="'/b/' + 123">
+        <span class="material-icons-outlined boards-icon">space_dashboard</span
+        ><span> Boards</span>
+      </button>
       <!-- <button @click="toTodoApp" class="nav-icon material-icons">apps</button>
       <button @click="toHomepage" class="nav-icon material-icons">home</button> -->
       <!-- <div class="search-container"> -->
@@ -20,7 +25,7 @@
       <!-- </div> -->
     </nav>
     <div class="logo">
-      <span class="material-icons">space_dashboard</span>
+      <span class="material-icons-outlined logo-icon">space_dashboard</span>
       Trio
     </div>
     <!-- <div class="logo">
@@ -31,15 +36,16 @@
       <!-- <span @click="toggleUserProfile" class="material-icons">add</span> -->
 
       <div @click="openUserMenu">
-        <p>Avatar</p>
+        <!-- <p>Avatar</p> -->
+        <avatar :size="30" username="Or Hadar" src="https://res.cloudinary.com/or21321/image/upload/v1626317415/pp_bqtkzw.jpg" />
       </div>
-<!-- 
+      <!-- 
       <div v-if="loggedinUser" class="avatar" @click="toggleUserProfile">
         <img :src="avatarUrl" />
       </div> -->
     </div>
   </section>
-<!-- 
+  <!-- 
   <div class="app-header">
     
     <router-link to="/">Home</router-link> |
@@ -48,14 +54,19 @@
 </template>
 
 <script>
+import avatar from "vue-avatar";
+
 export default {
-  methods: {  
-    openBoardCompose() {  
-      console.log('openBoardCompose()');
+  components: {
+    avatar,
+  },
+  methods: {
+    openBoardCompose() {
+      console.log("openBoardCompose()");
     },
-    openUserMenu() {  
-      console.log('openUserMenu()');
-    }
+    openUserMenu() {
+      console.log("openUserMenu()");
+    },
   },
 };
 </script>

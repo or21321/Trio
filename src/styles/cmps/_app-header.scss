@@ -12,6 +12,7 @@
 
         & > button :first-child {
             padding: 0 8px 0 7.5px;
+
         }
         & > button :last-child {
             padding: 0 7.5px 0 0;
@@ -25,21 +26,42 @@
             align-items: center;
         }
 
-        .boards {
-            // overflow: hidden;
-            // padding: 0 8px 0 2px;
-            // max-width: 150px
+        .boards-icon {  
+            transform: rotate(90deg);
         }
+        // .boards {
+        // transform: rotate(90deg);
+        // }
     }
 
     .logo {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         height: 30px;
         margin-top: 1px;
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 3px;
+        gap: 5px;
+
+        &:hover {
+            color: rgb(206, 200, 200);
+            // color: rgb(212, 204, 204);
+            cursor: pointer;
+        }
+        // transition: rotate 2s;
+
+        .logo-icon {
+            -webkit-transition: -webkit-transform 0.8s ease-in-out;
+            -ms-transition: -ms-transform 0.8s ease-in-out;
+            transition: transform 0.8s ease-in-out;
+            transform: rotate(90deg);
+            font-size: 21px;
+            margin-top: .5px;
+
+            &:hover {
+                transform: unset;
+            }
+        }
     }
 
     .header-features {

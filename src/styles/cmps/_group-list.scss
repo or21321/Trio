@@ -6,7 +6,8 @@
     flex-direction: column;
     position: relative;
     white-space: normal;
-    min-width: 272px;
+    // min-width: 272px;
+    width: 272px;
     position: relative;
     height: fit-content;
     max-height: calc(100vh - 112.5px);
@@ -37,8 +38,10 @@
         font-size: 16px;
 
         &:hover {
-            background-color: darken(#ebecf0, 5);
+            background-color: darken(#ebecf0, 7.5);
             cursor: pointer;
+            // color: rgb(22, 21, 21);
+            color: rgb(48, 46, 46);
         }
     }
 

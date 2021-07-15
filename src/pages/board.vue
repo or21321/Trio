@@ -5,7 +5,7 @@
       :star="board.isStarred"
       @toggleStar="toggleStar"
     ></board-header>
-    <div class="board-canvas">
+    <div class="board-canvas my-scrollbar" >
       <groupList
         v-for="group in board.groups"
         :key="group.id"

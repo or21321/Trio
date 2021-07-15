@@ -23,9 +23,11 @@
         <avatar
           class="hover-pointer"
           :size="30"
-          username="Or Hadar"
-          src="https://res.cloudinary.com/or21321/image/upload/v1626317415/pp_bqtkzw.jpg"
+          :username="fullname"
+          :src="imgUrl"
         />
+        <!-- src="https://res.cloudinary.com/or21321/image/upload/v1626317415/pp_bqtkzw.jpg" -->
+        <!-- "http://res.cloudinary.com/or21321/image/upload/v1626387050/vnodxsvuzaeapjkgxw9g.jpg" -->
       </div>
     </div>
   </section>
@@ -37,6 +39,17 @@ import avatar from "vue-avatar";
 export default {
   components: {
     avatar,
+  },
+  data(){
+    return {
+      fullname: null,
+      imgUrl: null
+    }
+  },
+  created() {
+      const user = this.$store.getters.loggedinUser
+      this.fullname = user.fullname
+      this.imgUrl = user.imgUrl
   },
   methods: {
     openBoardCompose() {

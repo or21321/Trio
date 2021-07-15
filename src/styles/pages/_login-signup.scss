@@ -1,0 +1,72 @@
+.login-signup {
+    font-family: Segoe-UI-Bold;
+    text-align: center;
+    
+    h1 {
+        color: white;
+        font-size: 3rem;
+        margin: 4rem 0;
+        
+        .logo-icon {
+        font-size: 30px;
+        margin-top: .5px;
+        margin-inline-end: 8px;
+        }
+    }
+}
+
+.login-signup .main-container {
+    background-color: white;
+    width: 400px;
+    margin: 20px auto ;
+    border-radius: 3px;
+    padding: 30px;
+    
+    p {
+        font-size: 20px;
+        padding: 20px;
+    }
+    
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+    
+        > input {
+            width: 250px;
+            background-color: lightgray;
+            height: 40px;
+            padding: 5px;
+            margin: 10px;
+            width: 100%;
+        }
+
+        .avatar-img span {
+            position: relative;
+            top: 10px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .avatar-img-display {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+
+        }
+
+        button {
+            background-color: green;
+            width: 100%;
+            color: white;
+            padding: 10px;
+            margin: 10px;
+            margin-bottom: 20px;
+        }
+    }
+
+    a {
+        font-family: 'Segoe UI';
+    }
+}

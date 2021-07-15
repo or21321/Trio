@@ -22,7 +22,8 @@
     gap: 8px;
     textarea {
         font-size: 14px;
-        padding: 6px 8px 6px;
+        // padding: 6px 8px 6px;
+        padding: 6px 8px 2px;;
         color: #4b5a74;
         text-decoration: none;
         width: 89%;
@@ -34,7 +35,7 @@
         overflow: hidden;
         overflow-wrap: break-word;
         resize: none;
-        height: 54px;
+        height: 67px;
         font-size: 14px;
         letter-spacing: -1px;
         font-family: Segoe-UI;
@@ -53,7 +54,7 @@
             margin: 0px 0px 8px 8px;
             color: #ffffff;
             transition: background-color 0.3s;
-            margin-left: 15.5px;
+            margin-left: 14px;
             margin-right: 9.5px;
             // color: #7e899b;
         }

@@ -1,11 +1,11 @@
-.btn-container {    
+.btn-container {
     border-radius: 3px;
     border: 0;
     text-decoration: none;
     align-items: center;
     background-color: rgba(255, 255, 255, 0.3);
     box-shadow: none;
-    color: #FFFFFF;
+    color: #ffffff;
     display: flex;
     font-weight: bold;
     height: 32px;
@@ -18,39 +18,137 @@
     justify-content: center;
     align-items: center;
 
-    &:hover {   
+    &:hover {
         cursor: pointer;
         background-color: lighten(rgba(255, 255, 255, 0.377), 20);
     }
 }
 
-.material-icons {   
-   font-size: 20px;
+.material-icons {
+    font-size: 20px;
 }
 
-.grid-details{
-   display: grid;
-   grid-template-columns: 24px 1fr;
-   grid-template-rows: 30px 1fr;
-   >:nth-child(1){
-      grid-column: 1;
-      grid-row: 1;
-   }
-   >:nth-child(2){
-      padding: 4px 8px;
-      grid-column: 2;
-      grid-row: 1;
-      font-weight: 600;
-      letter-spacing: 1px;
-      font-size: 1.2rem;
-   }
-   >:nth-child(3){
-      padding: 4px 8px;
-      grid-column: 2;
-      grid-row: 2;
-   }
+.grid-details {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    grid-template-rows: 30px 1fr;
+    > :nth-child(1) {
+        grid-column: 1;
+        grid-row: 1;
+    }
+    > :nth-child(2) {
+        padding: 4px 8px;
+        grid-column: 2;
+        grid-row: 1;
+        font-weight: 600;
+        letter-spacing: 1px;
+        font-size: 1.2rem;
+    }
+    > :nth-child(3) {
+        padding: 4px 8px;
+        grid-column: 2;
+        grid-row: 2;
+    }
 }
 
-.hover-pointer:hover {  
+.hover-pointer:hover {
     cursor: pointer;
+}
+
+.popup {
+    display: grid;
+    grid-template-columns: 12px 1fr 12px;
+    grid-template-rows: 45px 45px 1fr;
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 305px;
+    border-radius: 3px;
+    min-height: 200px;
+
+    background: #fff;
+    border-radius: 3px;
+    // box-shadow: 0 8px 16px -4px rgb(9 30 66 ), 0 0 0 1px rgb(9 30 66);
+    // box-shadow: 0 8px 16px -4px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
+    // display: none;
+    overflow: hidden;
+    // -webkit-transform: translateZ(0);
+
+    & > :nth-child(1) {
+        grid-column: 2;
+        grid-row: 1;
+        align-self: normal;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid grey;
+        position: relative;
+    }
+    & > :nth-child(2) {
+        // padding: 4px 8px;
+        grid-column: 2;
+        grid-row: 2;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        // font-weight: 600;
+        // letter-spacing: 1px;
+        // font-size: 1.2rem;
+    }
+
+    .card-edit-header {
+        position: relative;
+    }
+
+    .card-edit-main {
+        input {
+            outline: none;
+            border: none;
+            box-shadow: inset 0 0 0 2px #dfe1e6;
+            background-color: #fafbfc;
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            border-radius: 3px;
+            display: block;
+            line-height: 20px;
+            margin-top: 10px;
+            padding: 8px 12px;
+            transition-property: background-color, border-color, box-shadow;
+            transition-duration: 85ms;
+            transition-timing-function: ease;
+            grid-column: 2;
+            grid-row: 2;
+            width: 100%;
+            transition: background-color 0.1s;
+            &:hover:not(:focus) {
+                background-color: #ebecf0;
+                box-shadow: inset 0 0 0 2px #dfe1e6;
+            }
+
+            &:focus {
+                box-shadow: inset 0 0 0 2px #0079bf;
+            }
+        }
+    }
+}
+
+.close-popup-btn {
+    color: #6c7a92;
+    font-weight: 100;
+    font-size: 15px;
+    position: absolute;
+    top: 4.5px;
+    right: 9.5px;
+    padding: 7.5px;
+
+    &:hover {
+        color: darken(#6c7a92, 50);
+        cursor: pointer;
+    }
 }

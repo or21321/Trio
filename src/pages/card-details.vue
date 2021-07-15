@@ -35,16 +35,46 @@
           >
           <h1 class="title-attachments">attachments</h1>
           <div class="imgs-container">
-            <article class="img-container" v-for="(img, idx) in card.attachments" :key="idx">
-              <img :src="img.url"/>
-               <p>{{ img.creatAt | moment("dddd, MMM Do YYYY") }}</p>
+            <article
+              class="img-container"
+              v-for="(img, idx) in card.attachments"
+              :key="idx"
+            >
+              <img :src="img.url" />
+              <p>{{ img.creatAt | moment("dddd, MMM Do YYYY") }}</p>
             </article>
-            </div>
+          </div>
         </section>
       </section>
-      <nav class="nav">
+
+      <!-- <cardEditPopup v-if="currAction" @updateTask="updateTask">
+        <h2 slot="header">{{currAction.name}}</h2>
+        <component :is="action.type" :card="card" :action="action"/>
+      </cardEditPopup> -->
+
+      <nav class="details-actions">
         <h3 class="title">Add to card</h3>
-        <button @click="setPopup('Members')">
+        <label
+          v-for="action in actions"
+          :key="action.name"
+          @click="setCurrAction(action)"
+        >
+          <span class="material-icons-outlined">{{ action.icon }}</span>
+          <span> {{ action.name }} </span>
+        </label>
+        <component
+          class="popup"
+          v-if="currAction"
+          :is="currAction.type"
+          :card="card"
+          :action="currAction"
+          @updateTask="updateTask()"
+        />
+      </nav>
+
+      <!-- <nav class="nav">
+        <h3 class="title">Add to card</h3>
+        <button @click="setCurrAction(actions[0])">
           <span class="material-icons-outlined">person_add</span>
           <span> Members </span>
         </button>
@@ -78,14 +108,29 @@
           <span class="material-icons-outlined">wallpaper</span>
           <span> Cover </span>
         </button>
-      </nav>
+      </nav> -->
     </main>
   </section>
 </template>
 
 <script>
 import { uploadImg } from "../services/img-upload.service.js";
+import cardMembersEdit from "@/cmps/dynamic/card-members-edit";
+import cardLabelsEdit from "@/cmps/dynamic/card-labels-edit";
+import cardChecklistEdit from "@/cmps/dynamic/card-checklist-edit";
+import cardDatesEdit from "@/cmps/dynamic/card-dates-edit";
+import cardAttachmentEdit from "@/cmps/dynamic/card-attachment-edit";
+import cardCoverEdit from "@/cmps/dynamic/card-cover-edit";
+
 export default {
+  components: {
+    cardMembersEdit,
+    cardLabelsEdit,
+    cardChecklistEdit,
+    cardDatesEdit,
+    cardAttachmentEdit,
+    cardCoverEdit,
+  },
   data() {
     return {
       card: null,
@@ -95,6 +140,39 @@ export default {
       groupName: null,
       isEditable: true,
       isLoading: false,
+      actions: [
+        {
+          type: "cardMembersEdit",
+          icon: "person_add",
+          name: "Members",
+        },
+        {
+          type: "cardLabelsEdit",
+          icon: "label",
+          name: "Labels",
+        },
+        {
+          type: "cardChecklistEdit",
+          icon: "check_box",
+          name: "Checklist",
+        },
+        {
+          type: "cardDatesEdit",
+          icon: "watch_later",
+          name: "Dates",
+        },
+        {
+          type: "cardAttachmentEdit",
+          icon: "attachment",
+          name: "Attachment",
+        },
+        {
+          type: "cardCoverEdit",
+          icon: "wallpaper",
+          name: "cover",
+        },
+      ],
+      currAction: null,
     };
   },
   watch: {
@@ -129,6 +207,12 @@ export default {
     }
   },
   methods: {
+    updateTask(card) {
+      console.log("from card details, card", card);
+    },
+    setCurrAction(action) {
+      this.currAction = action;
+    },
     enterPressed() {
       console.log("yes!");
     },

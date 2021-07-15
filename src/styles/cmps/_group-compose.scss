@@ -1,4 +1,6 @@
 .group-compose-btn {
+    height: fit-content;
+
     .group-compose-btn-content {
         display: flex;
         justify-content: start;
@@ -8,7 +10,7 @@
         font-weight: 500;
         height: 40px;
         // transition: background-color 0.25s;
-        transition: background 85ms ease-in,opacity 40ms ease-in,border-color 85ms ease-in;
+        transition: background 85ms ease-in, opacity 40ms ease-in, border-color 85ms ease-in;
         span:first-child {
             padding-right: 3px;
             font-size: 19px;
@@ -24,9 +26,8 @@
     padding: 4px;
     transition: background 85ms ease-in, opacity 40ms ease-in, border-color 85ms ease-in;
 
-    width: 272px;
+    min-width: 272px;
     margin: 0 4px;
-    // height: 100%;
     box-sizing: border-box;
     display: inline-block;
     vertical-align: top;

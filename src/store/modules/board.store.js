@@ -22,6 +22,7 @@ export const boardStore = {
       updateBoard(state, { savedBoard }) {
          const idx = state.boards.findIndex(board => board._id === savedBoard._id)
          state.boards.splice(idx, 1, savedBoard)
+         state.currBoard = savedBoard
       },
       removeBoard(state, { boardId }) {
          const idx = state.boards.findIndex(board => board._id === boardId)
@@ -40,6 +41,10 @@ export const boardStore = {
          } else {
             state.currBoard.groups[groupIdx].cards.push(card)
          }
+      },
+      removeCard(state, { boardId }) {
+         const idx = state.boards.findIndex(board => board._id === boardId)
+         state.boards.splice(idx, 1);
       },
       saveGroup(state, { isUpdate, group }) {
          if (isUpdate) {
@@ -116,16 +121,23 @@ export const boardStore = {
          }
       },
       async saveCard({ commit }, { card, groupId, boardId }) {
-         console.log('from store', card, groupId, boardId);
          const isUpdate = (card.id) ? true : false;
          try {
-            console.log('from store', card, groupId, boardId);
             const savedCard = await boardService.saveCard(card, groupId, boardId);
-            console.log('savedCard from store after save', savedCard);
             commit({ type: 'saveCard', isUpdate, card: savedCard, groupId });
             return savedCard;
          } catch (err) {
             console.log('Cannot save card', card, ',', err);
+            throw err;
+         }
+      },
+      async removeCard({commit}, { cardId, groupId, boardId }) {
+         try {
+            const savedBoard = await boardService.removeCard(cardId, groupId, boardId)
+            commit({ type: 'updateBoard', savedBoard })
+         }
+         catch (err) {
+            console.log('Cannot remove card ', cardId, ',', err);
             throw err;
          }
       },
@@ -156,7 +168,6 @@ export const boardStore = {
       async removeComment(context, { commentId, card, groupId, boardId }) {
          try {
             await boardService.removeComment(commentId, card, groupId, boardId)
-            // commit({ type: 'removeComment', commentId, card, groupId, boardId})
          }
          catch (err) {
             console.log('Cannot remove board ', boardId, ',', err);

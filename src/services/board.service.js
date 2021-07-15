@@ -126,7 +126,7 @@ async function removeCard(cardId, groupId, boardId) {
       const groupIdx = board.groups.findIndex(group => group.id === groupId)
       const cardIdx = board.groups[groupIdx].cards.findIndex(card => card.id === cardId)
       board.groups[groupIdx].cards.splice(cardIdx, 1)
-      return storageService.save(KEY, boardId)
+      return await save(board)
    } catch (err) {
       console.log('Error:', err);
    }

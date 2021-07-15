@@ -47,6 +47,7 @@
                font-weight: 600;
                width: 100%;
                padding: 8px 0;
+               font-family: Segoe-UI;
                &:focus{
                   background-color: #fff;
                   outline: 2px solid $clr-outline;
@@ -139,6 +140,9 @@
                   padding: 6px 12px;
                   height: 32px;
                   width: 100px;
+                  &:hover{
+                     background-color:rgba(9, 30, 66, 0.075);
+                  }
                }
             }
             .main-activity{
@@ -182,37 +186,41 @@
                      bottom:18px;
                   }
                }
-               .comment-preview{
-                  display: flex;
-                  .hover-pointer{
-                     position: relative;
-                     right:5px;
-                  }
-                  .comment-info{
-                     flex-grow: 1;
-                     .comment-info-header{
-                        font-size: rem(16px);
-                        font-weight: 700;
-                        span{
-                           font-weight: unset;
-                           font-size: em(14px);
-                           padding-left: 5px;
+               .comment-list{
+                  .comment-preview{
+                     display: flex;
+                     .hover-pointer{
+                        position: relative;
+                        right:5px;
+                     }
+                     .comment-info{
+                        flex-grow: 1;
+                        .comment-info-header{
+                           font-size: rem(16px);
+                           font-weight: 700;
+                           span{
+                              font-weight: 500;
+                              font-size: em(14px);
+                              padding-left: 5px;
+                              color:rgb(119, 118, 118)
+                           }
+                           padding-bottom: 8px;
                         }
-                        padding-bottom: 8px;
+                        .comment-info-txt{
+                           background-color: #fff;
+                           min-height: 30px;
+                           padding: 10px;
+                           box-shadow: 0px 2px 4px 2px rgba(212,212,212,0.46);
+                           padding: 5px 10px;
+                           
+                        }
+                        .remove-comment{
+                           font-size: em(14px);
+                           text-decoration: underline;
+                           color:rgb(100, 100, 100)
+                        }
+                        padding-bottom: 12px;
                      }
-                     .comment-info-txt{
-                        background-color: #fff;
-                        min-height: 30px;
-                        padding: 10px;
-                        box-shadow: 0px 2px 4px 2px rgba(212,212,212,0.46);
-                        padding: 5px 10px;
-                        
-                     }
-                     .remove-comment{
-                        font-size: em(12px);
-                        text-decoration: underline;
-                     }
-                     padding-bottom: 12px;
                   }
                }
             }
@@ -222,34 +230,44 @@
          }
       }
       .nav{
-               grid-column: 2/3;
-               grid-row: 2/3;
-               display: flex;
-               flex-direction: column;
-               gap:8px;
-               padding-left: 8px;
-               .title{
-                  color:#5e6c84;
-               }
-               button,label{
-                  cursor: pointer;
-                  background-color:rgba(9,30,66,.04);
-                  width: 170px;
-                  color:#091e42;
-                  font-size: rem(18px);
-                  padding: 6px 12px;
-                  border-radius: 3px;
-                  display: flex;
-                  justify-content:flex-start;
-                  align-items: center;
-                  gap:6px;
-                  .material-icons-outlined{
-                     font-size: 18px;
-                  }
-                  &:hover{
-                     background-color:rgba(9, 30, 66, 0.075);
-                  }
-               }
+         grid-column: 2/3;
+         grid-row: 2/3;
+         .add-to-card{
+            display: flex;
+            flex-direction: column;
+            gap:8px;
+            padding-left: 8px;
+            margin-bottom: 24px;
+         }
+         .action-nav{
+            display: flex;
+            flex-direction: column;
+            gap:8px;
+            padding-left: 8px;
+         }
+
+         .title{
+            color:#5e6c84;
+         }
+         button,label{
+            cursor: pointer;
+            background-color:rgba(9,30,66,.04);
+            width: 170px;
+            color:#091e42;
+            font-size: rem(18px);
+            padding: 6px 12px;
+            border-radius: 3px;
+            display: flex;
+            justify-content:flex-start;
+            align-items: center;
+            gap:6px;
+            .material-icons-outlined{
+               font-size: 18px;
+            }
+            &:hover{
+               background-color:rgba(9, 30, 66, 0.075);
+            }
+      }
       }
    }
    .attachments-icon{

@@ -12,18 +12,34 @@
         </span>
       </header>
       <section class="main">
-        <section class="description">
+        <section class="description grid-details">
           <span class="material-icons-outlined">subject</span>
           <h1 class="title-description">Description</h1>
           <contenteditable
-          class="description-text"
+            class="description-text"
             tag="div"
             :contenteditable="isEditable"
             v-model="card.description"
             placeholder="Add a more detailed description..."
             :noNL="false"
             :noHTML="true"
-            @input="saveCard"/>
+            @input="saveCard"
+          />
+        </section>
+        <section
+          class="attachments grid-details"
+          v-if="card.attachments.length"
+        >
+          <span class="attachments-icon material-icons-outlined"
+            >attachments</span
+          >
+          <h1 class="title-attachments">attachments</h1>
+          <div class="imgs-container">
+            <article class="img-container" v-for="(img, idx) in card.attachments" :key="idx">
+              <img :src="img.url"/>
+               <p>{{ img.creatAt | moment("dddd, MMM Do YYYY") }}</p>
+            </article>
+            </div>
         </section>
       </section>
       <nav class="nav">
@@ -44,10 +60,20 @@
           <span class="material-icons-outlined">watch_later</span>
           <span> Dates </span>
         </button>
-        <button @click="setPopup('Attachment')">
-          <span class="attachment material-icons-outlined">attachment</span>
+        <label for="input-file">
+          <span class="attachments-icon material-icons-outlined"
+            >attachment</span
+          >
           <span> Attachment </span>
-        </button>
+        </label>
+        <input
+          id="input-file"
+          type="file"
+          @change="onUploadImg"
+          accept="image/png, image/gif, image/jpeg"
+          hidden
+        />
+
         <button @click="setPopup('Cover')">
           <span class="material-icons-outlined">wallpaper</span>
           <span> Cover </span>
@@ -58,6 +84,7 @@
 </template>
 
 <script>
+import { uploadImg } from "../services/img-upload.service.js";
 export default {
   data() {
     return {
@@ -67,7 +94,7 @@ export default {
       cardId: this.$route.params.cardId,
       groupName: null,
       isEditable: true,
-      massage:'hellow'
+      isLoading: false,
     };
   },
   watch: {
@@ -101,18 +128,33 @@ export default {
       throw err;
     }
   },
-  mounted(){
-     console.log('this.$refs', this.$refs.description)
-  },
   methods: {
-        enterPressed(){
-         console.log('yes!');
-        },
+    enterPressed() {
+      console.log("yes!");
+    },
     closeCardDetails() {
       this.$router.push(`/b/${this.boardId}`);
     },
     setPopup() {},
-
+    async onUploadImg(ev) {
+      try {
+        this.isLoading = true;
+        const res = await uploadImg(ev);
+        this.card.attachments.push({ url: res.url, creatAt: Date.now() });
+        this.card = await this.$store.dispatch({
+          type: "saveCard",
+          card: this.card,
+          groupId: this.groupId,
+          boardId: this.boardId,
+        });
+      } catch (err) {
+        console.log("cannot save card", err);
+        throw err;
+      } finally {
+        this.isLoading = false;
+      }
+      console.log("this.card", this.card);
+    },
     async saveCard() {
       try {
         this.card = await this.$store.dispatch({
@@ -121,7 +163,6 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        console.log('this.card', this.card)
       } catch (err) {
         console.log("cannot save card", err);
         throw err;

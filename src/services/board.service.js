@@ -209,6 +209,9 @@ function getEmptyCard() {
       members: [],
       labelIds: [],
       dueDate: null,
+      byMember: {},
+      cover: {},
+      attachments:[],
       style: {}
    }
 }
@@ -253,6 +256,15 @@ function _createDemoBoard() {
                   members: [],
                   labelIds: [],
                   dueDate: null,
+                  byMember: {
+                     _id: "u101",
+                     username: "Tal",
+                     fullname: "Tal Tarablus",
+                     imgUrl:
+                        "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
+                  },
+                  cover: {},
+                  attachments:[],
                   style: {}
                },
                {
@@ -264,6 +276,15 @@ function _createDemoBoard() {
                   members: [],
                   labelIds: [],
                   dueDate: null,
+                  byMember: {
+                     _id: "u101",
+                     username: "Tal",
+                     fullname: "Tal Tarablus",
+                     imgUrl:
+                        "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
+                  },
+                  cover: {},
+                  attachments:[],
                   style: {}
                },
             ],
@@ -282,6 +303,15 @@ function _createDemoBoard() {
                   members: [],
                   labelIds: [],
                   dueDate: null,
+                  byMember: {
+                     _id: "u101",
+                     username: "Tal",
+                     fullname: "Tal Tarablus",
+                     imgUrl:
+                        "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
+                  },
+                  cover: {},
+                  attachments:[],
                   style: {}
                },
                {
@@ -333,6 +363,8 @@ function _createDemoBoard() {
                      imgUrl:
                         "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
                   },
+                  cover: {},
+                  attachments:[],
                   style: {
                      bgColor: "#26de81",
                   },
@@ -360,6 +392,15 @@ function _createDemoBoard() {
                members: [],
                labelIds: [],
                dueDate: null,
+               byMember: {
+                  _id: "u101",
+                  username: "Tal",
+                  fullname: "Tal Tarablus",
+                  imgUrl:
+                     "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
+               },
+               cover: {},
+               attachments:[],
                style: {}
             },
          },

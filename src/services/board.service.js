@@ -1,5 +1,5 @@
 import { storageService } from "./storage.service.js";
-// import { userService } from "./user.service.js";
+import { userService } from "./user.service.js";
 import { utilService } from "./util.service.js";
 // import axios from 'axios'
 // import { httpService } from './http.service.js'
@@ -20,7 +20,9 @@ export const boardService = {
    getEmptyCard,
    addActivity,
    getCardById,
-   getGroupById
+   getGroupById,
+   addComment,
+   removeComment
    // addReview
 }
 
@@ -124,7 +126,7 @@ async function removeCard(cardId, groupId, boardId) {
       const groupIdx = board.groups.findIndex(group => group.id === groupId)
       const cardIdx = board.groups[groupIdx].cards.findIndex(card => card.id === cardId)
       board.groups[groupIdx].cards.splice(cardIdx, 1)
-      return storageService.save(KEY, boardId)
+      return await save(board)
    } catch (err) {
       console.log('Error:', err);
    }
@@ -180,6 +182,31 @@ async function getGroupById(groupId, boardId) {
    }
 }
 
+async function addComment(commentTxt, card, groupId, boardId) {
+   try {
+      const comment = {
+         id: utilService.makeId(),
+         txt: commentTxt,
+         createdAt: Date.now(),
+         byMember: await userService.getMiniUser(userService.getLoggedinUser()._id)
+      }
+      card.comments.unshift(comment);
+      saveCard(card, groupId, boardId)
+   } catch (err) {
+      console.log('Error:', err);
+   }
+}
+
+async function removeComment(commentId, card, groupId, boardId) {
+   try {
+      const commentIdx = card.comments.findIndex(comment => comment.id === commentId)
+      card.comments.splice(commentIdx, 1)
+      saveCard(card, groupId, boardId)
+   } catch (err) {
+      console.log('Error:', err);
+   }
+}
+
 function getEmptyBoard() {
    return {
       title: "",
@@ -211,7 +238,7 @@ function getEmptyCard() {
       dueDate: null,
       byMember: {},
       cover: {},
-      attachments:[],
+      attachments: [],
       style: {}
    }
 }
@@ -264,7 +291,7 @@ function _createDemoBoard() {
                         "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
                   },
                   cover: {},
-                  attachments:[],
+                  attachments: [],
                   style: {}
                },
                {
@@ -284,7 +311,7 @@ function _createDemoBoard() {
                         "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
                   },
                   cover: {},
-                  attachments:[],
+                  attachments: [],
                   style: {}
                },
             ],
@@ -311,7 +338,7 @@ function _createDemoBoard() {
                         "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
                   },
                   cover: {},
-                  attachments:[],
+                  attachments: [],
                   style: {}
                },
                {
@@ -364,7 +391,7 @@ function _createDemoBoard() {
                         "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
                   },
                   cover: {},
-                  attachments:[],
+                  attachments: [],
                   style: {
                      bgColor: "#26de81",
                   },
@@ -386,22 +413,6 @@ function _createDemoBoard() {
             card: {
                id: "c101",
                title: "Replace Logo",
-               description: "cc1",
-               comments: [],
-               checklists: [],
-               members: [],
-               labelIds: [],
-               dueDate: null,
-               byMember: {
-                  _id: "u101",
-                  username: "Tal",
-                  fullname: "Tal Tarablus",
-                  imgUrl:
-                     "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
-               },
-               cover: {},
-               attachments:[],
-               style: {}
             },
          },
       ],

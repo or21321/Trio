@@ -27,7 +27,7 @@
       <div @click="toggleUserMenu">
         <avatar
           class="hover-pointer"
-          :size="30"
+          :size="32"
           username="Or Hadar"
           src="https://res.cloudinary.com/or21321/image/upload/v1626317415/pp_bqtkzw.jpg"
         />

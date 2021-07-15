@@ -35,7 +35,10 @@
         <!-- "http://res.cloudinary.com/or21321/image/upload/v1626387050/vnodxsvuzaeapjkgxw9g.jpg" -->
       </div>
     </div>
-    <board-compose @closeCompose="closeBoardCompose" v-if="isBoardComposeOn"></board-compose>
+    <board-compose
+      @closeCompose="closeBoardCompose"
+      v-if="isBoardComposeOn"
+    ></board-compose>
   </section>
 </template>
 
@@ -47,35 +50,31 @@ export default {
   data() {
     return {
       isBoardComposeOn: false,
+      fullname: null,
+      imgUrl: null,
     };
   },
   components: {
     avatar,
     boardCompose,
   },
-  data(){
-    return {
-      fullname: null,
-      imgUrl: null
-    }
-  },
   created() {
-      const user = this.$store.getters.loggedinUser
-      this.fullname = user.fullname
-      this.imgUrl = user.imgUrl
+    const user = this.$store.getters.loggedinUser;
+    this.fullname = user.fullname;
+    this.imgUrl = user.imgUrl;
   },
   methods: {
     toggleBoardCompose() {
       console.log("openBoardCompose()");
-      this.isBoardComposeOn = !this.isBoardComposeOn
+      this.isBoardComposeOn = !this.isBoardComposeOn;
     },
     toggleUserMenu() {
       console.log("toggleUserMenu()");
     },
-    closeBoardCompose() { 
-      console.log('Ahalan');
-      this.toggleBoardCompose()
-    }
+    closeBoardCompose() {
+      console.log("Ahalan");
+      this.toggleBoardCompose();
+    },
   },
 };
 </script>

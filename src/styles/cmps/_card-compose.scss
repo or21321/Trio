@@ -1,15 +1,14 @@
 .card-compose-btn {
-    width: 89%;
+    width: 90.5%;
     align-self: baseline;
     display: flex;
     justify-content: baseline;
     align-items: center;
     margin-bottom: 8px;
-    margin-left: 12px;
+    margin-left: 9px;
     color: #5e6c84;
     border-radius: 3px;
-    margin-top: 3px;
-    padding: 4px;
+    padding: 4px 6px;
     &:hover {
         cursor: pointer;
         background-color: darken(#ebecf0, 5);
@@ -22,10 +21,11 @@
     gap: 8px;
     textarea {
         font-size: 14px;
-        padding: 6px 8px 6px;
+        // padding: 6px 8px 6px;
+        padding: 6px 8px 2px;
         color: #4b5a74;
         text-decoration: none;
-        width: 89%;
+        width: 90.56%;
         border-radius: 3px;
         border: 0px;
         outline: none;
@@ -34,10 +34,14 @@
         overflow: hidden;
         overflow-wrap: break-word;
         resize: none;
-        height: 54px;
+        height: 67px;
         font-size: 14px;
-        letter-spacing: -1px;
-        font-family: Segoe-UI;
+        margin-right: 7px;
+        
+        &:placeholder-shown { 
+            font-family: Segoe-UI;
+            font-size: 14px;
+        }
     }
 
     .compose-features {
@@ -53,7 +57,7 @@
             margin: 0px 0px 8px 8px;
             color: #ffffff;
             transition: background-color 0.3s;
-            margin-left: 15.5px;
+            margin-left: 8.5px;
             margin-right: 9.5px;
             // color: #7e899b;
         }
@@ -85,7 +89,9 @@
             border-radius: 3px;
             color: #6b778c;
             &:hover {
-                background-color: darken(#ebecf0, 10);
+                background-color: darken(#ebecf0, 7.5);
+                color: rgb(48, 46, 46);
+                cursor: pointer;
             }
         }
     }

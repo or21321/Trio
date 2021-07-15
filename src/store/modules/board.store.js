@@ -32,7 +32,7 @@ export const boardStore = {
          state.boards[idx].activity.push(activity)
       },
 
-      saveCard(state, { isUpdate, card, groupId}) {
+      saveCard(state, { isUpdate, card, groupId }) {
          const groupIdx = state.currBoard.groups.findIndex(group => group.id === groupId)
          if (isUpdate) {
             const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(currCard => currCard.id === card.id)
@@ -144,6 +144,24 @@ export const boardStore = {
             console.log('Cannot get group', groupId, ',', err);
             throw err;
          }
-      }
+      },
+      async addComment(context, { commentTxt, card, groupId, boardId }) {
+         try {
+            boardService.addComment(commentTxt, card, groupId, boardId)
+         } catch (err) {
+            console.log('Cannot add comment', commentTxt, ',', err);
+            throw err;
+         }
+      },
+      async removeComment(context, { commentId, card, groupId, boardId }) {
+         try {
+            await boardService.removeComment(commentId, card, groupId, boardId)
+            // commit({ type: 'removeComment', commentId, card, groupId, boardId})
+         }
+         catch (err) {
+            console.log('Cannot remove board ', boardId, ',', err);
+            throw err;
+         }
+      },
    }
 }

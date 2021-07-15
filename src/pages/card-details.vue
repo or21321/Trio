@@ -1,6 +1,6 @@
 <template>
   <section class="card-details" @click="closeCardDetails">
-    <main class="card-container" @click.stop="" v-if="card">
+    <section class="card-container" @click.stop v-if="card">
       <header class="header">
         <span class="icon-title material-icons-outlined">title</span>
         <section class="titles">
@@ -11,11 +11,10 @@
           close
         </span>
       </header>
-      <section class="main">
+      <main class="main">
         <section class="description grid-details">
           <span class="material-icons-outlined">subject</span>
           <h1 class="title-description">Description</h1>
-          <div class="text-container">
           <contenteditable
             class="description-text"
             tag="div"
@@ -26,10 +25,6 @@
             :noHTML="true"
             @input="saveCard"
           />
-          <el-button type="primary">save</el-button>
-          <button class="btn-close"> X</button>
-
-          </div>
         </section>
         <section
           class="attachments grid-details"
@@ -40,13 +35,67 @@
           >
           <h1 class="title-attachments">attachments</h1>
           <div class="imgs-container">
-            <article class="img-container" v-for="(img, idx) in card.attachments" :key="idx">
-              <img :src="img.url"/>
-               <p>{{ img.creatAt | moment("dddd, MMM Do YYYY") }}</p>
+            <article
+              class="img-container"
+              v-for="(img, idx) in card.attachments"
+              :key="idx"
+            >
+              <img :src="img.url" />
+              <p>{{ img.creatAt | moment("dddd, MMM Do YYYY") }}</p>
             </article>
-            </div>
+          </div>
         </section>
-      </section>
+        <section class="activity grid-details">
+          <span class="material-icons-outlined">format_list_bulleted</span>
+          <div class="header-activity">
+            <h1 class="title-activity">Activity</h1>
+            <button class="toggle-details-activity">
+              {{ titleActivityBtn }}
+            </button>
+          </div>
+          <section class="main-activity">
+            <div class="comment-line">
+              <avatar
+                class="hover-pointer"
+                :size="30"
+                username="Or Hadar"
+                src="https://res.cloudinary.com/or21321/image/upload/v1626317415/pp_bqtkzw.jpg"/>
+
+              <contenteditable
+                class="comment-textarea"
+                tag="form"
+                :contenteditable="true"
+                v-model="commentTxt"
+                placeholder="Write a comment..."
+                :noNL="false"
+                :noHTML="true"
+                @click="iscommentOpen = true"
+                ref="comment"/>
+
+              <el-button
+                class="send-comment"
+                v-if="iscommentOpen"
+                :disabled="!commentTxt"
+                @click="addComment"
+                type="primary">Save</el-button>
+            </div>
+            <article class="comment-preview" v-for="comment in card.comments" :key="comment.id">
+                  <avatar
+                class="hover-pointer"
+                :size="30"
+                username="Or Hadar"
+                src="https://res.cloudinary.com/or21321/image/upload/v1626317415/pp_bqtkzw.jpg"/>
+               <section class="comment-info">
+                  <h3 class="comment-info-header">{{comment.byMember.fullname}} 
+                     <span>{{ comment.createdAt | moment("from", "now") }} </span> </h3>
+                     <p class="comment-info-txt"> {{comment.txt}} </p>
+                     <button class="remove-comment" v-if="isYourComment(comment)"
+                     @click="removeComment(comment.id)">Delete</button>
+               </section>
+            </article>
+          </section>
+        </section>
+      </main>
       <nav class="nav">
         <h3 class="title">Add to card</h3>
         <button @click="setPopup('Members')">
@@ -84,12 +133,13 @@
           <span> Cover </span>
         </button>
       </nav>
-    </main>
+    </section>
   </section>
 </template>
 
 <script>
 import { uploadImg } from "../services/img-upload.service.js";
+import avatar from "vue-avatar";
 export default {
   data() {
     return {
@@ -97,10 +147,14 @@ export default {
       boardId: this.$route.params.boardId,
       groupId: this.$route.params.groupId,
       cardId: this.$route.params.cardId,
+      description: null,
       groupName: null,
+      titleActivityBtn: "Show details",
+      commentTxt: "",
+      iscommentOpen: false,
       isLoading: false,
-      type:null,
-      isPopupShow:false
+      type: null,
+      isPopupShow: false,
     };
   },
   watch: {
@@ -114,6 +168,7 @@ export default {
             groupId: this.groupId,
             boardId: this.boardId,
           });
+          this.description = this.card.description;
         } catch (err) {
           console.log("cannot get card", err);
           throw err;
@@ -134,28 +189,28 @@ export default {
       throw err;
     }
   },
+  mounted() {
+    setTimeout(() => {
+      this.$refs.comment.$refs.element.addEventListener(
+        "focusout",
+        this.checkCommentEmpty
+      );
+    }, 1);
+  },
   methods: {
-    enterPressed() {
-      console.log("yes!");
-    },
     closeCardDetails() {
       this.$router.push(`/b/${this.boardId}`);
     },
     setPopup(value) {
-       this.isPopupShow = true
-       this.type = value;
+      this.isPopupShow = true;
+      this.type = value;
     },
     async onUploadImg(ev) {
       try {
         this.isLoading = true;
         const res = await uploadImg(ev);
         this.card.attachments.push({ url: res.url, creatAt: Date.now() });
-        this.card = await this.$store.dispatch({
-          type: "saveCard",
-          card: this.card,
-          groupId: this.groupId,
-          boardId: this.boardId,
-        });
+        this.saveCard();
       } catch (err) {
         console.log("cannot save card", err);
         throw err;
@@ -176,21 +231,40 @@ export default {
         throw err;
       }
     },
-    setDescription(ev) {
-      console.log("ev.data", ev.data);
-      if (ev.data) this.card.description += ev.data;
-      else {
-        this.card.description = this.card.description.substring(
-          0,
-          this.card.description.length - 1
-        );
-      }
-      //   console.log('description', this.card.description)
+    async addComment() {
+      await this.$store.dispatch({
+        type: "addComment",
+        commentTxt: this.commentTxt,
+        card: this.card,
+        groupId: this.groupId,
+        boardId: this.boardId
+      });
+      this.commentTxt = "";
+      this.iscommentOpen = false;
+    },
+    checkCommentEmpty() {
+      if (!this.commentTxt) this.iscommentOpen = false;
+      else this.iscommentOpen = true;
+    },
+     isYourComment(comment){
+        return (comment.byMember._id === this.$store.getters.loggedinUser._id)
+     },
+    async removeComment(commentId){
+      await this.$store.dispatch({type:'removeComment',
+      commentId,
+      card: this.card,
+      groupId: this.groupId,
+      boardId: this.boardId
+      })
+     }
+  },
+  computed: {
+    classToComment() {
+      return { isOpen: this.iscommentOpen };
     },
   },
-  computed: {},
+  components: {
+    avatar,
+  },
 };
 </script>
-
-<style>
-</style>

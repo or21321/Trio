@@ -122,6 +122,7 @@ async function saveGroup(group, boardId) {
 
 async function removeCard(cardId, groupId, boardId) {
    try {
+      console.log('cardId', cardId)
       const board = await getById(boardId)
       const groupIdx = board.groups.findIndex(group => group.id === groupId)
       const cardIdx = board.groups[groupIdx].cards.findIndex(card => card.id === cardId)

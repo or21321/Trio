@@ -266,7 +266,7 @@ export default {
        try {
         await this.$store.dispatch({
           type: "removeCard",
-          card: this.card,
+          cardId: this.cardId,
           groupId: this.groupId,
           boardId: this.boardId,
         });

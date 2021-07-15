@@ -1,5 +1,12 @@
 <template>
   <div class="board-header">
+    <!-- <input
+      class="board-header-btn"
+      v-model="boardTitle"
+      @change="updateTitle"
+      contenteditable
+      @focus="$event.target.select()"
+    /> -->
     <h1 class="board-header-btn">
       <!-- <span class="material-icons">dashboard</span>
       <span class="">{{ title }}</span>
@@ -27,15 +34,26 @@ export default {
       required: true,
     },
   },
+  // data() {
+  //   return {
+  //     boardTitle: null,
+  //   };
+  // },
   computed: {
     selected() {
       return { selected: this.star };
     },
   },
+  // created() {
+  //   this.boardTitle = JSON.parse(JSON.stringify(this.title));
+  // },
   methods: {
     toggleStar() {
       this.$emit("toggleStar");
     },
+    // updateTitle() {
+    //   this.$emit("updateTitle", this.boardTitle);
+    // },
   },
 };
 </script>

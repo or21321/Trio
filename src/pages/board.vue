@@ -5,6 +5,7 @@
       :star="board.isStarred"
       @toggleStar="toggleStar"
     ></board-header>
+      <!-- @updateTitle="updateTitle" -->
     <div class="board-canvas">
       <groupList
         v-for="group in board.groups"
@@ -52,7 +53,11 @@ export default {
     toggleStar() {
       this.board.isStarred = !this.board.isStarred;
       this.$store.dispatch({ type: "saveBoard", board: this.board });
-    }
+    },
+    // async updateTitle(title){
+    //   this.board.title = title
+    //   await this.$store.dispatch({ type: "saveBoard", board: this.board });
+    // }
   },
   data() {
     return {
@@ -61,6 +66,3 @@ export default {
   },
 };
 </script>
-
-
-

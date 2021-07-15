@@ -119,8 +119,29 @@
           </section>
         </section>
       </main>
-      <nav class="nav">
+      <nav class="details-actions">
         <section class="add-to-card">
+          <h3 class="title">Add to card</h3>
+          <label
+            v-for="action in actions"
+            :key="action.name"
+            @click="setCurrAction(action)"
+          >
+            <span class="material-icons-outlined">{{ action.icon }}</span>
+            <span> {{ action.name }} </span>
+          </label>
+          <component
+            class="popup"
+            v-if="currAction"
+            :is="currAction.type"
+            :card="card"
+            :action="currAction"
+            @close="closeEditPopup"
+            @updateTask="updateTask()"
+          />
+        </section>
+
+        <!-- <section class="add-to-card">
           <h3 class="title">Add to card</h3>
           <button @click="setPopup('Members')">
             <span class="material-icons-outlined">person_add</span>
@@ -155,14 +176,14 @@
             <span class="material-icons-outlined">wallpaper</span>
             <span> Cover </span>
           </button>
-        </section>
-         <section class="action-nav">
-              <h3 class="title">Actions</h3>
-            <button @click="removeCard">
+        </section> -->
+        <section class="action-nav">
+          <h3 class="title">Actions</h3>
+          <button @click="removeCard">
             <span class="material-icons-outlined">delete</span>
             <span> Delete card </span>
           </button>
-         </section>
+        </section>
       </nav>
     </section>
   </section>
@@ -170,8 +191,24 @@
 
 <script>
 import { uploadImg } from "../services/img-upload.service.js";
+import cardMembersEdit from "@/cmps/dynamic/card-members-edit";
+import cardLabelsEdit from "@/cmps/dynamic/card-labels-edit";
+import cardChecklistEdit from "@/cmps/dynamic/card-checklist-edit";
+import cardDatesEdit from "@/cmps/dynamic/card-dates-edit";
+import cardAttachmentEdit from "@/cmps/dynamic/card-attachment-edit";
+import cardCoverEdit from "@/cmps/dynamic/card-cover-edit";
 import avatar from "vue-avatar";
+
 export default {
+  components: {
+    cardMembersEdit,
+    cardLabelsEdit,
+    cardChecklistEdit,
+    cardDatesEdit,
+    cardAttachmentEdit,
+    cardCoverEdit,
+    avatar,
+  },
   data() {
     return {
       card: null,
@@ -184,8 +221,39 @@ export default {
       commentTxt: "",
       iscommentOpen: false,
       isLoading: false,
-      type: null,
-      isPopupShow: false,
+      actions: [
+        {
+          type: "cardMembersEdit",
+          icon: "person_add",
+          name: "Members",
+        },
+        {
+          type: "cardLabelsEdit",
+          icon: "label",
+          name: "Labels",
+        },
+        {
+          type: "cardChecklistEdit",
+          icon: "check_box",
+          name: "Checklist",
+        },
+        {
+          type: "cardDatesEdit",
+          icon: "watch_later",
+          name: "Dates",
+        },
+        {
+          type: "cardAttachmentEdit",
+          icon: "attachment",
+          name: "Attachment",
+        },
+        {
+          type: "cardCoverEdit",
+          icon: "wallpaper",
+          name: "cover",
+        },
+      ],
+      currAction: null,
     };
   },
   watch: {
@@ -229,6 +297,15 @@ export default {
     }, 1);
   },
   methods: {
+    closeEditPopup() {  
+      this.currAction = null
+    },
+    updateTask(card) {
+      console.log("from card details, card", card);
+    },
+    setCurrAction(action) {
+      this.currAction = action;
+    },
     closeCardDetails() {
       this.$router.push(`/b/${this.boardId}`);
     },
@@ -262,8 +339,8 @@ export default {
         throw err;
       }
     },
-    async removeCard(){
-       try {
+    async removeCard() {
+      try {
         await this.$store.dispatch({
           type: "removeCard",
           cardId: this.cardId,
@@ -315,9 +392,6 @@ export default {
     classToComment() {
       return { isOpen: this.iscommentOpen };
     },
-  },
-  components: {
-    avatar,
   },
 };
 </script>

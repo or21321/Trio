@@ -8,7 +8,11 @@
       rows="3"
       placeholder="Enter list title..."
     ></textarea> -->
-    <input type="text" v-model="groupToCompose.title" placeholder="Enter list title...">
+    <input
+      type="text"
+      v-model="groupToCompose.title"
+      placeholder="Enter list title..."
+    />
     <!-- </div> -->
     <div class="compose-features">
       <button @click="add">Add list</button>
@@ -41,12 +45,14 @@ export default {
   methods: {
     async add() {
       try {
+        if (!this.groupToCompose.title) return;
         console.log("add()", this.boardId, this.groupToCompose);
         await this.$store.dispatch({
           type: "saveGroup",
           group: this.groupToCompose,
           boardId: this.boardId,
         });
+        this.groupToCompose = boardService.getEmptyGroup();
         this.toggleCompose();
       } catch (err) {
         console.log("Err", err);

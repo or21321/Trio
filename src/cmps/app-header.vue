@@ -18,7 +18,12 @@
     </div>
 
     <div class="header-features">
-      <button @click="openBoardCompose" class="material-icons">add</button>
+      <button
+        @click="toggleBoardCompose"
+        class="material-icons-outlined btn-container"
+      >
+        add
+      </button>
       <div @click="toggleUserMenu">
         <avatar
           class="hover-pointer"
@@ -28,23 +33,36 @@
         />
       </div>
     </div>
+    <board-compose @closeCompose="closeBoardCompose" v-if="isBoardComposeOn"></board-compose>
   </section>
 </template>
 
 <script>
 import avatar from "vue-avatar";
+import boardCompose from "../cmps/board-compose.vue";
 
 export default {
+  data() {
+    return {
+      isBoardComposeOn: false,
+    };
+  },
   components: {
     avatar,
+    boardCompose,
   },
   methods: {
-    openBoardCompose() {
+    toggleBoardCompose() {
       console.log("openBoardCompose()");
+      this.isBoardComposeOn = !this.isBoardComposeOn
     },
     toggleUserMenu() {
       console.log("toggleUserMenu()");
     },
+    closeBoardCompose() { 
+      console.log('Ahalan');
+      this.toggleBoardCompose()
+    }
   },
 };
 </script>

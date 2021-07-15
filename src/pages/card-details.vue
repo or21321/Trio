@@ -15,11 +15,15 @@
         <section class="description">
           <span class="material-icons-outlined">subject</span>
           <h1 class="title-description">Description</h1>
-          <div
-            class="description-text"
-            contenteditable
+          <contenteditable
+          class="description-text"
+            tag="div"
+            :contenteditable="isEditable"
+            v-model="card.description"
             placeholder="Add a more detailed description..."
-          ></div>
+            :noNL="false"
+            :noHTML="true"
+            @input="saveCard"/>
         </section>
       </section>
       <nav class="nav">
@@ -62,6 +66,8 @@ export default {
       groupId: this.$route.params.groupId,
       cardId: this.$route.params.cardId,
       groupName: null,
+      isEditable: true,
+      massage:'hellow'
     };
   },
   watch: {
@@ -95,24 +101,42 @@ export default {
       throw err;
     }
   },
+  mounted(){
+     console.log('this.$refs', this.$refs.description)
+  },
   methods: {
+        enterPressed(){
+         console.log('yes!');
+        },
     closeCardDetails() {
       this.$router.push(`/b/${this.boardId}`);
     },
     setPopup() {},
+
     async saveCard() {
       try {
-       this.card = await this.$store.dispatch({
+        this.card = await this.$store.dispatch({
           type: "saveCard",
           card: this.card,
           groupId: this.groupId,
           boardId: this.boardId,
         });
-
+        console.log('this.card', this.card)
       } catch (err) {
         console.log("cannot save card", err);
         throw err;
       }
+    },
+    setDescription(ev) {
+      console.log("ev.data", ev.data);
+      if (ev.data) this.card.description += ev.data;
+      else {
+        this.card.description = this.card.description.substring(
+          0,
+          this.card.description.length - 1
+        );
+      }
+      //   console.log('description', this.card.description)
     },
   },
   computed: {},

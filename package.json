@@ -13,6 +13,7 @@
       "smooth-scrollbar": "^8.6.2",
       "vue": "^2.6.11",
       "vue-avatar": "^2.3.3",
+      "vue-contenteditable": "^1.0.2",
       "vue-router": "^3.2.0",
       "vuex": "^3.4.0"
    },

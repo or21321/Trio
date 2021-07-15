@@ -131,24 +131,24 @@ async function removeCard(cardId, groupId, boardId) {
 }
 
 async function saveCard(card, groupId, boardId) {
-    try {
-        const board = await getById(boardId)
-        const groupIdx = board.groups.findIndex(group => group.id === groupId)
-        if (card.id) {
-            const cardIdx = board.groups[groupIdx].cards.findIndex(currCard => currCard.id === card.id)
-            board.groups[groupIdx].cards.splice(cardIdx, 1, card)
-        } else {
-            card.id = utilService.makeId()
-            card.createdAt = Date.now()
-            // card.byMember = userService.getMiniUser(userService.getLoggedinUser()._id)
-            board.groups[groupIdx].cards.push(card)
-        }
-         await save(board)
-        // console.log('from service save', card);
-        return card
-    } catch (err) {
-        console.log('Error:', err);
-    }
+   try {
+      const board = await getById(boardId)
+      const groupIdx = board.groups.findIndex(group => group.id === groupId)
+      if (card.id) {
+         const cardIdx = board.groups[groupIdx].cards.findIndex(currCard => currCard.id === card.id)
+         board.groups[groupIdx].cards.splice(cardIdx, 1, card)
+      } else {
+         card.id = utilService.makeId()
+         card.createdAt = Date.now()
+         // card.byMember = userService.getMiniUser(userService.getLoggedinUser()._id)
+         board.groups[groupIdx].cards.push(card)
+      }
+      await save(board)
+      // console.log('from service save', card);
+      return card
+   } catch (err) {
+      console.log('Error:', err);
+   }
 }
 
 async function addActivity(activity, boardId) {
@@ -214,129 +214,157 @@ function getEmptyCard() {
 }
 
 function _createDemoBoard() {
-  return {
-        _id: "b101",
-        title: "Robot dev proj",
-        isStarred: true,
-        createdAt: 1589983468418,
-        createdBy: {
-          _id: "u101",
-          fullname: "Abi Abambi",
-          imgUrl: "http://some-img",
-        },
-        style: {},
-        labels: [
-          {
+   return {
+      _id: "b101",
+      title: "Robot dev proj",
+      isStarred: true,
+      createdAt: 1589983468418,
+      createdBy: {
+         _id: "u101",
+         fullname: "Abi Abambi",
+         imgUrl: "http://some-img",
+      },
+      style: {},
+      labels: [
+         {
             id: "l101",
             title: "Done",
             color: "#61bd4f",
-          },
-        ],
-        members: [
-          {
+         },
+      ],
+      members: [
+         {
             _id: "u101",
             fullname: "Tal Tarablus",
             imgUrl: "https://www.google.com",
-          },
-        ],
-        groups: [
-          {
+         },
+      ],
+      groups: [
+         {
             id: "g101",
             title: "Group 1",
             cards: [
-              {
-                id: "c101",
-                title: "Replace logo",
-              },
-              {
-                id: "c102",
-                title: "Add Samples",
-              },
+               {
+                  id: "c101",
+                  title: "Replace logo",
+                  description: "cc1",
+                  comments: [],
+                  checklists: [],
+                  members: [],
+                  labelIds: [],
+                  dueDate: null,
+                  style: {}
+               },
+               {
+                  id: "c102",
+                  title: "Add Samples",
+                  description: "",
+                  comments: [],
+                  checklists: [],
+                  members: [],
+                  labelIds: [],
+                  dueDate: null,
+                  style: {}
+               },
             ],
             style: {},
-          },
-          {
+         },
+         {
             id: "g102",
             title: "Group 2",
             cards: [
-              {
-                id: "c103",
-                title: "Do that",
-              },
-              {
-                id: "c104",
-                title: "Help me",
-                description: "description",
-                comments: [
-                  {
-                    id: "ZdPnm",
-                    txt: "also @yaronb please CR this",
-                    createdAt: 1590999817436.0,
-                    byMember: {
-                      _id: "u101",
-                      fullname: "Tal Tarablus",
-                      imgUrl:
+               {
+                  id: "c103",
+                  title: "Do that",
+                  description: "",
+                  comments: [],
+                  checklists: [],
+                  members: [],
+                  labelIds: [],
+                  dueDate: null,
+                  style: {}
+               },
+               {
+                  id: "c104",
+                  title: "Help me",
+                  description: "description",
+                  comments: [
+                     {
+                        id: "ZdPnm",
+                        txt: "also @yaronb please CR this",
+                        createdAt: 1590999817436.0,
+                        byMember: {
+                           _id: "u101",
+                           fullname: "Tal Tarablus",
+                           imgUrl:
+                              "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
+                        },
+                     },
+                  ],
+                  checklists: [
+                     {
+                        id: "YEhmF",
+                        title: "Checklist",
+                        todos: [
+                           {
+                              id: "212jX",
+                              title: "To Do 1",
+                              isDone: false,
+                           },
+                        ],
+                     },
+                  ],
+                  members: [
+                     {
+                        _id: "u101",
+                        username: "Tal",
+                        fullname: "Tal Tarablus",
+                        imgUrl:
+                           "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
+                     },
+                  ],
+                  labelIds: ["101"],
+                  createdAt: 1590999730348,
+                  dueDate: 16156215211,
+                  byMember: {
+                     _id: "u101",
+                     username: "Tal",
+                     fullname: "Tal Tarablus",
+                     imgUrl:
                         "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
-                    },
                   },
-                ],
-                checklists: [
-                  {
-                    id: "YEhmF",
-                    title: "Checklist",
-                    todos: [
-                      {
-                        id: "212jX",
-                        title: "To Do 1",
-                        isDone: false,
-                      },
-                    ],
+                  style: {
+                     bgColor: "#26de81",
                   },
-                ],
-                members: [
-                  {
-                    _id: "u101",
-                    username: "Tal",
-                    fullname: "Tal Tarablus",
-                    imgUrl:
-                      "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
-                  },
-                ],
-                labelIds: ["101"],
-                createdAt: 1590999730348,
-                dueDate: 16156215211,
-                byMember: {
-                  _id: "u101",
-                  username: "Tal",
-                  fullname: "Tal Tarablus",
-                  imgUrl:
-                    "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
-                },
-                style: {
-                  bgColor: "#26de81",
-                },
-              },
+               },
             ],
             style: {},
-          },
-        ],
-        activities: [
-          {
+         },
+      ],
+      activities: [
+         {
             id: "a101",
             txt: "Changed Color",
             createdAt: 154514,
             byMember: {
-              _id: "u101",
-              fullname: "Abi Abambi",
-              imgUrl: "http://some-img",
+               _id: "u101",
+               fullname: "Abi Abambi",
+               imgUrl: "http://some-img",
             },
             card: {
-              id: "c101",
-              title: "Replace Logo",
+               id: "c101",
+               title: "Replace Logo",
+               description: "cc1",
+               comments: [],
+               checklists: [],
+               members: [],
+               labelIds: [],
+               dueDate: null,
+               style: {}
             },
-          },
-        ],
-      }
+         },
+      ],
+   }
 }
 
 // async function addReview(review) {  

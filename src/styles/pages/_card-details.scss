@@ -33,7 +33,7 @@
          display: flex;
          align-items: flex-start;
          .icon-title{
-            padding: 4px 0;
+            padding: 8px 0;
             width: 24px;
          }
          .titles{
@@ -90,20 +90,32 @@
                margin-left:30px;
                margin-right:8px;
                padding: 8px 0;
-               resize:none;
+               resize: none;
                border:0;
                white-space: pre-line;
                flex-grow: 1;
                max-width: 70ch;
                min-width: 30ch;
                min-height: 15ch;
+               cursor: pointer;
                &:focus{
                   padding: 8px 12px;
                   background-color: #fff;
                   outline: 2px solid $clr-outline;
+                  cursor: text;
                }
-               &:empty:before {
-                  content: attr(placeholder);
+               &:empty {
+                  padding: 8px 12px;
+                  background-color: rgb(231, 231, 231);
+                  &::before{
+                     content: attr(placeholder);
+                  }
+                  &:hover{
+                     background-color: rgb(223, 223, 223);
+                  }
+                  &:focus{
+                     background-color: #fff;
+                  }
                }
             }
          }

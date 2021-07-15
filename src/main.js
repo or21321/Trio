@@ -3,8 +3,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import '@/styles/styles.scss'
-// import Scrollbar from 'smooth-scrollbar';
 
+// import Scrollbar from 'smooth-scrollbar';
+import contenteditable from 'vue-contenteditable'
+Vue.use(contenteditable)
 // const options = { 
 //   damping: 0.9,
 //   'alwaysShowTracks': true

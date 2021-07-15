@@ -38,6 +38,9 @@ export default {
     updateTask() {
       this.$emit("updateTask", this.card);
     },
+    close() {   
+        this.$emit('close')
+    }
   },
 };
 </script>

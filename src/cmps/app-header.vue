@@ -28,9 +28,11 @@
         <avatar
           class="hover-pointer"
           :size="32"
-          username="Or Hadar"
-          src="https://res.cloudinary.com/or21321/image/upload/v1626317415/pp_bqtkzw.jpg"
+          :username="fullname"
+          :src="imgUrl"
         />
+        <!-- src="https://res.cloudinary.com/or21321/image/upload/v1626317415/pp_bqtkzw.jpg" -->
+        <!-- "http://res.cloudinary.com/or21321/image/upload/v1626387050/vnodxsvuzaeapjkgxw9g.jpg" -->
       </div>
     </div>
     <board-compose @closeCompose="closeBoardCompose" v-if="isBoardComposeOn"></board-compose>
@@ -50,6 +52,17 @@ export default {
   components: {
     avatar,
     boardCompose,
+  },
+  data(){
+    return {
+      fullname: null,
+      imgUrl: null
+    }
+  },
+  created() {
+      const user = this.$store.getters.loggedinUser
+      this.fullname = user.fullname
+      this.imgUrl = user.imgUrl
   },
   methods: {
     toggleBoardCompose() {

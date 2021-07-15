@@ -1,7 +1,15 @@
 <template>
-  <div class="home">
-    <h1>Trio</h1>
+  <div class="homepage">
+    <h1>
+      <span class="material-icons-outlined logo-icon">space_dashboard</span>Trio
+    </h1>
     <button class="start-btn" @click="signupAndStart">Get Started</button>
+    <nav class="homepage-nav">
+      <!-- <button>Log in</button>
+      <button>Sign in</button> -->
+      <router-link to='/login' class="login">Log in</router-link>
+      <router-link to='/signup' class="signup">Sign up</router-link>
+    </nav>
   </div>
 </template>
 
@@ -11,13 +19,12 @@ export default {
   components: {
     // HelloWorld
   },
-  created() { 
-  },
+  created() {},
   methods: {
-    async signupAndStart(){
+    async signupAndStart() {
       await this.$store.dispatch({ type: "signupAsGuest" });
-      this.$router.push('/b/b101')
-    }
-  }
-}
+      this.$router.push("/b/b101");
+    },
+  },
+};
 </script>

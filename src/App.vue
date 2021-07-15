@@ -30,7 +30,8 @@ export default {
     "$route.path": {
       immediate: true,
       handler() {
-        if (this.$route.path === "/") this.isHome = true;
+        const routes = ['/', '/login', '/signup']
+        if (routes.includes(this.$route.path)) this.isHome = true;
         else this.isHome = false
       },
     },

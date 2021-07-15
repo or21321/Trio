@@ -1,22 +1,54 @@
-.home {
+.homepage {
     font-family: Segoe-UI-Bold;
-}
-
-.home h1 {
     text-align: center;
-    color: white;
-    font-size: 3rem;
-    margin: 3rem 0;
+
+    h1 {
+        color: white;
+        font-size: 3rem;
+        margin: 5rem 0;
+        
+        .logo-icon {
+        -webkit-transition: -webkit-transform 0.8s ease-in-out;
+        -ms-transition: -ms-transform 0.8s ease-in-out;
+        transition: transform 0.8s ease-in-out;
+        transform: rotate(90deg);
+        font-size: 30px;
+        margin-top: .5px;
+        margin-inline-end: 8px;
+        
+            &:hover {
+                transform: unset;
+            }
+        }
+    }
+    .start-btn {
+        font-size: 3rem;
+        background-color: white;
+        border-radius: 30px;
+        color: royalblue;
+        padding: 10px 15px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
 
-.start-btn {
-    font-size: 3rem;
-    background-color: white;
-    border-radius: 30px;
-    color: royalblue;
-    padding: 10px 15px;
+.homepage-nav {
+    font-size: 25px;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 20px;
+    right: 20px;
+    font-family: 'Segoe UI', sans-serif;
+
+    .login {
+        color: whitesmoke;
+        margin-inline-end: 10px;
+    }
+
+    .signup {
+        background-color: whitesmoke;
+        border-radius: 5px;
+        padding: 5px 10px 7px 10px;
+    }
 }

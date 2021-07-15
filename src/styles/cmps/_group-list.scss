@@ -6,12 +6,10 @@
     flex-direction: column;
     position: relative;
     white-space: normal;
-    // min-width: 272px;
-    width: 272px;
+    min-width: 272px;
     position: relative;
     height: fit-content;
     max-height: calc(100vh - 112.5px);
-    // max-height: calc(100vh - 90px);
 
     .group-header {
         flex: 0 0 auto;
@@ -52,8 +50,8 @@
         overflow-y: scroll;
 
         & > :last-child {
-            // margin-bottom: 8px;
-            margin-bottom: 2.25px;
+            // margin-bottom: 8.25px;
+            margin-bottom: 2.5px;
         }
 
         &::-webkit-scrollbar {
@@ -78,16 +76,16 @@
             border-radius: 3px;
             margin-left: 100%;
         }
-        
+
         // &::-webkit-scrollbar-track:hover {
-            //     background-color: rgb(228, 228, 228);
-            // }
-            
-            /* Handle */
-            
-            &::-webkit-scrollbar-thumb {
-                /* border-radius: 130px; */
-                // margin-left: -14px;
+        //     background-color: rgb(228, 228, 228);
+        // }
+
+        /* Handle */
+
+        &::-webkit-scrollbar-thumb {
+            /* border-radius: 130px; */
+            // margin-left: -14px;
             // background-color: darkgoldenrod;
             // background: linear-gradient(
             //     0deg,

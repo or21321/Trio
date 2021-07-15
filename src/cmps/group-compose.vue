@@ -1,13 +1,14 @@
 <template>
-  <div v-if="isComposeOn" class="list-compose">
+  <div v-if="isComposeOn" class="group-compose">
     <!-- <div> -->
-    <textarea
+    <!-- <textarea
       v-model="groupToCompose.title"
       id=""
       cols="38"
       rows="3"
       placeholder="Enter list title..."
-    ></textarea>
+    ></textarea> -->
+    <input type="text" v-model="groupToCompose.title" placeholder="Enter list title...">
     <!-- </div> -->
     <div class="compose-features">
       <button @click="add">Add list</button>
@@ -15,7 +16,9 @@
     </div>
   </div>
   <div v-else @click="toggleCompose" class="group-compose-btn">
-    <h4><span class="material-icons">add</span>Add another list</h4>
+    <span class="group-compose-btn-content btn-container"
+      ><span class="material-icons">add</span>Add another list
+    </span>
   </div>
 </template>
 

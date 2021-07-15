@@ -17,6 +17,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &:hover {   
+        cursor: pointer;
+        background-color: lighten(rgba(255, 255, 255, 0.377), 20);
+    }
 }
 
 .material-icons {   
@@ -44,4 +49,8 @@
       grid-column: 2;
       grid-row: 2;
    }
+}
+
+.hover-pointer:hover {  
+    cursor: pointer;
 }

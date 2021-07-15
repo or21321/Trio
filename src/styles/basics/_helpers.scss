@@ -17,6 +17,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &:hover {   
+        cursor: pointer;
+        background-color: lighten(rgba(255, 255, 255, 0.377), 20);
+    }
 }
 
 .material-icons {   

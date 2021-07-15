@@ -7,6 +7,7 @@ import '@/styles/styles.scss'
 // import Scrollbar from 'smooth-scrollbar';
 import contenteditable from 'vue-contenteditable'
 Vue.use(contenteditable)
+Vue.use(require('vue-moment'));
 // const options = { 
 //   damping: 0.9,
 //   'alwaysShowTracks': true

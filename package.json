@@ -10,6 +10,7 @@
    },
    "dependencies": {
       "axios": "^0.21.1",
+      "babel-plugin-wildcard": "^7.0.0",
       "core-js": "^3.6.5",
       "element-ui": "^2.15.3",
       "smooth-scrollbar": "^8.6.2",

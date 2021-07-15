@@ -24,37 +24,46 @@
   }
 }
 
-
 /* Media  Mixins */
 
 //aspect ratio mixin
 @mixin aspect-ratio($width, $height) {
-    position: relative;
-    overflow: hidden;
-    &:before {
-      content: "";
-      display: block;
-      width: 100%;
-      padding-top: ($height / $width) * 100%;
-    }
-    > * {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }  
-    > img {
-      height: 100%;
-      object-fit: cover;
+  position: relative;
+  overflow: hidden;
+  &:before {
+    content: "";
+    display: block;
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  > img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// Mixin for removing hover efects on iphone screen
+@mixin hover-supported {
+  @media not all and (pointer: coarse) {
+    &:hover {
+      @content;
     }
   }
-  
-  // Mixin for removing hover efects on iphone screen
-  @mixin hover-supported {    
-    @media not all and (pointer: coarse) {
-        &:hover {
-            @content;
-        }
-    }
-  }
+}
+
+@mixin random-bgr() {
+  background: rgb(random(255), random(255), random(255));
+}
+
+@mixin bcg-preview() {
+  width: 28px;
+  height: 28px;
+  border-radius: 3px;
+}

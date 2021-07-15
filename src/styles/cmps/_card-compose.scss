@@ -4,11 +4,13 @@
     display: flex;
     justify-content: baseline;
     align-items: center;
-    margin-bottom: 8px;
-    margin-left: 9px;
+    // margin-bottom: 8px;
+    // margin-left: 9px;
     color: #5e6c84;
     border-radius: 3px;
     padding: 4px 6px;
+    // margin-top: 2.5px;
+    margin: 2.5px 0 8px 9px;
     &:hover {
         cursor: pointer;
         background-color: darken(#ebecf0, 5);

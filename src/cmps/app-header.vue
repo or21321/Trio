@@ -18,11 +18,16 @@
     </div>
 
     <div class="header-features">
-      <button @click="openBoardCompose" class="material-icons">add</button>
+      <button
+        @click="toggleBoardCompose"
+        class="material-icons-outlined btn-container"
+      >
+        add
+      </button>
       <div @click="toggleUserMenu">
         <avatar
           class="hover-pointer"
-          :size="30"
+          :size="32"
           :username="fullname"
           :src="imgUrl"
         />
@@ -30,15 +35,23 @@
         <!-- "http://res.cloudinary.com/or21321/image/upload/v1626387050/vnodxsvuzaeapjkgxw9g.jpg" -->
       </div>
     </div>
+    <board-compose @closeCompose="closeBoardCompose" v-if="isBoardComposeOn"></board-compose>
   </section>
 </template>
 
 <script>
 import avatar from "vue-avatar";
+import boardCompose from "../cmps/board-compose.vue";
 
 export default {
+  data() {
+    return {
+      isBoardComposeOn: false,
+    };
+  },
   components: {
     avatar,
+    boardCompose,
   },
   data(){
     return {
@@ -52,12 +65,17 @@ export default {
       this.imgUrl = user.imgUrl
   },
   methods: {
-    openBoardCompose() {
+    toggleBoardCompose() {
       console.log("openBoardCompose()");
+      this.isBoardComposeOn = !this.isBoardComposeOn
     },
     toggleUserMenu() {
       console.log("toggleUserMenu()");
     },
+    closeBoardCompose() { 
+      console.log('Ahalan');
+      this.toggleBoardCompose()
+    }
   },
 };
 </script>

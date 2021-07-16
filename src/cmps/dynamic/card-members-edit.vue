@@ -34,12 +34,8 @@ export default {
     };
   },
   created() {
-    console.log("cardMembersEdit creadted!");
     this.cardToEdit = JSON.parse(JSON.stringify(this.card));
-    console.log("cardToEdit", this.cardToEdit);
-    // this
     this.users = this.$store.getters.users
-    console.log('users', this.users);
   },
   methods: {
     updateTask() {

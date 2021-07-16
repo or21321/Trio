@@ -44,12 +44,8 @@ export default {
       isComposeOn: false,
     };
   },
-  created() {
-    console.log("card-compose created!");
-  },
   methods: {
     add() {
-      console.log(this.groupId, this.boardId, this.cardToEdit.title);
       this.$store.dispatch({
         type: "saveCard",
         card: this.cardToEdit,
@@ -60,7 +56,6 @@ export default {
       this.toggleCompose();
     },
     toggleCompose() {
-      console.log("toggleCompose()");
       this.isComposeOn = !this.isComposeOn;
     },
     openComposeOptions() {  

@@ -24,9 +24,7 @@ export default {
     }
     },
     created() {  
-        console.log('cardLabelsEdit creadted!');
         this.cardToEdit = JSON.parse(JSON.stringify(this.card))
-        console.log('cardToEdit', this.cardToEdit);
     },
     methods: {  
         updateTask() {  

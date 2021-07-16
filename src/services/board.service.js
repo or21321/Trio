@@ -141,7 +141,6 @@ async function getGroupById(groupId, boardId) {
 //Card
 async function removeCard(cardId, groupId, boardId) {
    try {
-      console.log('cardId', cardId)
       const board = await getById(boardId)
       const groupIdx = board.groups.findIndex(group => group.id === groupId)
       const cardIdx = board.groups[groupIdx].cards.findIndex(card => card.id === cardId)
@@ -166,7 +165,6 @@ async function saveCard(card, groupId, boardId) {
          board.groups[groupIdx].cards.push(card)
       }
       await save(board)
-      // console.log('from service save', card);
       return card
    } catch (err) {
       console.log('Error:', err);
@@ -256,7 +254,7 @@ function _createDemoBoard() {
          fullname: "Abi Abambi",
          imgUrl: "http://some-img",
       },
-      style: {},
+      style: {'background-color':'#868686'},
       labels: [
          {
             id: "l101",

@@ -320,7 +320,7 @@ export default {
         this.card.attachments.push({ url: res.url, creatAt: Date.now() });
         this.saveCard();
       } catch (err) {
-        console.log("cannot save card", err);
+        console.log("cannot upload image", err);
         throw err;
       } finally {
         this.isLoading = false;
@@ -383,7 +383,6 @@ export default {
     },
     setShowComments() {
       if (this.titleActivityBtn === "Show Details") {
-        console.log("yes");
         this.titleActivityBtn = "Hide Details";
       } else this.titleActivityBtn = "Show Details";
     },

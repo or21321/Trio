@@ -6,7 +6,7 @@ export const boardStore = {
       currBoard: null,
    },
    getters: {
-      boards({ boards }) { return boards },
+      boards({ boards }) { return boards},
       currBoard({ currBoard }) { return currBoard }
    },
    mutations: {
@@ -18,7 +18,7 @@ export const boardStore = {
          state.boards = boards
       },
       addBoard(state, { savedBoard }) {
-         state.boards.push(savedBoard);
+         state.boards.unshift(savedBoard);
       },
       updateBoard(state, { savedBoard }) {
          const idx = state.boards.findIndex(board => board._id === savedBoard._id)
@@ -39,7 +39,6 @@ export const boardStore = {
             const groupIdx = state.currBoard.groups.findIndex(currGroup => currGroup.id === group.id)
             state.currBoard.groups.splice(groupIdx, 1, group)
          } else {
-            console.log('commiting group', group, isUpdate);
             state.currBoard.groups.push(group)
          }
       },
@@ -113,7 +112,6 @@ export const boardStore = {
          const isUpdate = (group.id) ? true : false;
          try {
             const savedGroup = await boardService.saveGroup(group, boardId);
-            console.log('fk me lf', savedGroup);
             commit({ type: 'saveGroup', isUpdate, group: savedGroup });
          } catch (err) {
             console.log('Cannot save group', group, ',', err);

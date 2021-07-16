@@ -33,12 +33,12 @@ export default {
     groupCompose
   },
   async created() {
-    console.log("board created, boardId:", this.boardId);
     try {
       await this.$store.dispatch({
         type: "loadBoard",
         boardId: this.$route.params.boardId,
       });
+        this.$emit('setBackgroundColor',this.board.style['background-color'])
     } catch (err) {
       console.log("ERROR: cannot get board");
     }

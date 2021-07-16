@@ -46,7 +46,6 @@ export default {
     async add() {
       try {
         if (!this.groupToCompose.title) return;
-        console.log("add()", this.boardId, this.groupToCompose);
         await this.$store.dispatch({
           type: "saveGroup",
           group: this.groupToCompose,

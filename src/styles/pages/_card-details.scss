@@ -5,20 +5,20 @@
    width: 100%;
    height: 100%;
    background-color: rgba(0, 0, 0, 0.64);
-   color: #172b4d;
    overflow-y: scroll;
    cursor: pointer;
    display: grid;
    min-height: 600px;
    max-height: fit-content;
    grid-template-columns: 1fr minmax(300px, 700px) 1fr;
+   z-index: 10;
    .card-container {
       grid-column: 2;
       z-index: 25;
       cursor: auto;
       background-color: #f4f5f7;
       transform: translateY(10%);
-
+      color:#172b4da2;
       display: grid;
       grid-template-columns: 4fr 1fr;
       grid-template-rows: 1fr 7fr;
@@ -42,7 +42,7 @@
             .main-title {
                font-size: 1.4rem;
                border: 0;
-               color: inherit;
+               color: #172b4de5;
                background-color: inherit;
                font-weight: 600;
                width: 100%;
@@ -140,6 +140,8 @@
                   padding: 6px 12px;
                   height: 32px;
                   width: 100px;
+                  color: #172b4da2;
+                  font-weight: 700;
                   &:hover {
                      background-color: rgba(9, 30, 66, 0.075);
                   }
@@ -251,14 +253,14 @@
          }
 
          .title {
-            color: #5e6c84;
+            color: inherit;
          }
          button,
          label {
             cursor: pointer;
             background-color: rgba(9, 30, 66, 0.04);
             width: 170px;
-            color: #091e42;
+            color: inherit;
             font-size: rem(18px);
             padding: 6px 12px;
             border-radius: 3px;

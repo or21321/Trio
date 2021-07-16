@@ -6,12 +6,17 @@
           ><span class="material-icons-outlined">home</span></router-link
         >
       </div>
-      <button class="btn-container" :to="'/b/' + 123">
-        <span class="material-icons-outlined boards-icon">space_dashboard</span
-        ><span> Boards</span>
+      <button @click="toggleBoardList" class="btn-container">
+        <span class="material-icons-outlined boards-icon">space_dashboard</span>
+        <span> Boards</span>
       </button>
     </nav>
-
+    <board-list
+      v-if="isBoardListOpen"
+      @closeBoardList="isBoardListOpen = false"
+      @setBackgroundColor="setBackgroundColor"
+      :boards="boards"
+    />
     <div class="logo">
       <span class="material-icons-outlined logo-icon">space_dashboard</span>
       Trio
@@ -25,18 +30,14 @@
         add
       </button>
       <div @click="toggleUserMenu">
-        <avatar
-          class="avatar"
-          :size="32"
-          :username="fullname"
-          :src="imgUrl"
-        />
+        <avatar class="avatar" :size="32" :username="fullname" :src="imgUrl" />
         <!-- src="https://res.cloudinary.com/or21321/image/upload/v1626317415/pp_bqtkzw.jpg" -->
         <!-- "http://res.cloudinary.com/or21321/image/upload/v1626387050/vnodxsvuzaeapjkgxw9g.jpg" -->
       </div>
     </div>
     <board-compose
       @closeCompose="toggleBoardCompose"
+      @addBoard="addBoard"
       v-if="isBoardComposeOn"
     ></board-compose>
   </section>
@@ -45,33 +46,50 @@
 <script>
 import avatar from "vue-avatar";
 import boardCompose from "../cmps/board-compose.vue";
+import boardList from "../cmps/board-list.vue";
 
 export default {
-  data() {
-    return {
-      isBoardComposeOn: false,
-      fullname: null,
-      imgUrl: null,
-    };
-  },
-  components: {
-    avatar,
-    boardCompose,
-  },
-  created() {
-    const user = this.$store.getters.loggedinUser;
-    this.fullname = user.fullname;
-    this.imgUrl = user.imgUrl;
-  },
-  methods: {
-    toggleBoardCompose() {
-      console.log("toggleBoardCompose()");
-      this.isBoardComposeOn = !this.isBoardComposeOn;
-    },
-    toggleUserMenu() {
-      console.log("toggleUserMenu()");
-    },
-  },
+   data() {
+      return {
+         isBoardComposeOn: false,
+         isBoardListOpen: false,
+         fullname: null,
+         imgUrl: null,
+      };
+   },
+   components: {
+      avatar,
+      boardCompose,
+      boardList,
+   },
+    created() {
+      const user = this.$store.getters.loggedinUser;
+      this.fullname = user.fullname;
+      this.imgUrl = user.imgUrl;
+   },
+   methods: {
+      toggleBoardCompose() {
+         this.isBoardComposeOn = !this.isBoardComposeOn;
+      },
+      toggleUserMenu() {
+         console.log("toggleUserMenu()");
+      },
+      toggleBoardList() {
+         this.isBoardListOpen = !this.isBoardListOpen;
+      },
+      addBoard(board) {
+         this.$emit("addBoard", board);
+         this.isBoardComposeOn = false;
+      },
+      setBackgroundColor(color){
+          this.$emit('setBackgroundColor',color)
+      }
+   },
+   computed:{
+      boards() {
+         return this.$store.getters.boards
+      }
+   }
 };
 </script>
 

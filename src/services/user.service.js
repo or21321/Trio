@@ -23,11 +23,14 @@ export const userService = {
 // userService.signup({fullname: 'Master Adminov', username: 'admin', password:'123', score: 100, isAdmin: true})
 // userService.signup({fullname: 'Muki G', username: 'muki', password:'123', score: 100})
 
-function getUsers() {
-   const users = storageService.query('users')
-   // if (!users) users = createTestUsers()
-   console.log('users', users === false);
-   // return httpService.get(`user`)
+async function getUsers() {
+   try {
+      return await storageService.query('users')
+      // return httpService.get(`user`)
+   } catch (err) {
+      console.log('userService: Error in getUsers', err)
+      throw err
+   }
 }
 
 // createTestUsers() {

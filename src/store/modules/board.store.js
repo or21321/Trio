@@ -10,6 +10,7 @@ export const boardStore = {
       currBoard({ currBoard }) { return currBoard }
    },
    mutations: {
+      // Board
       setCurrBoard(state, { board }) {
          state.currBoard = board
       },
@@ -32,20 +33,7 @@ export const boardStore = {
          const idx = state.boards.findIndex(board => board._id === boardId)
          state.boards[idx].activity.push(activity)
       },
-
-      saveCard(state, { isUpdate, card, groupId }) {
-         const groupIdx = state.currBoard.groups.findIndex(group => group.id === groupId)
-         if (isUpdate) {
-            const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(currCard => currCard.id === card.id)
-            state.currBoard.groups[groupIdx].cards.splice(cardIdx, 1, card)
-         } else {
-            state.currBoard.groups[groupIdx].cards.push(card)
-         }
-      },
-      removeCard(state, { boardId }) {
-         const idx = state.boards.findIndex(board => board._id === boardId)
-         state.boards.splice(idx, 1);
-      },
+      //Group
       saveGroup(state, { isUpdate, group }) {
          if (isUpdate) {
             const groupIdx = state.currBoard.groups.findIndex(currGroup => currGroup.id === group.id)
@@ -55,8 +43,19 @@ export const boardStore = {
             state.currBoard.groups.push(group)
          }
       },
+      // Card
+      saveCard(state, { isUpdate, card, groupId }) {
+         const groupIdx = state.currBoard.groups.findIndex(group => group.id === groupId)
+         if (isUpdate) {
+            const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(currCard => currCard.id === card.id)
+            state.currBoard.groups[groupIdx].cards.splice(cardIdx, 1, card)
+         } else {
+            state.currBoard.groups[groupIdx].cards.push(card)
+         }
+      },
    },
    actions: {
+      //Board
       async loadBoards({ commit }) {
          try {
             const boards = await boardService.query()
@@ -109,6 +108,7 @@ export const boardStore = {
             throw err;
          }
       },
+      // Group
       async saveGroup({ commit }, { group, boardId }) {
          const isUpdate = (group.id) ? true : false;
          try {
@@ -116,10 +116,28 @@ export const boardStore = {
             console.log('fk me lf', savedGroup);
             commit({ type: 'saveGroup', isUpdate, group: savedGroup });
          } catch (err) {
-            console.log('Cannot save card', group, ',', err);
+            console.log('Cannot save group', group, ',', err);
             throw err;
          }
       },
+      async removeGroup({ commit }, { groupId, boardId }) {
+         try {
+            const savedBoard = await boardService.removeGroup(groupId, boardId);
+            commit({ type: 'updateBoard', savedBoard });
+         } catch (err) {
+            console.log('Cannot remove group', groupId, ',', err);
+            throw err;
+         }
+      },
+      async getGroupById(context, { groupId, boardId }) {
+         try {
+            return boardService.getGroupById(groupId, boardId)
+         } catch (err) {
+            console.log('Cannot get group', groupId, ',', err);
+            throw err;
+         }
+      },
+      // Card
       async saveCard({ commit }, { card, groupId, boardId }) {
          const isUpdate = (card.id) ? true : false;
          try {
@@ -149,14 +167,7 @@ export const boardStore = {
             throw err;
          }
       },
-      async getGroupById(context, { groupId, boardId }) {
-         try {
-            return boardService.getGroupById(groupId, boardId)
-         } catch (err) {
-            console.log('Cannot get group', groupId, ',', err);
-            throw err;
-         }
-      },
+ 
       async addComment(context, { commentTxt, card, groupId, boardId }) {
          try {
             boardService.addComment(commentTxt, card, groupId, boardId)

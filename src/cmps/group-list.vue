@@ -3,9 +3,19 @@
     <div class="group-header">
       <h2>{{ group.title }}</h2>
     </div>
-    <span @click="openGroupExtrasMenu" class="material-icons group-extras-menu">
+    <span
+      @click="isGroupMenuOpen = true"
+      class="material-icons group-extras-menu"
+    >
       more_horiz
     </span>
+    <group-menu
+      class="popup"
+      :group="group"
+      v-if="isGroupMenuOpen"
+      @closeGroupMenu="isGroupMenuOpen = false"
+      @removeGroup="removeGroup"
+    />
     <div class="card-preview-list">
       <draggable
         :list="group.cards"
@@ -28,7 +38,8 @@
 <script>
 import cardPreview from "@/cmps/card-preview";
 import cardCompose from "@/cmps/card-compose";
-import draggable from 'vuedraggable'
+import groupMenu from "@/cmps/group-menu";
+import draggable from "vuedraggable";
 
 export default {
   props: {
@@ -44,15 +55,21 @@ export default {
   components: {
     cardPreview,
     cardCompose,
-    draggable
+    groupMenu,
+    draggable,
+  },
+  data() {
+    return {
+      isGroupMenuOpen: false,
+    };
   },
   created() {
     console.log("group-list created, groupId", this.group.id);
     console.log("group-list created, boardId", this.boardId);
   },
   methods: {
-    openGroupExtrasMenu() {
-      console.log("openGroupExtrasMenu()");
+    removeGroup() {
+      this.$emit("removeGroup", this.group.id);
     },
   },
 };

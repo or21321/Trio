@@ -23,15 +23,19 @@ export const userService = {
 // userService.signup({fullname: 'Master Adminov', username: 'admin', password:'123', score: 100, isAdmin: true})
 // userService.signup({fullname: 'Muki G', username: 'muki', password:'123', score: 100})
 
-function getUsers() {
-   const users = storageService.query('users')
-   // if (!users) users = createTestUsers()
-   console.log('users', users === false);
-   // return httpService.get(`user`)
+async function getUsers() {
+   try {
+      return await storageService.query('users')
+      // maybe make a test function for making users when there are none
+      // if (!users) users = createTestUsers()
+      // return httpService.get(`user`)
+   } catch (err) {
+      console.log('Error in getUsers():', err);
+   }
 }
 
 // createTestUsers() {
-   
+
 // }
 
 async function getById(userId) {

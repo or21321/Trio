@@ -8,7 +8,7 @@
     ></board-header>
     <!-- * for when dragscroll is working with draggable -->
     <!-- <div v-dragscroll class="board-canvas my-scrollbar"> -->
-    <div v-dragscroll class="board-canvas my-scrollbar">
+    <div class="board-canvas my-scrollbar">
       <groupList
         v-for="group in board.groups"
         :key="group.id"
@@ -25,13 +25,13 @@
 import groupList from "@/cmps/group-list";
 import boardHeader from "@/cmps/board-header";
 import groupCompose from "@/cmps/group-compose";
-import { dragscroll } from "vue-dragscroll";
+// import { dragscroll } from "vue-dragscroll";
 
 export default {
   // need to make dragscroll work with draggable
-  directives: {
-    dragscroll,
-  },
+  // directives: {
+  //   dragscroll,
+  // },
   components: {
     groupList,
     boardHeader,

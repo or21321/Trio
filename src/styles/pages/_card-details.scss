@@ -229,35 +229,6 @@
             padding-top: 5px;
          }
       }
-      // .details-actions {
-      //    grid-column: 2/3;
-      //    grid-row: 2/3;
-      //    display: flex;
-      //    flex-direction: column;
-      //    gap: 8px;
-      //    padding-left: 8px;
-      //    position: relative;
-      //    .title {
-      //       color: #5e6c84;
-      //    }
-      //    button,
-      //    label {
-      //       background-color: rgba(9, 30, 66, 0.04);
-      //       width: 170px;
-      //       color: #091e42;
-      //       font-size: rem(18px);
-      //       padding: 6px 12px;
-      //       border-radius: 3px;
-      //       display: flex;
-      //       justify-content: flex-start;
-      //       align-items: center;
-      //       gap: 6px;
-      //       .material-icons-outlined {
-      //          font-size: 18px;
-      //       }
-      //       &:hover {
-      //          background-color: rgba(9, 30, 66, 0.075);
-      //          cursor: pointer;
       .details-actions {
          grid-column: 2/3;
          grid-row: 2/3;
@@ -268,7 +239,6 @@
             padding-left: 8px;
             margin-bottom: 24px;
             position: relative;
-            
          }
          .action-nav {
             display: flex;

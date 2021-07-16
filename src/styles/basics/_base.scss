@@ -9,6 +9,38 @@ html {
     font-size: 14px;
     // line-height: 20px;
     font-weight: 400;
+
+    &::-webkit-scrollbar {
+        display: none;
+        height: 12px;
+        width: 12px;
+        /* width: 7.5px; */
+        border-radius: 20px;
+    }
+
+    /* Track */
+
+    &::-webkit-scrollbar-track {
+        /* border-radius: 20px; */
+        // background: #f1f1f1;
+        // background: #ffffff;
+       background: rgba(0,0,0,.2);
+    //    background: rgba(0,0,0,.15);
+       padding-top: 5px;
+       border-radius: 7px;
+    }
+
+    // &::-webkit-scrollbar-track:hover {
+    //     background-color: rgb(228, 228, 228);
+    // }
+
+    /* Handle */
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #a3abaf7a;
+        border-radius: 5px;
+        display: none;
+    }
 }
 
 body {

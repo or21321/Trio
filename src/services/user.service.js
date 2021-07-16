@@ -24,9 +24,15 @@ export const userService = {
 // userService.signup({fullname: 'Muki G', username: 'muki', password:'123', score: 100})
 
 function getUsers() {
-   return storageService.query('users')
+   const users = storageService.query('users')
+   // if (!users) users = createTestUsers()
+   console.log('users', users === false);
    // return httpService.get(`user`)
 }
+
+// createTestUsers() {
+   
+// }
 
 async function getById(userId) {
    try {

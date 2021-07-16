@@ -36,7 +36,7 @@
       </div>
     </div>
     <board-compose
-      @closeCompose="closeBoardCompose"
+      @closeCompose="toggleBoardCompose"
       v-if="isBoardComposeOn"
     ></board-compose>
   </section>
@@ -65,15 +65,11 @@ export default {
   },
   methods: {
     toggleBoardCompose() {
-      console.log("openBoardCompose()");
+      console.log("toggleBoardCompose()");
       this.isBoardComposeOn = !this.isBoardComposeOn;
     },
     toggleUserMenu() {
       console.log("toggleUserMenu()");
-    },
-    closeBoardCompose() {
-      console.log("Ahalan");
-      this.toggleBoardCompose();
     },
   },
 };

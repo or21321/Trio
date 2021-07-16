@@ -8,6 +8,9 @@
       <div class="card-edit-main">
           <input type="text" placeholder="Search members">
       </div>
+      <div class="edit-content-holder">
+          <span v-for="user in users" :key="user._id">{{user.username}}</span><br>
+      </div>
     <!-- </div> -->
   </section>
 </template>
@@ -27,12 +30,16 @@ export default {
   data() {
     return {
       cardToEdit: null,
+      users: null
     };
   },
   created() {
     console.log("cardMembersEdit creadted!");
     this.cardToEdit = JSON.parse(JSON.stringify(this.card));
     console.log("cardToEdit", this.cardToEdit);
+    // this
+    this.users = this.$store.getters.users
+    console.log('users', this.users);
   },
   methods: {
     updateTask() {

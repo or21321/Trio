@@ -1,13 +1,5 @@
 <template>
   <div v-if="isComposeOn" class="group-compose">
-    <!-- <div> -->
-    <!-- <textarea
-      v-model="groupToCompose.title"
-      id=""
-      cols="38"
-      rows="3"
-      placeholder="Enter list title..."
-    ></textarea> -->
     <input
       type="text"
       v-model="groupToCompose.title"
@@ -46,7 +38,6 @@ export default {
     async add() {
       try {
         if (!this.groupToCompose.title) return;
-        console.log("add()", this.boardId, this.groupToCompose);
         await this.$store.dispatch({
           type: "saveGroup",
           group: this.groupToCompose,

@@ -3,9 +3,11 @@
     <board-header
       :title="board.title"
       :star="board.isStarred"
+      @updateTitle="updateTitle"
       @toggleStar="toggleStar"
     ></board-header>
-    <!-- @updateTitle="updateTitle" -->
+    <!-- * for when dragscroll is working with draggable -->
+    <!-- <div v-dragscroll class="board-canvas my-scrollbar"> -->
     <div v-dragscroll class="board-canvas my-scrollbar">
       <groupList
         v-for="group in board.groups"
@@ -26,6 +28,7 @@ import groupCompose from "@/cmps/group-compose";
 import { dragscroll } from "vue-dragscroll";
 
 export default {
+  // need to make dragscroll work with draggable
   directives: {
     dragscroll,
   },
@@ -58,10 +61,11 @@ export default {
       this.board.isStarred = !this.board.isStarred;
       this.$store.dispatch({ type: "saveBoard", board: this.board });
     },
-    // async updateTitle(title){
-    //   this.board.title = title
-    //   await this.$store.dispatch({ type: "saveBoard", board: this.board });
-    // }
+    async updateTitle(title){
+      console.log('updateTitle()', title);
+      // this.board.title = title
+      // await this.$store.dispatch({ type: "saveBoard", board: this.board });
+    }
   },
   data() {
     return {

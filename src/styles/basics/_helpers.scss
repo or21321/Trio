@@ -22,6 +22,9 @@
         cursor: pointer;
         background-color: lighten(rgba(255, 255, 255, 0.377), 20);
     }
+    &:active{ 
+        background-color: black;
+    }
 }
 
 .material-icons {

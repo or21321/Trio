@@ -9,8 +9,14 @@
         min-width: 272px;
         font-weight: 500;
         height: 40px;
-        // transition: background-color 0.25s;
-        transition: background 85ms ease-in, opacity 40ms ease-in, border-color 85ms ease-in;
+        // transition: background 85ms ease-in, opacity 40ms ease-in, border-color 85ms ease-in;
+        // transform: scaleY();
+        transform-origin: top;
+        transition: transform 0.26s ease;
+
+        &:hover {
+            transform: scaleY(1.025);
+        }
         span:first-child {
             padding-right: 3px;
             font-size: 19px;

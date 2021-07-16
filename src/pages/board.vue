@@ -6,7 +6,7 @@
       @toggleStar="toggleStar"
     ></board-header>
     <!-- @updateTitle="updateTitle" -->
-    <div class="board-canvas my-scrollbar" >
+    <div v-dragscroll class="board-canvas my-scrollbar">
       <groupList
         v-for="group in board.groups"
         :key="group.id"
@@ -22,14 +22,17 @@
 <script>
 import groupList from "@/cmps/group-list";
 import boardHeader from "@/cmps/board-header";
-import groupCompose from '@/cmps/group-compose'
-
+import groupCompose from "@/cmps/group-compose";
+import { dragscroll } from "vue-dragscroll";
 
 export default {
+  directives: {
+    dragscroll,
+  },
   components: {
     groupList,
     boardHeader,
-    groupCompose
+    groupCompose,
   },
   async created() {
     console.log("board created, boardId:", this.boardId);
@@ -47,8 +50,8 @@ export default {
       return this.$route.params.boardId;
     },
     board() {
-      return this.$store.getters.currBoard
-    }
+      return this.$store.getters.currBoard;
+    },
   },
   methods: {
     toggleStar() {

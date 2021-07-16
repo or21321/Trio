@@ -56,10 +56,10 @@
           <section class="main-activity">
             <div class="comment-line">
               <avatar
-                class="hover-pointer"
+                class="avatar"
                 :size="32"
-                username="Or Hadar"
-                src="https://res.cloudinary.com/or21321/image/upload/v1626317415/pp_bqtkzw.jpg"
+                :username="getLoggedinUser.fullname"
+                :src="getLoggedinUser.imgUrl"
               />
 
               <contenteditable
@@ -90,13 +90,13 @@
               <article
                 class="comment-preview"
                 v-for="comment in card.comments"
-                :key="comment.id"
-              >
+                :key="comment.id">
                 <avatar
-                  class="hover-pointer"
+                  class="avatar"
                   :size="32"
-                  username="Or Hadar"
-                  src="https://res.cloudinary.com/or21321/image/upload/v1626317415/pp_bqtkzw.jpg"
+                  :username="comment.byMember.fullname"
+                  :src="comment.byMember.imgUrl"
+
                 />
                 <section class="comment-info">
                   <h3 class="comment-info-header">
@@ -358,7 +358,7 @@ export default {
       await this.$store.dispatch({
         type: "addComment",
         commentTxt: this.commentTxt,
-        cardId: this.cardId,
+        card: this.card,
         groupId: this.groupId,
         boardId: this.boardId,
       });
@@ -392,6 +392,9 @@ export default {
     classToComment() {
       return { isOpen: this.iscommentOpen };
     },
+    getLoggedinUser(){
+       return this.$store.getters.loggedinUser
+    }
   },
 };
 </script>

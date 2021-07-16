@@ -20,7 +20,7 @@
                   <span class="material-icons-outlined">cloud_upload</span>
                   <input  id="select-avatar" type="file" @change="onUploadImg" accept="image/png, image/gif, image/jpeg" hidden/>
                 </label>
-                <img v-else :src="user.imgUrl" class="avatar-img-display">
+                <img v-else :src="user.imgUrl" class="avatar-img-display avatar">
               </div>
             </div>
             <button>Sign up</button>

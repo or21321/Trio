@@ -109,7 +109,7 @@ async function signupAsGuest() {
       fullname: 'Guest' + Date.now() % 10000,
       username: 'Guest',
       password: 'Guest',
-      imgUrl: 'http://some-img.jpg', // need to add an avatar img
+      // imgUrl: 'http://some-img.jpg', // need to add an avatar img
       mentions: []
    }
    return signup(user)

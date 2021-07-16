@@ -26,7 +26,7 @@
       </button>
       <div @click="toggleUserMenu">
         <avatar
-          class="hover-pointer"
+          class="avatar"
           :size="32"
           :username="fullname"
           :src="imgUrl"

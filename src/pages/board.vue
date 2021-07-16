@@ -24,6 +24,7 @@ import groupList from "@/cmps/group-list";
 import boardHeader from "@/cmps/board-header";
 import groupCompose from '@/cmps/group-compose'
 
+
 export default {
   components: {
     groupList,

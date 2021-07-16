@@ -7,23 +7,28 @@
       more_horiz
     </span>
     <div class="card-preview-list">
-      <card-preview
-        v-for="card in group.cards"
-        :key="card.id"
-        :card="card"
-        :groupId="group.id"
-      ></card-preview>
+      <draggable
+        :list="group.cards"
+        :animation="200"
+        ghost-class="ghost-card"
+        group="cards"
+      >
+        <card-preview
+          v-for="card in group.cards"
+          :key="card.id"
+          :card="card"
+          :groupId="group.id"
+        ></card-preview>
+      </draggable>
     </div>
-      <card-compose 
-      :groupId="group.id"
-      :boardId="boardId"
-      ></card-compose>
+    <card-compose :groupId="group.id" :boardId="boardId"></card-compose>
   </div>
 </template>
 
 <script>
-import cardPreview from "@/cmps/card-preview"
-import cardCompose from "@/cmps/card-compose"
+import cardPreview from "@/cmps/card-preview";
+import cardCompose from "@/cmps/card-compose";
+import draggable from 'vuedraggable'
 
 export default {
   props: {
@@ -38,7 +43,8 @@ export default {
   },
   components: {
     cardPreview,
-    cardCompose
+    cardCompose,
+    draggable
   },
   created() {
     console.log("group-list created, groupId", this.group.id);

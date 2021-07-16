@@ -12,6 +12,7 @@
         :key="group.id"
         :group="group"
         :boardId="board._id"
+        @removeGroup="removeGroup"
       ></groupList>
       <group-compose :boardId="boardId"></group-compose>
     </div>
@@ -50,20 +51,23 @@ export default {
       return this.$store.getters.currBoard
     }
   },
-  methods: {
-    toggleStar() {
-      this.board.isStarred = !this.board.isStarred;
-      this.$store.dispatch({ type: "saveBoard", board: this.board });
-    },
-    // async updateTitle(title){
-    //   this.board.title = title
-    //   await this.$store.dispatch({ type: "saveBoard", board: this.board });
-    // }
-  },
   data() {
-    return {
-      // board: null,
+     return {
+        // board: null,
     };
   },
+       methods: {
+         toggleStar() {
+           this.board.isStarred = !this.board.isStarred;
+           this.$store.dispatch({ type: "saveBoard", board: this.board });
+         },
+         // async updateTitle(title){
+         //   this.board.title = title
+         //   await this.$store.dispatch({ type: "saveBoard", board: this.board });
+         // }
+         removeGroup(groupId){
+            this.$store.dispatch({ type: "removeGroup",groupId, boardId: this.board._id });
+         }
+       },
 };
 </script>

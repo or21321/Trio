@@ -180,6 +180,9 @@
                      &:empty::before {
                         content: attr(placeholder);
                      }
+                     &:hover:empty:not(:focus){
+                        cursor: pointer;
+                     }
                   }
                   .send-comment {
                      position: absolute;

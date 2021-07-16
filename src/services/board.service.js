@@ -23,9 +23,9 @@ export const boardService = {
    getGroupById,
    addComment,
    removeComment
-   // addReview
 }
 
+//Board
 async function query() {
    try {
       var boards = await storageService.query(KEY)
@@ -90,12 +90,23 @@ async function save(board) {
    }
 }
 
+async function addActivity(activity, boardId) {
+   try {
+      const board = await getById(boardId)
+      board.activities.push(activity)
+      return save(board)
+   } catch (err) {
+      console.log('Error:', err);
+   }
+}
+
+//Group
 async function removeGroup(groupId, boardId) {
    try {
       const board = await getById(boardId)
       const idx = board.groups.findIndex(group => group.id === groupId)
       board.groups.splice(idx, 1)
-      return storageService.save(KEY, boardId)
+      return await save(board)
    } catch (err) {
       console.log('Error:', err);
    }
@@ -111,7 +122,6 @@ async function saveGroup(group, boardId) {
       } else {
          group.id = utilService.makeId()
          board.groups.push(group)
-         return group
       }
       await save(board)
       return group
@@ -120,6 +130,15 @@ async function saveGroup(group, boardId) {
    }
 }
 
+async function getGroupById(groupId, boardId) {
+   try {
+      const board = await getById(boardId)
+      return board.groups.find(group => group.id === groupId);
+   } catch (err) {
+      console.log('Error:', err);
+   }
+}
+//Card
 async function removeCard(cardId, groupId, boardId) {
    try {
       console.log('cardId', cardId)
@@ -154,30 +173,11 @@ async function saveCard(card, groupId, boardId) {
    }
 }
 
-async function addActivity(activity, boardId) {
-   try {
-      const board = await getById(boardId)
-      board.activities.push(activity)
-      return save(board)
-   } catch (err) {
-      console.log('Error:', err);
-   }
-}
-
 async function getCardById(cardId, groupId, boardId) {
    try {
       const board = await getById(boardId)
       const group = board.groups.find(group => group.id === groupId);
       return group.cards.find(card => card.id === cardId);
-   } catch (err) {
-      console.log('Error:', err);
-   }
-}
-
-async function getGroupById(groupId, boardId) {
-   try {
-      const board = await getById(boardId)
-      return board.groups.find(group => group.id === groupId);
    } catch (err) {
       console.log('Error:', err);
    }
@@ -208,6 +208,7 @@ async function removeComment(commentId, card, groupId, boardId) {
    }
 }
 
+//Bace
 function getEmptyBoard() {
    return {
       title: "",
@@ -419,8 +420,3 @@ function _createDemoBoard() {
       ],
    }
 }
-
-// async function addReview(review) {  
-//     const reviewToSave = await httpService.post('review', review)
-//     return reviewToSave
-// }

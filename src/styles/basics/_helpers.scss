@@ -66,7 +66,8 @@
     width: 305px;
     border-radius: 3px;
     min-height: 200px;
-
+    border:1px solid rgba(194, 194, 194, 0.5);
+    box-shadow: 0 8px 12px -4px rgba(212, 212, 212, 0.46);
     background: #fff;
     border-radius: 3px;
     // box-shadow: 0 8px 16px -4px rgb(9 30 66 ), 0 0 0 1px rgb(9 30 66);
@@ -85,7 +86,7 @@
         justify-content: center;
         display: flex;
         align-items: center;
-        border-bottom: 1px solid grey;
+        border-bottom: 1px solid rgba(9,30,66,.13);
         position: relative;
     }
     & > :nth-child(2) {
@@ -145,7 +146,7 @@
     font-size: 15px;
     position: absolute;
     top: 4.5px;
-    right: 9.5px;
+    right: 0;
     padding: 7.5px;
 
     &:hover {

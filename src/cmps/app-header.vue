@@ -66,6 +66,7 @@ export default {
       const user = this.$store.getters.loggedinUser;
       this.fullname = user.fullname;
       this.imgUrl = user.imgUrl;
+
    },
    methods: {
       toggleBoardCompose() {

@@ -45,15 +45,30 @@ export default {
     };
   },
   methods: {
-    add() {
-      this.$store.dispatch({
-        type: "saveCard",
-        card: this.cardToEdit,
-        groupId: this.groupId,
-        boardId: this.boardId,
-      });
-      this.cardToEdit = boardService.getEmptyCard();
-      this.toggleCompose();
+    async add() {
+        var msg = {}
+       try{
+         this.toggleCompose();
+         this.$store.dispatch({
+            type: "saveCard",
+            card: this.cardToEdit,
+            groupId: this.groupId,
+            boardId: this.boardId,
+         });
+         this.cardToEdit = boardService.getEmptyCard();
+         msg = {
+           txt:'Card was successfully added',
+           type:'success'
+        }
+      } catch (err) {
+           msg = {
+           txt:'Fail add card, try again later',
+           type:'error'
+        }
+        throw err;
+      }finally{
+         await this.$store.dispatch({type:'showMsg', msg})
+      }
     },
     toggleCompose() {
       this.isComposeOn = !this.isComposeOn;

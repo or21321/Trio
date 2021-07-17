@@ -44,7 +44,7 @@ export default {
         type: "loadBoard",
         boardId: this.$route.params.boardId,
       });
-        this.$emit('setBackground',this.board.style)
+      this.$emit("setBackground", this.board.style);
     } catch (err) {
       console.log("ERROR: cannot get board");
     }
@@ -58,8 +58,7 @@ export default {
     },
   },
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     async updateTitle(title) {
@@ -67,16 +66,35 @@ export default {
       // this.board.title = title
       // await this.$store.dispatch({ type: "saveBoard", board: this.board });
     },
-    toggleStar() {
-      this.board.isStarred = !this.board.isStarred;
-      this.$store.dispatch({ type: "saveBoard", board: this.board });
+    async toggleStar() {
+       try{
+         this.board.isStarred = !this.board.isStarred;
+         this.$store.dispatch({ type: "saveBoard", board: this.board });
+       }catch(err){
+          console.log('ERROR: cannot save board ', err);
+       }
     },
-    removeGroup(groupId) {
-      this.$store.dispatch({
-        type: "removeGroup",
-        groupId,
-        boardId: this.board._id,
-      });
+    async removeGroup(groupId) {
+        var msg = {}
+      try {
+        this.$store.dispatch({
+          type: "removeGroup",
+          groupId,
+          boardId: this.board._id,
+        });
+         msg = {
+           txt:'List was successfully removed',
+           type:'success'
+        }
+      } catch (err) {
+        msg = {
+          txt: "Fail remove list, try again later",
+          type: "error",
+        };
+        throw err;
+      } finally {
+        await this.$store.dispatch({ type: "showMsg", msg });
+      }
     },
   },
 };

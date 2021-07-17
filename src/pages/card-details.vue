@@ -252,14 +252,8 @@ export default {
       immediate: true,
       async handler() {
         try {
-          // this.card = await this.$store.dispatch({
-          //   type: "getCardById",
-          //   cardId: this.cardId,
-          //   groupId: this.groupId,
-          //   boardId: this.boardId,
-          // });
-          await this.loadCard();
-          this.description = this.card.description;
+           await this.loadCard();
+           this.description = this.card.description;
         } catch (err) {
           console.log("cannot get card", err);
           throw err;
@@ -289,7 +283,6 @@ export default {
   methods: {
     async loadCard() {
       try {
-        console.log("loadCard()");
         this.card = await this.$store.dispatch({
           type: "getCardById",
           cardId: this.cardId,
@@ -355,21 +348,34 @@ export default {
       }
     },
     async removeCard() {
+       var msg = {}
       try {
+        this.closeCardDetails();
         await this.$store.dispatch({
           type: "removeCard",
           cardId: this.cardId,
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        this.closeCardDetails();
+        msg = {
+           txt:'Card was successfully removed',
+           type:'success'
+        }
       } catch (err) {
-        console.log("cannot remove card", err);
+           msg = {
+           txt:'Fail remove card, try again later',
+           type:'error'
+        }
         throw err;
+      }finally{
+         await this.$store.dispatch({type:'showMsg', msg})
       }
     },
 
     async addComment() {
+       this.commentTxt = "";
+       this.iscommentOpen = false;
+
       await this.$store.dispatch({
         type: "addComment",
         commentTxt: this.commentTxt,
@@ -377,10 +383,9 @@ export default {
         groupId: this.groupId,
         boardId: this.boardId,
       });
-      this.commentTxt = "";
-      this.iscommentOpen = false;
     },
     checkCommentEmpty() {
+       console.log('yes');
       if (!this.commentTxt) this.iscommentOpen = false;
       else this.iscommentOpen = true;
     },

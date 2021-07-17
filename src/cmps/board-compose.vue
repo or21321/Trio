@@ -16,7 +16,7 @@
         <el-button @click="createBoard" type="primary" class="compose-btn"
           >Create board</el-button
         >
-        <el-button @click="renderColors" type="primary" class="chage-colors"
+        <el-button @click="renderColors" type="primary" class="change-colors"
           >Change Colors</el-button
         >
       </div>
@@ -55,11 +55,11 @@ export default {
         "https://wallpaperaccess.com/full/1146927.jpg",
         "https://wallpaperaccess.com/full/109672.jpg",
         "https://wallpaperaccess.com/full/1378654.jpg",
+        "https://wallpaperaccess.com/full/2348657.jpg",
         "https://images.wunderstock.com/Bodies-of-Water-Near-Mountain-At-Starry-Night_u9zZpYBztI57_1600.jpeg",
         "https://images8.alphacoders.com/926/thumb-1920-926492.jpg",
         "https://i.pinimg.com/originals/45/b3/c8/45b3c8edad36060ad7908ae64b10b87d.jpg",
-        "https://wallpaperaccess.com/full/2348657.jpg",
-        "https://cdn.wallpapersafari.com/23/23/bq9Hw7.jpg",
+        "https://cdn.wallpapersafari.com/23/23/bq9Hw7.jpg"
       ],
       selectImg: "https://wallpaperaccess.com/full/109672.jpg",
       selectColor: "",

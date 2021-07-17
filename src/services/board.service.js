@@ -261,7 +261,32 @@ function _createDemoBoard() {
          {
             id: "l101",
             title: "Done",
-            color: "#61bd4f",
+            color: "#71e276",
+         },
+         {
+            id: "l102",
+            title: "Or",
+            color: "#fbe232",
+         },
+         {
+            id: "l103",
+            title: "aaa",
+            color: "#8265de",
+         },
+         {
+            id: "l104",
+            title: "Nice to have",
+            color: "#ff192e",
+         },
+         {
+            id: "l105",
+            title: "",
+            color: "#3ca1d2",
+         },
+         {
+            id: "l106",
+            title: "",
+            color: "#fb963f",
          },
       ],
       members: [

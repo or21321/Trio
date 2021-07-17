@@ -12,6 +12,21 @@
         </span>
       </header>
       <main class="main">
+        <section class="members grid-details" v-if="card.members.length">
+          <span></span>
+          <h1 class="title-members">Members</h1>
+          <div class="list-members">
+            <avatar
+              v-for="member in card.members"
+              :key="member.id"
+              :username="member.fullname"
+              :size="32"
+            />
+            <span class="item-add-btn" @click="setCurrAction(actions[0])">
+              <span class="material-icons-outlined">add</span>
+            </span>
+          </div>
+        </section>
         <section class="description grid-details">
           <span class="material-icons-outlined">subject</span>
           <h1 class="title-description">Description</h1>
@@ -90,13 +105,13 @@
               <article
                 class="comment-preview"
                 v-for="comment in card.comments"
-                :key="comment.id">
+                :key="comment.id"
+              >
                 <avatar
                   class="avatar"
                   :size="32"
                   :username="comment.byMember.fullname"
                   :src="comment.byMember.imgUrl"
-
                 />
                 <section class="comment-info">
                   <h3 class="comment-info-header">
@@ -137,7 +152,7 @@
             :card="card"
             :action="currAction"
             @close="closeEditPopup"
-            @updateTask="updateTask()"
+            @updateCard="updateCard"
           />
         </section>
 
@@ -261,12 +276,13 @@ export default {
       immediate: true,
       async handler() {
         try {
-          this.card = await this.$store.dispatch({
-            type: "getCardById",
-            cardId: this.cardId,
-            groupId: this.groupId,
-            boardId: this.boardId,
-          });
+          // this.card = await this.$store.dispatch({
+          //   type: "getCardById",
+          //   cardId: this.cardId,
+          //   groupId: this.groupId,
+          //   boardId: this.boardId,
+          // });
+          await this.loadCard();
           this.description = this.card.description;
         } catch (err) {
           console.log("cannot get card", err);
@@ -297,11 +313,36 @@ export default {
     }, 1);
   },
   methods: {
-    closeEditPopup() {  
-      this.currAction = null
+    async loadCard() {
+      try {
+        console.log("loadCard()");
+        this.card = await this.$store.dispatch({
+          type: "getCardById",
+          cardId: this.cardId,
+          groupId: this.groupId,
+          boardId: this.boardId,
+        });
+        console.log("this.card", this.card);
+      } catch (err) {
+        console.log("Had problem loading card", err);
+      }
     },
-    updateTask(card) {
-      console.log("from card details, card", card);
+    closeEditPopup() {
+      this.currAction = null;
+    },
+    async updateCard(card) {
+      console.log("card", card);
+      try {
+        await this.$store.dispatch({
+          type: "saveCard",
+          card,
+          groupId: this.groupId,
+          boardId: this.boardId,
+        });
+        this.loadCard();
+      } catch (err) {
+        console.log("Error updating card:", err);
+      }
     },
     setCurrAction(action) {
       this.currAction = action;
@@ -392,9 +433,9 @@ export default {
     classToComment() {
       return { isOpen: this.iscommentOpen };
     },
-    getLoggedinUser(){
-       return this.$store.getters.loggedinUser
-    }
+    getLoggedinUser() {
+      return this.$store.getters.loggedinUser;
+    },
   },
 };
 </script>

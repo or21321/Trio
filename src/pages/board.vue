@@ -45,6 +45,7 @@ export default {
         type: "loadBoard",
         boardId: this.$route.params.boardId,
       });
+      console.log('currBoard', this.board);
     } catch (err) {
       console.log("ERROR: cannot get board");
     }

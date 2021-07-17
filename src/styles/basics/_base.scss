@@ -24,10 +24,10 @@ html {
         /* border-radius: 20px; */
         // background: #f1f1f1;
         // background: #ffffff;
-       background: rgba(0,0,0,.2);
-    //    background: rgba(0,0,0,.15);
-       padding-top: 5px;
-       border-radius: 7px;
+        background: rgba(0, 0, 0, 0.2);
+        //    background: rgba(0,0,0,.15);
+        padding-top: 5px;
+        border-radius: 7px;
     }
 
     // &::-webkit-scrollbar-track:hover {
@@ -79,11 +79,16 @@ button {
     font-family: inherit;
 }
 
-textarea {  
+textarea {
     font-family: Segoe-UI;
     font-size: 1.25rem;
 }
 
-.avatar{
-   object-fit:cover !important;
+.avatar {
+    object-fit: cover !important;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
 }

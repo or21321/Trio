@@ -1,6 +1,7 @@
 <template>
   <div @click="toCardDetails" class="card-preview">
     <span class="card-preview-title">{{ card.title }}</span>
+    <img class="img-preview" v-if="card.attachments.length" :src="card.attachments[0].url">
   </div>
 </template>
 

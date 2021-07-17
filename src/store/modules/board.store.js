@@ -211,5 +211,14 @@ export const boardStore = {
             throw err;
          }
       },
+      async deleteImgFromCard(context, { commentId, card, groupId, boardId }) {
+         try {
+            await boardService.removeComment(commentId, card, groupId, boardId)
+         }
+         catch (err) {
+            console.log('Cannot remove board ', boardId, ',', err);
+            throw err;
+         }
+      },
    }
 }

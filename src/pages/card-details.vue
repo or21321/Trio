@@ -49,14 +49,16 @@
           <span class="attachments-icon material-icons-outlined"
             >attachments</span
           >
-          <h1 class="title-attachments">attachments</h1>
+          <h1 class="title-attachments">Attachments</h1>
           <div class="imgs-container">
             <article
               class="img-container"
               v-for="(img, idx) in card.attachments"
               :key="idx"
             >
-              <img :src="img.url" />
+            <span class="material-icons-outlined delete-img"
+            @click="deleteImg(img)">clear</span>
+              <img :src="img.url"/>
               <p>{{ img.creatAt | moment("dddd, MMM Do YYYY") }}</p>
             </article>
           </div>
@@ -138,14 +140,24 @@
       <nav class="details-actions">
         <section class="add-to-card">
           <h3 class="title">Add to card</h3>
-          <label
+          <button
             v-for="action in actions"
             :key="action.name"
-            @click="setCurrAction(action)"
-          >
+            @click="setCurrAction(action)">
             <span class="material-icons-outlined">{{ action.icon }}</span>
             <span> {{ action.name }} </span>
+          </button>
+          <label for="input-file">
+         <span class="attachments-icon material-icons-outlined">attachments</span>
+          <span> Attachment </span>
           </label>
+          <input
+            id="input-file"
+            type="file"
+            @change="onUploadImg"
+            accept="image/png, image/gif, image/jpeg"
+            hidden
+          />
           <component
             class="popup"
             v-if="currAction"
@@ -157,17 +169,6 @@
           />
         </section>
 
-        <!--
-            <span> Attachment </span>
-          </label>
-          <input
-            id="input-file"
-            type="file"
-            @change="onUploadImg"
-            accept="image/png, image/gif, image/jpeg"
-            hidden
-          />
-        </section> -->
         <section class="action-nav">
           <h3 class="title">Actions</h3>
           <button @click="removeCard">
@@ -186,7 +187,6 @@ import cardMembersEdit from "@/cmps/dynamic/card-members-edit";
 import cardLabelsEdit from "@/cmps/dynamic/card-labels-edit";
 import cardChecklistEdit from "@/cmps/dynamic/card-checklist-edit";
 import cardDatesEdit from "@/cmps/dynamic/card-dates-edit";
-import cardAttachmentEdit from "@/cmps/dynamic/card-attachment-edit";
 import cardCoverEdit from "@/cmps/dynamic/card-cover-edit";
 import avatar from "vue-avatar";
 
@@ -196,7 +196,6 @@ export default {
     cardLabelsEdit,
     cardChecklistEdit,
     cardDatesEdit,
-    cardAttachmentEdit,
     cardCoverEdit,
     avatar,
   },
@@ -234,14 +233,9 @@ export default {
           name: "Dates",
         },
         {
-          type: "cardAttachmentEdit",
-          icon: "attachment",
-          name: "Attachment",
-        },
-        {
           type: "cardCoverEdit",
           icon: "wallpaper",
-          name: "cover",
+          name: "Cover",
         },
       ],
       currAction: null,
@@ -294,47 +288,7 @@ export default {
         console.log("Had problem loading card", err);
       }
     },
-    closeEditPopup() {
-      this.currAction = null;
-    },
-    async updateCard(card) {
-      console.log("card", card);
-      try {
-        await this.$store.dispatch({
-          type: "saveCard",
-          card,
-          groupId: this.groupId,
-          boardId: this.boardId,
-        });
-        this.loadCard();
-      } catch (err) {
-        console.log("Error updating card:", err);
-      }
-    },
-    setCurrAction(action) {
-      this.currAction = action;
-    },
-    closeCardDetails() {
-      this.$router.push(`/b/${this.boardId}`);
-    },
-    setPopup(value) {
-      this.isPopupShow = true;
-      this.type = value;
-    },
-    async onUploadImg(ev) {
-      try {
-        this.isLoading = true;
-        const res = await uploadImg(ev);
-        this.card.attachments.push({ url: res.url, creatAt: Date.now() });
-        this.saveCard();
-      } catch (err) {
-        console.log("cannot upload image", err);
-        throw err;
-      } finally {
-        this.isLoading = false;
-      }
-    },
-    async saveCard() {
+        async saveCard() {
       try {
         this.card = await this.$store.dispatch({
           type: "saveCard",
@@ -371,7 +325,54 @@ export default {
          await this.$store.dispatch({type:'showMsg', msg})
       }
     },
-
+    async updateCard(card) {
+      console.log("card", card);
+      try {
+        await this.$store.dispatch({
+          type: "saveCard",
+          card,
+          groupId: this.groupId,
+          boardId: this.boardId,
+        });
+        this.loadCard();
+      } catch (err) {
+        console.log("Error updating card:", err);
+      }
+    },
+    closeCardDetails() {
+      this.$router.push(`/b/${this.boardId}`);
+    },
+    //POPUP-COMPONENTS
+    closeEditPopup() {
+      this.currAction = null;
+    },
+    setCurrAction(action) {
+      this.currAction = action;
+    },
+    setPopup(value) {
+      this.isPopupShow = true;
+      this.type = value;
+    },
+    //ATTACHMENT
+    async onUploadImg(ev) {
+      try {
+        this.isLoading = true;
+        const res = await uploadImg(ev);
+        this.card.attachments.push({ url: res.url, creatAt: Date.now() });
+        this.saveCard();
+      } catch (err) {
+        console.log("cannot upload image", err);
+        throw err;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    deleteImg(img){
+      const imgIdx = this.card.attachments.findIndex(att => att.url === img.url)
+      this.card.attachments.splice(imgIdx,1)
+      this.saveCard();
+    },
+   //COMMENTS
     async addComment() {
        this.commentTxt = "";
        this.iscommentOpen = false;

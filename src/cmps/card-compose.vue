@@ -2,13 +2,12 @@
   <div v-if="isComposeOn" class="card-compose">
     <textarea
       v-model="cardToEdit.title"
-      id=""
       cols="38"
       rows="3"
       placeholder="Enter a title for this card..."
     ></textarea>
     <div class="compose-features">
-      <button @click="add">Add card</button>
+      <el-button type="primary" :disabled="!cardToEdit.title" @click="add" >Add card</el-button>
       <button @click="toggleCompose" class="material-icons">close</button>
       <span
         @click="openComposeOptions"
@@ -41,14 +40,18 @@ export default {
   data() {
     return {
       cardToEdit: boardService.getEmptyCard(),
-      isComposeOn: false,
+      isComposeOn: true,
+      elCompose:null
     };
+  },
+    mounted() {
+     this.isComposeOn= false
   },
   methods: {
     async add() {
         var msg = {}
        try{
-         this.toggleCompose();
+         // this.toggleCompose();
          this.$store.dispatch({
             type: "saveCard",
             card: this.cardToEdit,
@@ -62,7 +65,7 @@ export default {
         }
       } catch (err) {
            msg = {
-           txt:'Fail add card, try again later',
+           txt:'Fail to add card, try again later',
            type:'error'
         }
         throw err;

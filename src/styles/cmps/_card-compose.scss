@@ -36,7 +36,7 @@
         overflow: hidden;
         overflow-wrap: break-word;
         resize: none;
-        height: 67px;
+        height: 60px;
         font-size: 14px;
         margin-right: 7px;
 
@@ -53,22 +53,8 @@
         align-items: center;
 
         & button:first-child {
-            background-color: #0079bf;
-            padding: 7px;
-            border-radius: 3px;
             margin: 0px 0px 8px 8px;
-            color: #ffffff;
-            transition: background-color 0.3s;
-            margin-left: 8.5px;
-            margin-right: 9.5px;
-            // color: #7e899b;
         }
-
-        & button:first-child:hover {
-            background-color: darken(#0079bf, 5);
-            // background-color: rgba(9, 30, 66, 0.04);
-        }
-
         & button:nth-child(2) {
             // color: #7e899b;
             // padding-bottom: 10px;

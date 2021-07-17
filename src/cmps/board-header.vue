@@ -50,8 +50,13 @@ export default {
       return { selected: this.star };
     },
   },
-  created() {
-    this.boardTitle = JSON.parse(JSON.stringify(this.title));
+  watch:{
+     "title": {
+        immediate: true,
+         handler() {
+            this.boardTitle = JSON.parse(JSON.stringify(this.title));
+         }
+     }
   },
   mounted() {
     setTimeout(() => {

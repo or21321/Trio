@@ -5,7 +5,7 @@
         class="board-compose-preview"
         :style="{
           backgroundColor: selectColor,
-          backgroundImage: 'url(' + selectImg + ')',
+          backgroundImage: `url(${selectImg})`,
         }"
       >
         <button @click="close" class="close-compose">X</button>
@@ -13,8 +13,8 @@
           placeholder="Add board title"
           v-model="board.title"
         ></el-input>
-        <el-button @click="createBoard" type="primary" class="compose-btn"
-          >Create board</el-button
+        <el-button @click="createBoard" type="primary" :disabled="!board.title"
+         class="compose-btn" >Create board</el-button
         >
         <el-button @click="renderColors" type="primary" class="change-colors"
           >Change Colors</el-button

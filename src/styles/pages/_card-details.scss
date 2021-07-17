@@ -179,8 +179,26 @@
                .img-container {
                   display: flex;
                   flex-direction: column;
+                  position: relative;
+                  overflow-x:hidden;
+                  &:hover{
+                     .delete-img{
+                        right:0;
+                        transition: right 0.5s;
+                     }
+                  }
                   img {
-                     max-width: 150px;
+                     width: 215px;
+                  }
+                  .delete-img{
+                     position: absolute;
+                     top:0;
+                     right: -20px;
+                     transition: right 0.5s;
+                     padding: 0;
+                     cursor: pointer;
+                     color:rgb(255, 0, 0);
+                     font-weight: 400;
                   }
                }
             }
@@ -322,6 +340,10 @@
             gap: 6px;
             .material-icons-outlined {
                font-size: 18px;
+            }
+            .attachments-icon{
+               height: 18px;
+               width: 18px;
             }
             &:hover {
                background-color: rgba(9, 30, 66, 0.075);

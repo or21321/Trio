@@ -61,9 +61,23 @@ export default {
       filteredCardMembers: null,
     };
   },
-  created() {
-    this.$store.dispatch({ type: "loadUsers" });
-    this.cardToEdit = JSON.parse(JSON.stringify(this.card));
+  async created() {
+    try {
+      await this.$store.dispatch({ type: "loadUsers" });
+      this.cardToEdit = JSON.parse(JSON.stringify(this.card));
+      this.filterCardMembers();
+    } catch (err) {
+      console.log("Error loading users:", err);
+    }
+  },
+  watch: {
+    card: {
+      // immediate: true,
+      handler() {
+        console.log("Watcher on card");
+         this.filterCardMembers();
+      },
+    },
   },
   computed: {
     users() {
@@ -100,19 +114,21 @@ export default {
     filterCardMembers() {
       console.log("card members from filter", this.card.members);
       const users = JSON.parse(JSON.stringify(this.users));
-      users.map((user) => (user.isCardMember = false));
+      users.map(user => user.isCardMember = false)
+      console.log("users from filter after deep copy", users);
       if (this.card.members.length) {
         this.card.members.map((member) => {
+          console.log("member", member);
           const filteredCardMembers = users.map((user) => {
+            console.log("user", user);
             if (user._id === member.id) user.isCardMember = true;
             return user;
           });
           console.log("filteredUsersMembers", filteredCardMembers);
           this.filteredCardMembers = filteredCardMembers;
         });
-      } else {
-        console.log("else");
-        this.filteredCardMembers = users;
+      }else { 
+        this.filteredCardMembers = users
       }
     },
     updateCard() {

@@ -35,7 +35,7 @@ export default {
        'https://wallpaperaccess.com/full/1146927.jpg',
        'https://wallpaperaccess.com/full/109672.jpg',
        ],
-       selectImg: "https://images-na.ssl-images-amazon.com/images/S/sgp-catalog-images/region_US/u8lua-4AD76J88AJT-Full-Image_GalleryBackground-en-US-1585673473334._RI_.jpg",
+       selectImg: "https://wallpaperaccess.com/full/109672.jpg",
        selectColor: ""
   
     }

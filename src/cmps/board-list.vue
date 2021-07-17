@@ -173,7 +173,7 @@ export default {
   props: {
     boards: {
       type: Array,
-      require: true,
+      required: true,
     },
   },
   data() {

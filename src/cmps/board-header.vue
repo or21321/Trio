@@ -1,18 +1,23 @@
 <template>
   <div class="board-header">
-    <!-- <input
+    <contenteditable
+      v-if="isEditing"
       class="board-header-btn"
+      tag="span"
+      :contenteditable="true"
       v-model="boardTitle"
-      @change="updateTitle"
-      contenteditable
-      @focus="$event.target.select()"
-    /> -->
-    <h1 class="board-header-btn">
-      <!-- <span class="material-icons">dashboard</span>
+      :noNL="false"
+      :noHTML="true"
+      @="updateTitle"
+      @keypress.enter="updateTitle"
+      ref="header"
+    />
+    <h1 v-else class="board-header-btn" @click="isEditing = !isEditing">
+      {{ boardTitle }}
+    </h1>
+    <!-- <span class="material-icons">dashboard</span>
       <span class="">{{ title }}</span>
       <span class="material-icons">keyboard_arrow_down</span> -->
-      {{ title }}
-    </h1>
     <span
       class="material-icons board-header-btn star"
       @click="toggleStar"
@@ -34,26 +39,38 @@ export default {
       required: true,
     },
   },
-  // data() {
-  //   return {
-  //     boardTitle: null,
-  //   };
-  // },
+  data() {
+    return {
+      boardTitle: null,
+      isEditing: true,
+    };
+  },
   computed: {
     selected() {
       return { selected: this.star };
     },
   },
-  // created() {
-  //   this.boardTitle = JSON.parse(JSON.stringify(this.title));
-  // },
+  created() {
+    this.boardTitle = JSON.parse(JSON.stringify(this.title));
+  },
+  mounted() {
+    setTimeout(() => {
+      // console.log(this.$refs.header.$el);
+      this.$refs.header.$el.addEventListener("focusout", this.updateTitle);
+      // console.log(this.$refs.header);
+      this.isEditing = false;
+    }, 1);
+  },
   methods: {
     toggleStar() {
       this.$emit("toggleStar");
     },
-    // updateTitle() {
-    //   this.$emit("updateTitle", this.boardTitle);
-    // },
+    updateTitle() {
+      console.log('updating')
+      // this.boardTitle = ev.target.textContent
+      this.isEditing = !this.isEditing;
+      this.$emit("updateTitle", this.boardTitle);
+    },
   },
 };
 </script>

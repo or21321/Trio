@@ -165,22 +165,20 @@
             height: 40px;
             padding: 4px;
             margin-bottom: 2px;
+            justify-content: space-between;
 
             &:hover {
                 background-color: rgba(9, 30, 66, 0.04);
                 cursor: pointer;
             }
-            .member-name {  
+            .member-name {
                 display: flex;
                 align-items: center;
                 gap: 7px;
             }
             // Checked user as member of card icon:
             .check-member-icon {
-                // position: absolute;
-                // right: 15px;
-                // top: 13px;
-                // color: #596780;
+                margin-right: 10px;
                 font-size: 14px;
             }
         }

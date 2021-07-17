@@ -35,7 +35,13 @@ export default {
     };
   },
   created() {
+    this.$store.dispatch({ type: "loadUsers" });
     this.cardToEdit = JSON.parse(JSON.stringify(this.card));
+  },
+  computed: {
+    users() {
+      return this.$store.getters.users;
+    },
   },
   methods: {
     updateTask() {

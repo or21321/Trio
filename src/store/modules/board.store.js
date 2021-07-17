@@ -4,13 +4,27 @@ export const boardStore = {
    state: {
       boards: [],
       currBoard: null,
+      recentBoards: [],
+      filterBy:{
+         txt:''
+      }
    },
    getters: {
       boards({ boards }) { return boards},
-      currBoard({ currBoard }) { return currBoard }
+      currBoard({ currBoard }) { return currBoard },
+      recentBoards({ recentBoards }) { return recentBoards },
+      boardsToShow(state) {
+         let regex = new RegExp(state.filterBy.txt, 'i')
+         return state.boards.filter(board => {
+            return regex.test(board.title)
+         })
+      },
    },
    mutations: {
       // Board
+      setFilterBy(state, { filterBy }) {
+         state.filterBy = filterBy
+      },
       setCurrBoard(state, { board }) {
          state.currBoard = board
       },
@@ -32,6 +46,12 @@ export const boardStore = {
       addActivity(state, { activity, boardId }) {
          const idx = state.boards.findIndex(board => board._id === boardId)
          state.boards[idx].activity.push(activity)
+      },
+      addBoardToRecentBoards(state, { board }) {
+         if (state.recentBoards.length >= 5) state.recentBoards.pop()
+         state.recentBoards = state.recentBoards.filter(currBoard =>
+            currBoard._id !== board._id)
+         state.recentBoards.unshift(board)
       },
       //Group
       saveGroup(state, { isUpdate, group }) {
@@ -95,6 +115,14 @@ export const boardStore = {
          }
          catch (err) {
             console.log('Cannot remove board ', boardId, ',', err);
+            throw err;
+         }
+      },
+      async getBoardById(context, { boardId }) {
+         try {
+            return await boardService.getById(boardId)
+         } catch (err) {
+            console.log('Cannot get board', boardId, ',', err);
             throw err;
          }
       },

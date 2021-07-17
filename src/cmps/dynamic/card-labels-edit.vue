@@ -129,7 +129,7 @@ export default {
         "#344563",
       ],
       emptyLabel: {
-        color: null,
+        color: '#61bd4f',
         title: null,
         id: null,
       },
@@ -230,6 +230,7 @@ export default {
             board: this.boardToEdit,
           });
           this.labelToEdit = null;
+          this.emptyLabel = { color: "", id: "", title: "" };
         } else {
           this.labelToEdit.id = Date.now() % 1000;
           this.boardToEdit.labels.push(this.labelToEdit);
@@ -238,6 +239,7 @@ export default {
             board: this.boardToEdit,
           });
           this.labelToEdit = null;
+          this.emptyLabel = { color: "", id: "", title: "" };
         }
       } catch (err) {
         console.log("Error saving label to board:", err);

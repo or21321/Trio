@@ -29,7 +29,7 @@
               </span>
             </div>
           </div>
-          <div class="labels grid-details" v-if="cardLabels">
+          <div class="labels grid-details" v-if="cardLabels.length">
             <span></span>
             <h1 class="title-labels">Labels</h1>
             <div class="list-labels">
@@ -273,15 +273,16 @@ export default {
       },
     },
     "currBoard.labels": {
-      immediate: true,
+      // immediate: true,
       handler() {
         console.log("watch on currBoard from details");
         this.filterCardLabels();
       },
     },
-    "card.labelIds": {
-      immediate: true,
+    card: {
+      // immediate: true,
       handler() {
+        // if (!this.card.labelIds.length) return;
         console.log("watch on card.labelIds from details");
         this.filterCardLabels();
       },
@@ -310,18 +311,18 @@ export default {
   },
   methods: {
     filterCardLabels() {
-      console.log("filterCardLabels");
-      if (this.card.labelIds.length) {
-        this.cardLabels = this.card.labelIds.map((cardLabelId) => {
-          const label = this.currBoard.labels.find((label) => {
-            return label.id == cardLabelId;
-          });
-          if (!label) return "";
-          return label;
-          // if (label) return label
+      if (!this.card.labelIds.length) return (this.cardLabels = []);
+      console.log("filterCardLabels", this.card.labelIds);
+      this.cardLabels = []
+      this.card.labelIds.forEach((cardLabelId) => {
+        const label = this.currBoard.labels.find((label) => {
+          console.log("hey");
+          return label.id == cardLabelId;
         });
-        console.log("cardLabels after filtering", this.cardLabels);
-      }
+        if (label) this.cardLabels.push(label);
+        // if (label) return label
+      });
+      console.log("cardLabels after filtering", this.cardLabels);
     },
     async loadCard() {
       try {

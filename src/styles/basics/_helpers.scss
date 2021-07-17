@@ -22,6 +22,9 @@
         cursor: pointer;
         background-color: lighten(rgba(255, 255, 255, 0.377), 20);
     }
+    &:active{ 
+        background-color: black;
+    }
 }
 
 .material-icons {
@@ -68,6 +71,7 @@
     width: 305px;
     border-radius: 3px;
     min-height: 200px;
+
     border:1px solid rgba(194, 194, 194, 0.5);
     box-shadow: 0 8px 12px -4px rgba(212, 212, 212, 0.46);
     background: #fff;
@@ -94,17 +98,29 @@
     & > :nth-child(2) {
         // padding: 4px 8px;
         grid-column: 2;
-        grid-row: 2;
+        grid-row: 2/4;
         width: 100%;
         height: 100%;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
-
+        justify-content: start;
+        
         // font-weight: 600;
         // letter-spacing: 1px;
         // font-size: 1.2rem;
     }
+    
+//     & > :nth-child(3) {
+//         grid-column: 2;
+//         grid-row: 3;
+//         width: 100%;
+//         height: 100%;
+//         display: flex;
+//         align-items: center;
+//         justify-content: center;
+        
+// }
 
     .card-edit-header {
         position: relative;

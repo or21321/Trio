@@ -3,10 +3,12 @@
     <board-header
       :title="board.title"
       :star="board.isStarred"
+      @updateTitle="updateTitle"
       @toggleStar="toggleStar"
     ></board-header>
-    <!-- @updateTitle="updateTitle" -->
-    <div class="board-canvas my-scrollbar" >
+    <!-- * for when dragscroll is working with draggable -->
+    <!-- <div v-dragscroll class="board-canvas my-scrollbar"> -->
+    <div class="board-canvas my-scrollbar">
       <groupList
         v-for="group in board.groups"
         :key="group.id"
@@ -23,14 +25,18 @@
 <script>
 import groupList from "@/cmps/group-list";
 import boardHeader from "@/cmps/board-header";
-import groupCompose from '@/cmps/group-compose'
-
+import groupCompose from "@/cmps/group-compose";
+// import { dragscroll } from "vue-dragscroll";
 
 export default {
+  // need to make dragscroll work with draggable
+  // directives: {
+  //   dragscroll,
+  // },
   components: {
     groupList,
     boardHeader,
-    groupCompose
+    groupCompose,
   },
   async created() {
     try {
@@ -48,26 +54,30 @@ export default {
       return this.$route.params.boardId;
     },
     board() {
-      return this.$store.getters.currBoard
-    }
+      return this.$store.getters.currBoard;
+    },
   },
   data() {
-     return {
-        // board: null,
+    return {
     };
   },
-       methods: {
-         toggleStar() {
-           this.board.isStarred = !this.board.isStarred;
-           this.$store.dispatch({ type: "saveBoard", board: this.board });
-         },
-         // async updateTitle(title){
-         //   this.board.title = title
-         //   await this.$store.dispatch({ type: "saveBoard", board: this.board });
-         // }
-         removeGroup(groupId){
-            this.$store.dispatch({ type: "removeGroup",groupId, boardId: this.board._id });
-         }
-       },
+  methods: {
+    async updateTitle(title) {
+      console.log("updateTitle()", title);
+      // this.board.title = title
+      // await this.$store.dispatch({ type: "saveBoard", board: this.board });
+    },
+    toggleStar() {
+      this.board.isStarred = !this.board.isStarred;
+      this.$store.dispatch({ type: "saveBoard", board: this.board });
+    },
+    removeGroup(groupId) {
+      this.$store.dispatch({
+        type: "removeGroup",
+        groupId,
+        boardId: this.board._id,
+      });
+    },
+  },
 };
 </script>

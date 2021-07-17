@@ -75,7 +75,7 @@ export default {
       // immediate: true,
       handler() {
         console.log("Watcher on card");
-         this.filterCardMembers();
+        this.filterCardMembers();
       },
     },
   },
@@ -114,7 +114,7 @@ export default {
     filterCardMembers() {
       console.log("card members from filter", this.card.members);
       const users = JSON.parse(JSON.stringify(this.users));
-      users.map(user => user.isCardMember = false)
+      users.map((user) => (user.isCardMember = false));
       console.log("users from filter after deep copy", users);
       if (this.card.members.length) {
         this.card.members.map((member) => {
@@ -127,8 +127,8 @@ export default {
           console.log("filteredUsersMembers", filteredCardMembers);
           this.filteredCardMembers = filteredCardMembers;
         });
-      }else { 
-        this.filteredCardMembers = users
+      } else {
+        this.filteredCardMembers = users;
       }
     },
     updateCard() {

@@ -2,7 +2,7 @@
   <section class="card-details" @click="closeCardDetails">
     <section class="card-container" @click.stop v-if="card">
       <header class="header">
-        <span class="icon-title material-icons-outlined">title</span>
+        <span class="icon-title material-icons-outlined icon">title</span>
         <section class="titles">
           <input v-model="card.title" class="main-title" @change="saveCard" />
           <h4 class="sub-title">in list {{ groupName }}</h4>
@@ -12,23 +12,40 @@
         </span>
       </header>
       <main class="main">
-        <section class="members grid-details" v-if="card.members.length">
-          <span></span>
-          <h1 class="title-members">Members</h1>
-          <div class="list-members">
-            <avatar
-              v-for="member in card.members"
-              :key="member.id"
-              :username="member.fullname"
-              :size="32"
-            />
-            <span class="item-add-btn" @click="setCurrAction(actions[0])">
-              <span class="material-icons-outlined">add</span>
-            </span>
+        <section class="members-labels-section">
+          <div class="members grid-details" v-if="card.members.length">
+            <span></span>
+            <h1 class="title-members">Members</h1>
+            <div class="list-members">
+              <avatar
+                v-for="member in card.members"
+                :key="member.id"
+                :Src="member.imgUrl"
+                :username="member.fullname"
+                :size="32"
+              />
+              <span class="item-add-btn" @click="setCurrAction(actions[0])">
+                <span class="material-icons-outlined icon">add</span>
+              </span>
+            </div>
+          </div>
+          <div class="labels grid-details" v-if="cardLabels">
+            <span></span>
+            <h1 class="title-labels">Labels</h1>
+            <div class="list-labels">
+              <span
+                v-for="label in cardLabels"
+                :key="label.id"
+                :style="{ backgroundColor: label.color }"
+                class="preview-label"
+              >
+                {{ label.title }}
+              </span>
+            </div>
           </div>
         </section>
         <section class="description grid-details">
-          <span class="material-icons-outlined">subject</span>
+          <span class="material-icons-outlined icon">subject</span>
           <h1 class="title-description">Description</h1>
           <contenteditable
             class="description-text"
@@ -45,7 +62,7 @@
           class="attachments grid-details"
           v-if="card.attachments.length"
         >
-          <span class="attachments-icon material-icons-outlined"
+          <span class="attachments-icon material-icons-outlined icon"
             >attachments</span
           >
           <h1 class="title-attachments">attachments</h1>
@@ -61,7 +78,7 @@
           </div>
         </section>
         <section class="activity grid-details">
-          <span class="material-icons-outlined">format_list_bulleted</span>
+          <span class="material-icons-outlined icon">format_list_bulleted</span>
           <div class="header-activity">
             <h1 class="title-activity">Activity</h1>
             <button class="toggle-details-activity" @click="setShowComments">
@@ -142,7 +159,7 @@
             :key="action.name"
             @click="setCurrAction(action)"
           >
-            <span class="material-icons-outlined">{{ action.icon }}</span>
+            <span class="material-icons-outlined icon">{{ action.icon }}</span>
             <span> {{ action.name }} </span>
           </label>
           <component
@@ -156,48 +173,12 @@
           />
         </section>
 
-        <!-- <section class="add-to-card">
-          <h3 class="title">Add to card</h3>
-          <button @click="setPopup('Members')">
-            <span class="material-icons-outlined">person_add</span>
-            <span> Members </span>
-          </button>
-          <button @click="setPopup('Labels')">
-            <span class="material-icons-outlined">label</span>
-            <span> Labels </span>
-          </button>
-          <button @click="setPopup('Checklist')">
-            <span class="material-icons-outlined">check_box</span>
-            <span> Checklist </span>
-          </button>
-          <button @click="setPopup('Dates')">
-            <span class="material-icons-outlined">watch_later</span>
-            <span> Dates </span>
-          </button>
-          <label for="input-file">
-            <span class="attachments-icon material-icons-outlined"
-              >attachment</span
-            >
-            <span> Attachment </span>
-          </label>
-          <input
-            id="input-file"
-            type="file"
-            @change="onUploadImg"
-            accept="image/png, image/gif, image/jpeg"
-            hidden
-          />
-          <button @click="setPopup('Cover')">
-            <span class="material-icons-outlined">wallpaper</span>
-            <span> Cover </span>
-          </button>
-        </section> -->
         <section class="action-nav">
           <h3 class="title">Actions</h3>
-          <button @click="removeCard">
-            <span class="material-icons-outlined">delete</span>
+          <label @click="removeCard">
+            <span class="material-icons-outlined icon">delete</span>
             <span> Delete card </span>
-          </button>
+          </label>
         </section>
       </nav>
     </section>
@@ -226,6 +207,7 @@ export default {
   },
   data() {
     return {
+      cardLabels: null,
       card: null,
       boardId: this.$route.params.boardId,
       groupId: this.$route.params.groupId,
@@ -290,6 +272,20 @@ export default {
         }
       },
     },
+    "currBoard.labels": {
+      immediate: true,
+      handler() {
+        console.log("watch on currBoard from details");
+        this.filterCardLabels();
+      },
+    },
+    "card.labelIds": {
+      immediate: true,
+      handler() {
+        console.log("watch on card.labelIds from details");
+        this.filterCardLabels();
+      },
+    },
   },
   async created() {
     try {
@@ -313,6 +309,20 @@ export default {
     }, 1);
   },
   methods: {
+    filterCardLabels() {
+      console.log("filterCardLabels");
+      if (this.card.labelIds.length) {
+        this.cardLabels = this.card.labelIds.map((cardLabelId) => {
+          const label = this.currBoard.labels.find((label) => {
+            return label.id == cardLabelId;
+          });
+          if (!label) return "";
+          return label;
+          // if (label) return label
+        });
+        console.log("cardLabels after filtering", this.cardLabels);
+      }
+    },
     async loadCard() {
       try {
         console.log("loadCard()");
@@ -429,6 +439,9 @@ export default {
     },
   },
   computed: {
+    currBoard() {
+      return this.$store.getters.currBoard;
+    },
     classToComment() {
       return { isOpen: this.iscommentOpen };
     },

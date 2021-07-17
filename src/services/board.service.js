@@ -206,7 +206,7 @@ async function removeComment(commentId, card, groupId, boardId) {
    }
 }
 
-//Bace
+//Base
 function getEmptyBoard() {
    return {
       title: "",
@@ -259,32 +259,32 @@ function _createDemoBoard() {
          {
             id: "l101",
             title: "Done",
-            color: "#71e276",
+            color: "#61bd4f",
          },
          {
             id: "l102",
             title: "Or",
-            color: "#fbe232",
+            color: "#f2d600",
          },
          {
             id: "l103",
             title: "aaa",
-            color: "#8265de",
+            color: "#ff9f1a",
          },
          {
             id: "l104",
             title: "Nice to have",
-            color: "#ff192e",
+            color: "#eb5a46",
          },
          {
             id: "l105",
             title: "",
-            color: "#3ca1d2",
+            color: "#c377e0",
          },
          {
             id: "l106",
             title: "",
-            color: "#fb963f",
+            color: "#0079bf",
          },
       ],
       members: [

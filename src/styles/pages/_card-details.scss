@@ -18,13 +18,13 @@
       cursor: auto;
       background-color: #f4f5f7;
       transform: translateY(10%);
-      color:#172b4da2;
+      color: #172b4da2;
       display: grid;
       grid-template-columns: 4fr 1fr;
       grid-template-rows: 1fr 7fr;
       padding: 1rem;
       border-radius: 2px;
-      .material-icons-outlined {
+      .icon {
          color: #42526e;
       }
       .header {
@@ -136,6 +136,10 @@
                font-weight: 100;
             }
          }
+
+         .members-labels-section {
+            display: flex;
+         }
          .members {
             h1 {
                color: #5e6c84;
@@ -152,7 +156,7 @@
                overflow: hidden;
                font-weight: 600;
             }
-            
+
             .list-members {
                padding: 0 8px;
                display: flex;
@@ -164,11 +168,55 @@
                   cursor: pointer;
                }
             }
+         }
 
-            // .add-member {
-            //    padding: 8px;
-            //    background-color: ;
-            // }
+         .labels {
+            display: inline-block;
+            h1 {
+               color: #5e6c84;
+               font-size: 12px;
+               font-weight: 500;
+               letter-spacing: 0.04em;
+               line-height: 16px;
+               text-transform: uppercase;
+               display: block;
+               line-height: 20px;
+               margin: 0 8px 2px 0;
+               white-space: nowrap;
+               text-overflow: ellipsis;
+               overflow: hidden;
+               font-weight: 600;
+            }
+            // .list-labels {
+            //    padding: 0 8px;
+            //    display: flex;
+            //    flex-direction: row;
+            //    align-items: center;
+            //    gap: 4px;
+
+            //    & > *:hover {
+            //       cursor: pointer;
+            //    }
+
+            .preview-label {
+               // min-width: 10px;
+               // min-height: 10px;
+               // border-radius: 3px;
+               // padding: 0 12px;
+               border-radius: 3px;
+               box-sizing: border-box;
+               display: block;
+               float: left;
+               font-weight: 600;
+               height: 32px;
+               line-height: 32px;
+               margin: 0 4px 4px 0;
+               min-width: 40px;
+               padding: 0 12px;
+               width: auto;
+               color: #ffffff;
+               // padding: 0px 8px;
+            }
          }
 
          .attachments {
@@ -307,7 +355,6 @@
          .title {
             color: inherit;
          }
-         button,
          label {
             cursor: pointer;
             background-color: rgba(9, 30, 66, 0.04);

@@ -6,7 +6,7 @@
         <button @click="close" class="close-compose">X</button>
         <el-input placeholder="Add board title" v-model="board.title"></el-input>
         <el-button @click="createBoard"  type="primary" class="compose-btn">Create board</el-button>
-        <el-button @click="renderColors" type="primary" class="chage-colors">Change Colors</el-button>
+        <el-button @click="renderColors" type="primary" class="change-colors">Change Colors</el-button>
        </div>
       <section class="backgrounds">
          <div class="board-compose-imgs">

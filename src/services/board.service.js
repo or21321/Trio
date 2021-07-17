@@ -254,7 +254,7 @@ function _createDemoBoard() {
          fullname: "Abi Abambi",
          imgUrl: "http://some-img",
       },
-      style: {'background-color':'#868686'},
+      style: {'background-color':'','background-image':'url(https://images-na.ssl-images-amazon.com/images/S/sgp-catalog-images/region_US/u8lua-4AD76J88AJT-Full-Image_GalleryBackground-en-US-1585673473334._RI_.jpg)'},
       labels: [
          {
             id: "l101",

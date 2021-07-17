@@ -44,7 +44,7 @@ export default {
         type: "loadBoard",
         boardId: this.$route.params.boardId,
       });
-        this.$emit('setBackgroundColor',this.board.style['background-color'])
+        this.$emit('setBackground',this.board.style)
     } catch (err) {
       console.log("ERROR: cannot get board");
     }

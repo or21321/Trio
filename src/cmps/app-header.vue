@@ -14,7 +14,7 @@
     <board-list
       v-if="isBoardListOpen"
       @closeBoardList="isBoardListOpen = false"
-      @setBackgroundColor="setBackgroundColor"
+      @setBackground="setBackground"
       :boards="boards"
     />
     <div class="logo">
@@ -81,8 +81,8 @@ export default {
          this.$emit("addBoard", board);
          this.isBoardComposeOn = false;
       },
-      setBackgroundColor(color){
-          this.$emit('setBackgroundColor',color)
+      setBackground(style){
+          this.$emit('setBackground',style)
       }
    },
    computed:{

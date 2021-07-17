@@ -193,7 +193,7 @@ export default {
     openBoard(board) {
       this.$store.commit({ type: "addBoardToRecentBoards", board });
       if (board._id !== this.$store.getters.currBoard._id) {
-        this.$emit("setBackgroundColor", board.style["background-color"]);
+        this.$emit("setBackground", board.style);
         this.$store.commit({ type: "setCurrBoard", board });
         this.$router.push(`/b/${board._id}`);
       }

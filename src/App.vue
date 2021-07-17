@@ -1,7 +1,7 @@
 <template>
-  <div class="app" :style="{ backgroundColor: backgroundColor }">
-    <app-header v-if="!isHome" @addBoard="addBoard" @setBackgroundColor="setBackgroundColor"/>
-    <router-view @setBackgroundColor="setBackgroundColor" />
+  <div class="app" :style="{ backgroundColor:this.backgroundColor, backgroundImage:this.backgroundImg}">
+    <app-header v-if="!isHome" @addBoard="addBoard" @setBackground="setBackground"/>
+    <router-view @setBackground="setBackground" />
   </div>
 </template>
 
@@ -16,8 +16,8 @@ export default {
   data() {
     return {
       isHome: false,
-      backgroundImg: null,
-      backgroundColor: "#868686",
+      backgroundColor: "",
+      backgroundImg: "https://images-na.ssl-images-amazon.com/images/S/sgp-catalog-images/region_US/u8lua-4AD76J88AJT-Full-Image_GalleryBackground-en-US-1585673473334._RI_.jpg",
     };
   },
   async created() {
@@ -46,13 +46,15 @@ export default {
         });
         this.$store.commit({ type: "setCurrBoard", board });
         this.backgroundColor = board.style["background-color"];
+        this.backgroundImg = board.style["background-image"];
         this.$router.push(`/b/${newBoard._id}`);
       } catch (err) {
         console.log("ERROR cannot add board");
       }
     },
-    setBackgroundColor(color) {
-      this.backgroundColor = color;
+    setBackground(style) {
+      this.backgroundColor = style["background-color"];
+      this.backgroundImg = style["background-image"];
     },
   },
 };

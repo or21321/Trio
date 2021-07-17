@@ -20,6 +20,7 @@
               v-for="member in card.members"
               :key="member.id"
               :username="member.fullname"
+              :src="member.imgUrl"
               :size="32"
             />
             <span class="item-add-btn" @click="setCurrAction(actions[0])">
@@ -156,28 +157,7 @@
           />
         </section>
 
-        <!-- <section class="add-to-card">
-          <h3 class="title">Add to card</h3>
-          <button @click="setPopup('Members')">
-            <span class="material-icons-outlined">person_add</span>
-            <span> Members </span>
-          </button>
-          <button @click="setPopup('Labels')">
-            <span class="material-icons-outlined">label</span>
-            <span> Labels </span>
-          </button>
-          <button @click="setPopup('Checklist')">
-            <span class="material-icons-outlined">check_box</span>
-            <span> Checklist </span>
-          </button>
-          <button @click="setPopup('Dates')">
-            <span class="material-icons-outlined">watch_later</span>
-            <span> Dates </span>
-          </button>
-          <label for="input-file">
-            <span class="attachments-icon material-icons-outlined"
-              >attachment</span
-            >
+        <!--
             <span> Attachment </span>
           </label>
           <input
@@ -187,10 +167,6 @@
             accept="image/png, image/gif, image/jpeg"
             hidden
           />
-          <button @click="setPopup('Cover')">
-            <span class="material-icons-outlined">wallpaper</span>
-            <span> Cover </span>
-          </button>
         </section> -->
         <section class="action-nav">
           <h3 class="title">Actions</h3>
@@ -305,12 +281,10 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => {
-      this.$refs.comment.$refs.element.addEventListener(
-        "focusout",
-        this.checkCommentEmpty
-      );
-    }, 1);
+     setTimeout(() => {
+      this.$refs.comment.$el.addEventListener(
+        "focusout", this.checkCommentEmpty);
+        }, 1);
   },
   methods: {
     async loadCard() {

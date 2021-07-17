@@ -37,14 +37,21 @@
               v-for="board in boardsStarred"
               :key="board._id"
               class="board-preview"
-              :style="{
-                backgroundColor: board.style['background-color'] + '1f',
-              }"
               @click="openBoard(board)"
             >
               <div
                 class="bgc"
-                :style="{ backgroundColor: board.style['background-color'] }"
+                :style="{
+                  backgroundImage: board.style['background-image'],
+                  backgroundColor: board.style['background-color'],
+                }"
+              ></div>
+              <div
+                class="bgc-square"
+                :style="{
+                  backgroundImage: board.style['background-image'],
+                  backgroundColor: board.style['background-color'],
+                }"
               ></div>
               <span> {{ board.title }} </span>
               <span
@@ -78,14 +85,21 @@
               v-for="board in recentBoards"
               :key="board._id"
               class="board-preview"
-              :style="{
-                backgroundColor: board.style['background-color'] + '1f',
-              }"
               @click="openBoard(board)"
             >
               <div
                 class="bgc"
-                :style="{ backgroundColor: board.style['background-color'] }"
+                :style="{
+                  backgroundImage: board.style['background-image'],
+                  backgroundColor: board.style['background-color'],
+                }"
+              ></div>
+              <div
+                class="bgc-square"
+                :style="{
+                  backgroundImage: board.style['background-image'],
+                  backgroundColor: board.style['background-color'],
+                }"
               ></div>
               <span> {{ board.title }} </span>
               <span
@@ -100,7 +114,8 @@
 
         <div class="list-all">
           <h2 class="title">
-             <span class="material-icons-outlined">format_list_bulleted</span>ALL BOARDS
+            <span class="material-icons-outlined">format_list_bulleted</span>ALL
+            BOARDS
             <span
               class="material-icons-outlined close-list"
               v-if="!listClose.includes('boards')"
@@ -119,14 +134,21 @@
               v-for="board in boards"
               :key="board._id"
               class="board-preview"
-              :style="{
-                backgroundColor: board.style['background-color'] + '1f',
-              }"
               @click="openBoard(board)"
             >
               <div
                 class="bgc"
-                :style="{ backgroundColor: board.style['background-color'] }"
+                :style="{
+                  backgroundImage: board.style['background-image'],
+                  backgroundColor: board.style['background-color'],
+                }"
+              ></div>
+              <div
+                class="bgc-square"
+                :style="{
+                  backgroundImage: board.style['background-image'],
+                  backgroundColor: board.style['background-color'],
+                }"
               ></div>
               <span> {{ board.title }} </span>
               <span
@@ -145,14 +167,21 @@
             v-for="board in boardsAfterFilter"
             :key="board._id"
             class="board-preview"
-            :style="{
-              backgroundColor: board.style['background-color'] + '1f',
-            }"
             @click="openBoard(board)"
           >
             <div
               class="bgc"
-              :style="{ backgroundColor: board.style['background-color'] }"
+              :style="{
+                backgroundImage: board.style['background-image'],
+                backgroundColor: board.style['background-color'],
+              }"
+            ></div>
+            <div
+              class="bgc-square"
+              :style="{
+                backgroundImage: board.style['background-image'],
+                backgroundColor: board.style['background-color'],
+              }"
             ></div>
             <span> {{ board.title }} </span>
             <span
@@ -221,16 +250,19 @@ export default {
         this.listClose.splice(listIdx, 1);
       }
     },
-    setFilter(){
-       this.$store.commit({type: "setFilterBy", filterBy:{txt:this.searchBoard}})
-      },
+    setFilter() {
+      this.$store.commit({
+        type: "setFilterBy",
+        filterBy: { txt: this.searchBoard },
+      });
+    },
   },
   computed: {
     boardsStarred() {
       return this.boards.filter((board) => board.isStarred);
     },
     boardsAfterFilter() {
-      return this.$store.getters.boardsToShow
+      return this.$store.getters.boardsToShow;
     },
   },
 };

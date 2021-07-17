@@ -24,7 +24,6 @@
       row-gap: 8px;
 
       .board-compose-preview {
-         background-color: violet;
          // background-image: url("../assets/mountains-stars-bc.jpg");
          background-size: cover;
          border-radius: 3px;
@@ -84,6 +83,7 @@
             list-style: none;
             &>*{
                cursor: pointer;
+               background-size: cover;
             }
             & > :nth-child(1) {
                   // @include random-bgr();

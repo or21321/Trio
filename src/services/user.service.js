@@ -26,11 +26,10 @@ export const userService = {
 async function getUsers() {
    try {
       return await storageService.query('users')
-      // maybe make a test function for making users when there are none
-      // if (!users) users = createTestUsers()
       // return httpService.get(`user`)
    } catch (err) {
-      console.log('Error in getUsers():', err);
+      console.log('userService: Error in getUsers', err)
+      throw err
    }
 }
 

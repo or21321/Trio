@@ -13,16 +13,15 @@
           class="card-label-preview"
           v-for="label in currBoardLabels"
           :key="label.id"
-          
         >
-          <span :style="{ backgroundColor: label.color }">{{ label.title }}</span>
+          <span :style="{ backgroundColor: label.color }">{{
+            label.title
+          }}</span>
           <span class="material-icons-outlined">edit</span>
         </li>
       </ul>
       <div>
-          <button stop class="popup-btn-1">
-              Create a new label
-          </button>
+        <button class="popup-btn-1">Create a new label</button>
       </div>
     </div>
   </section>
@@ -58,8 +57,11 @@ export default {
     },
   },
   methods: {
-    updateTask() {
-      this.$emit("updateTask", this.card);
+    updateCard() {
+      this.$emit("updateCard", this.card);
+    },
+    created() {
+      this.cardToEdit = JSON.parse(JSON.stringify(this.card));
     },
     close() {
       this.$emit("close");

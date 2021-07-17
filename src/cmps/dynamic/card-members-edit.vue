@@ -61,23 +61,9 @@ export default {
       filteredCardMembers: null,
     };
   },
-  async created() {
-    try {
-      await this.$store.dispatch({ type: "loadUsers" });
-      this.cardToEdit = JSON.parse(JSON.stringify(this.card));
-      this.filterCardMembers();
-    } catch (err) {
-      console.log("Error loading users:", err);
-    }
-  },
-  watch: {
-    card: {
-      // immediate: true,
-      handler() {
-        console.log("Watcher on card");
-        this.filterCardMembers();
-      },
-    },
+  created() {
+    this.$store.dispatch({ type: "loadUsers" });
+    this.cardToEdit = JSON.parse(JSON.stringify(this.card));
   },
   computed: {
     users() {

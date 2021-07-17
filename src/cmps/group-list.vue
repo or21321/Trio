@@ -4,7 +4,7 @@
       <h2>{{ group.title }}</h2>
     </div>
     <span
-      @click="isGroupMenuOpen = true"
+      @click="toggleGroupMenu"
       class="material-icons group-extras-menu"
     >
       more_horiz
@@ -63,14 +63,13 @@ export default {
       isGroupMenuOpen: false,
     };
   },
-  created() {
-    console.log("group-list created, groupId", this.group.id);
-    console.log("group-list created, boardId", this.boardId);
-  },
   methods: {
     removeGroup() {
       this.$emit("removeGroup", this.group.id);
     },
+    toggleGroupMenu(){
+       this.isGroupMenuOpen = !this.isGroupMenuOpen;
+    }
   },
 };
 </script>

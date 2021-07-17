@@ -1,0 +1,118 @@
+.board-list{
+   z-index: 3;
+   position:absolute;
+   top:40px;
+   background-color: #FFFFFF;
+   color:#172b4d94;
+   max-height: 90%;
+   overflow-y: auto;
+   width: 280px;
+   padding: 8px 4px 8px 8px;
+   border-radius: 3px;
+   box-shadow: 0 8px 12px -4px rgba(212, 212, 212, 0.46);
+   .header-list{
+      display: flex;
+      justify-content:space-around;
+      align-items: center;
+      margin-bottom: 16px;
+      .input-search-boards{
+         height: 36px;
+         padding: 8px 12px;
+         font-size: 14px;
+         font-family: Segoe-UI;
+         width: 85%;
+         color:#172b4dbe;
+         border:2px solid rgb(226, 226, 226);
+         border-radius: 3px;
+         &:focus{
+            border:2px solid $clr-outline;
+            outline:none;
+         }
+      }
+      .close{
+         cursor: pointer;
+      }
+   }
+   main{
+      .list-starred,.list-recent,.list-all,.search-list{
+         .title{
+            font-size: 1.1rem;
+            display: flex;
+            gap:5px;
+            margin-left: 6px;
+            margin-bottom: 6px;
+            position: relative;
+            .close-list{
+               position:absolute;
+               right:8px;
+               cursor: pointer;
+            }
+         }
+         .main-list{
+            display: flex;
+            flex-direction: column;
+            gap:5px;
+            margin-bottom: 16px;
+            .board-preview{
+               display: flex;
+               align-items: center;
+               gap:8px;
+               cursor: pointer;
+               opacity: 0.8;
+               color:black;
+               position: relative;
+               overflow-x: hidden;
+               &:hover{
+                  opacity: 1;
+               }
+               .bgc{
+                  width: 35px;
+                  height: 35px;
+               }
+               .star{
+                  position:absolute;
+                  right: -20px;
+                  transition: right 0.5s;
+                  font-size: rem(26px);
+                  &:hover{
+                     font-size: rem(26px);
+                     color:unset;
+                  }
+                  &.selected{
+                     color: rgb(228, 228, 1);
+                     right: 8px;
+                     &:hover{
+                        color:unset;
+                     }
+                  }
+               }
+               &:hover .star{
+                  right: 8px;
+                  transition: right 0.5s;
+               }
+            }
+         }
+      }
+   }
+   &::-webkit-scrollbar {
+      height: 8px;
+      width: 9px;
+      border-radius: 3px;
+      right: 20px;
+  }
+
+  /* Track */
+
+  &::-webkit-scrollbar-track {
+      background: rgba(9, 30, 66, 0.08);
+      border-radius: 3px;
+      margin-left: 100%;
+  }
+  /* Handle */
+
+  &::-webkit-scrollbar-thumb {
+      background-color: #bfc4ce;
+      border-radius: 6px;
+      height: 195px;
+  }
+}

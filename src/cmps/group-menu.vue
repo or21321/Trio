@@ -6,6 +6,7 @@
         <span @click.stop="close" class="close-popup-btn">X</span>
       </div>
       <div class="card-edit-main">
+         
           <button @click="removeGroup">Remove list...</button>
       </div>
   </section>

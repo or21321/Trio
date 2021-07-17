@@ -4,13 +4,27 @@ export const boardStore = {
    state: {
       boards: [],
       currBoard: null,
+      recentBoards: [],
+      filterBy:{
+         txt:''
+      }
    },
    getters: {
-      boards({ boards }) { return boards },
-      currBoard({ currBoard }) { return currBoard }
+      boards({ boards }) { return boards},
+      currBoard({ currBoard }) { return currBoard },
+      recentBoards({ recentBoards }) { return recentBoards },
+      boardsToShow(state) {
+         let regex = new RegExp(state.filterBy.txt, 'i')
+         return state.boards.filter(board => {
+            return regex.test(board.title)
+         })
+      },
    },
    mutations: {
       // Board
+      setFilterBy(state, { filterBy }) {
+         state.filterBy = filterBy
+      },
       setCurrBoard(state, { board }) {
          state.currBoard = board
       },
@@ -18,7 +32,7 @@ export const boardStore = {
          state.boards = boards
       },
       addBoard(state, { savedBoard }) {
-         state.boards.push(savedBoard);
+         state.boards.unshift(savedBoard);
       },
       updateBoard(state, { savedBoard }) {
          const idx = state.boards.findIndex(board => board._id === savedBoard._id)
@@ -33,13 +47,18 @@ export const boardStore = {
          const idx = state.boards.findIndex(board => board._id === boardId)
          state.boards[idx].activity.push(activity)
       },
+      addBoardToRecentBoards(state, { board }) {
+         if (state.recentBoards.length >= 5) state.recentBoards.pop()
+         state.recentBoards = state.recentBoards.filter(currBoard =>
+            currBoard._id !== board._id)
+         state.recentBoards.unshift(board)
+      },
       //Group
       saveGroup(state, { isUpdate, group }) {
          if (isUpdate) {
             const groupIdx = state.currBoard.groups.findIndex(currGroup => currGroup.id === group.id)
             state.currBoard.groups.splice(groupIdx, 1, group)
          } else {
-            console.log('commiting group', group, isUpdate);
             state.currBoard.groups.push(group)
          }
       },
@@ -99,6 +118,14 @@ export const boardStore = {
             throw err;
          }
       },
+      async getBoardById(context, { boardId }) {
+         try {
+            return await boardService.getById(boardId)
+         } catch (err) {
+            console.log('Cannot get board', boardId, ',', err);
+            throw err;
+         }
+      },
       async addActivity({ commit }, { activity, boardId }) {
          try {
             await boardService.addActivity(activity, boardId);
@@ -113,7 +140,6 @@ export const boardStore = {
          const isUpdate = (group.id) ? true : false;
          try {
             const savedGroup = await boardService.saveGroup(group, boardId);
-            console.log('fk me lf', savedGroup);
             commit({ type: 'saveGroup', isUpdate, group: savedGroup });
          } catch (err) {
             console.log('Cannot save group', group, ',', err);

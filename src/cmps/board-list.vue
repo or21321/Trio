@@ -100,7 +100,7 @@
 
         <div class="list-all">
           <h2 class="title">
-            <span class="material-icons-outlined">toc</span>ALL BOARDS
+             <span class="material-icons-outlined">format_list_bulleted</span>ALL BOARDS
             <span
               class="material-icons-outlined close-list"
               v-if="!listClose.includes('boards')"

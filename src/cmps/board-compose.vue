@@ -34,6 +34,7 @@ export default {
        'https://images-na.ssl-images-amazon.com/images/S/sgp-catalog-images/region_US/u8lua-4AD76J88AJT-Full-Image_GalleryBackground-en-US-1585673473334._RI_.jpg',
        'https://wallpaperaccess.com/full/1146927.jpg',
        'https://wallpaperaccess.com/full/109672.jpg',
+       'https://images.unsplash.com/photo-1470081989310-425cc509b8f2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=750&q=80',
        ],
        selectImg: "https://images-na.ssl-images-amazon.com/images/S/sgp-catalog-images/region_US/u8lua-4AD76J88AJT-Full-Image_GalleryBackground-en-US-1585673473334._RI_.jpg",
        selectColor: ""

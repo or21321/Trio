@@ -20,7 +20,7 @@
               <avatar
                 v-for="member in card.members"
                 :key="member.id"
-                :Src="member.imgUrl"
+                :src="member.imgUrl"
                 :username="member.fullname"
                 :size="32"
               />
@@ -39,7 +39,12 @@
                 :style="{ backgroundColor: label.color }"
                 class="preview-label"
               >
-                {{ label.title }}
+                <span @click="setCurrAction(actions[1])">{{
+                  label.title
+                }}</span>
+              </span>
+              <span class="item-add-btn" @click="setCurrAction(actions[1])">
+                <span class="material-icons-outlined icon">add</span>
               </span>
             </div>
           </div>

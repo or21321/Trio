@@ -19,10 +19,27 @@
         background-color: #c1cde023;
     }
     .card-preview-title{
-       height: 30px;
+       min-height: 30px;
     }
     .img-preview{
        width: 100%;
 
+    }
+    .card-info {
+        display: flex;
+        // flex-direction: row-reverse;
+        flex-wrap: wrap;
+        
+        .card-badges {  
+            flex-basis: 50%;
+        }
+        .card-members { 
+            flex-basis: 50%;
+            display: flex;
+            flex-direction: row-reverse;
+            gap: 4px;
+            margin-bottom: 3.5px;
+            // Might be a bug when 4+ members, need to make it look good with card-badges
+        }
     }
 }

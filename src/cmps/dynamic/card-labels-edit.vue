@@ -6,7 +6,7 @@
     </div>
 
     <div class="card-edit-main">
-      <input type="text" placeholder="Search labels" />
+      <input type="text" placeholder="Search labels" v-model="filterBy" />
       <ul class="popup-list-layout-1">
         <h4>LABELS</h4>
         <li
@@ -113,6 +113,7 @@ export default {
   data() {
     return {
       // labels: JSON.parse(JSON.stringify(this.currBoard.labels)),
+      filterBy: "",
       boardToEdit: null,
       cardToEdit: null,
       labelToEdit: null,
@@ -129,7 +130,7 @@ export default {
         "#344563",
       ],
       emptyLabel: {
-        color: '#61bd4f',
+        color: "#61bd4f",
         title: null,
         id: null,
       },
@@ -143,7 +144,7 @@ export default {
     console.log("boardToEdit", this.boardToEdit);
   },
   watch: {
-    currBoard: {
+    'currBoard': {
       immediate: true,
       handler() {
         console.log("watch on currBoard");

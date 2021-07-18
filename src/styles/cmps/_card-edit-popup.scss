@@ -39,7 +39,7 @@
         // align-items: center;
         justify-content: start;
         padding: 0 12px 12px 12px;
-        overflow-y: scroll;
+        overflow-y: auto;
 
         // Main scrollbar style:
         &::-webkit-scrollbar {

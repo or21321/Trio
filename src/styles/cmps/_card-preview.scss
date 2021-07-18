@@ -27,6 +27,7 @@
     }
     .card-info {
         display: flex;
+        // flex-direction: row-reverse;
         flex-wrap: wrap;
         
         .card-badges {  
@@ -38,6 +39,7 @@
             flex-direction: row-reverse;
             gap: 4px;
             margin-bottom: 3.5px;
+            // Might be a bug when 4+ members, need to make it look good with card-badges
         }
     }
 }

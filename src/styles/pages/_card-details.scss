@@ -187,17 +187,17 @@
                overflow: hidden;
                font-weight: 600;
             }
-            // .list-labels {
-            //    padding: 0 8px;
-            //    display: flex;
-            //    flex-direction: row;
-            //    align-items: center;
-            //    gap: 4px;
+            .list-labels {
+               //    padding: 0 8px;
+               //    display: flex;
+               //    flex-direction: row;
+               //    align-items: center;
+               //    gap: 4px;
 
-            //    & > *:hover {
-            //       cursor: pointer;
-            //    }
-
+               & > *:hover {
+                  cursor: pointer;
+               }
+            }
             .preview-label {
                // min-width: 10px;
                // min-height: 10px;
@@ -228,24 +228,24 @@
                   display: flex;
                   flex-direction: column;
                   position: relative;
-                  overflow-x:hidden;
-                  &:hover{
-                     .delete-img{
-                        right:0;
+                  overflow-x: hidden;
+                  &:hover {
+                     .delete-img {
+                        right: 0;
                         transition: right 0.5s;
                      }
                   }
                   img {
                      width: 215px;
                   }
-                  .delete-img{
+                  .delete-img {
                      position: absolute;
-                     top:0;
+                     top: 0;
                      right: -20px;
                      transition: right 0.5s;
                      padding: 0;
                      cursor: pointer;
-                     color:rgb(255, 0, 0);
+                     color: rgb(255, 0, 0);
                      font-weight: 400;
                   }
                }
@@ -388,7 +388,7 @@
             .material-icons-outlined {
                font-size: 18px;
             }
-            .attachments-icon{
+            .attachments-icon {
                height: 18px;
                width: 18px;
             }

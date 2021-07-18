@@ -5,6 +5,7 @@
     position: relative;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 
     .board-header-btn {
         // font-size: 18px;
@@ -77,12 +78,26 @@
     }
 
     .members-section {
-        position:absolute;
-        left:50%;
-        transform: translate(-50%);
+        // position:absolute;
+        // left:50%;
+        // transform: translate(-50%);
         cursor: pointer;
         font-size: 14px;
         display: flex;
+        position: relative;
+        
+        .avatars {
+            display: flex;
+            flex-direction: row;
+
+            > * {
+                //move avatars a bit override each other
+
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
         
         & .invite-btn {
             font-size: 14px;
@@ -90,8 +105,9 @@
         }
 
         .members-popup {
-            left: 48%;
-            top: 45px;
+            left: calc(100% - 62px);
+            top: 38px;
+            z-index: 5;
         }
     }
 

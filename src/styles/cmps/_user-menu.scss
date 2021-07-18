@@ -1,0 +1,36 @@
+// section .user-menu-popup.popup{
+.user-menu-popup {
+    left: calc(100% - 309px);
+    top: 43px;
+    z-index: 5;
+    min-height: unset;
+
+    & .account-info {
+        display: flex;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(9, 30, 66, 0.13);
+
+        & .account-details {
+            padding-left: 8px;
+            display: flex;
+            flex-direction: column;
+            color: #172B4D;
+
+
+            & .email {
+                color: #B3BAC5;
+
+            }
+        }
+    }
+
+    .logout {
+        color: #172B4D;
+        font-size: 14px;
+        cursor: pointer;
+        font-family: "Segoe UI", sans-serif;
+        margin-top: 13px;
+        margin-bottom: 6px;
+    }
+}

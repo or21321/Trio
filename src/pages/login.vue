@@ -29,7 +29,7 @@ export default {
     async login() {
       const user = await this.$store.dispatch({ type: "login", userCred: this.user });
       // TODO: Add memeber to general shared board/s
-      if (user) this.$router.push("/b/b101");
+      if (user) this.$router.push(`/b/${this.$store.getters.boards[0]._id}`);
     },
   },
 };

@@ -9,24 +9,25 @@
     ></board-header>
     <!-- * for when dragscroll is working with draggable -->
     <div v-dragscroll:nochilddrag class="board-canvas my-scrollbar">
-    <!-- <div class="board-canvas my-scrollbar"> -->
+      <!-- <div class="board-canvas my-scrollbar"> -->
       <draggable
+        data-dragscroll
         :list="board.groups"
         :animation="200"
         ghost-class="ghost-card"
         group="groups"
         @end="saveBoard"
       >
-      <groupList
-        v-for="group in board.groups"
-        :key="group.id"
-        :group="group"
-        :board="board"
-        @removeGroup="removeGroup"
-        @updateBoard="saveBoard"
-        @toggleLabelsTitles="toggleLabelsTitles"
-        :isCardPreviewLabelsShown="isCardPreviewLabelsShown"
-      ></groupList>
+        <groupList
+          v-for="group in board.groups"
+          :key="group.id"
+          :group="group"
+          :board="board"
+          @removeGroup="removeGroup"
+          @updateBoard="saveBoard"
+          @toggleLabelsTitles="toggleLabelsTitles"
+          :isCardPreviewLabelsShown="isCardPreviewLabelsShown"
+        ></groupList>
       </draggable>
       <group-compose :boardId="boardId"></group-compose>
     </div>
@@ -122,8 +123,8 @@ export default {
         await this.$store.dispatch({ type: "showMsg", msg });
       }
     },
-    saveBoard(board) {
-      this.$store.dispatch({ type: "saveBoard", board });
+    saveBoard() {
+      this.$store.dispatch({ type: "saveBoard", board: this.board });
     },
   },
 };

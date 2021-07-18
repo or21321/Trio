@@ -51,7 +51,7 @@ async function query() {
 
 async function getById(boardId) {
    try {
-      return storageService.get(KEY, boardId)
+      return await storageService.get(KEY, boardId)
       // const board = await httpService.get(`board/${boardId}`)
       // return board
    } catch (err) {
@@ -187,16 +187,16 @@ async function getCardById(cardId, groupId, boardId) {
    }
 }
 //checklist
-async function addCheckbox(commentTxt,checklistId, card, groupId, boardId) {
+async function addCheckbox(commentTxt, checklistId, card, groupId, boardId) {
    try {
       const todo = {
-         id:utilService.makeId(),
-         title:commentTxt,
-         isDone:false
+         id: utilService.makeId(),
+         title: commentTxt,
+         isDone: false
       }
       const currChecklistIdx = card.checklists.findIndex(cl => cl.id === checklistId)
       card.checklists[currChecklistIdx].todos.push(todo);
-     return saveCard(card, groupId, boardId)
+      return saveCard(card, groupId, boardId)
    } catch (err) {
       console.log('Error:', err);
    }
@@ -204,19 +204,19 @@ async function addCheckbox(commentTxt,checklistId, card, groupId, boardId) {
 async function removeChecklist(checklistId, card, groupId, boardId) {
    try {
       const currChecklistIdx = card.checklists.findIndex(cl => cl.id === checklistId)
-      card.checklists.splice(currChecklistIdx,1);
-     return saveCard(card, groupId, boardId)
+      card.checklists.splice(currChecklistIdx, 1);
+      return saveCard(card, groupId, boardId)
    } catch (err) {
       console.log('Error:', err);
    }
 }
-async function removeCheckbox(checkboxId,checklistId, card, groupId, boardId) {
+async function removeCheckbox(checkboxId, checklistId, card, groupId, boardId) {
    try {
       const currChecklistIdx = card.checklists.findIndex(cl => cl.id === checklistId)
       const currCheckboxId = card.checklists[currChecklistIdx].todos
          .findIndex(cb => cb.id === checkboxId)
       card.checklists[currChecklistIdx].todos.splice(currCheckboxId, 1);
-     return saveCard(card, groupId, boardId)
+      return saveCard(card, groupId, boardId)
    } catch (err) {
       console.log('Error:', err);
    }

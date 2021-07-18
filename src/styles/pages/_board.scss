@@ -6,6 +6,10 @@
             display: flex;
             gap: 8px;
             height: fit-content;
+
+            & > * { 
+                height: fit-content;
+            }
         }
 
         display: flex;

@@ -10,7 +10,6 @@
         :noNL="false"
         :noHTML="true"
         @keypress.enter="updateTitle"
-        @input="updateTitle"
       />
       <h1 v-else class="board-header-btn" @click="isEditing = !isEditing">
         {{ boardTitle }}

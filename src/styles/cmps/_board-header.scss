@@ -1,6 +1,7 @@
 .board-header {
     height: auto;
     padding: 8px 4px 0 8px;
+    width: 100%;
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -76,12 +77,12 @@
     }
 
     .members-section {
+        position:absolute;
+        left:50%;
+        transform: translate(-50%);
         cursor: pointer;
         font-size: 14px;
         display: flex;
-        
-        // & .avatars {
-        // }
         
         & .invite-btn {
             font-size: 14px;

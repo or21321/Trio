@@ -207,10 +207,14 @@ export default {
   },
   data() {
     return {
-      recentBoards: this.$store.getters.recentBoards,
+      recentBoards: null,
       listClose: [],
       searchBoard: "",
     };
+  },
+  created(){
+   this.$store.commit({ type: "addBoardToRecentBoards", board:this.$store.getters.currBoard });
+   this.recentBoards= this.$store.getters.recentBoards;
   },
   mounted() {
     this.$refs.searchBoard.focus();

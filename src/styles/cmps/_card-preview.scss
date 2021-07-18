@@ -48,6 +48,7 @@
     margin-bottom: 8px;
     display: flex;
     flex-direction: column;
+
     &:hover {
         cursor: pointer;
         background-color: #c1cde023;
@@ -99,11 +100,23 @@
     }
     .card-info {
         display: flex;
-        // flex-direction: row-reverse;
         flex-wrap: wrap;
+        align-items: center;
 
         .card-badges {
             flex-basis: 50%;
+            .badge-icon {
+                padding-top: 2.5px;
+                font-size: 12px;
+            }
+
+            .comment-badge {
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+            }
         }
         .card-members {
             flex-basis: 50%;

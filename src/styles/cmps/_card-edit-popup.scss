@@ -256,6 +256,8 @@
                 border-radius: 3px;
                 padding: 6px 12px;
                 width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
                 &:hover {
                     margin-left: 4px;
                     box-shadow: -8px 0 darken(#ffffff, 20);

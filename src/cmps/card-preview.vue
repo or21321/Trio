@@ -29,7 +29,14 @@
     </div>
     <span class="card-preview-title">{{ card.title }}</span>
     <div class="card-info">
-      <div class="card-badges"></div>
+      <div class="card-badges">
+        <div v-if="card.comments.length" class="comment-badge">
+          <span class="material-icons-outlined badge-icon">
+            chat_bubble_outline
+          </span>
+          <span>{{ card.comments.length }}</span>
+        </div>
+      </div>
       <ul class="card-members" v-if="card.members.length">
         <!-- Todo: click on avatar open remove-confirm-popup -->
         <avatar
@@ -91,6 +98,12 @@ export default {
         console.log("cardLabels from preview", this.cardLabels);
       },
     },
+    "card": { 
+      immediate: true,
+      handler() { 
+        console.log('watcher on card from preview', this.card);
+      }
+    }
   },
   computed: {
     currBoard() {

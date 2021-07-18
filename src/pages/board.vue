@@ -8,27 +8,26 @@
       @toggleStar="toggleStar"
     ></board-header>
     <!-- * for when dragscroll is working with draggable -->
-    <!-- <div v-dragscroll class="board-canvas my-scrollbar"> -->
-    <div class="board-canvas my-scrollbar">
-      <!-- <draggable
+    <div v-dragscroll:nochilddrag class="board-canvas my-scrollbar">
+    <!-- <div class="board-canvas my-scrollbar"> -->
+      <draggable
         :list="board.groups"
         :animation="200"
         ghost-class="ghost-card"
         group="groups"
         @end="saveBoard"
-        handle=".handle"
-      > -->
-        <groupList
-          v-for="group in board.groups"
-          :key="group.id"
-          :group="group"
-          :board="board"
-          @removeGroup="removeGroup"
-          @updateBoard="saveBoard"
-          @toggleLabelsTitles="toggleLabelsTitles"
-          :isCardPreviewLabelsShown="isCardPreviewLabelsShown"
-        ></groupList>
-      <!-- </draggable> -->
+      >
+      <groupList
+        v-for="group in board.groups"
+        :key="group.id"
+        :group="group"
+        :board="board"
+        @removeGroup="removeGroup"
+        @updateBoard="saveBoard"
+        @toggleLabelsTitles="toggleLabelsTitles"
+        :isCardPreviewLabelsShown="isCardPreviewLabelsShown"
+      ></groupList>
+      </draggable>
       <group-compose :boardId="boardId"></group-compose>
     </div>
     <router-view />
@@ -39,17 +38,19 @@
 import groupList from "@/cmps/group-list";
 import boardHeader from "@/cmps/board-header";
 import groupCompose from "@/cmps/group-compose";
-// import { dragscroll } from "vue-dragscroll";
+import { dragscroll } from "vue-dragscroll";
+import draggable from "vuedraggable";
 
 export default {
   // need to make dragscroll work with draggable
-  // directives: {
-  //   dragscroll,
-  // },
+  directives: {
+    dragscroll,
+  },
   components: {
     groupList,
     boardHeader,
     groupCompose,
+    draggable,
   },
   async created() {
     try {
@@ -70,40 +71,47 @@ export default {
       return this.$store.getters.currBoard;
     },
   },
+  watch: {
+    board: {
+      handler() {
+        console.log("handler on board");
+      },
+    },
+  },
   data() {
     return {
-      isCardPreviewLabelsShown: false
+      isCardPreviewLabelsShown: false,
     };
   },
   methods: {
-    toggleLabelsTitles() {  
-      this.isCardPreviewLabelsShown = !this.isCardPreviewLabelsShown
+    toggleLabelsTitles() {
+      this.isCardPreviewLabelsShown = !this.isCardPreviewLabelsShown;
     },
     async updateTitle(title) {
       console.log("updateTitle()", title);
-      this.board.title = title
+      this.board.title = title;
       await this.$store.dispatch({ type: "saveBoard", board: this.board });
     },
     async toggleStar() {
-       try{
-         this.board.isStarred = !this.board.isStarred;
-         this.$store.dispatch({ type: "saveBoard", board: this.board });
-       }catch(err){
-          console.log('ERROR: cannot save board ', err);
-       }
+      try {
+        this.board.isStarred = !this.board.isStarred;
+        this.$store.dispatch({ type: "saveBoard", board: this.board });
+      } catch (err) {
+        console.log("ERROR: cannot save board ", err);
+      }
     },
     async removeGroup(groupId) {
-        var msg = {}
+      var msg = {};
       try {
         this.$store.dispatch({
           type: "removeGroup",
           groupId,
           boardId: this.board._id,
         });
-         msg = {
-           txt:'List was successfully removed',
-           type:'success'
-        }
+        msg = {
+          txt: "List was successfully removed",
+          type: "success",
+        };
       } catch (err) {
         msg = {
           txt: "Fail remove list, try again later",

@@ -431,9 +431,6 @@ export default {
     },
     //COMMENTS
     async addComment() {
-      this.commentTxt = "";
-      this.iscommentOpen = false;
-
       await this.$store.dispatch({
         type: "addComment",
         commentTxt: this.commentTxt,
@@ -441,6 +438,8 @@ export default {
         groupId: this.groupId,
         boardId: this.boardId,
       });
+      this.commentTxt = "";
+      this.iscommentOpen = false;
     },
     checkCommentEmpty() {
       console.log("yes");
@@ -458,6 +457,7 @@ export default {
         groupId: this.groupId,
         boardId: this.boardId,
       });
+      
     },
     setShowComments() {
       if (this.titleActivityBtn === "Show Details") {

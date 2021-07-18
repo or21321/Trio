@@ -5,12 +5,12 @@ export const boardStore = {
       boards: [],
       currBoard: null,
       recentBoards: [],
-      filterBy:{
-         txt:''
+      filterBy: {
+         txt: ''
       }
    },
    getters: {
-      boards({ boards }) { return boards},
+      boards({ boards }) { return boards },
       currBoard({ currBoard }) { return currBoard },
       recentBoards({ recentBoards }) { return recentBoards },
       boardsToShow(state) {
@@ -65,13 +65,20 @@ export const boardStore = {
       // Card
       saveCard(state, { isUpdate, card, groupId }) {
          const groupIdx = state.currBoard.groups.findIndex(group => group.id === groupId)
+         console.log('groupIdx', groupIdx);
          if (isUpdate) {
-            const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(currCard => currCard.id === card.id)
+            const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(card => card.id === card.id)
+            console.log('cardIdx', cardIdx);
             state.currBoard.groups[groupIdx].cards.splice(cardIdx, 1, card)
          } else {
             state.currBoard.groups[groupIdx].cards.push(card)
          }
       },
+      addComment(state, { savedComment, card, groupId}) {
+         const groupIdx = state.currBoard.groups.findIndex(g => g.id === groupId)
+         const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(c => c.id === card.id)
+         state.currBoard.groups[groupIdx].cards[cardIdx].comments.unshift(savedComment)
+      }
    },
    actions: {
       //Board
@@ -175,7 +182,7 @@ export const boardStore = {
             throw err;
          }
       },
-      async removeCard({commit}, { cardId, groupId, boardId }) {
+      async removeCard({ commit }, { cardId, groupId, boardId }) {
          try {
             const savedBoard = await boardService.removeCard(cardId, groupId, boardId)
             commit({ type: 'updateBoard', savedBoard })
@@ -193,10 +200,12 @@ export const boardStore = {
             throw err;
          }
       },
- 
+
       async addComment(context, { commentTxt, card, groupId, boardId }) {
          try {
-            boardService.addComment(commentTxt, card, groupId, boardId)
+            const savedComment = await boardService.addComment(commentTxt, card, groupId, boardId)
+            console.log('Ahalan');
+            context.commit({ type: 'addComment', savedComment, card, groupId})
          } catch (err) {
             console.log('Cannot add comment', commentTxt, ',', err);
             throw err;

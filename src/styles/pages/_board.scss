@@ -2,13 +2,18 @@
     display: flex;
     flex-direction: column;
     .board-canvas {
+        & > div:first-child {
+            display: flex;
+            gap: 8px;
+            height: fit-content;
+        }
+
         display: flex;
         gap: 8px;
         margin-left: 8.5px;
         max-width: 100vw;
         height: 100%;
         overflow-x: scroll;
-
         &::-webkit-scrollbar {
             height: 12px;
             width: 12px;
@@ -22,10 +27,10 @@
             /* border-radius: 20px; */
             // background: #f1f1f1;
             // background: #ffffff;
-           background: rgba(0,0,0,.2);
-        //    background: rgba(0,0,0,.15);
-           padding-top: 5px;
-           border-radius: 7px;
+            background: rgba(0, 0, 0, 0.2);
+            //    background: rgba(0,0,0,.15);
+            padding-top: 5px;
+            border-radius: 7px;
         }
 
         // &::-webkit-scrollbar-track:hover {
@@ -38,12 +43,12 @@
             /* border-radius: 130px; */
             // background-color: darkgoldenrod;
             // background: linear-gradient(
-                //     0deg,
-                //     rgba(34, 195, 191, 1) 0%,
-                //     rgb(59, 85, 84) 30%,
-                //     rgb(126, 56, 167) 70%,
-                //     rgb(243, 97, 214) 100%
-                // );
+            //     0deg,
+            //     rgba(34, 195, 191, 1) 0%,
+            //     rgb(59, 85, 84) 30%,
+            //     rgb(126, 56, 167) 70%,
+            //     rgb(243, 97, 214) 100%
+            // );
             background-color: #a3abaf7a;
             // background-color: #83919a;
             border-radius: 5px;

@@ -192,7 +192,9 @@ async function addComment(commentTxt, card, groupId, boardId) {
          byMember: await userService.getMiniUser(userService.getLoggedinUser()._id)
       }
       card.comments.unshift(comment);
-      saveCard(card, groupId, boardId)
+      const savedCard = await saveCard(card, groupId, boardId)
+      console.log('savedCard', savedCard)
+      return comment
    } catch (err) {
       console.log('Error:', err);
    }
@@ -256,7 +258,7 @@ function _createDemoBoard() {
          fullname: "Abi Abambi",
          imgUrl: "http://some-img",
       },
-      style: {'background-color':'','background-image':'url(https://wallpaperaccess.com/full/109672.jpg)'},
+      style: { 'background-color': '', 'background-image': 'url(https://wallpaperaccess.com/full/109672.jpg)' },
       labels: [
          {
             id: "l101",

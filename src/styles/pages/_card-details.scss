@@ -129,9 +129,9 @@
                background-color: darken(#eaecf0, 3);
             }
 
-            &:nth-child(2) {  
-               border-radius: 3px;
-            }
+            // .list-labels & {
+
+            // }
 
             .material-icons-outlined {
                padding-top: unset;
@@ -143,6 +143,7 @@
 
          .members-labels-section {
             display: flex;
+            flex-wrap: wrap;
          }
          .members {
             h1 {
@@ -162,7 +163,7 @@
             }
 
             .list-members {
-               padding: 0 8px;
+               padding: 0 0 0 8px;
                display: flex;
                flex-direction: row;
                align-items: center;
@@ -175,7 +176,6 @@
          }
 
          .labels {
-            display: inline-block;
             h1 {
                color: #5e6c84;
                font-size: 12px;
@@ -197,6 +197,13 @@
                //    flex-direction: row;
                //    align-items: center;
                //    gap: 4px;
+               .item-add-btn {
+                  min-width: 20px;
+                  max-width: 32px;
+                  border-radius: 3px;
+                  display: flex;
+                  justify-content: center;
+               }
 
                & > *:hover {
                   cursor: pointer;

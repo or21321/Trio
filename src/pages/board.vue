@@ -25,6 +25,8 @@
           :board="board"
           @removeGroup="removeGroup"
           @updateBoard="saveBoard"
+          @toggleLabelsTitles="toggleLabelsTitles"
+          :isCardPreviewLabelsShown="isCardPreviewLabelsShown"
         ></groupList>
       <!-- </draggable> -->
       <group-compose :boardId="boardId"></group-compose>
@@ -69,9 +71,14 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      isCardPreviewLabelsShown: false
+    };
   },
   methods: {
+    toggleLabelsTitles() {  
+      this.isCardPreviewLabelsShown = !this.isCardPreviewLabelsShown
+    },
     async updateTitle(title) {
       console.log("updateTitle()", title);
       this.board.title = title

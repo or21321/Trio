@@ -3,10 +3,7 @@
     <div class="group-header">
       <h2>{{ group.title }}</h2>
     </div>
-    <span
-      @click="toggleGroupMenu"
-      class="material-icons group-extras-menu"
-    >
+    <span @click="toggleGroupMenu" class="material-icons group-extras-menu">
       more_horiz
     </span>
     <group-menu
@@ -29,6 +26,8 @@
           :key="card.id"
           :card="card"
           :groupId="group.id"
+          @toggleLabelsTitles="toggleLabelsTitles"
+          :isLabelsTitlesShown="isCardPreviewLabelsShown"
         ></card-preview>
       </draggable>
     </div>
@@ -51,7 +50,11 @@ export default {
     board: {
       type: Object,
       required: true,
-    }
+    },
+    isCardPreviewLabelsShown: {
+      type: Boolean,
+      required: true,
+    },
   },
   components: {
     cardPreview,
@@ -62,17 +65,22 @@ export default {
   data() {
     return {
       isGroupMenuOpen: false,
+      // isLabelsTitlesShown: false
     };
   },
   methods: {
     removeGroup() {
       this.$emit("removeGroup", this.group.id);
     },
-    toggleGroupMenu(){
-       this.isGroupMenuOpen = !this.isGroupMenuOpen;
+    toggleGroupMenu() {
+      this.isGroupMenuOpen = !this.isGroupMenuOpen;
     },
-    updateBoard(){
+    updateBoard() {
       this.$emit("updateBoard", this.board);
+    },
+    toggleLabelsTitles() {
+      // this.isLabelsTitlesShown = !this.isLabelsTitlesShown
+      this.$emit("toggleLabelsTitles");
     },
   },
 };

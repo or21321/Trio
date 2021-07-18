@@ -1,12 +1,33 @@
 <template>
   <div @click="toCardDetails" class="card-preview">
-    <div class="card-labels" v-if="card.cardLabels">{{cardLabels[0].color}}</div>
-    <span class="card-preview-title">{{ card.title }}</span>
     <img
       class="img-preview"
       v-if="card.attachments.length"
       :src="card.attachments[0].url"
     />
+    <div class="card-labels" v-if="cardLabels && !isLabelsTitlesShown">
+      <span
+        class="label-preview"
+        v-for="label in cardLabels"
+        :key="label.id"
+        :style="{ backgroundColor: label.color }"
+        @click.stop="toggleLabelTitle"
+      >
+      </span>
+      <!-- <span v-else class="label" v-for="label in cardLabels" :key="label.id" :style="{backgroundColor:label.color}">{{label.title}}</span> -->
+    </div>
+    <div class="card-labels" v-else>
+      <!-- <span class="label-preview" v-for="label in cardLabels" :key="label.id" :style="{backgroundColor:label.color}"></span> -->
+      <span
+        class="label-preview title-shown"
+        v-for="label in cardLabels"
+        :key="label.id"
+        :style="{ backgroundColor: label.color }"
+        @click.stop="toggleLabelTitle"
+        >{{ label.title }}</span
+      >
+    </div>
+    <span class="card-preview-title">{{ card.title }}</span>
     <div class="card-info">
       <div class="card-badges"></div>
       <ul class="card-members" v-if="card.members.length">
@@ -40,30 +61,56 @@ export default {
       type: String,
       required: true,
     },
-  },
-  data() {  
-  return {
-    cardLabels: []
-  }
-  },
-watch: {
-  'card.labelIds': {
-    immediate: true,
-    handler() { 
-      console.log('watch handler on card', this.card);
+    isLabelsTitlesShown: {
+      type: Boolean,
+      required: true,
     },
-  }
-},
+  },
+  data() {
+    return {
+      cardLabels: [],
+      // isLabelTitleShown: false,
+    };
+  },
+  watch: {
+    "card.labelIds": {
+      immediate: true,
+      handler() {
+        console.log("watch from preview, handler on card", this.card);
+        this.cardLabels = [];
+        this.card.labelIds.forEach((labelId) => {
+          const cardLabel = this.currBoard.labels.find((label) => {
+            // console.log(label.id === labelId);
+            // console.log('label.id', label.id);
+            // console.log('labelId', labelId);
+            return label.id === labelId;
+          });
+          if (cardLabel) return this.cardLabels.push(cardLabel);
+          else console.log("cardLabel undefined", cardLabel);
+        });
+        console.log("cardLabels from preview", this.cardLabels);
+      },
+    },
+  },
+  computed: {
+    currBoard() {
+      return this.$store.getters.currBoard;
+    },
+  },
   methods: {
     toCardDetails() {
       this.$router.push(
         `${this.$route.path}/g/${this.groupId}/c/${this.card.id}`
       );
     },
-    filterCardLabels() {  
-      console.log('filterCardLabels', this.card.labelIds);
-      
-    }
+    filterCardLabels() {
+      console.log("filterCardLabels", this.card.labelIds);
+    },
+    toggleLabelTitle() {
+      // this.isLabelTitleShown = !this.isLabelTitleShown;
+      console.log("toogleLabelTitle()", this.isLabelTitleShown);
+      this.$emit("toggleLabelsTitles");
+    },
   },
 };
 </script>

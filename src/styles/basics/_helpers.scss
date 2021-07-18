@@ -59,23 +59,6 @@
     cursor: pointer;
 }
 
-
-
-.close-popup-btn {
-    color: #6c7a92;
-    font-weight: 100;
-    font-size: 15px;
-    position: absolute;
-    top: 4.5px;
-    right: 0;
-    padding: 7.5px;
-
-    &:hover {
-        color: darken(#6c7a92, 50);
-        cursor: pointer;
-    }
-}
-
 .ghost-card-draggable {
     opacity: 0.5;
     background: #f7fafc;

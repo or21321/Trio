@@ -60,9 +60,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      // console.log(this.$refs.header.$el);
       this.$refs.header.$el.addEventListener("focusout", this.updateTitle);
-      // console.log(this.$refs.header);
       this.isEditing = false;
     }, 1);
   },
@@ -71,7 +69,6 @@ export default {
       this.$emit("toggleStar");
     },
     updateTitle() {
-      console.log('updating')
       // this.boardTitle = ev.target.textContent
       this.isEditing = !this.isEditing;
       this.$emit("updateTitle", this.boardTitle);

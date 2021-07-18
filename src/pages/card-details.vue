@@ -414,7 +414,7 @@ export default {
         "focusout",
         this.checkCommentEmpty
       );
-    }, 1);
+    }, 100);
   },
   methods: {
     filterCardLabels() {

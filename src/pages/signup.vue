@@ -40,7 +40,8 @@ export default {
         username: null,
         email: null,
         password: null,
-        imgUrl: null
+        imgUrl: '',
+        mentions: []
       },
       isLoading: false,
       isLoaded: false

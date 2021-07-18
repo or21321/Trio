@@ -6,6 +6,7 @@
       :members="board.members"
       @updateTitle="updateTitle"
       @toggleStar="toggleStar"
+      @updateMembers="updateMembers"
     ></board-header>
     <!-- * for when dragscroll is working with draggable -->
     <div v-dragscroll:nochilddrag class="board-canvas my-scrollbar">
@@ -123,8 +124,18 @@ export default {
         await this.$store.dispatch({ type: "showMsg", msg });
       }
     },
-    saveBoard() {
-      this.$store.dispatch({ type: "saveBoard", board: this.board });
+    saveBoard(board) {
+      try {
+        this.$store.dispatch({ type: "saveBoard", board });
+      } catch (err) {
+        console.log("Error saving board:", err);
+      }
+    },
+    async updateMembers(members) {
+      const updatedBoard = this.board;
+      updatedBoard.members = members;
+      console.log("updated board", updatedBoard);
+      this.saveBoard(updatedBoard);
     },
   },
 };

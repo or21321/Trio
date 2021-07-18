@@ -129,6 +129,10 @@
                background-color: darken(#eaecf0, 3);
             }
 
+            &:nth-child(2) {  
+               border-radius: 3px;
+            }
+
             .material-icons-outlined {
                padding-top: unset;
                font-size: 20px;

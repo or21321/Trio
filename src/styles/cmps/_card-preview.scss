@@ -10,7 +10,7 @@
     transition: background-color 0.1s;
     box-shadow: 0 1px 0 #c0c6d0;
     margin-bottom: 8px;
-   //  max-width: 250px;
+    //  max-width: 250px;
     display: flex;
     flex-direction: column;
     // z-index: 10;
@@ -18,27 +18,27 @@
         cursor: pointer;
         background-color: #c1cde023;
     }
-    .card-preview-title{
-       min-height: 30px;
+    .card-preview-title {
+        min-height: 30px;
     }
-    .img-preview{
-       width: 100%;
-
+    .img-preview {
+        width: 100%;
     }
     .card-info {
         display: flex;
         // flex-direction: row-reverse;
         flex-wrap: wrap;
-        
-        .card-badges {  
+
+        .card-badges {
             flex-basis: 50%;
         }
-        .card-members { 
+        .card-members {
             flex-basis: 50%;
             display: flex;
             flex-direction: row-reverse;
             gap: 4px;
             margin-bottom: 3.5px;
+            margin: 0 0 0 auto;
             // Might be a bug when 4+ members, need to make it look good with card-badges
         }
     }

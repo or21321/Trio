@@ -36,6 +36,7 @@ async function getUsers() {
       console.log('userService: Error in getUsers', err)
       throw err
    }
+   return users
 }
 
 // createTestUsers() {

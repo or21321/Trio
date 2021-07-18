@@ -258,12 +258,6 @@ export default {
       immediate: true,
       async handler() {
         try {
-          // this.card = await this.$store.dispatch({
-          //   type: "getCardById",
-          //   cardId: this.cardId,
-          //   groupId: this.groupId,
-          //   boardId: this.boardId,
-          // });
           await this.loadCard();
           this.description = this.card.description;
         } catch (err) {
@@ -273,16 +267,13 @@ export default {
       },
     },
     "currBoard.labels": {
-      // immediate: true,
       handler() {
         console.log("watch on currBoard from details");
         this.filterCardLabels();
       },
     },
     card: {
-      // immediate: true,
       handler() {
-        // if (!this.card.labelIds.length) return;
         console.log("watch on card.labelIds from details");
         this.filterCardLabels();
       },
@@ -313,14 +304,13 @@ export default {
     filterCardLabels() {
       if (!this.card.labelIds.length) return (this.cardLabels = []);
       console.log("filterCardLabels", this.card.labelIds);
-      this.cardLabels = []
+      this.cardLabels = [];
       this.card.labelIds.forEach((cardLabelId) => {
         const label = this.currBoard.labels.find((label) => {
           console.log("hey");
           return label.id == cardLabelId;
         });
         if (label) this.cardLabels.push(label);
-        // if (label) return label
       });
       console.log("cardLabels after filtering", this.cardLabels);
     },

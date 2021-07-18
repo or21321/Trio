@@ -490,7 +490,7 @@ export default {
           boardId: this.boardId,
         });
         await this.loadCard();
-        this.$refs.addCheckbox.focus();
+        this.$refs.infoCheckbox.focus();
       } catch (err) {
         console.log("Error updating card:", err);
       }

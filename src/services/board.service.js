@@ -21,8 +21,12 @@ export const boardService = {
    addActivity,
    getCardById,
    getGroupById,
+   addCheckbox,
+   removeChecklist,
+   removeCheckbox,
    addComment,
-   removeComment
+   removeComment,
+
 }
 
 //Board
@@ -182,7 +186,43 @@ async function getCardById(cardId, groupId, boardId) {
       console.log('Error:', err);
    }
 }
+//checklist
+async function addCheckbox(commentTxt,checklistId, card, groupId, boardId) {
+   try {
+      const todo = {
+         id:utilService.makeId(),
+         title:commentTxt,
+         isDone:false
+      }
+      const currChecklistIdx = card.checklists.findIndex(cl => cl.id === checklistId)
+      card.checklists[currChecklistIdx].todos.push(todo);
+     return saveCard(card, groupId, boardId)
+   } catch (err) {
+      console.log('Error:', err);
+   }
+}
+async function removeChecklist(checklistId, card, groupId, boardId) {
+   try {
+      const currChecklistIdx = card.checklists.findIndex(cl => cl.id === checklistId)
+      card.checklists.splice(currChecklistIdx,1);
+     return saveCard(card, groupId, boardId)
+   } catch (err) {
+      console.log('Error:', err);
+   }
+}
+async function removeCheckbox(checkboxId,checklistId, card, groupId, boardId) {
+   try {
+      const currChecklistIdx = card.checklists.findIndex(cl => cl.id === checklistId)
+      const currCheckboxId = card.checklists[currChecklistIdx].todos
+         .findIndex(cb => cb.id === checkboxId)
+      card.checklists[currChecklistIdx].todos.splice(currCheckboxId, 1);
+     return saveCard(card, groupId, boardId)
+   } catch (err) {
+      console.log('Error:', err);
+   }
+}
 
+//Comment
 async function addComment(commentTxt, card, groupId, boardId) {
    try {
       const comment = {

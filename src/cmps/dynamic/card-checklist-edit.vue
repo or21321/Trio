@@ -46,6 +46,7 @@ export default {
        }
        this.cardToEdit.checklists.push(checklist)
       this.$emit("updateCard", this.cardToEdit);
+      this.close();
     },
     close() {
       this.$emit("close");

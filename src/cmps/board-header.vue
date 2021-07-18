@@ -9,9 +9,8 @@
         v-model="boardTitle"
         :noNL="false"
         :noHTML="true"
-        @="updateTitle"
         @keypress.enter="updateTitle"
-        ref="header"
+        @input="updateTitle"
       />
       <h1 v-else class="board-header-btn" @click="isEditing = !isEditing">
         {{ boardTitle }}
@@ -99,12 +98,12 @@ export default {
          }
      }
   },
-  mounted() {
-    setTimeout(() => {
-      this.$refs.header.$el.addEventListener("focusout", this.updateTitle);
-      this.isEditing = false;
-    }, 1);
-  },
+//   mounted() {
+//     setTimeout(() => {
+//       this.$refs.header.$el.addEventListener("focusout", this.updateTitle);
+//       this.isEditing = false;
+//     }, 1);
+//   },
   methods: {
     toggleStar() {
       this.$emit("toggleStar");

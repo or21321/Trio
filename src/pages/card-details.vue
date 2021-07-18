@@ -2,7 +2,9 @@
   <section class="card-details" @click="closeCardDetails">
     <section class="card-container" @click.stop v-if="card">
       <header class="header">
-        <span class="icon-title material-icons-outlined icon">title</span>
+        <span class="icon-title material-icons-outlined icon"
+          >movie_creation</span
+        >
         <section class="titles">
           <input v-model="card.title" class="main-title" @change="saveCard" />
           <h4 class="sub-title">in list {{ groupName }}</h4>
@@ -51,7 +53,7 @@
         </section>
         <section class="description grid-details">
           <span class="material-icons-outlined icon">subject</span>
-          <h1 class="title-description">Description</h1>
+          <h1 class="title-description title">Description</h1>
           <contenteditable
             class="description-text"
             tag="div"
@@ -70,7 +72,7 @@
           <span class="attachments-icon material-icons-outlined icon"
             >attachments</span
           >
-          <h1 class="title-attachments">Attachments</h1>
+          <h1 class="title-attachments title">Attachments</h1>
           <div class="imgs-container">
             <article
               class="img-container"
@@ -87,31 +89,108 @@
             </article>
           </div>
         </section>
+        <section v-if="card.checklists.length">
+          <section
+            class="checklist grid-details"
+            v-for="checklist in card.checklists"
+            :key="checklist.id"
+          >
+            <span class="material-icons-outlined icon">check_box</span>
+            <div class="header-checklist">
+              <h1 class="title-checklist title">{{ checklist.title }}</h1>
+              <button
+                class="delete btn-details"
+                @click="removeChecklist(checklist.id)"
+              >
+                Delete
+              </button>
+            </div>
+            <section class="checklists-list">
+              <section class="checklist-preview">
+                <section class="main-checklist">
+                  <section class="scroll-container">
+                    <span class="percent">{{ getPercent(checklist) }}%</span>
+                    <div class="scroll">
+                      <div
+                        class="scroll-done"
+                        :class="{ 'all-done': getPercent(checklist) === 100}"
+                        :style="{ width: getPercent(checklist) + '%' }"
+                      ></div>
+                    </div>
+                  </section>
 
-        <section class="checklist grid-details" v-if="card.checklists.length">
-          <span class="material-icons-outlined icon">check_box</span>
-          <div class="header-checklist">
-            <h1 class="title-checklist">Chacklist</h1>
-            <button class="delete-checklist">Delete</button>
-          </div>
-          <section class="main-checklist">
-            <div class="scroll">
-              <div class="scroll-done"></div>
-              <span class="percent"> 10%</span>
-            </div>
-            <input type="text" class="add-item" />
-            <div class="buttons">
-              <el-button type="primary" class="add">Add</el-button>
-              <span class="material-icons-outlined close">close</span>
-            </div>
+                  <article
+                    class="checkbox-preview"
+                    v-for="checkbox in checklist.todos"
+                    :key="checkbox.id"
+                  >
+                    <el-checkbox
+                      class="checkbox-input"
+                      v-model="checkbox.isDone"
+                      @change="saveCard"
+                    ></el-checkbox>
+
+                    <input
+                      class="info"
+                      :class="{ 'is-done': checkbox.isDone }"
+                      v-model="checkbox.title"
+                      ref="infoCheckbox"
+                      @focusout="saveCheckbox"
+                      @keypress.enter="saveCheckbox"
+                    />
+                    <span
+                      class="delete material-icons-outlined icon"
+                      @click="deleteCheckbox(checkbox.id, checklist.id)"
+                      >delete</span
+                    >
+                  </article>
+                  <section class="all-item-container">
+                     <button
+                     class="open-input btn-details"
+                     @click="openChanges(checklist.id)"
+                     v-if="currChecklist !== checklist.id"
+                     >
+                     Add an item
+                     </button>
+
+                     <div class="main-changes" v-else>
+                     <input
+                        type="text"
+                        class="add-item"
+                        v-model="checkboxTitle"
+                        placeholder="Add an item"
+                        ref="addCheckbox"
+                     />
+
+                     <div class="buttons">
+                        <el-button
+                           type="primary"
+                           :disabled="!checkboxTitle"
+                           class="add"
+                           @click="addCheckbox"
+                           >Add</el-button
+                        >
+                        <span
+                           class="material-icons-outlined close"
+                           @click="closeChanges"
+                           >close</span
+                        >
+                        </div>
+                     </div>
+                  </section>
+                </section>
+              </section>
+            </section>
           </section>
         </section>
-
         <section class="activity grid-details">
           <span class="material-icons-outlined icon">format_list_bulleted</span>
           <div class="header-activity">
-            <h1 class="title-activity">Activity</h1>
-            <button class="toggle-details-activity" @click="setShowComments">
+            <h1 class="title-activity title">Activity</h1>
+            <button
+              class="toggle-details-activity btn-details"
+              @click="setShowComments"
+            >
               {{ titleActivityBtn }}
             </button>
           </div>
@@ -236,7 +315,6 @@ import cardChecklistEdit from "@/cmps/dynamic/card-checklist-edit";
 import cardDatesEdit from "@/cmps/dynamic/card-dates-edit";
 import cardCoverEdit from "@/cmps/dynamic/card-cover-edit";
 import avatar from "vue-avatar";
-
 export default {
   components: {
     cardMembersEdit,
@@ -255,6 +333,8 @@ export default {
       cardId: this.$route.params.cardId,
       description: null,
       groupName: null,
+      checkboxTitle: "",
+      currChecklist: null,
       titleActivityBtn: "Hide Details",
       commentTxt: "",
       iscommentOpen: false,
@@ -328,7 +408,7 @@ export default {
       throw err;
     }
   },
-  mounted() {
+  async mounted() {
     setTimeout(() => {
       this.$refs.comment.$el.addEventListener(
         "focusout",
@@ -409,7 +489,8 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        this.loadCard();
+        await this.loadCard();
+        this.$refs.addCheckbox.focus();
       } catch (err) {
         console.log("Error updating card:", err);
       }
@@ -449,18 +530,86 @@ export default {
       this.card.attachments.splice(imgIdx, 1);
       this.saveCard();
     },
+    //Checklist
+    openChanges(checklistId) {
+      this.checkboxTitle = "";
+      this.currChecklist = checklistId;
+    },
+    async removeChecklist(checklistId) {
+      try {
+        var msg = {};
+        await this.$store.dispatch({
+          type: "removeChecklist",
+          checklistId: checklistId,
+          card: this.card,
+          groupId: this.groupId,
+          boardId: this.boardId,
+        });
+        msg = {
+          txt: "Checklist was successfully removed",
+          type: "success",
+        };
+      } catch (err) {
+        msg = {
+          txt: "Fail to remove checklist, try again later",
+          type: "error",
+        };
+      } finally {
+        await this.$store.dispatch({ type: "showMsg", msg });
+      }
+    },
+    async deleteCheckbox(checkboxId, checklistId) {
+      try {
+        await this.$store.dispatch({
+          type: "removeCheckbox",
+          checkboxId: checkboxId,
+          checklistId: checklistId,
+          card: this.card,
+          groupId: this.groupId,
+          boardId: this.boardId,
+        });
+      } catch (err) {
+        console.log("ERROR: cannot remove checkbox", checkboxId, ",", err);
+      }
+    },
+    async addCheckbox() {
+      try {
+        this.card = await this.$store.dispatch({
+          type: "addCheckbox",
+          title: this.checkboxTitle,
+          checklistId: this.currChecklist,
+          card: this.card,
+          groupId: this.groupId,
+          boardId: this.boardId,
+        });
+        this.closeChanges();
+      } catch (err) {
+        console.log("ERROR: cannot add checkbox");
+      }
+    },
+    closeChanges() {
+      this.checkboxTitle = "";
+      this.currChecklist = null;
+    },
+    saveCheckbox(ev) {
+      this.saveCard();
+      ev.target.blur()
+    },
     //COMMENTS
     async addComment() {
       this.commentTxt = "";
       this.iscommentOpen = false;
-
-      await this.$store.dispatch({
-        type: "addComment",
-        commentTxt: this.commentTxt,
-        card: this.card,
-        groupId: this.groupId,
-        boardId: this.boardId,
-      });
+      try {
+        await this.$store.dispatch({
+          type: "addComment",
+          commentTxt: this.commentTxt,
+          card: this.card,
+          groupId: this.groupId,
+          boardId: this.boardId,
+        });
+      } catch (err) {
+        console.log("ERROR: cannot add comment");
+      }
     },
     checkCommentEmpty() {
       console.log("yes");
@@ -483,6 +632,15 @@ export default {
       if (this.titleActivityBtn === "Show Details") {
         this.titleActivityBtn = "Hide Details";
       } else this.titleActivityBtn = "Show Details";
+    },
+    getPercent(checklist) {
+      const all = checklist.todos.length;
+      if (all === 0) return 0;
+      const acc = checklist.todos.reduce((acc, todo) => {
+        if (todo.isDone) acc++;
+        return acc;
+      }, 0);
+      return Math.floor((acc * 100) / all)
     },
   },
   computed: {

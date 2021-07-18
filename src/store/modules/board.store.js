@@ -193,7 +193,32 @@ export const boardStore = {
             throw err;
          }
       },
- 
+      //Checkbox
+      async addCheckbox(context, { title,checklistId, card, groupId, boardId }) {
+         try {
+           return boardService.addCheckbox(title,checklistId, card, groupId, boardId)
+         } catch (err) {
+            console.log('Cannot add checkbox', title, ',', err);
+            throw err;
+         }
+      },
+      async removeChecklist(context, { checklistId, card, groupId, boardId }) {
+         try {
+           boardService.removeChecklist(checklistId, card, groupId, boardId)
+         } catch (err) {
+            console.log('Cannot remove checklist', checklistId , ',', err);
+            throw err;
+         }
+      },
+      async removeCheckbox(context, { checkboxId,checklistId, card, groupId, boardId }) {
+         try {
+           boardService.removeCheckbox(checkboxId,checklistId, card, groupId, boardId)
+         } catch (err) {
+            console.log('Cannot remove checklist', checklistId , ',', err);
+            throw err;
+         }
+      },
+      //Comment
       async addComment(context, { commentTxt, card, groupId, boardId }) {
          try {
             boardService.addComment(commentTxt, card, groupId, boardId)

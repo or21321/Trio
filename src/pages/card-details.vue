@@ -20,7 +20,7 @@
               <avatar
                 v-for="member in card.members"
                 :key="member.id"
-                :Src="member.imgUrl"
+                :src="member.imgUrl"
                 :username="member.fullname"
                 :size="32"
               />

@@ -28,7 +28,7 @@ export default {
     },
     methods: {  
         updateTask() {  
-            this.$emit('updateTask', this.card)
+            this.$emit('updateCard', this.card)
         }
     },
 

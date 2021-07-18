@@ -168,7 +168,7 @@ async function getMiniUser(userId) {
 async function createDemoUsers() {
    try {
       const usersToAdd = [
-         { fullname: "Guest148", username: "Guest", email: null, password: "Guest", imgUrl: "http://some-img.jpg", mentions: [] },
+         { fullname: "Guest1438", username: "Guest", email: null, password: "Guest", imgUrl: "", mentions: [] },
          { fullname: "Yael Hazan", username: "yael", email: "yael@aa.com", password: "123123", imgUrl: "https://res.cloudinary.com/or21321/image/upload/v1626387050/vnodxsvuzaeapjkgxw9g.jpg", mentions: [] },
          { fullname: "Dekel Livyani", username: "dekel", email: "dekel@gmail.com", password: "123123", imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg2DU9OQ6q9A4Alh_MYjoLzo6awn87MICqq6KenfafYqwT_JnQi3xmnQfRAQFMqFH2TFMjhS6V&usqp=CAc", mentions: [] },
          { fullname: "Or Hadar", username: "or", email: null, password: "123123", imgUrl: "http://res.cloudinary.com/or21321/image/upload/v1626387480/y5ox9qoe0xvuhmsyultn.jpg", mentions: [] },

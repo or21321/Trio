@@ -29,8 +29,8 @@
       >
         add
       </button>
-      <div @click="toggleUserMenu">
-        <avatar class="avatar" :size="32" :username="fullname" :src="imgUrl" />
+      <div @click="toggleUserMenu" class="avatar">
+        <avatar :size="32" :username="fullname" :src="imgUrl" />
         <!-- src="https://res.cloudinary.com/or21321/image/upload/v1626317415/pp_bqtkzw.jpg" -->
         <!-- "http://res.cloudinary.com/or21321/image/upload/v1626387050/vnodxsvuzaeapjkgxw9g.jpg" -->
       </div>
@@ -49,48 +49,47 @@ import boardCompose from "../cmps/board-compose.vue";
 import boardList from "../cmps/board-list.vue";
 
 export default {
-   data() {
-      return {
-         isBoardComposeOn: false,
-         isBoardListOpen: false,
-         fullname: null,
-         imgUrl: null,
-      };
-   },
-   components: {
-      avatar,
-      boardCompose,
-      boardList,
-   },
-   async created() {
-      const user = this.$store.getters.loggedinUser;
-      this.fullname = user.fullname;
-      this.imgUrl = user.imgUrl;
-
-   },
-   methods: {
-      toggleBoardCompose() {
-         this.isBoardComposeOn = !this.isBoardComposeOn;
-      },
-      toggleUserMenu() {
-         console.log("toggleUserMenu()");
-      },
-      toggleBoardList() {
-         this.isBoardListOpen = !this.isBoardListOpen;
-      },
-      addBoard(board) {
-         this.$emit("addBoard", board);
-         this.isBoardComposeOn = false;
-      },
-      setBackground(style){
-          this.$emit('setBackground',style)
-      }
-   },
-   computed:{
-      boards() {
-         return this.$store.getters.boards
-      }
-   }
+  data() {
+    return {
+      isBoardComposeOn: false,
+      isBoardListOpen: false,
+      fullname: null,
+      imgUrl: null,
+    };
+  },
+  components: {
+    avatar,
+    boardCompose,
+    boardList,
+  },
+  async created() {
+    const user = this.$store.getters.loggedinUser;
+    this.fullname = user.fullname;
+    this.imgUrl = user.imgUrl;
+  },
+  methods: {
+    toggleBoardCompose() {
+      this.isBoardComposeOn = !this.isBoardComposeOn;
+    },
+    toggleUserMenu() {
+      console.log("toggleUserMenu()");
+    },
+    toggleBoardList() {
+      this.isBoardListOpen = !this.isBoardListOpen;
+    },
+    addBoard(board) {
+      this.$emit("addBoard", board);
+      this.isBoardComposeOn = false;
+    },
+    setBackground(style) {
+      this.$emit("setBackground", style);
+    },
+  },
+  computed: {
+    boards() {
+      return this.$store.getters.boards;
+    },
+  },
 };
 </script>
 

@@ -46,7 +46,7 @@ html {
 body {
     margin: 0;
     height: 100%;
-    line-height:20px;
+    line-height: 20px;
 }
 
 h1,
@@ -87,6 +87,9 @@ textarea {
 
 .avatar {
     object-fit: cover !important;
+    span {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
 }
 
 ul {

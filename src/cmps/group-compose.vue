@@ -7,7 +7,7 @@
     />
     <!-- </div> -->
     <div class="compose-features">
-      <button @click="add">Add list</button>
+      <button @click="add" class="compose-btn">Add list</button>
       <button @click="toggleCompose" class="material-icons">close</button>
     </div>
   </div>

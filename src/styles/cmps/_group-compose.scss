@@ -20,7 +20,6 @@
         span:first-child {
             padding-right: 3px;
             font-size: 19px;
-            
         }
     }
 }
@@ -75,33 +74,6 @@
     }
     .compose-features {
         display: flex;
-
-        button:first-child {
-            // float: left;
-            // min-height: 32px;
-            // height: 32px;
-            // margin-top: 0;
-            // padding-top: 4px;
-            // padding-bottom: 4px;
-
-            // background-color: #0079bf;
-            // box-shadow: none;
-            // border: none;
-            // color: #fff;
-
-            background-color: #0079bf;
-            padding: 4px 12px;
-            border-radius: 3px;
-            color: #ffffff;
-            height: 32px;
-            transition: margin 85ms ease-in, height 85ms ease-in;
-
-            margin: 0px 9.5px 0 0.5px;
-            transition: background-color 0.3s;
-            &:hover {
-                background-color: darken(#0079bf, 5);
-            }
-        }
 
         button:last-child {
             color: #42526e;

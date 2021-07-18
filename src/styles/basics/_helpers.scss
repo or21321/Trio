@@ -64,3 +64,25 @@
     background: #f7fafc;
     border: 1px solid #4299e1;
 }
+
+.compose-btn {
+    background-color: #0079bf;
+    padding: 4px 12px;
+    border-radius: 3px;
+    color: #ffffff;
+    height: 32px;
+    transition: margin 85ms ease-in, height 85ms ease-in;
+
+    margin: 0px 9.5px 0 0.5px;
+    transition: background-color 0.3s;
+    &:hover {
+        background-color: darken(#0079bf, 5);
+    }
+}
+
+.hover-background { 
+    &:hover {
+        opacity: .8 ;
+        // background-color: lightgray;
+    }
+}

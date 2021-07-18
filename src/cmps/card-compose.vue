@@ -7,7 +7,8 @@
       placeholder="Enter a title for this card..."
     ></textarea>
     <div class="compose-features">
-      <el-button type="primary" :disabled="!cardToEdit.title" @click="add" >Add card</el-button>
+      <!-- <el-button type="primary" :disabled="!cardToEdit.title" @click="add" >Add card</el-button> -->
+      <button class="compose-btn" @click="add">Add card</button>
       <button @click="toggleCompose" class="material-icons">close</button>
       <span
         @click="openComposeOptions"

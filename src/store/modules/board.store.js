@@ -66,6 +66,7 @@ export const boardStore = {
       saveCard(state, { isUpdate, card, groupId }) {
          const groupIdx = state.currBoard.groups.findIndex(group => group.id === groupId)
          console.log('groupIdx', groupIdx);
+         console.log('card from commit', card);
          if (isUpdate) {
             const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(card => card.id === card.id)
             console.log('cardIdx', cardIdx);
@@ -201,9 +202,14 @@ export const boardStore = {
          }
       },
       //Checkbox
-      async addCheckbox(context, { title,checklistId, card, groupId, boardId }) {
+      // async addCheckbox({commit}, { title,checklistId, card, groupId, boardId }) {
+      async addCheckbox({commit}, { title,checklistId, card, groupId, boardId }) {
          try {
-           return boardService.addCheckbox(title,checklistId, card, groupId, boardId)
+           const savedCard = await boardService.addCheckbox(title,checklistId, card, groupId, boardId)
+         //   console.log('savedCard after save', savedCard);
+           commit({type:'saveCard', isUpdate:true, card: savedCard, groupId})
+         //   console.log('savedCard', savedCard);
+           return savedCard
          } catch (err) {
             console.log('Cannot add checkbox', title, ',', err);
             throw err;

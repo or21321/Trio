@@ -4,6 +4,7 @@
       type="text"
       v-model="groupToCompose.title"
       placeholder="Enter list title..."
+      ref="titleInput"
     />
     <!-- </div> -->
     <div class="compose-features">
@@ -34,30 +35,40 @@ export default {
       isComposeOn: false,
     };
   },
+  watch: {
+    isComposeOn: {
+      handler() {
+        console.log(this.$refs);
+        if (this.isComposeOn) setTimeout(() => {  
+          this.$refs.titleInput.focus()
+        }, 1)
+      },
+    },
+  },
   methods: {
     async add() {
       try {
-         var msg = {};
+        var msg = {};
         if (!this.groupToCompose.title) return;
-            await this.$store.dispatch({
-               type: "saveGroup",
-               group: this.groupToCompose,
-               boardId: this.boardId,
-            });
-            this.groupToCompose = boardService.getEmptyGroup();
-            this.toggleCompose();
-            msg = {
-            txt:'List was successfully added',
-            type:'success'
-         }
+        await this.$store.dispatch({
+          type: "saveGroup",
+          group: this.groupToCompose,
+          boardId: this.boardId,
+        });
+        this.groupToCompose = boardService.getEmptyGroup();
+        this.toggleCompose();
+        msg = {
+          txt: "List was successfully added",
+          type: "success",
+        };
       } catch (err) {
-           msg = {
-           txt:'Fail to add list, try again later',
-           type:'error'
-        }
+        msg = {
+          txt: "Fail to add list, try again later",
+          type: "error",
+        };
         throw err;
-      }finally{
-         await this.$store.dispatch({type:'showMsg', msg})
+      } finally {
+        await this.$store.dispatch({ type: "showMsg", msg });
       }
     },
     toggleCompose() {

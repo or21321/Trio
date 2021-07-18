@@ -113,7 +113,7 @@
                     <div class="scroll">
                       <div
                         class="scroll-done"
-                        :class="{ 'all-done': getPercent(checklist) === 100}"
+                        :class="{ 'all-done': getPercent(checklist) === 100 }"
                         :style="{ width: getPercent(checklist) + '%' }"
                       ></div>
                     </div>
@@ -145,38 +145,38 @@
                     >
                   </article>
                   <section class="all-item-container">
-                     <button
-                     class="open-input btn-details"
-                     @click="openChanges(checklist.id)"
-                     v-if="currChecklist !== checklist.id"
-                     >
-                     Add an item
-                     </button>
+                    <button
+                      class="open-input btn-details"
+                      @click="openChanges(checklist.id)"
+                      v-if="currChecklist !== checklist.id"
+                    >
+                      Add an item
+                    </button>
 
-                     <div class="main-changes" v-else>
-                     <input
+                    <div class="main-changes" v-else>
+                      <input
                         type="text"
                         class="add-item"
                         v-model="checkboxTitle"
                         placeholder="Add an item"
                         ref="addCheckbox"
-                     />
+                      />
 
-                     <div class="buttons">
+                      <div class="buttons">
                         <el-button
-                           type="primary"
-                           :disabled="!checkboxTitle"
-                           class="add"
-                           @click="addCheckbox"
-                           >Add</el-button
+                          type="primary"
+                          :disabled="!checkboxTitle"
+                          class="add"
+                          @click="addCheckbox"
+                          >Add</el-button
                         >
                         <span
-                           class="material-icons-outlined close"
-                           @click="closeChanges"
-                           >close</span
+                          class="material-icons-outlined close"
+                          @click="closeChanges"
+                          >close</span
                         >
-                        </div>
-                     </div>
+                      </div>
+                    </div>
                   </section>
                 </section>
               </section>
@@ -490,7 +490,6 @@ export default {
           boardId: this.boardId,
         });
         await this.loadCard();
-        this.$refs.infoCheckbox.focus();
       } catch (err) {
         console.log("Error updating card:", err);
       }
@@ -593,7 +592,7 @@ export default {
     },
     saveCheckbox(ev) {
       this.saveCard();
-      ev.target.blur()
+      ev.target.blur();
     },
     //COMMENTS
     async addComment() {
@@ -623,7 +622,6 @@ export default {
         groupId: this.groupId,
         boardId: this.boardId,
       });
-      
     },
     setShowComments() {
       if (this.titleActivityBtn === "Show Details") {
@@ -637,7 +635,7 @@ export default {
         if (todo.isDone) acc++;
         return acc;
       }, 0);
-      return Math.floor((acc * 100) / all)
+      return Math.floor((acc * 100) / all);
     },
   },
   computed: {

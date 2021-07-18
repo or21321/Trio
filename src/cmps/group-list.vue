@@ -1,7 +1,16 @@
 <template>
   <div class="group-list">
     <div class="group-header">
-      <h2>{{ group.title }}</h2>
+      <!-- <h2>{{ group.title }}</h2> -->
+          <contenteditable
+            tag="h2"
+            class="group-title"
+            :contenteditable="true"
+            v-model="group.title"
+            :noNL="false"
+            :noHTML="true"
+            @input="saveGroupTitle"
+          />
     </div>
     <span @click="toggleGroupMenu" class="material-icons group-extras-menu">
       more_horiz
@@ -65,6 +74,7 @@ export default {
   data() {
     return {
       isGroupMenuOpen: false,
+      lastTitleChar: ''
       // isLabelsTitlesShown: false
     };
   },
@@ -74,6 +84,11 @@ export default {
     },
     toggleGroupMenu() {
       this.isGroupMenuOpen = !this.isGroupMenuOpen;
+    },
+    saveGroupTitle() {
+      if (this.group.title === '') return this.group.title = this.lastTitleChar
+      this.lastTitleChar = this.group.title
+      this.updateBoard() 
     },
     updateBoard() {
       this.$emit("updateBoard", this.board);

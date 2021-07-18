@@ -30,6 +30,21 @@
     <span class="card-preview-title">{{ card.title }}</span>
     <div class="card-info">
       <div class="card-badges">
+        <div v-if="cardChecklistsTodos.length" class="checklist-badge">
+          <span class="material-icons-outlined">{{todosIcon}}</span>
+          <span>{{ checklistsDoneTodos }}</span
+          >/
+          <span>{{ cardChecklistsTodos.length }}</span>
+        </div>
+        <!-- <div
+          v-if="cardChecklistsTodos.length === checklistsDoneTodos"
+          class="checklist-badge"
+        >
+          <span class="material-icons-outlined">check_box</span>
+          <span>{{ checklistsDoneTodos }}</span
+          >/
+          <span>{{ cardChecklistsTodos.length }}</span>
+        </div> -->
         <div v-if="card.comments.length" class="comment-badge">
           <span class="material-icons-outlined badge-icon">
             chat_bubble_outline
@@ -76,52 +91,65 @@ export default {
   data() {
     return {
       cardLabels: [],
-      // isLabelTitleShown: false,
+      cardChecklistsTodos: [],
+      checklistsDoneTodos: 0,
     };
   },
   watch: {
-    "card.labelIds": {
+    card: {
       immediate: true,
       handler() {
-        console.log("watch from preview, handler on card", this.card);
-        this.cardLabels = [];
-        this.card.labelIds.forEach((labelId) => {
-          const cardLabel = this.currBoard.labels.find((label) => {
-            // console.log(label.id === labelId);
-            // console.log('label.id', label.id);
-            // console.log('labelId', labelId);
-            return label.id === labelId;
-          });
-          if (cardLabel) return this.cardLabels.push(cardLabel);
-          else console.log("cardLabel undefined", cardLabel);
-        });
-        console.log("cardLabels from preview", this.cardLabels);
+        console.log("watcher on card from preview", this.card);
+        this.filterCardLabels();
+        this.countCardTodos();
       },
     },
-    "card": { 
-      immediate: true,
-      handler() { 
-        console.log('watcher on card from preview', this.card);
-      }
-    }
   },
   computed: {
     currBoard() {
       return this.$store.getters.currBoard;
     },
+    todosIcon() { 
+      return (this.cardChecklistsTodos.length === this.checklistsDoneTodos && this.checklistsDoneTodos)?  'check_box_outlined_blank': 'check_box' 
+    },
   },
+
   methods: {
+    countCardTodos() {
+      console.log("cardChecklistsTodos", this.cardChecklistsTodos);
+      this.checklistsDoneTodos = 0;
+      this.cardChecklistsTodos = [];
+      this.card.checklists.forEach((cl) => {
+        console.log("cl", cl);
+        cl.todos.forEach((todo) => {
+          if (todo.isDone) this.checklistsDoneTodos++;
+          this.cardChecklistsTodos.push(todo);
+        });
+      });
+      console.log("cardChecklistsTodos", this.cardChecklistsTodos);
+      console.log("checklistsDoneTodos", this.checklistsDoneTodos);
+    },
+    filterCardLabels() {
+      console.log("watch from preview, handler on card", this.card);
+      this.cardLabels = [];
+      this.card.labelIds.forEach((labelId) => {
+        const cardLabel = this.currBoard.labels.find((label) => {
+          // console.log(label.id === labelId);
+          // console.log('label.id', label.id);
+          // console.log('labelId', labelId);
+          return label.id === labelId;
+        });
+        if (cardLabel) return this.cardLabels.push(cardLabel);
+        else console.log("cardLabel undefined", cardLabel);
+      });
+      console.log("cardLabels from preview", this.cardLabels);
+    },
     toCardDetails() {
       this.$router.push(
         `${this.$route.path}/g/${this.groupId}/c/${this.card.id}`
       );
     },
-    filterCardLabels() {
-      console.log("filterCardLabels", this.card.labelIds);
-    },
     toggleLabelTitle() {
-      // this.isLabelTitleShown = !this.isLabelTitleShown;
-      console.log("toogleLabelTitle()", this.isLabelTitleShown);
       this.$emit("toggleLabelsTitles");
     },
   },

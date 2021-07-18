@@ -196,7 +196,7 @@ async function addCheckbox(commentTxt, checklistId, card, groupId, boardId) {
       }
       const currChecklistIdx = card.checklists.findIndex(cl => cl.id === checklistId)
       card.checklists[currChecklistIdx].todos.push(todo);
-      return saveCard(card, groupId, boardId)
+      return await saveCard(card, groupId, boardId)
    } catch (err) {
       console.log('Error:', err);
    }

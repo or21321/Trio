@@ -52,7 +52,7 @@ export default {
     },
     card: {
       type: Object,
-      required: false,
+      required: true,
     },
   },
   data() {

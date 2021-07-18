@@ -31,7 +31,7 @@
           :key="member.id"
           :username="member.fullname"
           :src="member.imgUrl"
-          :size="32"
+          :size="28"
         />
       </section>
       <button
@@ -40,13 +40,15 @@
       >
         Invite
       </button>
-      <cardMembersEdit
+      <boardMembersEdit
         v-if="isMembersMenuOpen"
-        :action="action"
+        :users="users"
+        :members="members"
         class="popup members-popup"
+        @updateMembers="updateMembers"
         @close="isMembersMenuOpen = false"
       />
-        <!-- @updateBoard="updateBoard" -->
+      <!-- @updateBoard="updateBoard" -->
     </div>
     <div class="menu-section">
       <button class="board-header-btn menu-section">
@@ -58,7 +60,7 @@
 </template>
 
 <script>
-import cardMembersEdit from "@/cmps/dynamic/card-members-edit";
+import boardMembersEdit from "@/cmps/board-members-edit";
 import avatar from "vue-avatar";
 
 export default {
@@ -81,21 +83,23 @@ export default {
       boardTitle: null,
       isEditing: true,
       isMembersMenuOpen: false,
-      action: {name: 'Members'}
     };
   },
   computed: {
     selected() {
       return { selected: this.star };
     },
+    users() {
+      return this.$store.getters.users;
+    },
   },
-  watch:{
-     "title": {
-        immediate: true,
-         handler() {
-            this.boardTitle = JSON.parse(JSON.stringify(this.title));
-         }
-     }
+  watch: {
+    "title": {
+      immediate: true,
+      handler() {
+        this.boardTitle = JSON.parse(JSON.stringify(this.title));
+      },
+    },
   },
 //   mounted() {
 //     setTimeout(() => {
@@ -112,9 +116,12 @@ export default {
       this.isEditing = !this.isEditing;
       this.$emit("updateTitle", this.boardTitle);
     },
+    updateMembers(members) {
+      this.$emit("updateMembers", members);
+    },
   },
   components: {
-    cardMembersEdit,
+    boardMembersEdit,
     avatar,
   },
 };

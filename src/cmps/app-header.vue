@@ -29,10 +29,11 @@
       >
         add
       </button>
-      <div @click="toggleUserMenu" class="avatar">
-        <avatar :size="32" :username="fullname" :src="imgUrl" />
+      <div @click="isUserMenuOpen=true" class="avatar">
+        <avatar :size="32" :username="user.fullname" :src="user.imgUrl" />
         <!-- src="https://res.cloudinary.com/or21321/image/upload/v1626317415/pp_bqtkzw.jpg" -->
         <!-- "http://res.cloudinary.com/or21321/image/upload/v1626387050/vnodxsvuzaeapjkgxw9g.jpg" -->
+        <user-menu class="popup" v-if="isUserMenuOpen" :user="user" @logout="logout" @close="isUserMenuOpen=false"/>
       </div>
     </div>
     <board-compose
@@ -47,25 +48,25 @@
 import avatar from "vue-avatar";
 import boardCompose from "../cmps/board-compose.vue";
 import boardList from "../cmps/board-list.vue";
+import userMenu from "../cmps/user-menu.vue";
 
 export default {
   data() {
     return {
       isBoardComposeOn: false,
       isBoardListOpen: false,
-      fullname: null,
-      imgUrl: null,
+      user: null,
+      isUserMenuOpen: false
     };
   },
   components: {
     avatar,
     boardCompose,
     boardList,
+    userMenu
   },
   async created() {
-    const user = this.$store.getters.loggedinUser;
-    this.fullname = user.fullname;
-    this.imgUrl = user.imgUrl;
+    this.user = this.$store.getters.loggedinUser;
   },
   methods: {
     toggleBoardCompose() {
@@ -84,6 +85,10 @@ export default {
     setBackground(style) {
       this.$emit("setBackground", style);
     },
+    async logout(){
+      await this.$store.dispatch({type: "logout"})
+      this.$router.push('/')
+    }
   },
   computed: {
     boards() {

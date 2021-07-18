@@ -293,6 +293,7 @@ function getEmptyCard() {
 //       createdBy: {
 //          _id: "u101",
 //          fullname: "Abi Abambi",
+//          username: "Abi",
 //          imgUrl: "http://some-img",
 //       },
 //       style: { 'background-color': '', 'background-image': 'url(https://wallpaperaccess.com/full/109672.jpg)' },
@@ -332,6 +333,7 @@ function getEmptyCard() {
 //          {
 //             _id: "u101",
 //             fullname: "Tal Tarablus",
+//             username: "Tal",
 //             imgUrl: "https://www.google.com",
 //          },
 //       ],
@@ -418,6 +420,7 @@ function getEmptyCard() {
 //                         createdAt: 1590999817436.0,
 //                         byMember: {
 //                            _id: "u101",
+//                            username: "Tal",
 //                            fullname: "Tal Tarablus",
 //                            imgUrl:
 //                               "http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg",
@@ -473,6 +476,7 @@ function getEmptyCard() {
 //             createdAt: 154514,
 //             byMember: {
 //                _id: "u101",
+//                username: "Abi",
 //                fullname: "Abi Abambi",
 //                imgUrl: "http://some-img",
 //             },

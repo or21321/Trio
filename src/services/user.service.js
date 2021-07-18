@@ -129,6 +129,7 @@ async function getMiniUser(userId) {
       const user = await getById(userId);
       return {
          _id: user._id,
+         username: user.username,
          fullname: user.fullname,
          imgUrl: user.imgUrl,
       }

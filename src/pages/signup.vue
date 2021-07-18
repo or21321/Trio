@@ -64,7 +64,7 @@ export default {
     async signup() {
       await this.$store.dispatch({ type: "signup", userCred: this.user });
       // TODO: Add memeber to general shared board/s
-      this.$router.push("/b/b101");
+      this.$router.push(`/b/${this.$store.getters.boards[0]._id}`);
     },
   },
 };

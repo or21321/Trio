@@ -17,13 +17,13 @@
 export default {
   name: 'Home',
   components: {
-    // HelloWorld
   },
   created() {},
   methods: {
     async signupAndStart() {
       await this.$store.dispatch({ type: "signupAsGuest" });
-      this.$router.push("/b/60f48a4ed88ad23f412038ff");
+      
+      this.$router.push(`/b/${this.$store.getters.boards[0]._id}`);
     },
   },
 };

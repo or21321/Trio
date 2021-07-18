@@ -2,6 +2,8 @@
     height: auto;
     padding: 8px 4px 4px 8px;
     position: relative;
+    display: flex;
+    justify-content: space-between;
 
     .board-header-btn {
         // font-size: 18px;
@@ -14,8 +16,8 @@
         border-radius: 3px;
         color: #fff;
         // outline: $clr-outline;
-        // cursor: pointer;
-        cursor: default;
+        cursor: pointer;
+        // cursor: default;
         float: left;
         font-size: 18px;
         height: 32px;
@@ -59,11 +61,49 @@
         // & > span:last-child {
         //     margin-left: 4px;
         // }
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.377);;
+            // background-color: hsla(0,0%,100%,.32);
+            // opacity: 0.8;
+        }
+
         &.star {
             padding: 0 6px;
         }
         &.star.selected {
             color: yellow;
+        }
+    }
+
+    .members-section {
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        
+        // & .avatars {
+        // }
+        
+        & .invite-btn {
+            font-size: 14px;
+            margin-left: 7px;
+        }
+
+        .members-popup {
+            left: 48%;
+            top: 45px;
+        }
+    }
+
+    .menu-section {
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        padding-left: 8px;
+
+        span {
+            margin-right: 8px;
+            font-size: 18px;
         }
     }
 }

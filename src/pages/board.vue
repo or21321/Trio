@@ -3,6 +3,7 @@
     <board-header
       :title="board.title"
       :star="board.isStarred"
+      :members="board.members"
       @updateTitle="updateTitle"
       @toggleStar="toggleStar"
     ></board-header>

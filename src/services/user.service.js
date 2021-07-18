@@ -13,7 +13,8 @@ export const userService = {
    getById,
    getLoggedinUser,
    signupAsGuest,
-   getMiniUser
+   getMiniUser,
+   createDemoUsers
    // update,
 }
 
@@ -25,12 +26,17 @@ export const userService = {
 
 async function getUsers() {
    try {
-      return await storageService.query('users')
+      // return await storageService.query('users')
       // return httpService.get(`user`)
+      var users = await storageService.query('users')
+      if (!users.length) {
+         await createDemoUsers()
+      }
    } catch (err) {
       console.log('userService: Error in getUsers', err)
       throw err
    }
+   return users
 }
 
 // createTestUsers() {
@@ -136,9 +142,9 @@ async function getMiniUser(userId) {
 // It allows testing of real time updates (such as sockets) by listening to storage events
 // (async () => {
 //     var user = getLoggedinUser()
-    // Dev Helper: Listens to when localStorage changes in OTHER browser
+// Dev Helper: Listens to when localStorage changes in OTHER browser
 
-    // Here we are listening to changes for the watched user (comming from other browsers)
+// Here we are listening to changes for the watched user (comming from other browsers)
 //     window.addEventListener('storage', async () => {
 //         if (!gWatchedUser) return;
 //         const freshUsers = await storageService.query('users')
@@ -157,3 +163,25 @@ async function getMiniUser(userId) {
 //     var user = getLoggedinUser()
 //     if (user) socketService.emit('set-user-socket', user._id)
 // })();
+
+
+async function createDemoUsers() {
+   try {
+      const usersToAdd = [
+         { fullname: "Guest148", username: "Guest", email: null, password: "Guest", imgUrl: "http://some-img.jpg", mentions: [] },
+         { fullname: "Yael Hazan", username: "yael", email: "yael@aa.com", password: "123123", imgUrl: "https://res.cloudinary.com/or21321/image/upload/v1626387050/vnodxsvuzaeapjkgxw9g.jpg", mentions: [] },
+         { fullname: "Dekel Livyani", username: "dekel", email: "dekel@gmail.com", password: "123123", imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg2DU9OQ6q9A4Alh_MYjoLzo6awn87MICqq6KenfafYqwT_JnQi3xmnQfRAQFMqFH2TFMjhS6V&usqp=CAc", mentions: [] },
+         { fullname: "Or Hadar", username: "or", email: null, password: "123123", imgUrl: "http://res.cloudinary.com/or21321/image/upload/v1626387480/y5ox9qoe0xvuhmsyultn.jpg", mentions: [] },
+         { fullname: "Eden Aran", username: "eden", email: "eden@gmail.com", password: "123123", imgUrl: "http://res.cloudinary.com/or21321/image/upload/v1626390579/xedxhssgnjtf68kd4gme.jpg", mentions: [] }
+      ]
+      await storageService.post('users', usersToAdd[0])
+      await storageService.post('users', usersToAdd[1])
+      await storageService.post('users', usersToAdd[2])
+      await storageService.post('users', usersToAdd[3])
+      await storageService.post('users', usersToAdd[4])
+
+      await storageService.query('users')
+   } catch (err) {
+      console.log('err', err)
+   }
+}

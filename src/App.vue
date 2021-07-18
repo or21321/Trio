@@ -25,9 +25,10 @@ export default {
   },
   async created() {
     try {
+      await this.$store.dispatch({ type: "loadUsers" });
       await this.$store.dispatch({ type: "loadBoards" });
     } catch (err) {
-      console.log("ERROR cannot load boards");
+      console.log("ERROR cannot load users or boards");
     }
   },
   watch: {

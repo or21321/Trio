@@ -80,11 +80,23 @@ export default {
         this.$emit("closeCompose");
       }
     },
-    createBoard() {
+    async createBoard() {
       this.board.style = {
         "background-color": this.selectColor,
         "background-image": `url(${this.selectImg})`,
       };
+      this.board.createdAt = Date.now()
+      try {
+        const loggedUserId = this.$store.getters.loggedinUser._id
+        const miniLoggedInUser = await this.$store.dispatch({
+          type: "getMiniUser",
+          userId: loggedUserId,
+        })
+        this.board.createdBy = miniLoggedInUser
+        this.board.members = [ miniLoggedInUser ]
+      } catch (err) {
+        console.log("failed to get miniLoggedInUser", err);
+      }
       this.$emit("addBoard", this.board);
     },
     close() {
@@ -106,4 +118,3 @@ export default {
   },
 };
 </script>
-

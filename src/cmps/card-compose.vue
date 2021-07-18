@@ -50,6 +50,11 @@ export default {
   methods: {
     async add() {
         var msg = {}
+        const miniLoggedInUser = await this.$store.dispatch({
+          type: "getMiniUser",
+          userId: this.$store.getters.loggedinUser._id,
+        })
+        this.cardToEdit.byMember = miniLoggedInUser
        try{
          // this.toggleCompose();
          this.$store.dispatch({

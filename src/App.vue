@@ -48,7 +48,7 @@ export default {
           type: "saveBoard",
           board,
         });
-        this.$store.commit({ type: "setCurrBoard", board });
+        this.$store.commit({ type: "setCurrBoard", board:newBoard });
         this.backgroundColor = board.style["background-color"];
         this.backgroundImg = board.style["background-image"];
         this.$router.push(`/b/${newBoard._id}`);

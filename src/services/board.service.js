@@ -32,6 +32,7 @@ async function query() {
       if (!boards.length || !boards[0].groups.length) {
          const board = _createDemoBoard()
          await save(board);
+         await storageService.query(KEY)
       }
       return boards
       // console.log('from query filterBy', filterBy);
@@ -145,6 +146,7 @@ async function removeCard(cardId, groupId, boardId) {
       const groupIdx = board.groups.findIndex(group => group.id === groupId)
       const cardIdx = board.groups[groupIdx].cards.findIndex(card => card.id === cardId)
       board.groups[groupIdx].cards.splice(cardIdx, 1)
+      // return Promise.reject('balagan')
       return await save(board)
    } catch (err) {
       console.log('Error:', err);
@@ -254,7 +256,7 @@ function _createDemoBoard() {
          fullname: "Abi Abambi",
          imgUrl: "http://some-img",
       },
-      style: {'background-color':'','background-image':'url(https://images-na.ssl-images-amazon.com/images/S/sgp-catalog-images/region_US/u8lua-4AD76J88AJT-Full-Image_GalleryBackground-en-US-1585673473334._RI_.jpg)'},
+      style: {'background-color':'','background-image':'url(https://wallpaperaccess.com/full/109672.jpg)'},
       labels: [
          {
             id: "l101",

@@ -62,10 +62,11 @@ export default {
       boardCompose,
       boardList,
    },
-    created() {
+   async created() {
       const user = this.$store.getters.loggedinUser;
       this.fullname = user.fullname;
       this.imgUrl = user.imgUrl;
+
    },
    methods: {
       toggleBoardCompose() {

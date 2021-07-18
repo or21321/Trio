@@ -18,7 +18,7 @@ export default {
    props:{
       group:{
          type:Object,
-         require:true
+         required:true
       }
    },
    methods:{

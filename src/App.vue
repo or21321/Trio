@@ -2,16 +2,19 @@
   <div class="app" :style="{ backgroundColor:this.backgroundColor, backgroundImage:this.backgroundImg}">
     <app-header v-if="!isHome" @addBoard="addBoard" @setBackground="setBackground"/>
     <router-view @setBackground="setBackground" />
+    <user-msg />
   </div>
 </template>
 
 
 <script>
 import appHeader from "@/cmps/app-header";
+import userMsg from './cmps/user-msg';
 
 export default {
   components: {
     appHeader,
+    userMsg
   },
   data() {
     return {

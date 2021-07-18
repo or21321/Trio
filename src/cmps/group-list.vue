@@ -22,6 +22,7 @@
         :animation="200"
         ghost-class="ghost-card"
         group="cards"
+        @end="updateBoard"
       >
         <card-preview
           v-for="card in group.cards"
@@ -31,7 +32,7 @@
         ></card-preview>
       </draggable>
     </div>
-    <card-compose :groupId="group.id" :boardId="boardId"></card-compose>
+    <card-compose :groupId="group.id" :boardId="board._id"></card-compose>
   </div>
 </template>
 
@@ -45,12 +46,12 @@ export default {
   props: {
     group: {
       type: Object,
-      require: true,
+      required: true,
     },
-    boardId: {
-      type: String,
-      require: true,
-    },
+    board: {
+      type: Object,
+      required: true,
+    }
   },
   components: {
     cardPreview,
@@ -69,7 +70,10 @@ export default {
     },
     toggleGroupMenu(){
        this.isGroupMenuOpen = !this.isGroupMenuOpen;
-    }
+    },
+    updateBoard(){
+      this.$emit("updateBoard", this.board);
+    },
   },
 };
 </script>

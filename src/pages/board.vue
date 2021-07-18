@@ -9,13 +9,23 @@
     <!-- * for when dragscroll is working with draggable -->
     <!-- <div v-dragscroll class="board-canvas my-scrollbar"> -->
     <div class="board-canvas my-scrollbar">
-      <groupList
-        v-for="group in board.groups"
-        :key="group.id"
-        :group="group"
-        :boardId="board._id"
-        @removeGroup="removeGroup"
-      ></groupList>
+      <!-- <draggable
+        :list="board.groups"
+        :animation="200"
+        ghost-class="ghost-card"
+        group="groups"
+        @end="saveBoard"
+        handle=".handle"
+      > -->
+        <groupList
+          v-for="group in board.groups"
+          :key="group.id"
+          :group="group"
+          :board="board"
+          @removeGroup="removeGroup"
+          @updateBoard="saveBoard"
+        ></groupList>
+      <!-- </draggable> -->
       <group-compose :boardId="boardId"></group-compose>
     </div>
     <router-view />
@@ -44,7 +54,7 @@ export default {
         type: "loadBoard",
         boardId: this.$route.params.boardId,
       });
-        this.$emit('setBackground',this.board.style)
+      this.$emit("setBackground", this.board.style);
     } catch (err) {
       console.log("ERROR: cannot get board");
     }
@@ -58,25 +68,46 @@ export default {
     },
   },
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     async updateTitle(title) {
       console.log("updateTitle()", title);
-      // this.board.title = title
-      // await this.$store.dispatch({ type: "saveBoard", board: this.board });
+      this.board.title = title
+      await this.$store.dispatch({ type: "saveBoard", board: this.board });
     },
-    toggleStar() {
-      this.board.isStarred = !this.board.isStarred;
-      this.$store.dispatch({ type: "saveBoard", board: this.board });
+    async toggleStar() {
+       try{
+         this.board.isStarred = !this.board.isStarred;
+         this.$store.dispatch({ type: "saveBoard", board: this.board });
+       }catch(err){
+          console.log('ERROR: cannot save board ', err);
+       }
     },
-    removeGroup(groupId) {
-      this.$store.dispatch({
-        type: "removeGroup",
-        groupId,
-        boardId: this.board._id,
-      });
+    async removeGroup(groupId) {
+        var msg = {}
+      try {
+        this.$store.dispatch({
+          type: "removeGroup",
+          groupId,
+          boardId: this.board._id,
+        });
+         msg = {
+           txt:'List was successfully removed',
+           type:'success'
+        }
+      } catch (err) {
+        msg = {
+          txt: "Fail remove list, try again later",
+          type: "error",
+        };
+        throw err;
+      } finally {
+        await this.$store.dispatch({ type: "showMsg", msg });
+      }
+    },
+    saveBoard(board) {
+      this.$store.dispatch({ type: "saveBoard", board });
     },
   },
 };

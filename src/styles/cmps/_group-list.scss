@@ -6,7 +6,6 @@
     flex-direction: column;
     position: relative;
     white-space: normal;
-    min-width: 272px;
     position: relative;
     height: fit-content;
     position: relative;
@@ -49,6 +48,7 @@
         flex-direction: column;
         gap: 8px;
         overflow-y: scroll;
+        width: 272px;
 
         & > :last-child {
             // margin-bottom: 5.75px;

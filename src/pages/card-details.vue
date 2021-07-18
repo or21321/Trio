@@ -82,6 +82,26 @@
             </article>
           </div>
         </section>
+
+        <section class="checklist grid-details" v-if="card.checklists.length">
+          <span class="material-icons-outlined icon">check_box</span>
+          <div class="header-checklist">
+            <h1 class="title-checklist">Chacklist</h1>
+            <button class="delete-checklist">Delete</button>
+          </div>
+          <section class="main-checklist">
+            <div class="scroll">
+              <div class="scroll-done"></div>
+              <span class="percent"> 10%</span>
+            </div>
+            <input type="text" class="add-item" />
+            <div class="buttons">
+              <el-button type="primary" class="add">Add</el-button>
+              <span class="material-icons-outlined close">close</span>
+            </div>
+          </section>
+        </section>
+
         <section class="activity grid-details">
           <span class="material-icons-outlined icon">format_list_bulleted</span>
           <div class="header-activity">

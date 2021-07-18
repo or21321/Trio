@@ -8,13 +8,14 @@
        <span class="title">Title</span>
       <input type="text" ref="checklist" v-model="checklistTitle"
        placeholder="Checklist"/>
-        <el-button type="primary"
-         class="compose-btn" >Create board</el-button>
+        <el-button type="primary" class="add-checklist"
+        :disabled="!checklistTitle" @click="updateTask" >Add</el-button>
     </div>
   </section>
 </template>
 
 <script>
+import { utilService } from '../../services/util.service';
 export default {
   props: {
     action: {
@@ -28,17 +29,23 @@ export default {
   },
   data() {
     return {
-      // cardToEdit: null,
+      cardToEdit: null,
       checklistTitle:'Checklist'
     };
   },
   mounted() {
-   //  this.cardToEdit = JSON.parse(JSON.stringify(this.card));
+    this.cardToEdit = JSON.parse(JSON.stringify(this.card));
    this.$refs.checklist.select()
   },
   methods: {
     updateTask() {
-      this.$emit("updateTask", this.card);
+       const checklist = {
+          id:utilService.makeId(),
+          title:this.checklistTitle,
+          todos:[]
+       }
+       this.cardToEdit.checklists.push(checklist)
+      this.$emit("updateCard", this.cardToEdit);
     },
     close() {
       this.$emit("close");

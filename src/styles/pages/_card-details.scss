@@ -251,11 +251,60 @@
                }
             }
          }
-         .activity {
-            .header-activity {
+         .main-checklist{
+            padding-right: 0;
+            position: relative;
+            .scroll{
+               margin-top: 15px;
+               width: 100%;
+               height: 10px;
+               border-radius: 5px;
+               background-color: rgb(218, 218, 218);
+
+               .scroll-done{
+                background-color: rgb(40, 52, 230);
+                border-radius: 5px;
+                position:absolute;
+                height: 10px;
+               }
+               .percent{
+                  position:absolute;
+                  left: -25px;
+                  top:13px;
+               }
+            }
+            .add-item{
+               outline: none;
+               border: none;
+               box-shadow: inset 0 0 0 2px $clr-outline;
+               background-color: #fafbfc;
+               border-radius: 3px;
+               line-height: 20px;
+               margin-top: 20px;
+               padding: 8px 12px;
+               width: 100%;
+            }
+            .buttons{
+               display: flex;
+               align-items: center;
+               margin-top: 10px;
+               gap:10px;
+               .add{
+                  height: 30px;
+                  padding: 8px 16px;
+               }
+               .close{
+                  font-size: 2rem;
+                  cursor: pointer;
+               }
+            }
+         }
+
+         .activity,.checklist {
+            .header-activity,.header-checklist {
                display: flex;
                justify-content: space-between;
-               .toggle-details-activity {
+               .toggle-details-activity,.delete-checklist {
                   background-color: rgba(9, 30, 66, 0.055);
                   border-radius: 3px;
                   padding: 6px 12px;

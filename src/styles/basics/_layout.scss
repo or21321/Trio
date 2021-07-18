@@ -2,7 +2,29 @@
    flex-grow: 1;
 }
 
-
+.grid-details {
+   display: grid;
+   grid-template-columns: 24px 1fr;
+   grid-template-rows: 30px 1fr;
+   > :nth-child(1) {
+       grid-column: 1;
+       grid-row: 1;
+   }
+   > :nth-child(2) {
+       padding: 4px 0 4px 8px;
+       grid-column: 2;
+       grid-row: 1;
+       font-weight: 600;
+       letter-spacing: 1px;
+       font-size: 1.2rem;
+   }
+   > :nth-child(3) {
+       padding: 4px 8px;
+       grid-column: 2;
+       grid-row: 2;
+   }
+   margin-bottom: 24px;
+}
 // .main-layout {
 //    margin: 0px 10px;
 

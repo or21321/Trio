@@ -23,7 +23,7 @@ export default {
   methods: {
     async signupAndStart() {
       await this.$store.dispatch({ type: "signupAsGuest" });
-      this.$router.push("/b/60f48a4ed88ad23f412038ff");
+      this.$router.push("/b/60f4a89529a5f634388bb078");
     },
   },
 };

@@ -37,8 +37,8 @@
             display: flex;
             flex-direction: row-reverse;
             gap: 4px;
-            margin-bottom: 3.5px;
-            margin: 0 0 0 auto;
+            margin: 0 0 3px auto;
+            padding-right: 2px;
             // Might be a bug when 4+ members, need to make it look good with card-badges
         }
     }

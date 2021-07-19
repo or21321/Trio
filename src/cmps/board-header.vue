@@ -116,7 +116,9 @@ export default {
     "$route.params.boardId": {
       immediate: true,
       handler() {
-        this.board = this.$store.getters.currBoard
+        setTimeout(()=>{
+          this.board = this.$store.getters.currBoard
+        },150)
       },
     },
   },
@@ -139,9 +141,13 @@ export default {
       this.$emit("updateMembers", members);
     },
     async removeBoard(boardId){
-      console.log('*********** in board header board id', boardId)
-      await this.$store.dispatch({type:"removeBoard", boardId })
-      this.$router.push(`/b/${this.$store.getters.boards[0]._id}`);
+      try {
+        await this.$store.dispatch({type:"removeBoard", boardId })
+        await this.$store.commit({type:"removeBoardFromRecentBoards", board: this.board })
+        this.$router.push(`/b/${this.$store.getters.boards[0]._id}`);
+       } catch (err) {
+        console.log("ERROR: failures while removing board ", err);
+      }
     }
   },
   components: {

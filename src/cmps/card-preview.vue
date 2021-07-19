@@ -1,5 +1,8 @@
 <template>
   <div @click="toCardDetails" class="card-preview">
+     <button class="edit-btn" @click.stop="setToPreviewEdit">
+        <span class="material-icons-outlined icon">edit</span>
+      </button>
     <img
       class="img-preview"
       v-if="card.attachments.length"
@@ -153,6 +156,9 @@ export default {
     toggleLabelTitle() {
       this.$emit("toggleLabelsTitles");
     },
+    setToPreviewEdit(){
+       this.$emit('setToPreviewEdit')
+    }
   },
 };
 </script>

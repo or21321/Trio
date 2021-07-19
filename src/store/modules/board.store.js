@@ -56,7 +56,7 @@ export const boardStore = {
       //Group
       saveGroup(state, { isUpdate, group }) {
          if (isUpdate) {
-            const groupIdx = state.currBoard.groups.findIndex(currGroup => currGroup.id === group.id)
+            const groupIdx = state.currBoard.groups.findIndex(g => g.id === group.id)
             state.currBoard.groups.splice(groupIdx, 1, group)
          } else {
             state.currBoard.groups.push(group)
@@ -65,11 +65,8 @@ export const boardStore = {
       // Card
       saveCard(state, { isUpdate, card, groupId }) {
          const groupIdx = state.currBoard.groups.findIndex(group => group.id === groupId)
-         console.log('groupIdx', groupIdx);
-         console.log('card from commit', card);
          if (isUpdate) {
-            const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(card => card.id === card.id)
-            console.log('cardIdx', cardIdx);
+            const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(c => c.id === card.id)
             state.currBoard.groups[groupIdx].cards.splice(cardIdx, 1, card)
          } else {
             state.currBoard.groups[groupIdx].cards.push(card)

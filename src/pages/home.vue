@@ -22,7 +22,6 @@ export default {
   methods: {
     async signupAndStart() {
       await this.$store.dispatch({ type: "signupAsGuest" });
-      
       this.$router.push(`/b/${this.$store.getters.boards[0]._id}`);
     },
   },

@@ -1,0 +1,15 @@
+.dark-window{
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   background-color: rgba(0, 0, 0, 0.64);
+   // cursor: pointer;
+   // display: grid;
+   // grid-template-columns: 1fr minmax(300px, 700px) 1fr;
+   z-index: 10;
+   .card-preview-edit{
+      z-index: 25;
+   }
+}

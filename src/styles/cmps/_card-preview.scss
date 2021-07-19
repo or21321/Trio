@@ -52,6 +52,9 @@
     &:hover {
         cursor: pointer;
         background-color: #c1cde023;
+        & .edit-btn{
+            display:inline;  
+        }
     }
     .card-preview-title {
         min-height: 30px;
@@ -127,5 +130,15 @@
             padding-right: 2px;
             // Might be a bug when 4+ members, need to make it look good with card-badges
         }
+    }
+    .edit-btn{
+      position: absolute;
+      right: 5px;
+      top: 7px;
+      display: none;
+      .icon{
+         font-size: 1.2rem;
+         color:gray;
+      }
     }
 }

@@ -5,10 +5,9 @@
         <span @click.stop="close" class="close-popup-btn">X</span>
     </div>
     <main>
-      <date-picker v-model="cardToEdit.dueDate.time" :inline="true" :default-value="new Date()" valueType="format"
-      :time-picker-options="{start: '08:00',step: '00:30',end: '20:00',}">
+      <date-picker v-model="cardToEdit.dueDate.time" :inline="true" :default-value="new Date()" valueType="format">
       </date-picker>
-         <el-button type="primary" class="save" 
+         <el-button type="primary" class="save"
          :disabled="!cardToEdit.dueDate.time"
          @click="updateCard">Save</el-button>
    </main>
@@ -48,12 +47,6 @@ export default {
     },
     close() {
       this.$emit("close");
-    },
-    getDate(value){
-       console.log(value);
-       const today = new Date(Date.now())
-       return new Date(+today + value)
-      //  return value;
     }
   },
 };

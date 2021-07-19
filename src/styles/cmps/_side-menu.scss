@@ -1,9 +1,11 @@
     .side-menu-popup {
         left: unset;
-        right: 4px;
+        right: 0px;
         top: 0px;
         z-index: 5;
         min-height: unset;
+        width: 339px;
+        border-radius: unset;
         background-color: #f4f5f7;
         
         .card-edit-header {
@@ -21,7 +23,7 @@
             display: grid;
             grid-template-columns: 40px 1fr;
             font-weight: 600;
-            padding: 10px 0 10px 0;
+            padding: 6px 0 6px 0;
             width: 100%;
             
             &:hover {

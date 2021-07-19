@@ -59,6 +59,11 @@ export const boardStore = {
             currBoard._id !== board._id)
          state.recentBoards.unshift(board)
       },
+      removeBoardFromRecentBoards(state, { board }) {
+         if (state.recentBoards.length === 0) return
+         state.recentBoards = state.recentBoards.filter(currBoard =>
+            currBoard._id !== board._id)
+      },
       //Group
       saveGroup(state, { isUpdate, group }) {
          if (isUpdate) {

@@ -51,16 +51,27 @@
       <!-- @updateBoard="updateBoard" -->
     </div>
     <div class="menu-section">
-      <button class="board-header-btn menu-section">
-        <span class="material-icons">more_horiz</span>
+      <button class="board-header-btn menu-section" @click="isSideMenuOpen=true">
+        <span class="material-icons title">more_horiz</span>
         Show menu
       </button>
+      <transition name="slide">
+        <sideMenu
+          v-if="isSideMenuOpen"
+          :board="board"
+          class="popup members-popup"
+          @updateMembers="updateMembers"
+          @close="isSideMenuOpen = false"
+          @removeBoard="removeBoard"
+        />
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
 import boardMembersEdit from "@/cmps/board-members-edit";
+import sideMenu from "@/cmps/side-menu";
 import avatar from "vue-avatar";
 
 export default {
@@ -80,9 +91,11 @@ export default {
   },
   data() {
     return {
+      board: null,
       boardTitle: null,
       isEditing: true,
       isMembersMenuOpen: false,
+      isSideMenuOpen: false
     };
   },
   computed: {
@@ -98,6 +111,12 @@ export default {
       immediate: true,
       handler() {
         this.boardTitle = JSON.parse(JSON.stringify(this.title));
+      },
+    },
+    "$route.params.boardId": {
+      immediate: true,
+      handler() {
+        this.board = this.$store.getters.currBoard
       },
     },
   },
@@ -119,10 +138,16 @@ export default {
     updateMembers(members) {
       this.$emit("updateMembers", members);
     },
+    async removeBoard(boardId){
+      console.log('*********** in board header board id', boardId)
+      await this.$store.dispatch({type:"removeBoard", boardId })
+      this.$router.push(`/b/${this.$store.getters.boards[0]._id}`);
+    }
   },
   components: {
     boardMembersEdit,
     avatar,
+    sideMenu
   },
 };
 </script>

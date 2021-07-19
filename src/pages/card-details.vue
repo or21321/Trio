@@ -1,7 +1,12 @@
 <template>
   <section class="card-details" @click="closeCardDetails">
     <section class="card-container" @click.stop v-if="card">
-      <header class="header">
+      <section
+        class="cover"
+        v-if="card.cover.color"
+        :style="{ backgroundColor: card.cover.color }"
+      ></section>
+      <header class="header" :class="isCoverClass">
         <span class="icon-title material-icons-outlined icon"
           >movie_creation</span
         >
@@ -13,7 +18,7 @@
           close
         </span>
       </header>
-      <main class="main">
+      <main class="main" :class="isCoverClass">
         <section class="info-section">
           <div class="members grid-details" v-if="card.members.length">
             <span></span>
@@ -272,7 +277,7 @@
           </section>
         </section>
       </main>
-      <nav class="details-actions">
+      <nav class="details-actions" :class="isCoverClass">
         <section class="add-to-card">
           <h3 class="title">Add to card</h3>
           <label
@@ -409,7 +414,7 @@ export default {
     "card.dueDate.isDone": {
       handler() {
         console.log("watch on card.dueDate.isDone");
-        this.updateCard(this.card)
+        this.updateCard(this.card);
       },
     },
   },
@@ -432,7 +437,7 @@ export default {
         "focusout",
         this.checkCommentEmpty
       );
-    }, 100);
+    }, 500);
   },
   methods: {
     filterCardLabels() {
@@ -499,7 +504,6 @@ export default {
       }
     },
     async updateCard(card) {
-      console.log("card", card);
       try {
         await this.$store.dispatch({
           type: "saveCard",
@@ -672,6 +676,9 @@ export default {
     },
     getLoggedinUser() {
       return this.$store.getters.loggedinUser;
+    },
+    isCoverClass() {
+      return { "is-cover": this.card.cover.color };
     },
   },
 };

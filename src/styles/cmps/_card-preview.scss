@@ -52,6 +52,9 @@
     &:hover {
         cursor: pointer;
         background-color: #c1cde023;
+        & .edit-btn{
+            display:inline;  
+        }
     }
     .card-preview-title {
         min-height: 20px;
@@ -174,5 +177,15 @@
             gap: 4px;
             margin: 0 0 4.5px auto;
         }
+    }
+    .edit-btn{
+      position: absolute;
+      right: 5px;
+      top: 7px;
+      display: none;
+      .icon{
+         font-size: 1.2rem;
+         color:gray;
+      }
     }
 }

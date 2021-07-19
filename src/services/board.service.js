@@ -278,7 +278,7 @@ function getEmptyCard() {
       labelIds: [],
       dueDate: {},
       byMember: {},
-      cover: {},
+      cover: {color: '', type: ''},
       attachments: [],
       style: {}
    }

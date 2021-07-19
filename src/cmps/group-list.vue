@@ -37,6 +37,7 @@
           :groupId="group.id"
           @toggleLabelsTitles="toggleLabelsTitles"
           @updateCard="updateBoard"
+          @setToPreviewEdit="setToPreviewEdit"
           :isLabelsTitlesShown="isCardPreviewLabelsShown"
         ></card-preview>
       </draggable>
@@ -104,6 +105,9 @@ export default {
       // this.isLabelsTitlesShown = !this.isLabelsTitlesShown
       this.$emit("toggleLabelsTitles");
     },
+    setToPreviewEdit(){
+       this.$emit('setToPreviewEdit')
+    }
   },
 };
 </script>

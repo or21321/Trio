@@ -27,6 +27,7 @@
           @removeGroup="removeGroup"
           @updateBoard="saveBoard"
           @toggleLabelsTitles="toggleLabelsTitles"
+          @setToPreviewEdit ="setToPreviewEdit"
           :isCardPreviewLabelsShown="isCardPreviewLabelsShown"
         ></groupList>
       </draggable>
@@ -150,6 +151,9 @@ export default {
       console.log("updated board", updatedBoard);
       this.saveBoard(updatedBoard);
     },
+    setToPreviewEdit(){
+       this.$emit('setToPreviewEdit')
+    }
   },
 };
 </script>

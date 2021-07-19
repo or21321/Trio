@@ -67,16 +67,7 @@ export default {
     },
     created() {  
       this.cardToEdit = JSON.parse(JSON.stringify(this.card))
-      console.log('this.cardToEdit', this.cardToEdit)
     },
-   //  watch: {
-   //     cardToEdit :{
-   //        deep:true,
-   //        handler(){
-   //           console.log('yesssssssssssssssssssssssss');
-   //        }
-   //     }
-   //  },
     methods: {  
         updateCard() {  
             this.$emit('updateCard', this.cardToEdit)
@@ -87,7 +78,6 @@ export default {
       setColor(color){
         this.cardToEdit.cover.color = color;
         if(!this.cardToEdit.cover.type) this.cardToEdit.cover.type = 'half'
-        console.log('******************',this.cardToEdit.cover.color);
         this.updateCard();
       },
       setSize(type){
@@ -97,7 +87,6 @@ export default {
     },
     computed:{
        getBgc(){
-          console.log('******************',this.cardToEdit.cover);
           return (this.cardToEdit.cover.color)? this.cardToEdit.cover.color :  '#5e6c8454'
        },
        getColor(){

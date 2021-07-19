@@ -103,7 +103,6 @@ export default {
     card: {
       immediate: true,
       handler() {
-        console.log("watcher on card from preview", this.card);
         this.filterCardLabels();
         this.countCardTodos();
       },

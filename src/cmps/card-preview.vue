@@ -55,7 +55,8 @@
           <span> {{ card.dueDate.time | moment(" MMM d") }} </span>
         </div>
 
-        <div v-if="card.description !== '\n\n'" class="description-badge">
+        <!-- <div v-if="card.description !== '\n\n'" class="description-badge"> -->
+        <div v-if="card.description" class="description-badge">
           <span class="material-icons-outlined badge-icon">subject</span>
         </div>
 

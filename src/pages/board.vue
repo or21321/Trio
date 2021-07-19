@@ -42,6 +42,8 @@ import boardHeader from "@/cmps/board-header";
 import groupCompose from "@/cmps/group-compose";
 import { dragscroll } from "vue-dragscroll";
 import draggable from "vuedraggable";
+import { socketService } from "@/services/socket.service.js";
+import { SOCKET_EMIT_BOARD_WATCH } from "@/services/socket.service.js";
 
 export default {
   directives: {
@@ -85,6 +87,10 @@ export default {
             boardId: this.$route.params.boardId,
           });
           this.$emit("setBackground", this.board.style);
+          // SOCKET
+          console.log("SOCKET_EMIT_BOARD_WATCH", SOCKET_EMIT_BOARD_WATCH);
+          socketService.emit(SOCKET_EMIT_BOARD_WATCH, this.boardId);
+          socketService.on("board updated", this.loadBoard);
         } catch (err) {
           console.log("ERROR: cannot get board");
         }
@@ -98,6 +104,10 @@ export default {
     };
   },
   methods: {
+    loadBoard() {
+      console.log("loadBoard from board.vue");
+      this.$store.dispatch({ type: "loadBoard", boardId: this.boardId });
+    },
     toggleLabelsTitles() {
       this.isCardPreviewLabelsShown = !this.isCardPreviewLabelsShown;
     },

@@ -10,6 +10,7 @@
 <script>
 import appHeader from "@/cmps/app-header";
 import userMsg from './cmps/user-msg';
+import {socketService} from '@/services/socket.service'
 
 export default {
   components: {
@@ -25,6 +26,7 @@ export default {
   },
   async created() {
     try {
+      socketService.setup()
       await this.$store.dispatch({ type: "loadUsers" });
       await this.$store.dispatch({ type: "loadBoards" });
     } catch (err) {

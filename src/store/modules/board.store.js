@@ -95,6 +95,7 @@ export const boardStore = {
          try {
             const board = await boardService.getById(boardId)
             commit({ type: 'setCurrBoard', board })
+            return board
          }
          catch (err) {
             console.log('Cannot load board', err);

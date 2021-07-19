@@ -1,4 +1,5 @@
 import { boardService } from '@/services/board.service.js'
+// import Vue from 'vue'
 
 export const boardStore = {
    state: {
@@ -71,8 +72,11 @@ export const boardStore = {
             const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(c => c.id === card.id)
             console.log('cardIdx', cardIdx);
             state.currBoard.groups[groupIdx].cards.splice(cardIdx, 1, card)
+            // Vue.set(state.currBoard.groups[groupIdx].cards, cardIdx, card)
          } else {
             state.currBoard.groups[groupIdx].cards.push(card)
+            console.log('ahalan', state.currBoard.groups[groupIdx].cards);
+            // Vue.set(state.currBoard.groups[groupIdx].cards, state.currBoard.groups[groupIdx].cards.length - 1, card)
          }
       },
       addComment(state, { savedComment, card, groupId}) {

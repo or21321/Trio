@@ -16,6 +16,8 @@
 
 <script>
 import { utilService } from '../../services/util.service';
+// import Vue from 'vue'
+
 export default {
   props: {
     action: {
@@ -45,6 +47,7 @@ export default {
           todos:[]
        }
        this.cardToEdit.checklists.push(checklist)
+      // Vue.set(this.cardToEdit.checklists, this.cardToEdit.checklists.length - 1, checklist)
       this.$emit("updateCard", this.cardToEdit);
       this.close();
     },

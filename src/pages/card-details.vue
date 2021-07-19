@@ -14,8 +14,6 @@
         </span>
       </header>
       <main class="main">
-
-
         <section class="info-section">
           <div class="members grid-details" v-if="card.members.length">
             <span></span>
@@ -44,9 +42,7 @@
                 class="preview-label"
                 @click="setCurrAction(actions[1])"
               >
-                <span >{{
-                  label.title
-                }}</span>
+                <span>{{ label.title }}</span>
               </span>
               <span class="item-add-btn" @click="setCurrAction(actions[1])">
                 <span class="material-icons-outlined icon">add</span>
@@ -56,14 +52,16 @@
           <div class="date grid-details" v-if="card.dueDate.time">
             <span></span>
             <h1 class="title-date">DUE DATE</h1>
-            <section class="date-main" @click="openDate"> 
-            <el-checkbox ref="dueDate" v-model="card.dueDate.isDone"></el-checkbox>
-              <p> {{ card.dueDate.time | moment(" MMM Do") }} </p>
-                <p class="complete" v-if="card.dueDate.isDone">complete</p> 
-                </section>
+            <section class="date-main" @click="openDate">
+              <el-checkbox
+                ref="dueDate"
+                v-model="card.dueDate.isDone"
+              ></el-checkbox>
+              <p>{{ card.dueDate.time | moment(" MMM Do") }}</p>
+              <p class="complete" v-if="card.dueDate.isDone">complete</p>
+            </section>
           </div>
         </section>
-
 
         <section class="description grid-details">
           <span class="material-icons-outlined icon">subject</span>
@@ -408,6 +406,12 @@ export default {
         this.filterCardLabels();
       },
     },
+    "card.dueDate.isDone": {
+      handler() {
+        console.log("watch on card.dueDate.isDone");
+        this.updateCard(this.card)
+      },
+    },
   },
   async created() {
     try {
@@ -605,17 +609,16 @@ export default {
       this.currChecklist = null;
     },
     saveCheckbox(ev) {
-      console.log('ev', ev);
+      console.log("ev", ev);
       this.saveCard();
       ev.target.blur();
     },
-   //  DATE
-   openDate(ev){
+    //  DATE
+    openDate(ev) {
       console.log(ev);
-      console.log( this.$refs.dueDate);
-      if(ev.target.tagName === 'P')
-         this.setCurrAction(this.actions[3])
-   },
+      console.log(this.$refs.dueDate);
+      if (ev.target.tagName === "P") this.setCurrAction(this.actions[3]);
+    },
     //COMMENTS
     async addComment() {
       await this.$store.dispatch({

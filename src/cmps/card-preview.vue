@@ -29,28 +29,50 @@
     </div>
     <span class="card-preview-title">{{ card.title }}</span>
     <div class="card-info">
-       
       <div class="card-badges">
-        <div v-if="cardChecklistsTodos.length" class="checklist-badge">
-          <span class="material-icons-outlined">{{ todosIcon }}</span>
-          <span>{{ checklistsDoneTodos }}</span
-          >/
-          <span>{{ cardChecklistsTodos.length }}</span>
-        </div>
-        <!-- <div
-          v-if="cardChecklistsTodos.length === checklistsDoneTodos"
-          class="checklist-badge"
+        <div
+          v-if="Object.keys(card.dueDate).length"
+          class="date-badge"
+          :class="{ done: isCardDone }"
+          @mouseover="dueDateHovered = true"
+          @mouseleave="dueDateHovered = false"
         >
-          <span class="material-icons-outlined">check_box</span>
-          <span>{{ checklistsDoneTodos }}</span
-          >/
-          <span>{{ cardChecklistsTodos.length }}</span>
-        </div> -->
+          <span
+            v-if="dueDateHovered && isCardDone"
+            class="material-icons-outlined badge-icon"
+            @click.stop="toggleDueDateIsDone"
+            >check_box</span
+          >
+          <span
+            v-else-if="dueDateHovered && !isCardDone"
+            class="material-icons-outlined badge-icon"
+            @click.stop="toggleDueDateIsDone"
+            >check_box_outline_blank</span
+          >
+          <span v-else class="material-icons-outlined badge-icon"
+            >schedule</span
+          >
+          <span> {{ card.dueDate.time | moment(" MMM d") }} </span>
+        </div>
+
+        <div v-if="card.description !== '\n\n'" class="description-badge">
+          <span class="material-icons-outlined badge-icon">subject</span>
+        </div>
+
         <div v-if="card.comments.length" class="comment-badge">
-          <span class="material-icons-outlined badge-icon">
-            chat_bubble_outline
-          </span>
+          <span class="material-icons-outlined badge-icon"> mode_comment </span>
           <span>{{ card.comments.length }}</span>
+        </div>
+
+        <div v-if="cardChecklistsTodos.length" class="checklist-badge">
+          <span class="material-icons-outlined badge-icon">{{
+            todosIcon
+          }}</span>
+          <span>
+            <span>{{ checklistsDoneTodos }}</span>
+            <span>/</span>
+            <span>{{ cardChecklistsTodos.length }}</span>
+          </span>
         </div>
       </div>
       <ul class="card-members" v-if="card.members.length">
@@ -94,22 +116,29 @@ export default {
       cardLabels: [],
       cardChecklistsTodos: [],
       checklistsDoneTodos: 0,
+      dueDateHovered: false,
     };
   },
   watch: {
-    card: {
+    "card.labelIds": {
       immediate: true,
+      deep: true,
       handler() {
         console.log("watcher on card from preview", this.card);
         this.filterCardLabels();
+      },
+    },
+    "card.checklists": {
+      immediate: true,
+      deep: true,
+      handler() {
+        console.log("watcher on card.checklists");
         this.countCardTodos();
       },
     },
-    "currBoard": {
-      immediate: true,
+    isCardDone: {
       handler() {
-        console.log("watcher on currBoard");
-        this.countCardTodos();
+        console.log("watcher from preview on isCardDone", this.isCardDone);
       },
     },
   },
@@ -120,12 +149,23 @@ export default {
     todosIcon() {
       return this.cardChecklistsTodos.length === this.checklistsDoneTodos &&
         this.checklistsDoneTodos
-        ? "check_box_outlined_blank"
-        : "check_box";
+        ? "check_box"
+        : "check_box_outline_blank";
+    },
+    isCardDone() {
+      return this.card.dueDate.isDone;
     },
   },
 
   methods: {
+    toggleDueDateIsDone() {
+      console.log("toggleDueDateIsDone()");
+      // const cardToSave = JSON.parse(JSON.stringify(this.card));
+      // cardToSave.dueDate.isDone = !cardToSave.dueDate.isDone;
+      this.card.dueDate.isDone = !this.card.dueDate.isDone
+      // this.$emit('updateCard', {card: cardToSave})
+      this.$emit('updateCard')
+    },
     countCardTodos() {
       console.log("countCardTodos", this.cardChecklistsTodos);
       this.checklistsDoneTodos = 0;
@@ -138,16 +178,17 @@ export default {
         });
       });
       console.log("cardChecklistsTodos", this.cardChecklistsTodos);
-      },
+    },
     filterCardLabels() {
-      this.cardLabels = [];
-      this.card.labelIds.forEach((labelId) => {
+      // this.cardLabels = [];
+      this.cardLabels = this.card.labelIds.reduce((acc, labelId) => {
         const cardLabel = this.currBoard.labels.find((label) => {
           return label.id === labelId;
         });
-        if (cardLabel) return this.cardLabels.push(cardLabel);
+        if (cardLabel) acc.push(cardLabel);
         else console.log("cardLabel undefined", cardLabel);
-      });
+        return acc;
+      }, []);
       console.log("cardLabels from preview", this.cardLabels);
     },
     toCardDetails() {

@@ -2,15 +2,15 @@
   <div class="group-list">
     <div class="group-header">
       <!-- <h2>{{ group.title }}</h2> -->
-          <contenteditable
-            tag="h2"
-            class="group-title"
-            :contenteditable="true"
-            v-model="group.title"
-            :noNL="false"
-            :noHTML="true"
-            @input="saveGroupTitle"
-          />
+      <contenteditable
+        tag="h2"
+        class="group-title"
+        :contenteditable="true"
+        v-model="group.title"
+        :noNL="false"
+        :noHTML="true"
+        @input="saveGroupTitle"
+      />
     </div>
     <span @click="toggleGroupMenu" class="material-icons group-extras-menu">
       more_horiz
@@ -36,6 +36,7 @@
           :card="card"
           :groupId="group.id"
           @toggleLabelsTitles="toggleLabelsTitles"
+          @updateCard="updateBoard"
           :isLabelsTitlesShown="isCardPreviewLabelsShown"
         ></card-preview>
       </draggable>
@@ -74,11 +75,16 @@ export default {
   data() {
     return {
       isGroupMenuOpen: false,
-      lastTitleChar: ''
+      lastTitleChar: "",
       // isLabelsTitlesShown: false
     };
   },
   methods: {
+    // updateCard() {
+      // console.log("from group", { card, groupId: this.group.id });
+      // this.$emit('updateCard', { card, groupId: this.group.id })
+    //   this.$emit("updateBoard");
+    // },
     removeGroup() {
       this.$emit("removeGroup", this.group.id);
     },
@@ -86,9 +92,10 @@ export default {
       this.isGroupMenuOpen = !this.isGroupMenuOpen;
     },
     saveGroupTitle() {
-      if (this.group.title === '') return this.group.title = this.lastTitleChar
-      this.lastTitleChar = this.group.title
-      this.updateBoard() 
+      if (this.group.title === "")
+        return (this.group.title = this.lastTitleChar);
+      this.lastTitleChar = this.group.title;
+      this.updateBoard();
     },
     updateBoard() {
       this.$emit("updateBoard", this.board);

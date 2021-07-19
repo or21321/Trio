@@ -128,7 +128,6 @@ export default {
       immediate: true,
       deep: true,
       handler() {
-        console.log("watcher on card from preview", this.card);
         this.filterCardLabels();
       },
     },

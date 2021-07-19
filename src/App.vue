@@ -1,8 +1,9 @@
 <template>
   <div class="app" :style="{ backgroundColor:this.backgroundColor, backgroundImage:this.backgroundImg}">
     <app-header v-if="!isHome" @addBoard="addBoard" @setBackground="setBackground"/>
-    <router-view @setBackground="setBackground" />
+    <router-view @setBackground="setBackground" @setToPreviewEdit="darkWindow = true" />
     <user-msg />
+    <div class="darkWindow" v-if="darkWindow" @click="darkWindow = false"></div>
   </div>
 </template>
 
@@ -22,6 +23,7 @@ export default {
       isHome: false,
       backgroundColor: "",
       backgroundImg: "https://images-na.ssl-images-amazon.com/images/S/sgp-catalog-images/region_US/u8lua-4AD76J88AJT-Full-Image_GalleryBackground-en-US-1585673473334._RI_.jpg",
+      darkWindow:false,
     };
   },
   async created() {

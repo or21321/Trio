@@ -591,6 +591,7 @@ export default {
       this.currChecklist = null;
     },
     saveCheckbox(ev) {
+      console.log('ev', ev);
       this.saveCard();
       ev.target.blur();
     },

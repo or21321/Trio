@@ -68,7 +68,7 @@ export const boardStore = {
          console.log('groupIdx', groupIdx);
          console.log('card from commit', card);
          if (isUpdate) {
-            const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(card => card.id === card.id)
+            const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(c => c.id === card.id)
             console.log('cardIdx', cardIdx);
             state.currBoard.groups[groupIdx].cards.splice(cardIdx, 1, card)
          } else {
@@ -175,6 +175,7 @@ export const boardStore = {
       async saveCard({ commit }, { card, groupId, boardId }) {
          const isUpdate = (card.id) ? true : false;
          try {
+            console.log('saveCard', card);
             const savedCard = await boardService.saveCard(card, groupId, boardId);
             commit({ type: 'saveCard', isUpdate, card: savedCard, groupId });
             return savedCard;

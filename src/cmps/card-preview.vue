@@ -31,7 +31,7 @@
     <div class="card-info">
       <div class="card-badges">
         <div v-if="cardChecklistsTodos.length" class="checklist-badge">
-          <span class="material-icons-outlined">{{todosIcon}}</span>
+          <span class="material-icons-outlined">{{ todosIcon }}</span>
           <span>{{ checklistsDoneTodos }}</span
           >/
           <span>{{ cardChecklistsTodos.length }}</span>
@@ -104,19 +104,29 @@ export default {
         this.countCardTodos();
       },
     },
+    "currBoard": {
+      immediate: true,
+      handler() {
+        console.log("watcher on currBoard");
+        this.countCardTodos();
+      },
+    },
   },
   computed: {
     currBoard() {
       return this.$store.getters.currBoard;
     },
-    todosIcon() { 
-      return (this.cardChecklistsTodos.length === this.checklistsDoneTodos && this.checklistsDoneTodos)?  'check_box_outlined_blank': 'check_box' 
+    todosIcon() {
+      return this.cardChecklistsTodos.length === this.checklistsDoneTodos &&
+        this.checklistsDoneTodos
+        ? "check_box_outlined_blank"
+        : "check_box";
     },
   },
 
   methods: {
     countCardTodos() {
-      console.log("cardChecklistsTodos", this.cardChecklistsTodos);
+      console.log("countCardTodos", this.cardChecklistsTodos);
       this.checklistsDoneTodos = 0;
       this.cardChecklistsTodos = [];
       this.card.checklists.forEach((cl) => {
@@ -127,16 +137,11 @@ export default {
         });
       });
       console.log("cardChecklistsTodos", this.cardChecklistsTodos);
-      console.log("checklistsDoneTodos", this.checklistsDoneTodos);
-    },
+      },
     filterCardLabels() {
-      console.log("watch from preview, handler on card", this.card);
       this.cardLabels = [];
       this.card.labelIds.forEach((labelId) => {
         const cardLabel = this.currBoard.labels.find((label) => {
-          // console.log(label.id === labelId);
-          // console.log('label.id', label.id);
-          // console.log('labelId', labelId);
           return label.id === labelId;
         });
         if (cardLabel) return this.cardLabels.push(cardLabel);

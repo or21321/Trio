@@ -44,7 +44,6 @@ import { dragscroll } from "vue-dragscroll";
 import draggable from "vuedraggable";
 
 export default {
-  // need to make dragscroll work with draggable
   directives: {
     dragscroll,
   },
@@ -71,13 +70,6 @@ export default {
     },
     board() {
       return this.$store.getters.currBoard;
-    },
-  },
-  watch: {
-    board: {
-      handler() {
-        console.log("handler on board");
-      },
     },
   },
   data() {

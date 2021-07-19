@@ -118,9 +118,21 @@
         align-items: center;
         padding-left: 8px;
 
-        span {
+        .title {
             margin-right: 8px;
             font-size: 18px;
+        }
+
+        .slide-enter-active,
+        .slide-leave-enter {
+            transform: translateX(0);
+            transition: all .2s linear;
+        }
+        
+        .slide-enter,
+        .slide-leave-to {
+            transform: translateX(100%);
+            transition: all .2s linear;
         }
     }
 }

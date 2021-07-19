@@ -53,28 +53,48 @@ export default {
     groupCompose,
     draggable,
   },
-  async created() {
-    try {
-      await this.$store.dispatch({
-        type: "loadBoard",
-        boardId: this.$route.params.boardId,
-      });
-      this.$emit("setBackground", this.board.style);
-    } catch (err) {
-      console.log("ERROR: cannot get board");
-    }
-  },
+  // async created() {
+  //   try {
+  //     await this.$store.dispatch({
+  //       type: "loadBoard",
+  //       boardId: this.$route.params.boardId,
+  //     });
+  //     this.$emit("setBackground", this.board.style);
+  //   } catch (err) {
+  //     console.log("ERROR: cannot get board");
+  //   }
+  // },
   computed: {
     boardId() {
       return this.$route.params.boardId;
     },
-    board() {
-      return this.$store.getters.currBoard;
+    // board() {
+    //   return this.$store.getters.currBoard;
+    // },
+  },
+  watch: {
+    "$route.params.boardId": {
+      immediate: true,
+      async handler() {
+        console.log("handler on board");
+        // const { boardId } = this.$route.params;
+        // this.board = await boardService.getById(boardId)
+        try {
+          this.board = await this.$store.dispatch({
+            type: "loadBoard",
+            boardId: this.$route.params.boardId,
+          });
+          this.$emit("setBackground", this.board.style);
+        } catch (err) {
+          console.log("ERROR: cannot get board");
+        }
+      },
     },
   },
   data() {
     return {
       isCardPreviewLabelsShown: false,
+      board: null,
     };
   },
   methods: {

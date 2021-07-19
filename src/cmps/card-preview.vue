@@ -29,6 +29,7 @@
     </div>
     <span class="card-preview-title">{{ card.title }}</span>
     <div class="card-info">
+       
       <div class="card-badges">
         <div v-if="cardChecklistsTodos.length" class="checklist-badge">
           <span class="material-icons-outlined">{{ todosIcon }}</span>

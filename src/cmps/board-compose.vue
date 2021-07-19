@@ -94,10 +94,10 @@ export default {
         })
         this.board.createdBy = miniLoggedInUser
         this.board.members = [ miniLoggedInUser ]
+         this.$emit("addBoard", this.board);
       } catch (err) {
         console.log("failed to get miniLoggedInUser", err);
       }
-      this.$emit("addBoard", this.board);
     },
     close() {
       this.$emit("closeCompose");

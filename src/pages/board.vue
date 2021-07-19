@@ -27,7 +27,7 @@
           @removeGroup="removeGroup"
           @updateBoard="saveBoard"
           @toggleLabelsTitles="toggleLabelsTitles"
-          @setToPreviewEdit ="setToPreviewEdit"
+          @setToPreviewEdit="setToPreviewEdit"
           :isCardPreviewLabelsShown="isCardPreviewLabelsShown"
         ></groupList>
       </draggable>
@@ -44,7 +44,9 @@ import groupCompose from "@/cmps/group-compose";
 import { dragscroll } from "vue-dragscroll";
 import draggable from "vuedraggable";
 import { socketService } from "@/services/socket.service.js";
-import { SOCKET_EMIT_BOARD_WATCH } from "@/services/socket.service.js";
+import { SOCKET_EMIT_BOARD_WATCH } from "@/services/socket.service";
+import { SOCKET_EMIT_BOARD_UPDATE} from '@/services/socket.service'
+import { SOCKET_ON_BOARD_UPDATE} from '@/services/socket.service'
 
 export default {
   directives: {
@@ -56,24 +58,25 @@ export default {
     groupCompose,
     draggable,
   },
-  // async created() {
-  //   try {
-  //     await this.$store.dispatch({
-  //       type: "loadBoard",
-  //       boardId: this.$route.params.boardId,
-  //     });
-  //     this.$emit("setBackground", this.board.style);
-  //   } catch (err) {
-  //     console.log("ERROR: cannot get board");
-  //   }
-  // },
+  async created() {
+    try {
+      await this.$store.dispatch({
+        type: "loadBoard",
+        boardId: this.$route.params.boardId,
+      });
+      this.$emit("setBackground", this.board.style);
+      socketService.on(SOCKET_ON_BOARD_UPDATE, this.loadBoard())
+    } catch (err) {
+      console.log("ERROR: cannot get board");
+    }
+  },
   computed: {
     boardId() {
       return this.$route.params.boardId;
     },
-    // board() {
-    //   return this.$store.getters.currBoard;
-    // },
+    board() {
+      return this.$store.getters.currBoard;
+    },
   },
   watch: {
     "$route.params.boardId": {
@@ -91,17 +94,25 @@ export default {
           // SOCKET
           console.log("SOCKET_EMIT_BOARD_WATCH", SOCKET_EMIT_BOARD_WATCH);
           socketService.emit(SOCKET_EMIT_BOARD_WATCH, this.boardId);
-          socketService.on("board updated", this.loadBoard);
+          // socketService.on("board updated", this.loadBoard);
         } catch (err) {
           console.log("ERROR: cannot get board");
         }
+      },
+    },
+    'board': {
+      immediate: true,
+      deep: true,
+      handler() {
+        console.log("watcher on board");
+        socketService.emit(SOCKET_EMIT_BOARD_UPDATE, this.board)
       },
     },
   },
   data() {
     return {
       isCardPreviewLabelsShown: false,
-      board: null,
+      // board: null,
     };
   },
   methods: {
@@ -160,9 +171,9 @@ export default {
       console.log("updated board", updatedBoard);
       this.saveBoard(updatedBoard);
     },
-    setToPreviewEdit(){
-       this.$emit('setToPreviewEdit')
-    }
+    setToPreviewEdit() {
+      this.$emit("setToPreviewEdit");
+    },
   },
 };
 </script>

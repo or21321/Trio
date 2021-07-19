@@ -1,4 +1,6 @@
 import { boardService } from '@/services/board.service.js'
+import { socketService } from '@/services/socket.service'
+import { SOCKET_ON_BOARD_UPDATE} from '@/services/socket.service'
 // import Vue from 'vue'
 
 export const boardStore = {
@@ -27,6 +29,9 @@ export const boardStore = {
          state.filterBy = filterBy
       },
       setCurrBoard(state, { board }) {
+         socketService.on(SOCKET_ON_BOARD_UPDATE, board => {   
+            state.currBoard = board
+         });
          state.currBoard = board
       },
       loadBoards(state, { boards }) {
@@ -38,6 +43,7 @@ export const boardStore = {
       updateBoard(state, { savedBoard }) {
          const idx = state.boards.findIndex(board => board._id === savedBoard._id)
          state.boards.splice(idx, 1, savedBoard)
+         
          state.currBoard = savedBoard
       },
       removeBoard(state, { boardId }) {
@@ -76,7 +82,7 @@ export const boardStore = {
             // Vue.set(state.currBoard.groups[groupIdx].cards, state.currBoard.groups[groupIdx].cards.length - 1, card)
          }
       },
-      addComment(state, { savedComment, card, groupId}) {
+      addComment(state, { savedComment, card, groupId }) {
          const groupIdx = state.currBoard.groups.findIndex(g => g.id === groupId)
          const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(c => c.id === card.id)
          state.currBoard.groups[groupIdx].cards[cardIdx].comments.unshift(savedComment)
@@ -206,13 +212,13 @@ export const boardStore = {
       },
       //Checkbox
       // async addCheckbox({commit}, { title,checklistId, card, groupId, boardId }) {
-      async addCheckbox({commit}, { title,checklistId, card, groupId, boardId }) {
+      async addCheckbox({ commit }, { title, checklistId, card, groupId, boardId }) {
          try {
-           const savedCard = await boardService.addCheckbox(title,checklistId, card, groupId, boardId)
-         //   console.log('savedCard after save', savedCard);
-           commit({type:'saveCard', isUpdate:true, card: savedCard, groupId})
-         //   console.log('savedCard', savedCard);
-           return savedCard
+            const savedCard = await boardService.addCheckbox(title, checklistId, card, groupId, boardId)
+            //   console.log('savedCard after save', savedCard);
+            commit({ type: 'saveCard', isUpdate: true, card: savedCard, groupId })
+            //   console.log('savedCard', savedCard);
+            return savedCard
          } catch (err) {
             console.log('Cannot add checkbox', title, ',', err);
             throw err;
@@ -220,17 +226,17 @@ export const boardStore = {
       },
       async removeChecklist(context, { checklistId, card, groupId, boardId }) {
          try {
-           boardService.removeChecklist(checklistId, card, groupId, boardId)
+            boardService.removeChecklist(checklistId, card, groupId, boardId)
          } catch (err) {
-            console.log('Cannot remove checklist', checklistId , ',', err);
+            console.log('Cannot remove checklist', checklistId, ',', err);
             throw err;
          }
       },
-      async removeCheckbox(context, { checkboxId,checklistId, card, groupId, boardId }) {
+      async removeCheckbox(context, { checkboxId, checklistId, card, groupId, boardId }) {
          try {
-           boardService.removeCheckbox(checkboxId,checklistId, card, groupId, boardId)
+            boardService.removeCheckbox(checkboxId, checklistId, card, groupId, boardId)
          } catch (err) {
-            console.log('Cannot remove checklist', checklistId , ',', err);
+            console.log('Cannot remove checklist', checklistId, ',', err);
             throw err;
          }
       },
@@ -239,7 +245,7 @@ export const boardStore = {
          try {
             const savedComment = await boardService.addComment(commentTxt, card, groupId, boardId)
             console.log('Ahalan');
-            context.commit({ type: 'addComment', savedComment, card, groupId})
+            context.commit({ type: 'addComment', savedComment, card, groupId })
          } catch (err) {
             console.log('Cannot add comment', commentTxt, ',', err);
             throw err;

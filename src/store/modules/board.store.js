@@ -6,6 +6,7 @@ export const boardStore = {
       boards: [],
       currBoard: null,
       recentBoards: [],
+      cardEdit:null,
       filterBy: {
          txt: ''
       }
@@ -14,6 +15,7 @@ export const boardStore = {
       boards({ boards }) { return boards },
       currBoard({ currBoard }) { return currBoard },
       recentBoards({ recentBoards }) { return recentBoards },
+      cardEdit({ cardEdit }) { return cardEdit },
       boardsToShow(state) {
          let regex = new RegExp(state.filterBy.txt, 'i')
          return state.boards.filter(board => {
@@ -28,6 +30,9 @@ export const boardStore = {
       },
       setCurrBoard(state, { board }) {
          state.currBoard = board
+      },
+      setCardEdit(state, { card }) {
+         state.cardEdit = card
       },
       loadBoards(state, { boards }) {
          state.boards = boards

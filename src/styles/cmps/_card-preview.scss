@@ -36,8 +36,6 @@
 }
 .card-preview {
     overflow: hidden;
-    padding: 6px 8px 2px;
-    position: relative;
     background-color: #ffffff;
     margin: 0 9.5px;
     border-radius: 3px;
@@ -48,144 +46,173 @@
     margin-bottom: 8px;
     display: flex;
     flex-direction: column;
-
+    
     &:hover {
         cursor: pointer;
         background-color: #c1cde023;
-        & .edit-btn{
+        .cover-full .edit-btn,.cover-half .edit-btn,.main-preview .edit-btn{
             display:inline;  
         }
     }
-    .card-preview-title {
-        min-height: 20px;
-        margin-bottom: 4px;
-    }
-    .card-labels {
-        display: flex;
-        flex-wrap: wrap;
-        margin-bottom: 2px;
-        .label-preview {
-            padding: 3px;
-            border-radius: 3px;
-            min-width: 40px;
-            height: 8px;
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 12px;
-            display: inline-block;
-            margin: 0 4px 0 0;
-            transition: color 1s;
-            overflow-y: clip;
-            animation: closeLabelTitle 0.85s;
-
-            &.title-shown {
-                animation: openLabelTitle 0.85s;
-                height: 16px;
-                padding: 0 8px;
-                align-items: center;
-                max-width: 198px;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                margin-bottom: 4px;
-                line-height: 1.25;
-            }
-            // &:not(.title-shown) {
-            //     animation-name: openLabelTitle;
-            //     animation-duration: 0.85s;
-            // }
-            &:hover {
-                opacity: 0.8;
-                cursor: pointer;
-            }
-        }
-    }
-    .img-preview {
-        width: 100%;
-        margin-bottom: 8px;
-    }
-    .card-info {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        row-gap: 8px;
-        .card-badges {
-            flex-grow: 1;
-            display: flex;
-            gap: 13px;
-            margin-top: 4px;
-            & > * {
-                font-size: 12px;
-            }
-            .badge-icon {
-                font-size: 14px;
-                // padding:2px;
-                // font-weight: 600;
-            }
-
-            .date-badge {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
-                border-radius: 3px;
-                padding: 2px 6px;
-                color: #ffffff;
-                // Might be a different way to style the whole badge section, for now its ok.
-                margin-bottom: 4px;
-                align-self: flex-start;
-                background-color: #f2d600;
-
-                &.done {
-                    background-color: #61bd4f;
-                }
-            }
-
-            .description-badge {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                .badge-icon {
-                    // font-weight: 600;
-                    font-size: 14px;
-                }
-            }
-
-            .checklist-badge {
-                // font-size: 12px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
-            }
-
-            .comment-badge {
-                .badge-icon {
-                    padding-top: 1.5px;
-                }
-                // font-size: 12px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
-            }
-        }
-        .card-members {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: row-reverse;
-            gap: 4px;
-            margin: 0 0 4.5px auto;
-        }
-    }
-    .edit-btn{
-      position: absolute;
-      right: 5px;
-      top: 7px;
-      display: none;
-      .icon{
-         font-size: 1.2rem;
-         color:gray;
+    .cover-full,.cover-half,.main-preview{
+      position: relative;
+      .edit-btn{
+         position: absolute;
+         z-index: 4;
+         right: 1px;
+         top: 1px;
+         padding: 4px;
+         display: none;
+         &.is-cover{
+            background-color: rgba(221, 221, 221, 0.74);  
+         }
+         .icon{
+            font-size: 1.2rem;
+            color:gray;
+         }
+         &:hover{
+            background-color: rgba(238, 238, 238, 0.918);
+         }
       }
+   }
+    .cover-half{
+       height: 30px;
     }
+    .cover-full{
+       min-height: 60px;
+       max-height: unset;
+       display: flex;
+       align-items: flex-end;
+       .card-preview-title{
+         word-wrap: break-word;
+          color:black;
+          font-weight: 600;
+          padding: 10px;   
+       }
+    }
+    .main-preview{
+      padding: 6px 8px 2px;
+      .card-preview-title {
+         min-height: 20px;
+         margin-bottom: 4px;
+      }
+      .card-labels {
+         display: flex;
+         flex-wrap: wrap;
+         margin-bottom: 2px;
+         .label-preview {
+               padding: 3px;
+               border-radius: 3px;
+               min-width: 40px;
+               height: 8px;
+               color: #ffffff;
+               font-weight: 600;
+               font-size: 12px;
+               display: inline-block;
+               margin: 0 4px 0 0;
+               transition: color 1s;
+               overflow-y: clip;
+               animation: closeLabelTitle 0.85s;
+
+               &.title-shown {
+                  animation: openLabelTitle 0.85s;
+                  height: 16px;
+                  padding: 0 8px;
+                  align-items: center;
+                  max-width: 198px;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                  margin-bottom: 4px;
+                  line-height: 1.25;
+               }
+               // &:not(.title-shown) {
+               //     animation-name: openLabelTitle;
+               //     animation-duration: 0.85s;
+               // }
+               &:hover {
+                  opacity: 0.8;
+                  cursor: pointer;
+               }
+         }
+      }
+      .img-preview {
+         width: 100%;
+         margin-bottom: 8px;
+      }
+      .card-info {
+         display: flex;
+         flex-wrap: wrap;
+         align-items: center;
+         row-gap: 8px;
+         .card-badges {
+               flex-grow: 1;
+               display: flex;
+               gap: 13px;
+               margin-top: 4px;
+               & > * {
+                  font-size: 12px;
+               }
+               .badge-icon {
+                  font-size: 14px;
+                  // padding:2px;
+                  // font-weight: 600;
+               }
+
+               .date-badge {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 5px;
+                  border-radius: 3px;
+                  padding: 2px 6px;
+                  color: #ffffff;
+                  // Might be a different way to style the whole badge section, for now its ok.
+                  margin-bottom: 4px;
+                  align-self: flex-start;
+                  background-color: #f2d600;
+
+                  &.done {
+                     background-color: #61bd4f;
+                  }
+               }
+
+               .description-badge {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+
+                  .badge-icon {
+                     // font-weight: 600;
+                     font-size: 14px;
+                  }
+               }
+
+               .checklist-badge {
+                  // font-size: 12px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 5px;
+               }
+
+               .comment-badge {
+                  .badge-icon {
+                     padding-top: 1.5px;
+                  }
+                  // font-size: 12px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 5px;
+               }
+         }
+         .card-members {
+               flex-grow: 1;
+               display: flex;
+               flex-direction: row-reverse;
+               gap: 4px;
+               margin: 0 0 4.5px auto;
+         }
+      }
+   }
 }

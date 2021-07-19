@@ -1,9 +1,10 @@
 <template>
   <div class="app" :style="{ backgroundColor:this.backgroundColor, backgroundImage:this.backgroundImg}">
     <app-header v-if="!isHome" @addBoard="addBoard" @setBackground="setBackground"/>
-    <router-view @setBackground="setBackground" @setToPreviewEdit="darkWindow = true" />
+    <router-view @setBackground="setBackground" 
+    @setToPreviewEdit="setDarkWindow" :darkWindow="darkWindow"/>
     <user-msg />
-    <div class="darkWindow" v-if="darkWindow" @click="darkWindow = false"></div>
+    <div class="darkWindow" v-if="darkWindow" @click="setDarkWindow(false)"></div>
   </div>
 </template>
 
@@ -64,6 +65,10 @@ export default {
       this.backgroundColor = style["background-color"];
       this.backgroundImg = style["background-image"];
     },
+    setDarkWindow(deff){
+       console.log(deff);
+       this.darkWindow = deff
+    }
   },
 };
 </script>

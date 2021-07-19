@@ -10,7 +10,7 @@ export default new Vuex.Store({
          txt: '',
          type: ''
       },
-      setTimeId:null,
+      setTimeId: null,
    },
    getters: {
       userMsg({ userMsg }) { return userMsg }
@@ -18,7 +18,7 @@ export default new Vuex.Store({
    mutations: {
       setMsg(state, { msg }) {
          state.userMsg = msg;
-      }
+      },
    },
    actions: {
       async showMsg({ state,commit }, { msg }) {

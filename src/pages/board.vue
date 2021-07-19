@@ -24,10 +24,11 @@
           :key="group.id"
           :group="group"
           :board="board"
+          :darkWindow="darkWindow"
           @removeGroup="removeGroup"
           @updateBoard="saveBoard"
           @toggleLabelsTitles="toggleLabelsTitles"
-          @setToPreviewEdit ="setToPreviewEdit"
+          @setToPreviewEdit="setToPreviewEdit"
           :isCardPreviewLabelsShown="isCardPreviewLabelsShown"
         ></groupList>
       </draggable>
@@ -56,6 +57,11 @@ export default {
     groupCompose,
     draggable,
   },
+  props:{
+     darkWindow:{
+        type:Boolean
+     }
+  },
   // async created() {
   //   try {
   //     await this.$store.dispatch({
@@ -71,26 +77,25 @@ export default {
     boardId() {
       return this.$route.params.boardId;
     },
-    // board() {
-    //   return this.$store.getters.currBoard;
-    // },
+    board() {
+      return this.$store.getters.currBoard;
+    },
   },
   watch: {
     "$route.params.boardId": {
       immediate: true,
       async handler() {
         console.log("handler on board");
-        // const { boardId } = this.$route.params;
-        // this.board = await boardService.getById(boardId)
+        const { boardId } = this.$route.params;
         try {
-          this.board = await this.$store.dispatch({
+          const currBoard = await this.$store.dispatch({
             type: "loadBoard",
             boardId: this.$route.params.boardId,
           });
-          this.$emit("setBackground", this.board.style);
+          this.$emit("setBackground", currBoard.style);
           // SOCKET
           console.log("SOCKET_EMIT_BOARD_WATCH", SOCKET_EMIT_BOARD_WATCH);
-          socketService.emit(SOCKET_EMIT_BOARD_WATCH, this.boardId);
+          socketService.emit(SOCKET_EMIT_BOARD_WATCH, boardId);
           socketService.on("board updated", this.loadBoard);
         } catch (err) {
           console.log("ERROR: cannot get board");
@@ -101,13 +106,12 @@ export default {
   data() {
     return {
       isCardPreviewLabelsShown: false,
-      board: null,
     };
   },
   methods: {
     loadBoard() {
       console.log("loadBoard from board.vue");
-      this.$store.dispatch({ type: "loadBoard", boardId: this.boardId });
+      this.$store.dispatch({ type: "loadBoard", boardId: this.board._Id });
     },
     toggleLabelsTitles() {
       this.isCardPreviewLabelsShown = !this.isCardPreviewLabelsShown;
@@ -160,9 +164,9 @@ export default {
       console.log("updated board", updatedBoard);
       this.saveBoard(updatedBoard);
     },
-    setToPreviewEdit(){
-       this.$emit('setToPreviewEdit')
-    }
+    setToPreviewEdit(deff) {
+      this.$emit("setToPreviewEdit",deff);
+    },
   },
 };
 </script>

@@ -35,6 +35,7 @@
           :key="card.id"
           :card="card"
           :groupId="group.id"
+          :darkWindow="darkWindow"
           @toggleLabelsTitles="toggleLabelsTitles"
           @updateCard="updateBoard"
           @setToPreviewEdit="setToPreviewEdit"
@@ -66,6 +67,9 @@ export default {
       type: Boolean,
       required: true,
     },
+    darkWindow:{
+       type:Boolean
+    }
   },
   components: {
     cardPreview,
@@ -105,8 +109,8 @@ export default {
       // this.isLabelsTitlesShown = !this.isLabelsTitlesShown
       this.$emit("toggleLabelsTitles");
     },
-    setToPreviewEdit(){
-       this.$emit('setToPreviewEdit')
+    setToPreviewEdit(deff){
+       this.$emit('setToPreviewEdit',deff)
     }
   },
 };

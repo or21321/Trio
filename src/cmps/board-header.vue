@@ -25,9 +25,9 @@
       >
     </div>
     <div class="members-section">
-      <section class="avatars" v-if="members.length">
+      <section class="avatars" v-if="board.members.length">
         <avatar
-          v-for="member in members"
+          v-for="member in board.members"
           :key="member.id"
           :username="member.fullname"
           :src="member.imgUrl"
@@ -43,7 +43,7 @@
       <boardMembersEdit
         v-if="isMembersMenuOpen"
         :users="users"
-        :members="members"
+        :members="board.members"
         class="popup members-popup"
         @updateMembers="updateMembers"
         @close="isMembersMenuOpen = false"
@@ -76,22 +76,13 @@ import avatar from "vue-avatar";
 
 export default {
   props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    star: {
-      type: Boolean,
-      required: true,
-    },
-    members: {
-      type: Array,
+    board: {
+      type: Object,
       required: true,
     },
   },
   data() {
     return {
-      board: null,
       boardTitle: null,
       isEditing: true,
       isMembersMenuOpen: false,
@@ -100,24 +91,19 @@ export default {
   },
   computed: {
     selected() {
-      return { selected: this.star };
+      return { selected: this.board.isStarred };
     },
     users() {
       return this.$store.getters.users;
     },
   },
   watch: {
-    "title": {
-      immediate: true,
-      handler() {
-        this.boardTitle = JSON.parse(JSON.stringify(this.title));
-      },
-    },
     "$route.params.boardId": {
       immediate: true,
       handler() {
         setTimeout(()=>{
           this.board = this.$store.getters.currBoard
+          this.boardTitle = JSON.parse(JSON.stringify(this.board.title));
         },150)
       },
     },
@@ -141,12 +127,22 @@ export default {
       this.$emit("updateMembers", members);
     },
     async removeBoard(boardId){
+      var msg = {};
       try {
         await this.$store.dispatch({type:"removeBoard", boardId })
-        await this.$store.commit({type:"removeBoardFromRecentBoards", board: this.board })
+        this.$store.commit({type:"removeBoardFromRecentBoards", board: this.board })
         this.$router.push(`/b/${this.$store.getters.boards[0]._id}`);
-       } catch (err) {
-        console.log("ERROR: failures while removing board ", err);
+        msg = {
+          txt: "Board was successfully removed",
+          type: "success",
+        };
+      } catch (err) {
+        msg = {
+          txt: "Failed to remove board, try again later",
+          type: "error",
+        };
+      } finally {
+        await this.$store.dispatch({ type: "showMsg", msg });
       }
     }
   },

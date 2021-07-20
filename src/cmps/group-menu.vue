@@ -6,8 +6,8 @@
         <span @click.stop="close" class="close-popup-btn">X</span>
       </div>
       <div class="card-edit-main">         
-          <button @click="addCard">Add card...</button>
-          <button @click="removeGroup">Delete list...</button>
+          <button @click="addCard" class="add-card-btn">Add card...</button>
+          <button @click="removeGroup">Delete list</button>
       </div>
   </section>
 </template>

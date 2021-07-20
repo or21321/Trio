@@ -50,7 +50,6 @@ export default {
     return {
       cardToEdit: boardService.getEmptyCard(),
       isComposeOn: true,
-      elCompose: null,
     };
   },
   mounted() {
@@ -63,19 +62,21 @@ export default {
           setTimeout(() => {
              console.log(this.$refs);
             this.$refs.textarea.focus();
-          }, 1);
+          }, 100);
       },
     },
     isAddCard:{
        handler() {
-          if(this.isAddCard)
+          if(this.isAddCard){
             this.isComposeOn = true;
+          }
       },
     }
   },
   methods: {
-     hideCompose(){
-         this.isComposeOn = false;
+     hideCompose(ev){
+        if(!ev.target.classList.contains('add-card-btn'))
+            this.isComposeOn = false;
      },
     async add() {
       var msg = {};
@@ -95,9 +96,7 @@ export default {
         // this.toggleCompose()
         this.$emit('socketUpdateBoard')
         this.cardToEdit = boardService.getEmptyCard();
-        setTimeout(() => {
           this.$refs.textarea.focus();
-        }, 100);
         msg = {
           txt: "Card was successfully added",
           type: "success",
@@ -117,7 +116,7 @@ export default {
     },
     toggleCompose() {
       this.isComposeOn = !this.isComposeOn;
-      if(this.isComposeOn) this.$emit('closeAddCard')
+      if(!this.isComposeOn) this.$emit('closeAddCard')
     },
     openComposeOptions() {
       console.log("openComposeOptions()");

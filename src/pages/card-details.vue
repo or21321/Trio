@@ -348,6 +348,7 @@ import cardLabelsEdit from "@/cmps/dynamic/card-labels-edit";
 import cardChecklistEdit from "@/cmps/dynamic/card-checklist-edit";
 import cardDatesEdit from "@/cmps/dynamic/card-dates-edit";
 import cardCoverEdit from "@/cmps/dynamic/card-cover-edit";
+// import {debounce} from '../services/util.service'
 import avatar from "vue-avatar";
 export default {
   components: {
@@ -442,6 +443,7 @@ export default {
     },
   },
   async created() {
+   // this.updateDescription = debounce(this.saveCard,1000);
     try {
       const group = await this.$store.dispatch({
         type: "getGroupById",

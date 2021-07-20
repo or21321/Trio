@@ -5,6 +5,7 @@
       @updateTitle="updateTitle"
       @toggleStar="toggleStar"
       @updateMembers="updateMembers"
+      @setBackground="setBackground"
     ></board-header>
     <!-- * for when dragscroll is working with draggable -->
     <div v-dragscroll:nochilddrag class="board-canvas my-scrollbar">
@@ -37,7 +38,10 @@
         @socketUpdateBoard="socketUpdateBoard"
       ></group-compose>
     </div>
-    <router-view @socketUpdateBoard="socketUpdateBoard" :loggedinUser="loggedinUser"/>
+    <router-view
+      @socketUpdateBoard="socketUpdateBoard"
+      :loggedinUser="loggedinUser"
+    />
   </div>
 </template>
 
@@ -114,7 +118,6 @@ export default {
             boardId,
           });
           this.$emit("setBackground", currBoard.style);
-          // console.log('********activities', currBoard.activities)
           // SOCKET
           console.log("SOCKET_EMIT_BOARD_WATCH", SOCKET_EMIT_BOARD_WATCH);
           socketService.emit(SOCKET_EMIT_BOARD_WATCH, this.boardId);
@@ -124,14 +127,11 @@ export default {
         }
       },
     },
-    // 'board': {
-    //   immediate: true,
-    //   deep: true,
-    //   handler() {
-    //     console.log("watcher on board");
-    //     socketService.emit(SOCKET_EMIT_BOARD_UPDATE, this.board)
-    //   },
-    // },
+    "board.style": {
+      handler() {
+        this.$emit("setBackground", this.board.style);
+      },
+    },
   },
   data() {
     return {
@@ -140,8 +140,6 @@ export default {
   },
   methods: {
     socketUpdateBoard() {
-      console.log("socketUpdateBoard()");
-      console.log('ye**********************************************************s');
       socketService.emit(SOCKET_EMIT_BOARD_UPDATE, this.board);
     },
     loadBoard() {
@@ -216,6 +214,17 @@ export default {
     },
     setToPreviewEdit(deff) {
       this.$emit("setToPreviewEdit", deff);
+    },
+    async setBackground(style) {
+      try {
+        console.log("style", style);
+        const boardToSave = JSON.parse(JSON.stringify(this.board));
+        boardToSave.style = style;
+        await this.saveBoard(boardToSave);
+        this.$emit("setBackground", style);
+      } catch (err) {
+        console.log("Had problem setting background", err);
+      }
     },
   },
 };

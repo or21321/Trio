@@ -29,7 +29,7 @@
         overflow: hidden;
         // padding-left: 32px;
         padding: 0 12px;
-        margin-block-end: .67em;
+        margin-block-end: 0.67em;
         position: relative;
         text-decoration: none;
         text-overflow: ellipsis;
@@ -64,7 +64,7 @@
         //     margin-left: 4px;
         // }
         &:hover {
-            background-color: rgba(255, 255, 255, 0.377);;
+            background-color: rgba(255, 255, 255, 0.377);
             // background-color: hsla(0,0%,100%,.32);
             // opacity: 0.8;
         }
@@ -85,7 +85,7 @@
         font-size: 14px;
         display: flex;
         position: relative;
-        
+
         .avatars {
             display: flex;
             flex-direction: row;
@@ -98,7 +98,7 @@
                 }
             }
         }
-        
+
         & .invite-btn {
             font-size: 14px;
             margin-left: 7px;
@@ -123,16 +123,46 @@
             font-size: 18px;
         }
 
+   
+
         .slide-enter-active,
         .slide-leave-enter {
             transform: translateX(0);
-            transition: all .2s linear;
+            transition: all 0.2s linear;
         }
-        
+
         .slide-enter,
         .slide-leave-to {
             transform: translateX(100%);
-            transition: all .2s linear;
+            transition: all 0.2s linear;
+        }
+
+        .slide-right-enter-active,
+        .slide-right-leave-enter {
+            transform: translateX(0);
+            transition: all 0.1s linear;
+        }
+
+        .slide-right-enter,
+        .slide-right-leave-to {
+            transform: translateX(-100%);
+            transition: all 0.1s linear;
+        }
+
+        .slide-from-right-enter-active,
+        .slide-from-right-leave-enter {
+            transform: translateX(0);
+            transition: all 0.1s linear;
+        }
+
+        .slide-from-right-enter,
+        .slide-from-right-leave-to {
+            transform: translateX(100%);
+            transition: all 0.1s linear;
+        }
+
+        .slide-from-right-leave-enter {
+            opacity: 0;
         }
     }
 }

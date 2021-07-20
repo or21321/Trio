@@ -441,6 +441,7 @@ export default {
     }, 500);
   },
   methods: {
+
     filterCardLabels() {
       if (!this.card.labelIds.length) return (this.cardLabels = []);
       console.log("filterCardLabels", this.card.labelIds);
@@ -452,7 +453,6 @@ export default {
         });
         if (label) this.cardLabels.push(label);
       });
-      console.log("cardLabels after filtering", this.cardLabels);
     },
     async loadCard() {
       try {
@@ -513,6 +513,7 @@ export default {
           boardId: this.boardId,
         });
         await this.loadCard();
+        this.$emit('socketUpdateBoard')
       } catch (err) {
         console.log("Error updating card:", err);
       }

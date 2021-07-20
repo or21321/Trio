@@ -40,7 +40,8 @@
     margin: 0 9.5px;
     border-radius: 3px;
     color: #54637c;
-    min-height: 60px;
+    // min-height: 60px;
+    min-height: 32px;
     transition: background-color 0.1s;
     box-shadow: 0 1px 0 #c0c6d0;
     margin-bottom: 8px;
@@ -80,7 +81,8 @@
        height: 30px;
     }
     .cover-full{
-       min-height: 60px;
+       min-height: 56px;
+       font-size: 16px;
        max-height: unset;
        display: flex;
        align-items: flex-end;

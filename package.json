@@ -15,7 +15,7 @@
       "element-ui": "^2.15.3",
       "smooth-scrollbar": "^8.6.2",
       "socket.io": "^4.1.3",
-      "socket.io-client": "^4.1.3",
+      "socket.io-client": "^2.4.0",
       "vue": "^2.6.11",
       "vue-avatar": "^2.3.3",
       "vue-contenteditable": "^1.0.2",

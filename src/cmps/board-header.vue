@@ -10,6 +10,7 @@
         :noNL="false"
         :noHTML="true"
         @keypress.enter="updateTitle"
+        @input="updateTitleDebounce"
       />
       <h1 v-else class="board-header-btn" @click="isEditing = !isEditing">
         {{ boardTitle }}
@@ -32,11 +33,14 @@
           :username="member.fullname"
           :src="member.imgUrl"
           :size="28"
+          backgroundColor="#DFE1E6"
+          color="#172b4d"
+          :customStyle="{ fontSize: '12px' }"
         />
       </section>
       <button
         class="board-header-btn invite-btn"
-        @click="isMembersMenuOpen=true"
+        @click="isMembersMenuOpen = true"
       >
         Invite
       </button>
@@ -51,7 +55,10 @@
       <!-- @updateBoard="updateBoard" -->
     </div>
     <div class="menu-section">
-      <button class="board-header-btn menu-section" @click="isSideMenuOpen=true">
+      <button
+        class="board-header-btn menu-section"
+        @click="isSideMenuOpen = true"
+      >
         <span class="material-icons title">more_horiz</span>
         Show menu
       </button>
@@ -73,6 +80,7 @@
 import boardMembersEdit from "@/cmps/board-members-edit";
 import sideMenu from "@/cmps/side-menu";
 import avatar from "vue-avatar";
+import { debounce } from "@/services/util.service";
 
 export default {
   props: {
@@ -86,7 +94,7 @@ export default {
       boardTitle: null,
       isEditing: true,
       isMembersMenuOpen: false,
-      isSideMenuOpen: false
+      isSideMenuOpen: false,
     };
   },
   computed: {
@@ -96,6 +104,9 @@ export default {
     users() {
       return this.$store.getters.users;
     },
+  },
+  created() {
+    this.updateTitleDebounce = debounce(this.updateTitle, 2500);
   },
   watch: {
     "$route.params.boardId": {
@@ -108,13 +119,16 @@ export default {
       },
     },
   },
-//   mounted() {
-//     setTimeout(() => {
-//       this.$refs.header.$el.addEventListener("focusout", this.updateTitle);
-//       this.isEditing = false;
-//     }, 1);
-//   },
+  //   mounted() {
+  //     setTimeout(() => {
+  //       this.$refs.header.$el.addEventListener("focusout", this.updateTitle);
+  //       this.isEditing = false;
+  //     }, 1);
+  //   },
   methods: {
+    updateTitleDebounce() {
+      this.updateTitle();
+    },
     toggleStar() {
       this.$emit("toggleStar");
     },
@@ -149,7 +163,7 @@ export default {
   components: {
     boardMembersEdit,
     avatar,
-    sideMenu
+    sideMenu,
   },
 };
 </script>

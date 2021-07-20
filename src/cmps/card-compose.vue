@@ -1,6 +1,9 @@
 <template>
   <div v-if="isComposeOn" class="card-compose">
     <textarea
+      ref="textarea"
+      @keydown.enter="add"
+      @keydown.enter.exact.prevent
       v-model="cardToEdit.title"
       cols="38"
       rows="3"
@@ -49,6 +52,17 @@ export default {
   mounted() {
     this.isComposeOn = false;
   },
+  watch: {
+    isComposeOn: {
+      handler() {
+        console.log(this.$refs);
+        if (this.isComposeOn)
+          setTimeout(() => {
+            this.$refs.textarea.focus();
+          }, 1);
+      },
+    },
+  },
   methods: {
     async add() {
       var msg = {};
@@ -65,8 +79,11 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        this.toggleCompose()
+        // this.toggleCompose()
         this.cardToEdit = boardService.getEmptyCard();
+        setTimeout(() => {
+          this.$refs.textarea.focus();
+        }, 100);
         msg = {
           txt: "Card was successfully added",
           type: "success",

@@ -4,6 +4,8 @@
       type="text"
       v-model="groupToCompose.title"
       placeholder="Enter list title..."
+      @keyup.enter="add"
+      @keydown.enter.exact.prevent
       ref="titleInput"
     />
     <!-- </div> -->
@@ -35,13 +37,19 @@ export default {
       isComposeOn: false,
     };
   },
+  // created() {
+  //  setTimeout(() => {
+  //       this.$refs.titleInput.focus()
+  //     }, 100)
+  // },
   watch: {
     isComposeOn: {
       handler() {
         console.log(this.$refs);
-        if (this.isComposeOn) setTimeout(() => {  
-          this.$refs.titleInput.focus()
-        }, 1)
+        if (this.isComposeOn)
+          setTimeout(() => {
+            this.$refs.titleInput.focus();
+          }, 1);
       },
     },
   },
@@ -58,7 +66,11 @@ export default {
         const activity = {txt: `added ${this.groupToCompose.title} to this board`, byMember: this.$store.getters.getMyMiniUser }
         await this.$store.dispatch({type: "addActivity", activity, boardId: this.boardId});
         this.groupToCompose = boardService.getEmptyGroup();
-        this.toggleCompose();
+        this.$emit("socketUpdateBoard");
+        setTimeout(() => {
+          this.$refs.titleInput.focus();
+        }, 100);  
+        // this.toggleCompose();
         msg = {
           txt: "List was successfully added",
           type: "success",

@@ -33,7 +33,6 @@
         ></groupList>
       </draggable>
       <group-compose
-        @socketUpdateBoard="socketUpdateBoard"
         :boardId="boardId"
         @socketUpdateBoard="socketUpdateBoard"
       ></group-compose>

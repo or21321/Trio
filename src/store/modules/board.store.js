@@ -51,7 +51,7 @@ export const boardStore = {
       },
       addActivity(state, { activity, boardId }) {
          const idx = state.boards.findIndex(board => board._id === boardId)
-         state.boards[idx].activity.push(activity)
+         state.boards[idx].activities.unshift(activity)
       },
       addBoardToRecentBoards(state, { board }) {
          if (state.recentBoards.length >= 5) state.recentBoards.pop()
@@ -148,8 +148,8 @@ export const boardStore = {
       },
       async addActivity({ commit }, { activity, boardId }) {
          try {
-            await boardService.addActivity(activity, boardId);
-            commit({ type: 'addActivity', activity, boardId })
+            const newActivity = await boardService.addActivity(activity, boardId);
+            commit({ type: 'addActivity', activity: newActivity, boardId })
          } catch (err) {
             console.log('Cannot add activity ', activity, ',', err);
             throw err;

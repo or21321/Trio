@@ -91,6 +91,7 @@ export default {
             boardId: this.$route.params.boardId,
           });
           this.$emit("setBackground", currBoard.style);
+          // console.log('********activities', currBoard.activities)
           // SOCKET
           console.log("SOCKET_EMIT_BOARD_WATCH", SOCKET_EMIT_BOARD_WATCH);
           socketService.emit(SOCKET_EMIT_BOARD_WATCH, boardId);
@@ -130,7 +131,8 @@ export default {
     async removeGroup(groupId) {
       var msg = {};
       try {
-        this.$store.dispatch({
+        const group = await this.$store.dispatch({type: "getGroupById", groupId, boardId: this.board._id});
+        await this.$store.dispatch({
           type: "removeGroup",
           groupId,
           boardId: this.board._id,
@@ -139,6 +141,8 @@ export default {
           txt: "List was successfully removed",
           type: "success",
         };
+        const activity = {txt: `deleted list ${group.title}`, byMember: this.$store.getters.getMyMiniUser }
+        await this.$store.dispatch({type: "addActivity", activity, boardId: this.board._id});
       } catch (err) {
         msg = {
           txt: "Fail remove list, try again later",

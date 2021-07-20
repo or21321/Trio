@@ -66,9 +66,8 @@ export default {
       this.backgroundImg = style["background-image"];
     },
     setDarkWindow(deff){
-       console.log(deff);
        this.darkWindow = deff
-    }
+    },
   },
 };
 </script>

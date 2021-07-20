@@ -98,7 +98,7 @@
         </div>
       </div>
 
-      <el-button type="primary" class="save" @click="saveCard">Save</el-button>
+      <el-button type="primary" class="save" @click="saveCard(true)">Save</el-button>
     </div>
     <nav>
       <button class="open-card" @click="openCard">
@@ -130,7 +130,7 @@
       class="popup popup-component"
       v-if="currAction"
       :is="currAction.type"
-      :card="card"
+      :card="cardToEdit"
       :action="currAction"
       @close="closeEditPopup"
       @updateCard="updateCard"
@@ -216,7 +216,7 @@ export default {
     },
   },
   methods: {
-    async saveCard() {
+    async saveCard(isSaveButton) {
       try {
         this.$store.dispatch({
           type: "saveCard",
@@ -224,7 +224,7 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        this.closeEdit();
+        if(isSaveButton) this.closeEdit();
       } catch (err) {
         console.log("ERROR : cannot save card ", this.cardToEdit, ",", err);
       }

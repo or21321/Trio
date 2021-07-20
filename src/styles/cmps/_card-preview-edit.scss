@@ -7,6 +7,8 @@
       .cover{
          width: 254px;
          height: 30px;
+         border-top-left-radius: 3px;
+         border-top-right-radius: 3px;
       }
       .card-labels{
          padding-top: 10px;
@@ -47,11 +49,12 @@
          font-size: 1.1rem;
          resize: none;
          background-color: rgb(238, 238, 238);
-         border-radius: 3px;
          overflow-wrap: break-word;
          outline: none;
       }
       .info{
+         border-bottom-left-radius: 3px;
+         border-bottom-right-radius: 3px;
          width: 254px;
          min-height: 25px;
          padding-left: 10px;

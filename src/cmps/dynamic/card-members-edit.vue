@@ -12,7 +12,7 @@
         <li
           @click="toggleUserAsCardMember(user)"
           class="card-member-preview"
-          v-for="user in filteredCardMembers"
+          v-for="user in CardMembers"
           :key="user._id"
         >
           <div class="member-name">
@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       cardToEdit: null,
-      filteredCardMembers: null,
+      CardMembers: null,
     };
   },
   async created() {
@@ -72,7 +72,7 @@ export default {
   },
   watch: {
     card: {
-      // immediate: true,
+      deep:true,
       handler() {
         console.log("Watcher on card");
         this.filterCardMembers();
@@ -89,11 +89,9 @@ export default {
   },
   methods: {
     toggleUserAsCardMember(user) {
-      console.log("toggleUserAsCardMember()", user);
       const isUserMemberIdx = this.cardToEdit.members.findIndex((member) => {
         return member.id === user._id;
       });
-      console.log("isUserMemberIdx", isUserMemberIdx);
       if (isUserMemberIdx === -1) {
         console.log("Add");
         const miniUser = {
@@ -125,11 +123,12 @@ export default {
             return user;
           });
           console.log("filteredUsersMembers", filteredCardMembers);
-          this.filteredCardMembers = filteredCardMembers;
+          this.CardMembers = filteredCardMembers;
         });
       } else {
-        this.filteredCardMembers = users;
+        this.CardMembers = users;
       }
+      console.log('', )
     },
     updateCard() {
       console.log("update", this.cardToEdit);

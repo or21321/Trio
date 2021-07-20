@@ -13,6 +13,12 @@ export const userStore = {
    getters: {
       users({ users }) { return users },
       loggedinUser({ loggedinUser }) { return loggedinUser },
+      getMyMiniUser(otherGetters){
+         const miniUser = JSON.parse(JSON.stringify(otherGetters.loggedinUser))
+         delete miniUser.email
+         delete miniUser.mentions
+         return miniUser
+      }
       // watchedUser({ watchedUser }) { return watchedUser }
    },
    mutations: {

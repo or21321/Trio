@@ -13,10 +13,10 @@
                   <div class="bgc" :style="{backgroundColor:getBgc}">
                   </div>
                   <div class="lines">
-                  <div class="line line1" :style="{backgroundColor:getColor}"></div>
-                  <div class="line line2" :style="{backgroundColor:getColor}"></div>
-                  <div class="line line3" :style="{backgroundColor:getColor}"></div>
-                  <div class="line line4" :style="{backgroundColor:getColor}"></div>
+                     <div class="line line1" :style="{backgroundColor:getColor}"></div>
+                     <div class="line line2" :style="{backgroundColor:getColor}"></div>
+                     <div class="line line3" :style="{backgroundColor:getColor}"></div>
+                     <div class="line line4" :style="{backgroundColor:getColor}"></div>
                   </div>
                   <div class="circle" :style="{backgroundColor:getColor}"></div>
                   </div> 
@@ -25,8 +25,8 @@
                <div class="board-full"
                :style="{backgroundColor: getBgc}">
                    <div class="lines">
-                  <div class="line line1" :style="{backgroundColor:getColorForFull}"></div>
-                  <div class="line line2" :style="{backgroundColor:getColorForFull}"></div>
+                     <div class="line line1" :style="{backgroundColor:getColorForFull}"></div>
+                     <div class="line line2" :style="{backgroundColor:getColorForFull}"></div>
                   </div>
                </div>
              </button>
@@ -38,7 +38,7 @@
           <h4 class="title">COLORS</h4>
           <section class="colors">
             <button class="color" v-for="(color,idx) in colors" :key="idx"
-            :style="{backgroundColor:color}" @click="setColor(color)">
+            :style="{backgroundColor:color}" @click.stop="setColor(color)">
             </button>
           </section>
        </section>
@@ -62,7 +62,7 @@ export default {
     return {
         cardToEdit: JSON.parse(JSON.stringify(this.card)),
         colors:['#7BC86C','#F5DD29','#FFAF3F','#EF7564','#CD8DE5','#5BA4CF','#29CCE5',
-        '#6DECA9','#FF8ED4','#172B4D']
+        '#6DECA9','#FF8ED4','#9e9e9e']
     }
     },
     created() {  

@@ -1,9 +1,10 @@
 <template>
   <div class="app" :style="{ backgroundColor:this.backgroundColor, backgroundImage:this.backgroundImg}">
     <app-header v-if="!isHome" @addBoard="addBoard" @setBackground="setBackground"/>
-    <router-view @setBackground="setBackground" @setToPreviewEdit="darkWindow = true" />
+    <router-view @setBackground="setBackground" 
+    @setToPreviewEdit="setDarkWindow" :darkWindow="darkWindow"/>
     <user-msg />
-    <div class="darkWindow" v-if="darkWindow" @click="darkWindow = false"></div>
+    <div class="darkWindow" v-if="darkWindow" @click="setDarkWindow(false)"></div>
   </div>
 </template>
 
@@ -55,6 +56,8 @@ export default {
         this.$store.commit({ type: "setCurrBoard", board:newBoard });
         this.backgroundColor = board.style["background-color"];
         this.backgroundImg = board.style["background-image"];
+        const activity = {txt: "created this board", byMember: this.$store.getters.getMyMiniUser }
+        await this.$store.dispatch({type: "addActivity", activity, boardId: newBoard._id});
         this.$router.push(`/b/${newBoard._id}`);
       } catch (err) {
         console.log("ERROR cannot add board");
@@ -64,9 +67,9 @@ export default {
       this.backgroundColor = style["background-color"];
       this.backgroundImg = style["background-image"];
     },
+    setDarkWindow(deff){
+       this.darkWindow = deff
+    },
   },
 };
 </script>
-
-
-

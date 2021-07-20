@@ -37,6 +37,12 @@
          grid-row: 1/2;  
          &.is-cover{
             grid-row: 2/3;
+            & .close{
+               background-color: rgba(119, 119, 119, 0.219);
+               &:hover{
+                  background-color: rgba(119, 119, 119, 0.37);
+               }
+            }
          }
          display: flex;
          align-items: flex-start;
@@ -78,9 +84,9 @@
             top: 8px;
             justify-self: flex-end;
             cursor: pointer;
+            border-radius: 20px;
             &:hover {
-               background-color: rgb(226, 226, 226);
-               border-radius: 20px;
+               background-color: rgb(226, 226, 226); 
             }
          }
       }
@@ -88,7 +94,8 @@
          grid-column: 2/3;
          grid-row: 2/3;
          &.is-cover{
-            grid-row: 3/4;  
+            grid-row: 3/4; 
+            
          }
          padding-right: 8px;
          .title{

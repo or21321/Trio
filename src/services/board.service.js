@@ -76,7 +76,7 @@ async function save(board) {
       if (board._id) {
          // queryParams += `&_id=${board._id}`
          // return storageService.put(KEY, board)
-         const savedBoard = httpService.put(`board`, board)
+         const savedBoard = await httpService.put(`board`, board)
          return savedBoard
          // return axios.put(`http://localhost:3200/api/board`, board).then(res => res.data)
       } else {
@@ -94,9 +94,12 @@ async function save(board) {
 
 async function addActivity(activity, boardId) {
    try {
+      activity.id = utilService.makeId()
+      activity.createdAt = Date.now()
       const board = await getById(boardId)
-      board.activities.push(activity)
-      return save(board)
+      board.activities.unshift(activity)
+      await save(board)
+      return activity
    } catch (err) {
       console.log('Error:', err);
    }

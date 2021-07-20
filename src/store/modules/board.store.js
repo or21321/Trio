@@ -8,6 +8,7 @@ export const boardStore = {
       boards: [],
       currBoard: null,
       recentBoards: [],
+      cardEdit:null,
       filterBy: {
          txt: ''
       }
@@ -16,6 +17,7 @@ export const boardStore = {
       boards({ boards }) { return boards },
       currBoard({ currBoard }) { return currBoard },
       recentBoards({ recentBoards }) { return recentBoards },
+      cardEdit({ cardEdit }) { return cardEdit },
       boardsToShow(state) {
          let regex = new RegExp(state.filterBy.txt, 'i')
          return state.boards.filter(board => {
@@ -38,6 +40,9 @@ export const boardStore = {
          });
          state.currBoard = board
       },
+      setCardEdit(state, { card }) {
+         state.cardEdit = card
+      },
       loadBoards(state, { boards }) {
          state.boards = boards
       },
@@ -56,13 +61,18 @@ export const boardStore = {
       },
       addActivity(state, { activity, boardId }) {
          const idx = state.boards.findIndex(board => board._id === boardId)
-         state.boards[idx].activity.push(activity)
+         state.boards[idx].activities.unshift(activity)
       },
       addBoardToRecentBoards(state, { board }) {
          if (state.recentBoards.length >= 5) state.recentBoards.pop()
          state.recentBoards = state.recentBoards.filter(currBoard =>
             currBoard._id !== board._id)
          state.recentBoards.unshift(board)
+      },
+      removeBoardFromRecentBoards(state, { board }) {
+         if (state.recentBoards.length === 0) return
+         state.recentBoards = state.recentBoards.filter(currBoard =>
+            currBoard._id !== board._id)
       },
       //Group
       saveGroup(state, { isUpdate, group }) {
@@ -148,8 +158,8 @@ export const boardStore = {
       },
       async addActivity({ commit }, { activity, boardId }) {
          try {
-            await boardService.addActivity(activity, boardId);
-            commit({ type: 'addActivity', activity, boardId })
+            const newActivity = await boardService.addActivity(activity, boardId);
+            commit({ type: 'addActivity', activity: newActivity, boardId })
          } catch (err) {
             console.log('Cannot add activity ', activity, ',', err);
             throw err;

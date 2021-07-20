@@ -51,6 +51,13 @@
 
     margin: 0px 9.5px 0 0.5px;
     transition: background-color 0.3s;
+    &:disabled{
+      background-color: #97d5f8;
+       &:hover {
+         background-color: #97d5f8;
+         cursor:not-allowed;
+      }
+    }
     &:hover {
         background-color: darken(#0079bf, 5);
     }

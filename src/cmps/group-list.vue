@@ -11,6 +11,7 @@
         :noHTML="true"
         @input="saveGroupTitle"
       />
+        <!-- @click.exact.prevent -->
     </div>
     <span @click="toggleGroupMenu" class="material-icons group-extras-menu">
       more_horiz
@@ -35,6 +36,7 @@
           :key="card.id"
           :card="card"
           :groupId="group.id"
+          :darkWindow="darkWindow"
           @toggleLabelsTitles="toggleLabelsTitles"
           @updateCard="updateBoard"
           @setToPreviewEdit="setToPreviewEdit"
@@ -66,6 +68,9 @@ export default {
       type: Boolean,
       required: true,
     },
+    darkWindow: {
+      type: Boolean,
+    },
   },
   components: {
     cardPreview,
@@ -82,8 +87,8 @@ export default {
   },
   methods: {
     // updateCard() {
-      // console.log("from group", { card, groupId: this.group.id });
-      // this.$emit('updateCard', { card, groupId: this.group.id })
+    // console.log("from group", { card, groupId: this.group.id });
+    // this.$emit('updateCard', { card, groupId: this.group.id })
     //   this.$emit("updateBoard");
     // },
     removeGroup() {
@@ -105,9 +110,9 @@ export default {
       // this.isLabelsTitlesShown = !this.isLabelsTitlesShown
       this.$emit("toggleLabelsTitles");
     },
-    setToPreviewEdit(){
-       this.$emit('setToPreviewEdit')
-    }
+    setToPreviewEdit(deff) {
+      this.$emit("setToPreviewEdit", deff);
+    },
   },
 };
 </script>

@@ -1,9 +1,7 @@
 <template>
   <div class="board-wrapper app-main" v-if="board">
     <board-header
-      :title="board.title"
-      :star="board.isStarred"
-      :members="board.members"
+      :board="board"
       @updateTitle="updateTitle"
       @toggleStar="toggleStar"
       @updateMembers="updateMembers"
@@ -24,6 +22,7 @@
           :key="group.id"
           :group="group"
           :board="board"
+          :darkWindow="darkWindow"
           @removeGroup="removeGroup"
           @updateBoard="saveBoard"
           @toggleLabelsTitles="toggleLabelsTitles"
@@ -61,18 +60,34 @@ export default {
     groupCompose,
     draggable,
   },
-  async created() {
-    try {
-      await this.$store.dispatch({
-        type: "loadBoard",
-        boardId: this.$route.params.boardId,
-      });
-      this.$emit("setBackground", this.board.style);
-      // socketService.on(SOCKET_ON_BOARD_UPDATE, this.loadBoard())
-    } catch (err) {
-      console.log("ERROR: cannot get board");
-    }
+  // async created() {
+  //   try {
+  //     await this.$store.dispatch({
+  //       type: "loadBoard",
+  //       boardId: this.$route.params.boardId,
+  //     });
+  //     this.$emit("setBackground", this.board.style);
+  //     // socketService.on(SOCKET_ON_BOARD_UPDATE, this.loadBoard())
+  //   } catch (err) {
+  //     console.log("ERROR: cannot get board");
+  //   }
+  // },
+  props:{
+     darkWindow:{
+        type:Boolean
+     }
   },
+  // async created() {
+  //   try {
+  //     await this.$store.dispatch({
+  //       type: "loadBoard",
+  //       boardId: this.$route.params.boardId,
+  //     });
+  //     this.$emit("setBackground", this.board.style);
+  //   } catch (err) {
+  //     console.log("ERROR: cannot get board");
+  //   }
+  // },
   computed: {
     boardId() {
       return this.$route.params.boardId;
@@ -85,15 +100,15 @@ export default {
     "$route.params.boardId": {
       immediate: true,
       async handler() {
-        // console.log("handler on board");
-        // const { boardId } = this.$route.params;
-        // this.board = await boardService.getById(boardId)
+        console.log("handler on board");
+        const { boardId } = this.$route.params;
         try {
-          await this.$store.dispatch({
+          const currBoard = await this.$store.dispatch({
             type: "loadBoard",
-            boardId: this.$route.params.boardId,
+            boardId: boardId,
           });
-          this.$emit("setBackground", this.board.style);
+          this.$emit("setBackground", currBoard.style);
+          // console.log('********activities', currBoard.activities)
           // SOCKET
           console.log("SOCKET_EMIT_BOARD_WATCH", SOCKET_EMIT_BOARD_WATCH);
           socketService.emit(SOCKET_EMIT_BOARD_WATCH, this.boardId);
@@ -115,7 +130,6 @@ export default {
   data() {
     return {
       isCardPreviewLabelsShown: false,
-      // board: null,
     };
   },
   methods: {
@@ -125,7 +139,7 @@ export default {
     },
     loadBoard() {
       console.log("loadBoard from board.vue");
-      this.$store.dispatch({ type: "loadBoard", boardId: this.boardId });
+      this.$store.dispatch({ type: "loadBoard", boardId: this.board._Id });
     },
     toggleLabelsTitles() {
       this.isCardPreviewLabelsShown = !this.isCardPreviewLabelsShown;
@@ -146,7 +160,8 @@ export default {
     async removeGroup(groupId) {
       var msg = {};
       try {
-        this.$store.dispatch({
+        const group = await this.$store.dispatch({type: "getGroupById", groupId, boardId: this.board._id});
+        await this.$store.dispatch({
           type: "removeGroup",
           groupId,
           boardId: this.board._id,
@@ -155,6 +170,8 @@ export default {
           txt: "List was successfully removed",
           type: "success",
         };
+        const activity = {txt: `deleted list ${group.title}`, byMember: this.$store.getters.getMyMiniUser }
+        await this.$store.dispatch({type: "addActivity", activity, boardId: this.board._id});
       } catch (err) {
         msg = {
           txt: "Fail remove list, try again later",
@@ -179,8 +196,8 @@ export default {
       console.log("updated board", updatedBoard);
       this.saveBoard(updatedBoard);
     },
-    setToPreviewEdit() {
-      this.$emit("setToPreviewEdit");
+    setToPreviewEdit(deff) {
+      this.$emit("setToPreviewEdit",deff);
     },
   },
 };

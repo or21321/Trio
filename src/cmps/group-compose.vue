@@ -63,6 +63,8 @@ export default {
           group: this.groupToCompose,
           boardId: this.boardId,
         });
+        const activity = {txt: `added ${this.groupToCompose.title} to this board`, byMember: this.$store.getters.getMyMiniUser }
+        await this.$store.dispatch({type: "addActivity", activity, boardId: this.boardId});
         this.groupToCompose = boardService.getEmptyGroup();
         this.$emit("socketUpdateBoard");
         setTimeout(() => {
@@ -89,4 +91,3 @@ export default {
   },
 };
 </script>
-

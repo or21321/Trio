@@ -88,6 +88,9 @@
           :username="member.fullname"
           :src="member.imgUrl"
           :size="28"
+          backgroundColor="#dfe1e6"
+          :customStyle="{fontSize:'12px'}"
+          color="#172b4d"
         />
       </ul>
     </div>

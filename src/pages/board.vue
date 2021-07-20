@@ -31,7 +31,10 @@
           :isCardPreviewLabelsShown="isCardPreviewLabelsShown"
         ></groupList>
       </draggable>
-      <group-compose @socketBoardUpdate="socketBoardUpdate" :boardId="boardId"></group-compose>
+      <group-compose
+        @socketBoardUpdate="socketBoardUpdate"
+        :boardId="boardId"
+      ></group-compose>
     </div>
     <router-view @socketUpdateBoard="socketUpdateBoard" />
   </div>
@@ -45,7 +48,7 @@ import { dragscroll } from "vue-dragscroll";
 import draggable from "vuedraggable";
 import { socketService } from "@/services/socket.service.js";
 import { SOCKET_EMIT_BOARD_WATCH } from "@/services/socket.service";
-import { SOCKET_EMIT_BOARD_UPDATE} from '@/services/socket.service'
+import { SOCKET_EMIT_BOARD_UPDATE } from "@/services/socket.service";
 // import { SOCKET_ON_BOARD_UPDATE} from '@/services/socket.service'
 
 export default {
@@ -86,7 +89,7 @@ export default {
         // const { boardId } = this.$route.params;
         // this.board = await boardService.getById(boardId)
         try {
-          this.board = await this.$store.dispatch({
+          await this.$store.dispatch({
             type: "loadBoard",
             boardId: this.$route.params.boardId,
           });
@@ -117,8 +120,8 @@ export default {
   },
   methods: {
     socketUpdateBoard() {
-        console.log("socketUpdateBoard()");
-        socketService.emit(SOCKET_EMIT_BOARD_UPDATE, this.board)
+      console.log("socketUpdateBoard()");
+      socketService.emit(SOCKET_EMIT_BOARD_UPDATE, this.board);
     },
     loadBoard() {
       console.log("loadBoard from board.vue");
@@ -165,7 +168,7 @@ export default {
     async saveBoard(board) {
       try {
         await this.$store.dispatch({ type: "saveBoard", board });
-        this. socketUpdateBoard()
+        this.socketUpdateBoard();
       } catch (err) {
         console.log("Error saving board:", err);
       }

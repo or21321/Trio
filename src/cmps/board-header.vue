@@ -33,11 +33,14 @@
           :username="member.fullname"
           :src="member.imgUrl"
           :size="28"
+          backgroundColor="#DFE1E6"
+          color="#172b4d"
+          :customStyle="{ fontSize: '12px' }"
         />
       </section>
       <button
         class="board-header-btn invite-btn"
-        @click="isMembersMenuOpen=true"
+        @click="isMembersMenuOpen = true"
       >
         Invite
       </button>
@@ -52,7 +55,10 @@
       <!-- @updateBoard="updateBoard" -->
     </div>
     <div class="menu-section">
-      <button class="board-header-btn menu-section" @click="isSideMenuOpen=true">
+      <button
+        class="board-header-btn menu-section"
+        @click="isSideMenuOpen = true"
+      >
         <span class="material-icons title">more_horiz</span>
         Show menu
       </button>
@@ -74,7 +80,7 @@
 import boardMembersEdit from "@/cmps/board-members-edit";
 import sideMenu from "@/cmps/side-menu";
 import avatar from "vue-avatar";
-import {debounce} from '@/services/util.service'
+import { debounce } from "@/services/util.service";
 
 export default {
   props: {
@@ -97,7 +103,7 @@ export default {
       boardTitle: null,
       isEditing: true,
       isMembersMenuOpen: false,
-      isSideMenuOpen: false
+      isSideMenuOpen: false,
     };
   },
   computed: {
@@ -108,11 +114,11 @@ export default {
       return this.$store.getters.users;
     },
   },
-created() {
-this.updateTitleDebounce = debounce(this.updateTitle, 2500)
-},
+  created() {
+    this.updateTitleDebounce = debounce(this.updateTitle, 2500);
+  },
   watch: {
-    "title": {
+    title: {
       immediate: true,
       handler() {
         this.boardTitle = JSON.parse(JSON.stringify(this.title));
@@ -121,20 +127,20 @@ this.updateTitleDebounce = debounce(this.updateTitle, 2500)
     "$route.params.boardId": {
       immediate: true,
       handler() {
-        this.board = this.$store.getters.currBoard
+        this.board = this.$store.getters.currBoard;
       },
     },
   },
-//   mounted() {
-//     setTimeout(() => {
-//       this.$refs.header.$el.addEventListener("focusout", this.updateTitle);
-//       this.isEditing = false;
-//     }, 1);
-//   },
+  //   mounted() {
+  //     setTimeout(() => {
+  //       this.$refs.header.$el.addEventListener("focusout", this.updateTitle);
+  //       this.isEditing = false;
+  //     }, 1);
+  //   },
   methods: {
-  updateTitleDebounce() {
-    this.updateTitle()
-  },
+    updateTitleDebounce() {
+      this.updateTitle();
+    },
     toggleStar() {
       this.$emit("toggleStar");
     },
@@ -146,16 +152,16 @@ this.updateTitleDebounce = debounce(this.updateTitle, 2500)
     updateMembers(members) {
       this.$emit("updateMembers", members);
     },
-    async removeBoard(boardId){
-      console.log('*********** in board header board id', boardId)
-      await this.$store.dispatch({type:"removeBoard", boardId })
+    async removeBoard(boardId) {
+      console.log("*********** in board header board id", boardId);
+      await this.$store.dispatch({ type: "removeBoard", boardId });
       this.$router.push(`/b/${this.$store.getters.boards[0]._id}`);
-    }
+    },
   },
   components: {
     boardMembersEdit,
     avatar,
-    sideMenu
+    sideMenu,
   },
 };
 </script>

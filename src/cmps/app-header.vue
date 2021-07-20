@@ -29,11 +29,24 @@
       >
         add
       </button>
-      <div @click="isUserMenuOpen=true" class="avatar">
-        <avatar :size="32" :username="user.fullname" :src="user.imgUrl" />
+      <div @click="isUserMenuOpen = true" class="avatar">
+        <avatar
+          :size="32"
+          :username="user.fullname" 
+          :src="user.imgUrl"
+          color="#172b4e"
+          backgroundColor="#DFE1E6"
+          :customStyle="{fontSize:'14px'}"
+        />
         <!-- src="https://res.cloudinary.com/or21321/image/upload/v1626317415/pp_bqtkzw.jpg" -->
         <!-- "http://res.cloudinary.com/or21321/image/upload/v1626387050/vnodxsvuzaeapjkgxw9g.jpg" -->
-        <user-menu class="popup" v-if="isUserMenuOpen" :user="user" @logout="logout" @close="isUserMenuOpen=false"/>
+        <user-menu
+          class="popup"
+          v-if="isUserMenuOpen"
+          :user="user"
+          @logout="logout"
+          @close="isUserMenuOpen = false"
+        />
       </div>
     </div>
     <board-compose
@@ -56,14 +69,14 @@ export default {
       isBoardComposeOn: false,
       isBoardListOpen: false,
       user: null,
-      isUserMenuOpen: false
+      isUserMenuOpen: false,
     };
   },
   components: {
     avatar,
     boardCompose,
     boardList,
-    userMenu
+    userMenu,
   },
   async created() {
     this.user = this.$store.getters.loggedinUser;
@@ -85,10 +98,10 @@ export default {
     setBackground(style) {
       this.$emit("setBackground", style);
     },
-    async logout(){
-      await this.$store.dispatch({type: "logout"})
-      this.$router.push('/')
-    }
+    async logout() {
+      await this.$store.dispatch({ type: "logout" });
+      this.$router.push("/");
+    },
   },
   computed: {
     boards() {

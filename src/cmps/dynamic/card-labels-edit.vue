@@ -181,7 +181,7 @@ export default {
       } else {
         console.log("Remove");
         this.cardToEdit.labelIds.splice(isLabelOnCardIdx, 1);
-        this.updateCard;
+        this.updateCard();
       }
       console.log("card to update", this.cardToEdit);
       this.updateCard(this.cardToEdit);
@@ -233,7 +233,7 @@ export default {
           this.labelToEdit = null;
           this.emptyLabel = { color: "", id: "", title: "" };
         } else {
-          this.labelToEdit.id = Date.now() % 1000;
+          this.labelToEdit.id = Date.now() % 1000 +'';
           this.boardToEdit.labels.push(this.labelToEdit);
           await this.$store.dispatch({
             type: "saveBoard",

@@ -132,6 +132,7 @@
       v-if="cardEdit === cardToEdit && isEdit"
       :card="cardToEdit"
       :groupId="groupId"
+      :isLabelsTitlesShown="isLabelsTitlesShown"
       @closeEdit="setToPreviewEdit(null,false)"
     />
   </div>

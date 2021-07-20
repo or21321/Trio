@@ -84,7 +84,7 @@
         </section>
         <section
           class="attachments grid-details"
-          v-if="card.attachments.length"
+          v-if="card.attachments.length || isLoading"
         >
           <span class="attachments-icon material-icons-outlined icon"
             >attachments</span
@@ -104,6 +104,7 @@
               <img :src="img.url" />
               <p>{{ img.creatAt | moment("dddd, MMM Do YYYY") }}</p>
             </article>
+              <img class="loading-gif" src="@/assets/loading.gif" v-if="isLoading" alt="">
           </div>
         </section>
         <section v-if="card.checklists.length">
@@ -461,7 +462,6 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        console.log("this.card", this.card);
       } catch (err) {
         console.log("Had problem loading card", err);
       }
@@ -525,10 +525,6 @@ export default {
     },
     setCurrAction(action) {
       this.currAction = action;
-    },
-    setPopup(value) {
-      this.isPopupShow = true;
-      this.type = value;
     },
     //ATTACHMENT
     async onUploadImg(ev) {
@@ -619,8 +615,6 @@ export default {
     },
     //  DATE
     openDate(ev) {
-      console.log(ev);
-      console.log(this.$refs.dueDate);
       if (ev.target.tagName === "P") this.setCurrAction(this.actions[3]);
     },
     //COMMENTS

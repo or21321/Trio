@@ -59,7 +59,7 @@ export default {
       this.cardToEdit.byMember = miniLoggedInUser;
       try {
         // this.toggleCompose();
-        this.$store.dispatch({
+        const newCard = await this.$store.dispatch({
           type: "saveCard",
           card: this.cardToEdit,
           groupId: this.groupId,
@@ -71,6 +71,9 @@ export default {
           txt: "Card was successfully added",
           type: "success",
         };
+        const group = await this.$store.dispatch({type: "getGroupById", groupId: this.groupId, boardId: this.boardId});
+        const activity = {txt: `added ${newCard.title} to ${group.title}`, byMember: this.$store.getters.getMyMiniUser, card: { id: newCard.id, title: newCard.title } }
+        await this.$store.dispatch({type: "addActivity", activity, boardId: this.boardId});
       } catch (err) {
         msg = {
           txt: "Fail to add card, try again later",
@@ -90,4 +93,3 @@ export default {
   },
 };
 </script>
-

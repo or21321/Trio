@@ -56,6 +56,8 @@ export default {
         this.$store.commit({ type: "setCurrBoard", board:newBoard });
         this.backgroundColor = board.style["background-color"];
         this.backgroundImg = board.style["background-image"];
+        const activity = {txt: "created this board", byMember: this.$store.getters.getMyMiniUser }
+        await this.$store.dispatch({type: "addActivity", activity, boardId: newBoard._id});
         this.$router.push(`/b/${newBoard._id}`);
       } catch (err) {
         console.log("ERROR cannot add board");
@@ -72,6 +74,3 @@ export default {
   },
 };
 </script>
-
-
-

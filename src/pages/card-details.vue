@@ -483,12 +483,14 @@ export default {
       var msg = {};
       try {
         this.closeCardDetails();
+        const activity = {txt: `deleted card ${this.card.title} from ${this.groupName}`, byMember: this.$store.getters.getMyMiniUser, card: { id: this.card.Id, title: this.card.title } }
         await this.$store.dispatch({
           type: "removeCard",
           cardId: this.cardId,
           groupId: this.groupId,
           boardId: this.boardId,
         });
+        await this.$store.dispatch({type: "addActivity", activity, boardId: this.boardId});
         msg = {
           txt: "Card was successfully removed",
           type: "success",

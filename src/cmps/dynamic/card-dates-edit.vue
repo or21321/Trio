@@ -2,7 +2,7 @@
   <section class="card-dates-edit">
     <div class="title">
       <span>{{ action.name }}</span>
-        <span @click.stop="close" class="close-popup-btn">X</span>
+             <span class="close material-icons close-popup-btn" @click.stop="close">close</span>
     </div>
     <main>
       <date-picker v-model="cardToEdit.dueDate.time" :inline="true" :default-value="new Date()" valueType="format">

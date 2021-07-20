@@ -6,7 +6,8 @@
         v-if="cardToEdit.cover.color"
         :style="{ backgroundColor: cardToEdit.cover.color }"
       ></div>
-         <div class="card-labels" v-if="cardLabels.length && !isLabelsTitlesShown">
+         <div class="card-labels" v-if="cardLabels.length && !isLabelsTitlesShown"
+         :class="isNoCover">
         <span
           class="label-preview"
           v-for="label in cardLabels"
@@ -15,7 +16,8 @@
           @click.stop="toggleLabelTitle">
         </span>
       </div>
-      <div class="card-labels" v-else-if="cardLabels.length && isLabelsTitlesShown">
+      <div class="card-labels" :class="isNoCover"
+      v-else-if="cardLabels.length && isLabelsTitlesShown">
         <span
           class="label-preview title-shown"
           v-for="label in cardLabels"
@@ -28,6 +30,8 @@
       
       <contenteditable
         class="main-textarea"
+        :class="isNoLabelAndCover"
+        ref="textareaTitle"
         tag="div"
         :contenteditable="true"
         v-model="cardToEdit.title"
@@ -45,6 +49,7 @@
             @mouseover="dueDateHovered = true"
             @mouseleave="dueDateHovered = false"
           >
+            {{cardToEdit.dueDate}}
             <span
               v-if="dueDateHovered && isCardDone"
               class="material-icons-outlined badge-icon"
@@ -85,7 +90,6 @@
             </span>
           </div>
         <ul class="card-members" v-if="cardToEdit.members.length">
-          <!-- Todo: click on avatar open remove-confirm-popup -->
           <avatar
             class="hover-background"
             v-for="member in cardToEdit.members"
@@ -100,6 +104,7 @@
 
       <el-button type="primary" class="save" @click="saveCard(true)">Save</el-button>
     </div>
+
     <nav>
       <button class="open-card" @click="openCard">
         <span class="icon material-icons-outlined">credit_card</span>
@@ -109,21 +114,21 @@
         <span class="icon material-icons-outlined">label</span>
         Edit labels
       </button>
-      <button class="open-card" @click="setCurrAction(actions[2])">
-        <span class="icon material-icons-outlined">watch_later</span>
-        Edit dates
+      <button class="open-card" @click="setCurrAction(actions[0])">
+        <span class="icon material-icons-outlined">person_add</span>
+        Change members
       </button>
       <button class="open-card" @click="setCurrAction(actions[3])">
         <span class="icon material-icons-outlined">wallpaper</span>
         Change cover
       </button>
-      <button class="open-card" @click="setCurrAction(actions[0])">
-        <span class="icon material-icons-outlined">person_add</span>
-        Chenge members
+      <button class="open-card" @click="setCurrAction(actions[2])">
+        <span class="icon material-icons-outlined">watch_later</span>
+        Edit dates
       </button>
       <button class="open-card" @click="removeCard">
         <span class="icon material-icons-outlined">delete</span>
-        Remove card
+        Delete card
       </button>
     </nav>
     <component
@@ -201,6 +206,10 @@ export default {
   created() {
     this.cardToEdit = JSON.parse(JSON.stringify(this.card));
   },
+//   mounted(){
+//      console.log('this.$refs.textareaTitle', this.$refs.textareaTitle.$el)
+//      this.$refs.textareaTitle.$el.focus();
+//   },
   watch: {
     "cardToEdit.labelIds": {
       deep: true,
@@ -218,12 +227,13 @@ export default {
   methods: {
     async saveCard(isSaveButton) {
       try {
-        this.$store.dispatch({
-          type: "saveCard",
+        await this.$store.dispatch({
+            type: "saveCard",
           card: this.cardToEdit,
           groupId: this.groupId,
           boardId: this.boardId,
         });
+        this.$emit('socketUpdateBoard')
         if(isSaveButton) this.closeEdit();
       } catch (err) {
         console.log("ERROR : cannot save card ", this.cardToEdit, ",", err);
@@ -283,7 +293,7 @@ export default {
       });
     },
     toggleDueDateIsDone() {
-      this.cardToEdit.dueDate.isDone = !this.cardToEdit.dueDate.isDone;
+       this.cardToEdit.dueDate.isDone = !this.cardToEdit.dueDate.isDone;
       this.saveCard();
     },
     filterCardLabels() {
@@ -291,7 +301,6 @@ export default {
       // console.log('this.cardToEdit.labelIds', this.cardToEdit.labelIds)
        this.cardLabels = this.cardToEdit.labelIds.reduce((acc, labelId) => {
         const cardLabel = this.currBoard().labels.find((label) => {
-           console.log(label.id, '==' ,labelId);
           return label.id === labelId;
         });
         if (cardLabel) acc.push(cardLabel);
@@ -313,6 +322,13 @@ export default {
     isCardDone() {
       return this.cardToEdit.dueDate.isDone;
     },
+    isNoCover(){  
+      // console.log(this.cardToEdit.cover.color)
+     return {'no-cover': !this.cardToEdit.cover.color}
+    },
+    isNoLabelAndCover(){  
+     return {'no-label-and-cover': (!this.cardToEdit.cover.color && !this.cardToEdit.labelIds.length)}
+    }
   },
 };
 </script>

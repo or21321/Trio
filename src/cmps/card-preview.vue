@@ -141,7 +141,8 @@
       :card="cardToEdit"
       :groupId="groupId"
       :isLabelsTitlesShown="isLabelsTitlesShown"
-      @closeEdit="setToPreviewEdit(null, false)"
+      @socketUpdateBoard="socketUpdateBoard"
+      @closeEdit="setToPreviewEdit(null,false)"
     />
   </div>
 </template>
@@ -238,7 +239,6 @@ export default {
       this.checklistsDoneTodos = 0;
       this.cardChecklistsTodos = [];
       this.card.checklists.forEach((cl) => {
-        console.log("cl", cl);
         cl.todos.forEach((todo) => {
           if (todo.isDone) this.checklistsDoneTodos++;
           this.cardChecklistsTodos.push(todo);
@@ -269,6 +269,9 @@ export default {
       this.cardToEdit = card;
       this.$store.commit({ type: "setCardEdit", card });
     },
+    socketUpdateBoard(){
+       this.$emit('socketUpdateBoard')
+    }
   },
   computed: {
     cardEdit() {

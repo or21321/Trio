@@ -7,7 +7,8 @@
       </div>
       <div class="card-edit-main">
          
-          <button @click="removeGroup">Remove list...</button>
+          <button @click="removeGroup">Add card...</button>
+          <button @click="removeGroup">Delete list...</button>
       </div>
   </section>
 </template>

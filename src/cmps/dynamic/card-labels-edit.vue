@@ -2,7 +2,7 @@
   <section v-if="!labelToEdit">
     <div class="card-edit-header">
       <span>{{ action.name }}</span>
-      <span @click.stop="close" class="close-popup-btn">X</span>
+            <span class="close material-icons close-popup-btn" @click.stop="close">close</span>
     </div>
 
     <div class="card-edit-main">

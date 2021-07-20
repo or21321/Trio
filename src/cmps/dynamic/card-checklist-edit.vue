@@ -2,7 +2,7 @@
   <section class="card-checklist-edit">
     <div class="card-edit-header">
       <span>Add checklist</span>
-      <span @click.stop="close" class="close-popup-btn">X</span>
+        <span class="close material-icons close-popup-btn" @click.stop="close">close</span>
     </div>
     <div class="card-edit-main">
        <span class="title">Title</span>

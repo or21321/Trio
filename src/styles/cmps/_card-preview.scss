@@ -57,29 +57,30 @@
             display: flex;
         }
     }
-    .cover-full,
-    .cover-half,
-    .main-preview {
-        position: relative;
-        .edit-btn {
-            position: absolute;
-            z-index: 4;
-            right: 1px;
-            top: 1px;
-            padding: 4px;
-            display: none;
-            &.is-cover {
-                background-color: rgba(221, 221, 221, 0.74);
-                // display: flex;
-            }
-            .icon {
-                font-size: 1.2rem;
-                color: gray;
-            }
-            &:hover {
-                background-color: rgba(238, 238, 238, 0.918);
-            }
-        }
+    .cover-full,.cover-half,.main-preview{
+      position: relative;
+      .edit-btn{
+         position: absolute;
+         z-index: 4;
+         right: 1px;
+         top: 1px;
+         padding: 4px;
+         display: none;
+         border-radius: 3px;
+         &.is-cover{
+            background-color: rgba(221, 221, 221, 0.74);  
+         }
+         .icon{
+            font-size: 1.2rem;
+            color:gray;
+         }
+         &:hover{
+            background-color: rgba(238, 238, 238, 0.918);
+         }
+      }
+   }
+    .cover-half{
+       height: 30px;
     }
     .cover-half {
         height: 30px;
@@ -177,18 +178,18 @@
                     color: #ffffff;
                 }
 
-                .date-badge {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 5px;
-                    border-radius: 3px;
-                    padding: 2px 6px;
-                    color: #ffffff;
-                    // Might be a different way to style the whole badge section, for now its ok.
-                    margin-bottom: 4px;
-                    align-self: flex-start;
-                    background-color: #f2d600;
+               .date-badge {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 5px;
+                  border-radius: 3px;
+                  padding: 2px 6px;
+                  color: #ffffff;
+                  // Might be a different way to style the whole badge section, for now its ok.
+                  margin-bottom: 4px;
+                  align-self: flex-start;
+                  background-color: #fc4c4c;
 
                     &.done {
                         background-color: #61bd4f;

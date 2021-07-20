@@ -2,7 +2,7 @@
   <section class="card-cover-edit">
     <div>
     <span>{{action.name}}</span>
-      <span @click.stop="close" class="close-popup-btn">X</span>
+      <span class="close material-icons close-popup-btn" @click.stop="close">close</span>
     </div>
     <main>
        <section class="size">

@@ -37,10 +37,11 @@
           :card="card"
           :groupId="group.id"
           :darkWindow="darkWindow"
+          :isLabelsTitlesShown="isCardPreviewLabelsShown"
+          @socketUpdateBoard="socketUpdateBoard"
           @toggleLabelsTitles="toggleLabelsTitles"
           @updateCard="updateBoard"
           @setToPreviewEdit="setToPreviewEdit"
-          :isLabelsTitlesShown="isCardPreviewLabelsShown"
           :loggedinUser="loggedinUser"
         ></card-preview>
       </draggable>
@@ -76,9 +77,9 @@ export default {
     darkWindow: {
       type: Boolean,
     },
-    loggedinUser: { 
-      type: Object
-    }
+    loggedinUser: {
+      type: Object,
+    },
   },
   components: {
     cardPreview,
@@ -97,11 +98,6 @@ export default {
     socketUpdateBoard() {
       this.$emit("socketUpdateBoard");
     },
-    // updateCard() {
-    // console.log("from group", { card, groupId: this.group.id });
-    // this.$emit('updateCard', { card, groupId: this.group.id })
-    //   this.$emit("updateBoard");
-    // },
     removeGroup() {
       this.$emit("removeGroup", this.group.id);
     },

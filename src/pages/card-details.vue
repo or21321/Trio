@@ -284,8 +284,7 @@
         </section>
       </main>
       <nav class="details-actions" :class="isCoverClass">
-
-          <section class="suggested-nav"  v-if="userNotInclude">
+        <section class="suggested-nav" v-if="userNotInclude">
           <h4 class="title">SAGGESTED</h4>
           <label @click="addUserToCard">
             <span class="material-icons-outlined icon">person_add</span>
@@ -466,11 +465,11 @@ export default {
         const loggedinUser = JSON.parse(JSON.stringify(this.loggedinUser));
         console.log("loggedinUser before clear", loggedinUser.mentions);
         const clearedMentions = loggedinUser.mentions.filter((mention) => {
-          console.log('mention.cardId', mention.cardId);
-          console.log('this.card.id', this.card.id);
+          console.log("mention.cardId", mention.cardId);
+          console.log("this.card.id", this.card.id);
           return mention.cardId !== this.card.id;
         });
-        loggedinUser.mentions = clearedMentions
+        loggedinUser.mentions = clearedMentions;
         console.log("loggedinUser after clear", loggedinUser.mentions);
         await this.$store.dispatch({ type: "updateUser", user: loggedinUser });
         console.log("loggedinUser after clear", loggedinUser.mentions);
@@ -727,11 +726,11 @@ export default {
       }, 0);
       return Math.floor((acc * 100) / all);
     },
-    addUserToCard(){
-        const user = this.$store.getters.getMyMiniUser;
-        this.card.members.push(user)
-        this.saveCard();
-    }
+    addUserToCard() {
+      const user = this.$store.getters.getMyMiniUser;
+      this.card.members.push(user);
+      this.saveCard();
+    },
   },
   computed: {
     currBoard() {
@@ -746,14 +745,14 @@ export default {
     isCoverClass() {
       return { "is-cover": this.card.cover.color };
     },
-    userNotInclude(){
+    userNotInclude() {
       const user = this.$store.getters.loggedinUser;
       const isUserMemberIdx = this.card.members.findIndex((member) => {
         return member._id === user._id;
       });
       console.log(isUserMemberIdx);
-      return (isUserMemberIdx === -1) ? true : false
-    }
+      return isUserMemberIdx === -1 ? true : false;
+    },
   },
 };
 </script>

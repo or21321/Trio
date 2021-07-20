@@ -20,6 +20,7 @@ Vue.use(require('vue-moment'));
 
 Vue.config.productionTip = false
 
+
 new Vue({
   router,
   store,

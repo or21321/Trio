@@ -66,11 +66,13 @@
         <sideMenu
           v-if="isSideMenuOpen"
           :board="board"
-          class="popup members-popup"
+          class="popup"
           @updateMembers="updateMembers"
           @close="isSideMenuOpen = false"
           @removeBoard="removeBoard"
+          @setBackground="setBackground"
         />
+        <!-- class="popup members-popup" -->
       </transition>
     </div>
   </div>
@@ -112,10 +114,10 @@ export default {
     "$route.params.boardId": {
       immediate: true,
       handler() {
-        setTimeout(()=>{
-          this.board = this.$store.getters.currBoard
+        setTimeout(() => {
+          this.board = this.$store.getters.currBoard;
           this.boardTitle = JSON.parse(JSON.stringify(this.board.title));
-        },150)
+        }, 150);
       },
     },
   },
@@ -126,6 +128,9 @@ export default {
   //     }, 1);
   //   },
   methods: {
+    setBackground(style) {
+      this.$emit("setBackground", style);
+    },
     updateTitleDebounce() {
       this.updateTitle();
     },
@@ -140,11 +145,14 @@ export default {
     updateMembers(members) {
       this.$emit("updateMembers", members);
     },
-    async removeBoard(boardId){
+    async removeBoard(boardId) {
       var msg = {};
       try {
-        await this.$store.dispatch({type:"removeBoard", boardId })
-        this.$store.commit({type:"removeBoardFromRecentBoards", board: this.board })
+        await this.$store.dispatch({ type: "removeBoard", boardId });
+        this.$store.commit({
+          type: "removeBoardFromRecentBoards",
+          board: this.board,
+        });
         this.$router.push(`/b/${this.$store.getters.boards[0]._id}`);
         msg = {
           txt: "Board was successfully removed",
@@ -158,7 +166,7 @@ export default {
       } finally {
         await this.$store.dispatch({ type: "showMsg", msg });
       }
-    }
+    },
   },
   components: {
     boardMembersEdit,

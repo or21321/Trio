@@ -27,15 +27,17 @@
           @updateBoard="saveBoard"
           @toggleLabelsTitles="toggleLabelsTitles"
           @setToPreviewEdit="setToPreviewEdit"
+          @socketUpdateBoard="socketUpdateBoard"
           :isCardPreviewLabelsShown="isCardPreviewLabelsShown"
+          :loggedinUser="loggedinUser"
         ></groupList>
       </draggable>
       <group-compose
-        @socketBoardUpdate="socketBoardUpdate"
+        @socketUpdateBoard="socketUpdateBoard"
         :boardId="boardId"
       ></group-compose>
     </div>
-    <router-view @socketUpdateBoard="socketUpdateBoard" />
+    <router-view @socketUpdateBoard="socketUpdateBoard" :loggedinUser="loggedinUser"/>
   </div>
 </template>
 
@@ -72,10 +74,14 @@ export default {
   //     console.log("ERROR: cannot get board");
   //   }
   // },
-  props:{
-     darkWindow:{
-        type:Boolean
-     }
+  props: {
+    darkWindow: {
+      type: Boolean,
+    },
+    loggedinUser: {
+      immediate: true,
+      type: Object,
+    },
   },
   // async created() {
   //   try {
@@ -160,7 +166,11 @@ export default {
     async removeGroup(groupId) {
       var msg = {};
       try {
-        const group = await this.$store.dispatch({type: "getGroupById", groupId, boardId: this.board._id});
+        const group = await this.$store.dispatch({
+          type: "getGroupById",
+          groupId,
+          boardId: this.board._id,
+        });
         await this.$store.dispatch({
           type: "removeGroup",
           groupId,
@@ -170,8 +180,15 @@ export default {
           txt: "List was successfully removed",
           type: "success",
         };
-        const activity = {txt: `deleted list ${group.title}`, byMember: this.$store.getters.getMyMiniUser }
-        await this.$store.dispatch({type: "addActivity", activity, boardId: this.board._id});
+        const activity = {
+          txt: `deleted list ${group.title}`,
+          byMember: this.$store.getters.getMyMiniUser,
+        };
+        await this.$store.dispatch({
+          type: "addActivity",
+          activity,
+          boardId: this.board._id,
+        });
       } catch (err) {
         msg = {
           txt: "Fail remove list, try again later",
@@ -197,7 +214,7 @@ export default {
       this.saveBoard(updatedBoard);
     },
     setToPreviewEdit(deff) {
-      this.$emit("setToPreviewEdit",deff);
+      this.$emit("setToPreviewEdit", deff);
     },
   },
 };

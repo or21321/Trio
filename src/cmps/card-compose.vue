@@ -55,7 +55,6 @@ export default {
   watch: {
     isComposeOn: {
       handler() {
-        console.log(this.$refs);
         if (this.isComposeOn)
           setTimeout(() => {
             this.$refs.textarea.focus();
@@ -80,6 +79,7 @@ export default {
           boardId: this.boardId,
         });
         // this.toggleCompose()
+        this.$emit('socketUpdateBoard')
         this.cardToEdit = boardService.getEmptyCard();
         setTimeout(() => {
           this.$refs.textarea.focus();

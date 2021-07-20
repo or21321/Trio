@@ -30,6 +30,10 @@ export const boardStore = {
       },
       setCurrBoard(state, { board }) {
          socketService.on(SOCKET_ON_BOARD_UPDATE, board => {   
+            socketService.on(SOCKET_ON_BOARD_UPDATE, board => {   
+               console.log('FROM STORE FROM SOCKET', board);
+               state.currBoard = board
+            })
             state.currBoard = board
          });
          state.currBoard = board

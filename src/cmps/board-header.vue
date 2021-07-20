@@ -10,6 +10,7 @@
         :noNL="false"
         :noHTML="true"
         @keypress.enter="updateTitle"
+        @input="updateTitleDebounce"
       />
       <h1 v-else class="board-header-btn" @click="isEditing = !isEditing">
         {{ boardTitle }}
@@ -73,6 +74,7 @@
 import boardMembersEdit from "@/cmps/board-members-edit";
 import sideMenu from "@/cmps/side-menu";
 import avatar from "vue-avatar";
+import {debounce} from '@/services/util.service'
 
 export default {
   props: {
@@ -106,6 +108,9 @@ export default {
       return this.$store.getters.users;
     },
   },
+created() {
+this.updateTitleDebounce = debounce(this.updateTitle, 2500)
+},
   watch: {
     "title": {
       immediate: true,
@@ -127,6 +132,9 @@ export default {
 //     }, 1);
 //   },
   methods: {
+  updateTitleDebounce() {
+    this.updateTitle()
+  },
     toggleStar() {
       this.$emit("toggleStar");
     },

@@ -498,7 +498,6 @@ export default {
           txt: "Fail remove card, try again later",
           type: "error",
         };
-        throw err;
       } finally {
         await this.$store.dispatch({ type: "showMsg", msg });
       }

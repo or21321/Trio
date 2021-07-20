@@ -1,9 +1,7 @@
 <template>
   <div class="board-wrapper app-main" v-if="board">
     <board-header
-      :title="board.title"
-      :star="board.isStarred"
-      :members="board.members"
+      :board="board"
       @updateTitle="updateTitle"
       @toggleStar="toggleStar"
       @updateMembers="updateMembers"

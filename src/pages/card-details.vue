@@ -290,7 +290,7 @@
 
         <section class="add-to-card">
           <h4 class="title">ADD TO CARD</h4>
-          <label
+          <label class="nav-action"
             v-for="action in actions"
             :key="action.name"
             @click="setCurrAction(action)"
@@ -311,9 +311,11 @@
             accept="image/png, image/gif, image/jpeg"
             hidden
           />
+            <!-- v-if="currAction" -->
           <component
             class="popup"
-            v-if="currAction"
+             v-if="isPopupShow"
+             v-clickoutside="closeEditPopup"
             :is="currAction.type"
             :card="card"
             :action="currAction"
@@ -394,6 +396,7 @@ export default {
         },
       ],
       currAction: null,
+      isPopupShow:false
     };
   },
   watch: {
@@ -440,18 +443,17 @@ export default {
       console.log("cannot get group", err);
       throw err;
     }
-  },
-  async mounted() {
-    setTimeout(() => {
+},
+async mounted() {
+   setTimeout(() => {
       this.$refs.comment.$el.addEventListener(
         "focusout",
         this.checkCommentEmpty
       );
-    }, 500);
-  },
-  methods: {
-
-    filterCardLabels() {
+   }, 500);
+},
+methods: {
+   filterCardLabels() {
       if (!this.card.labelIds.length) return (this.cardLabels = []);
       console.log("filterCardLabels", this.card.labelIds);
       this.cardLabels = [];
@@ -532,10 +534,12 @@ export default {
     },
     //POPUP-COMPONENTS
     closeEditPopup() {
+       this.isPopupShow = false;
       this.currAction = null;
     },
     setCurrAction(action) {
       this.currAction = action;
+      this.isPopupShow = true;
     },
     //ATTACHMENT
     async onUploadImg(ev) {
@@ -636,12 +640,10 @@ export default {
         groupId: this.groupId,
         boardId: this.boardId,
       });
-      console.log('yeeeeeeee1111');
       this.commentTxt = "";
       this.iscommentOpen = false;
     },
     checkCommentEmpty() {
-      console.log("yes");
       if (!this.commentTxt) this.iscommentOpen = false;
       else this.iscommentOpen = true;
     },

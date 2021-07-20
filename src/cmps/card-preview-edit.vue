@@ -49,7 +49,6 @@
             @mouseover="dueDateHovered = true"
             @mouseleave="dueDateHovered = false"
           >
-            {{cardToEdit.dueDate}}
             <span
               v-if="dueDateHovered && isCardDone"
               class="material-icons-outlined badge-icon"
@@ -77,6 +76,13 @@
               mode_comment
             </span>
             <span>{{ cardToEdit.comments.length }}</span>
+          </div>
+
+         <div v-if="card.attachments.length" class="attachments-badge">
+               <span class="material-icons-outlined badge-icon">
+               attachments
+               </span>
+               <span>{{ card.attachments.length }}</span>
           </div>
 
           <div v-if="cardChecklistsTodos.length" class="checklist-badge">

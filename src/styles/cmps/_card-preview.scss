@@ -59,7 +59,7 @@
       position: relative;
       .edit-btn{
          position: absolute;
-         z-index: 4;
+         z-index: 1;
          right: 1px;
          top: 1px;
          padding: 4px;
@@ -197,10 +197,21 @@
                   justify-content: center;
                   gap: 5px;
                }
-
+               .attachments-badge{
+                  .badge-icon {
+                     transform: rotate(130deg);
+                     height: 14px;
+                     width: 14px;
+                  }
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 3px;
+               }
                .comment-badge {
                   .badge-icon {
-                     padding-top: 1.5px;
+                     padding: 0;
+                     
                   }
                   // font-size: 12px;
                   display: flex;

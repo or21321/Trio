@@ -31,9 +31,9 @@
           @setToPreviewEdit="setToPreviewEdit"
         ></groupList>
       </draggable>
-        <!-- @socketBoardUpdate="socketBoardUpdate" -->
       <group-compose
         :boardId="boardId"
+        @socketUpdateBoard="socketUpdateBoard"
       ></group-compose>
     </div>
     <router-view @socketUpdateBoard="socketUpdateBoard" />

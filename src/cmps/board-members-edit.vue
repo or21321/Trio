@@ -104,6 +104,7 @@ export default {
       users.forEach(user => user.isBoardMember = false)
       //we can use lodash here to create a mapped object with key of id
       this.members.forEach(member => {
+
         const foundMember = users.find(user => user._id === member._id)
         foundMember.isBoardMember = true
       })

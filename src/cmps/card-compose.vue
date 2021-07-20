@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isComposeOn" class="card-compose">
+  <div v-if="isComposeOn" v-clickoutside="hideCompose" class="card-compose">
     <textarea
       ref="textarea"
       @keydown.enter="add"
@@ -41,6 +41,10 @@ export default {
       type: String,
       required: true,
     },
+    isAddCard:{
+        type: Boolean,
+      required: true,
+    }
   },
   data() {
     return {
@@ -55,15 +59,24 @@ export default {
   watch: {
     isComposeOn: {
       handler() {
-        console.log(this.$refs);
-        if (this.isComposeOn)
+         if (this.isComposeOn)
           setTimeout(() => {
+             console.log(this.$refs);
             this.$refs.textarea.focus();
           }, 1);
       },
     },
+    isAddCard:{
+       handler() {
+          if(this.isAddCard)
+            this.isComposeOn = true;
+      },
+    }
   },
   methods: {
+     hideCompose(){
+         this.isComposeOn = false;
+     },
     async add() {
       var msg = {};
       const miniLoggedInUser = await this.$store.dispatch({
@@ -103,6 +116,7 @@ export default {
     },
     toggleCompose() {
       this.isComposeOn = !this.isComposeOn;
+      if(this.isComposeOn) this.$emit('closeAddCard')
     },
     openComposeOptions() {
       console.log("openComposeOptions()");

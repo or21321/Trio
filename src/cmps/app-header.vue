@@ -6,13 +6,14 @@
           ><span class="material-icons-outlined">home</span></router-link
         >
       </div>
-      <button @click="toggleBoardList" class="btn-container">
+      <button @click.stop="toggleBoardList" class="btn-container">
         <span class="material-icons-outlined boards-icon">space_dashboard</span>
         <span> Boards</span>
       </button>
     </nav>
     <board-list
       v-if="isBoardListOpen"
+      v-clickoutside="hideBoardList"
       @closeBoardList="isBoardListOpen = false"
       @setBackground="setBackground"
       :boards="boards"
@@ -90,6 +91,9 @@ export default {
     },
     toggleBoardList() {
       this.isBoardListOpen = !this.isBoardListOpen;
+    },
+    hideBoardList(){
+       this.isBoardListOpen = false;
     },
     addBoard(board) {
       this.$emit("addBoard", board);

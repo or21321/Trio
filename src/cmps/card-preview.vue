@@ -104,6 +104,13 @@
             <span>{{ card.comments.length }}</span>
           </div>
 
+            <div v-if="card.attachments.length" class="attachments-badge">
+               <span class="material-icons-outlined badge-icon">
+               attachments
+               </span>
+               <span>{{ card.attachments.length }}</span>
+          </div>
+
           <div v-if="cardChecklistsTodos.length" class="checklist-badge">
             <span class="material-icons-outlined badge-icon">{{
               todosIcon

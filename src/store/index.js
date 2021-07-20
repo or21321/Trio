@@ -13,7 +13,7 @@ export default new Vuex.Store({
       setTimeId: null,
    },
    getters: {
-      userMsg({ userMsg }) { return userMsg }
+      userMsg({ userMsg }) { return userMsg },
    },
    mutations: {
       setMsg(state, { msg }) {

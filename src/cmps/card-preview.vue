@@ -67,6 +67,13 @@
       <span class="card-preview-title">{{ card.title }}</span>
       <div class="card-info">
         <div class="card-badges">
+          <div class="notifications-badge" v-if="userNotifications">
+            <span class="material-icons-outlined badge-icon"
+              >notifications</span
+            >
+            <span>{{ userNotifications }}</span>
+          </div>
+
           <div
             v-if="Object.keys(card.dueDate).length"
             class="date-badge"
@@ -131,6 +138,7 @@
             :username="member.fullname"
             :src="member.imgUrl"
             :size="28"
+            backgroundColor="#dfe1e6"
           />
         </ul>
       </div>
@@ -171,6 +179,9 @@ export default {
     darkWindow: {
       type: Boolean,
     },
+    loggedinUser: {
+      type: Object,
+    },
   },
   data() {
     return {
@@ -180,6 +191,7 @@ export default {
       dueDateHovered: false,
       isEdit: false,
       cardToEdit: null,
+      userNotifications: 0,
     };
   },
   watch: {
@@ -194,15 +206,22 @@ export default {
       immediate: true,
       deep: true,
       handler() {
-        console.log("watcher on card.checklists");
         this.countCardTodos();
       },
     },
-    isCardDone: {
+    "loggedinUser.mentions": {
+      immediate: true,
+      deep: true,
       handler() {
-        console.log("watcher from preview on isCardDone", this.isCardDone);
+        console.log("MENTIONS!");
+        this.countUserNotifications();
       },
-    },
+    },  
+    // isCardDone: {
+    //   handler() {
+    //     console.log("watcher from preview on isCardDone", this.isCardDone);
+    //   },
+    // },
     darkWindow: {
       handler() {
         this.isEdit = this.darkWindow;
@@ -210,11 +229,17 @@ export default {
     },
   },
   methods: {
+    countUserNotifications() {
+      this.userNotifications = this.loggedinUser.mentions.reduce(
+        (acc, mention) => {
+          if (mention.cardId === this.card.id) acc++;
+          return acc
+        },
+        0
+      );
+    },
     toggleDueDateIsDone() {
-      // const cardToSave = JSON.parse(JSON.stringify(this.card));
-      // cardToSave.dueDate.isDone = !cardToSave.dueDate.isDone;
       this.card.dueDate.isDone = !this.card.dueDate.isDone;
-      // this.$emit('updateCard', {card: cardToSave})
       this.$emit("updateCard");
     },
     countCardTodos() {

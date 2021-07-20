@@ -1,11 +1,11 @@
 import io from 'socket.io-client'
 // import {httpService} from './http.service'
 
-// export const SOCKET_EMIT_USER_WATCH = 'user-watch';
+export const SOCKET_EMIT_USER_WATCH = 'user-watch';
 export const SOCKET_EMIT_BOARD_WATCH = 'currBoard'
 export const SOCKET_EMIT_BOARD_UPDATE = 'board update'
 export const SOCKET_ON_BOARD_UPDATE = 'board updated'
-// export const SOCKET_EVENT_USER_UPDATED = 'user-updated';
+export const SOCKET_EVENT_USER_UPDATED = 'user-updated';
 // export const SOCKET_EVENT_REVIEW_ADDED = 'review-added';
 // export const SOCKET_EVENT_REVIEW_ABOUT_YOU = 'review-about-you';
 

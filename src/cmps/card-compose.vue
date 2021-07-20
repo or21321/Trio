@@ -93,6 +93,7 @@ export default {
           boardId: this.boardId,
         });
         // this.toggleCompose()
+        this.$emit('socketUpdateBoard')
         this.cardToEdit = boardService.getEmptyCard();
         setTimeout(() => {
           this.$refs.textarea.focus();

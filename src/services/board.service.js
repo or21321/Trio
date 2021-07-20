@@ -256,7 +256,14 @@ function getEmptyBoard() {
       title: "",
       isStarred: false,
       style: {},
-      labels: [],
+      labels: [
+         { color: '#61bd4f', id: utilService.makeId(), title: '' },
+         { color: '#f2d600', id: utilService.makeId(), title: '' },
+         { color: '#ff9f1a', id: utilService.makeId(), title: '' },
+         { color: '#eb5a46', id: utilService.makeId(), title: '' },
+         { color: '#c377e0', id: utilService.makeId(), title: '' },
+         { color: '#0079bf', id: utilService.makeId(), title: '' },
+      ],
       members: [],
       groups: [],
       activities: []
@@ -281,7 +288,7 @@ function getEmptyCard() {
       labelIds: [],
       dueDate: {},
       byMember: {},
-      cover: {color: '', type: ''},
+      cover: { color: '', type: '' },
       attachments: [],
       style: {}
    }

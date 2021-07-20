@@ -1,35 +1,54 @@
 <template>
-  <div class="app" :style="{ backgroundColor:this.backgroundColor, backgroundImage:this.backgroundImg}">
-    <app-header v-if="!isHome" @addBoard="addBoard" @setBackground="setBackground"/>
-    <router-view @setBackground="setBackground" 
-    @setToPreviewEdit="setDarkWindow" :darkWindow="darkWindow"/>
+  <div
+    class="app"
+    :style="{
+      backgroundColor: this.backgroundColor,
+      backgroundImage: this.backgroundImg,
+    }"
+  >
+    <app-header
+      v-if="!isHome"
+      @addBoard="addBoard"
+      @setBackground="setBackground"
+    />
+    <router-view
+      @setBackground="setBackground"
+      :loggedinUser="loggedinUser"
+      @setToPreviewEdit="setDarkWindow"
+      :darkWindow="darkWindow"
+    />
     <user-msg />
-    <div class="darkWindow" v-if="darkWindow" @click="setDarkWindow(false)"></div>
+    <div
+      class="darkWindow"
+      v-if="darkWindow"
+      @click="setDarkWindow(false)"
+    ></div>
   </div>
 </template>
 
 
 <script>
 import appHeader from "@/cmps/app-header";
-import userMsg from './cmps/user-msg';
-import {socketService} from '@/services/socket.service'
+import userMsg from "./cmps/user-msg";
+import { socketService } from "@/services/socket.service";
 
 export default {
   components: {
     appHeader,
-    userMsg
+    userMsg,
   },
   data() {
     return {
       isHome: false,
       backgroundColor: "",
-      backgroundImg: "https://images-na.ssl-images-amazon.com/images/S/sgp-catalog-images/region_US/u8lua-4AD76J88AJT-Full-Image_GalleryBackground-en-US-1585673473334._RI_.jpg",
-      darkWindow:false,
+      backgroundImg:
+        "https://images-na.ssl-images-amazon.com/images/S/sgp-catalog-images/region_US/u8lua-4AD76J88AJT-Full-Image_GalleryBackground-en-US-1585673473334._RI_.jpg",
+      darkWindow: false,
     };
   },
   async created() {
     try {
-      socketService.setup()
+      socketService.setup();
       await this.$store.dispatch({ type: "loadUsers" });
       await this.$store.dispatch({ type: "loadBoards" });
     } catch (err) {
@@ -45,19 +64,47 @@ export default {
         else this.isHome = false;
       },
     },
+    watchedUser: {
+      immediate: true,
+      deep: true,
+      handler() {
+        console.log("watch on watchedUser", this.watchedUser);
+        // if (this.watchedUser.mentions.length !== this.loggedinUser.length)
+        if (this.loggedinUser._id === this.watchedUser._id) this.updateUserMentions();
+      },
+    },
+  },
+  computed: {
+    loggedinUser() {
+      return this.$store.getters.loggedinUser;
+    },
+    watchedUser() {
+      return this.$store.getters.watchedUser;
+    },
   },
   methods: {
+    updateUserMentions() {
+      console.log("updateUserMentions()");
+      this.loggedinUser.mentions = this.watchedUser.mentions;
+    },
     async addBoard(board) {
       try {
         const newBoard = await this.$store.dispatch({
           type: "saveBoard",
           board,
         });
-        this.$store.commit({ type: "setCurrBoard", board:newBoard });
+        this.$store.commit({ type: "setCurrBoard", board: newBoard });
         this.backgroundColor = board.style["background-color"];
         this.backgroundImg = board.style["background-image"];
-        const activity = {txt: "created this board", byMember: this.$store.getters.getMyMiniUser }
-        await this.$store.dispatch({type: "addActivity", activity, boardId: newBoard._id});
+        const activity = {
+          txt: "created this board",
+          byMember: this.$store.getters.getMyMiniUser,
+        };
+        await this.$store.dispatch({
+          type: "addActivity",
+          activity,
+          boardId: newBoard._id,
+        });
         this.$router.push(`/b/${newBoard._id}`);
       } catch (err) {
         console.log("ERROR cannot add board");
@@ -67,8 +114,8 @@ export default {
       this.backgroundColor = style["background-color"];
       this.backgroundImg = style["background-image"];
     },
-    setDarkWindow(deff){
-       this.darkWindow = deff
+    setDarkWindow(deff) {
+      this.darkWindow = deff;
     },
   },
 };

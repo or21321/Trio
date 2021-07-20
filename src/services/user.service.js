@@ -14,7 +14,8 @@ export const userService = {
    getLoggedinUser,
    signupAsGuest,
    getMiniUser,
-   createDemoUsers
+   createDemoUsers,
+   updateUser
    // update,
 }
 
@@ -95,9 +96,9 @@ async function signup(userCred) {
 }
 async function logout() {
    sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
-   try{
-   // socketService.emit('unset-user-socket');
-   return await httpService.post('auth/logout')
+   try {
+      // socketService.emit('unset-user-socket');
+      return await httpService.post('auth/logout')
    } catch (err) {
       console.log('userService: Error in logout', err)
       throw err
@@ -111,6 +112,31 @@ function _saveLocalUser(user) {
 
 function getLoggedinUser() {
    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER) || 'null')
+}
+
+async function updateUser(user) {
+   try {
+      // console.log('from service', user);
+      // if (user._id) {
+      // queryParams += `&_id=${board._id}`
+      // return storageService.put(KEY, board)
+      // console.log('update user');
+      const savedUser = await httpService.put(`user/${user._id}`, user)
+      return savedUser
+      // return axios.put(`http://localhost:3200/api/board`, board).then(res => res.data)
+      // } else {
+      // return storageService.post(KEY, board)
+      // console.log('save user');
+      // const savedUser = await httpService.post(`user`, user)
+      // const savedBoard = await boardToSave
+      // console.log('from service boardToSave', boardToSave);
+      // return savedUser
+      // return axios.get(`/api/board/add?${queryParams}`).then(res => res.data)
+      // }
+   } catch (err) {
+      console.log('Had a problem adding mention', err);
+      throw err
+   }
 }
 
 async function signupAsGuest() {

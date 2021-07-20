@@ -11,7 +11,7 @@
         :noHTML="true"
         @input="saveGroupTitle"
       />
-        <!-- @click.exact.prevent -->
+      <!-- @click.exact.prevent -->
     </div>
     <span @click.stop="toggleGroupMenu" class="material-icons group-extras-menu">
       more_horiz
@@ -46,6 +46,7 @@
           @toggleLabelsTitles="toggleLabelsTitles"
           @updateCard="updateBoard"
           @setToPreviewEdit="setToPreviewEdit"
+          :loggedinUser="loggedinUser"
         ></card-preview>
       </draggable>
     </div>
@@ -53,7 +54,8 @@
     :groupId="group.id" 
     :isAddCard="isAddCard"
     :boardId="board._id"
-    @closeAddCard="isAddCard = false">
+    @closeAddCard="isAddCard = false"
+   @socketUpdateBoard="socketUpdateBoard">
     </card-compose>
   </div>
 </template>
@@ -85,6 +87,9 @@ export default {
     darkWindow: {
       type: Boolean,
     },
+    loggedinUser: {
+      type: Object,
+    },
   },
   components: {
     cardPreview,
@@ -108,6 +113,9 @@ export default {
     hidePopup(){
       this.showGroupMenu = false;
     },  
+    socketUpdateBoard() {
+      this.$emit("socketUpdateBoard");
+    },
     removeGroup() {
       this.$emit("removeGroup", this.group.id);
     },
@@ -133,9 +141,6 @@ export default {
     setToPreviewEdit(deff) {
       this.$emit("setToPreviewEdit", deff);
     },
-    socketUpdateBoard(){
-       this.$emit('socketUpdateBoard')
-    }
   },
 };
 </script>

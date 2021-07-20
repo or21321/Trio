@@ -104,7 +104,12 @@
               <img :src="img.url" />
               <p>{{ img.creatAt | moment("dddd, MMM Do YYYY") }}</p>
             </article>
-              <img class="loading-gif" src="@/assets/loading.gif" v-if="isLoading" alt="">
+            <img
+              class="loading-gif"
+              src="@/assets/loading.gif"
+              v-if="isLoading"
+              alt=""
+            />
           </div>
         </section>
         <section v-if="card.checklists.length">
@@ -353,6 +358,11 @@ export default {
     cardCoverEdit,
     avatar,
   },
+  props: {
+    loggedinUser: {
+      type: Object,
+    },
+  },
   data() {
     return {
       cardLabels: null,
@@ -439,6 +449,7 @@ export default {
         boardId: this.boardId,
       });
       this.groupName = group.title;
+      this.clearUserNotifications();
     } catch (err) {
       console.log("cannot get group", err);
       throw err;
@@ -450,10 +461,22 @@ async mounted() {
         "focusout",
         this.checkCommentEmpty
       );
-   }, 500);
-},
-methods: {
-   filterCardLabels() {
+    }, 500);
+  },
+  methods: {
+    async clearUserNotifications() {
+      try {
+        const loggedinUser = JSON.parse(JSON.stringify(this.loggedinUser));
+        const clearedMentions = loggedinUser.mentions.filter((mention) => {
+          return mention.cardId !== this.card.id;
+        });
+        loggedinUser.mentions = clearedMentions
+        await this.$store.dispatch({ type: "updateUser", user: loggedinUser });
+      } catch (err) {
+        console.log("Had a problem clearing user notifications", err);
+      }
+    },
+    filterCardLabels() {
       if (!this.card.labelIds.length) return (this.cardLabels = []);
       console.log("filterCardLabels", this.card.labelIds);
       this.cardLabels = [];
@@ -485,6 +508,7 @@ methods: {
           groupId: this.groupId,
           boardId: this.boardId,
         });
+        this.socketUpdateBoard();
       } catch (err) {
         console.log("cannot save card", err);
         throw err;
@@ -494,14 +518,22 @@ methods: {
       var msg = {};
       try {
         this.closeCardDetails();
-        const activity = {txt: `deleted card ${this.card.title} from ${this.groupName}`, byMember: this.$store.getters.getMyMiniUser, card: { id: this.card.Id, title: this.card.title } }
+        const activity = {
+          txt: `deleted card ${this.card.title} from ${this.groupName}`,
+          byMember: this.$store.getters.getMyMiniUser,
+          card: { id: this.card.Id, title: this.card.title },
+        };
         await this.$store.dispatch({
           type: "removeCard",
           cardId: this.cardId,
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        await this.$store.dispatch({type: "addActivity", activity, boardId: this.boardId});
+        await this.$store.dispatch({
+          type: "addActivity",
+          activity,
+          boardId: this.boardId,
+        });
         msg = {
           txt: "Card was successfully removed",
           type: "success",
@@ -515,6 +547,9 @@ methods: {
         await this.$store.dispatch({ type: "showMsg", msg });
       }
     },
+    socketUpdateBoard() {
+      this.$emit("socketUpdateBoard");
+    },
     async updateCard(card) {
       try {
         await this.$store.dispatch({
@@ -524,7 +559,7 @@ methods: {
           boardId: this.boardId,
         });
         await this.loadCard();
-        this.$emit('socketUpdateBoard')
+        this.socketUpdateBoard();
       } catch (err) {
         console.log("Error updating card:", err);
       }
@@ -581,6 +616,7 @@ methods: {
           txt: "Checklist was successfully removed",
           type: "success",
         };
+        this.socketUpdateBoard();
       } catch (err) {
         msg = {
           txt: "Fail to remove checklist, try again later",
@@ -600,6 +636,7 @@ methods: {
           groupId: this.groupId,
           boardId: this.boardId,
         });
+        this.socketUpdateBoard();
       } catch (err) {
         console.log("ERROR: cannot remove checkbox", checkboxId, ",", err);
       }
@@ -614,6 +651,7 @@ methods: {
           groupId: this.groupId,
           boardId: this.boardId,
         });
+        this.socketUpdateBoard();
         this.closeChanges();
       } catch (err) {
         console.log("ERROR: cannot add checkbox");
@@ -625,6 +663,7 @@ methods: {
     },
     saveCheckbox(ev) {
       this.saveCard();
+      this.socketUpdateBoard();
       ev.target.blur();
     },
     //  DATE
@@ -640,12 +679,25 @@ methods: {
         groupId: this.groupId,
         boardId: this.boardId,
       });
+      this.isMention();
       this.commentTxt = "";
       this.iscommentOpen = false;
+    },
+    isMention() {
+      if (!this.commentTxt.includes("@")) return;
+      console.log("isMention()", this.commentTxt);
+      const comment = this.commentTxt;
+      const userMentioned = comment.split("@")[1].split(" ")[0];
+      this.$store.dispatch({
+        type: "addMention",
+        username: userMentioned,
+        cardId: this.card.id,
+      });
     },
     checkCommentEmpty() {
       if (!this.commentTxt) this.iscommentOpen = false;
       else this.iscommentOpen = true;
+      this.socketUpdateBoard();
     },
     isYourComment(comment) {
       return comment.byMember._id === this.$store.getters.loggedinUser._id;
@@ -658,6 +710,7 @@ methods: {
         groupId: this.groupId,
         boardId: this.boardId,
       });
+      this.socketUpdateBoard();
     },
     setShowComments() {
       if (this.titleActivityBtn === "Show Details") {

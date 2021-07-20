@@ -75,6 +75,7 @@ export default {
           txt: "List was successfully added",
           type: "success",
         };
+        this.$emit('socketUpdateBoard')
       } catch (err) {
         msg = {
           txt: "Fail to add list, try again later",

@@ -294,7 +294,7 @@
 
         <section class="add-to-card">
           <h4 class="title">ADD TO CARD</h4>
-          <label
+          <label class="nav-action"
             v-for="action in actions"
             :key="action.name"
             @click="setCurrAction(action)"
@@ -315,9 +315,11 @@
             accept="image/png, image/gif, image/jpeg"
             hidden
           />
+            <!-- v-if="currAction" -->
           <component
             class="popup"
-            v-if="currAction"
+             v-if="isPopupShow"
+             v-clickoutside="closeEditPopup"
             :is="currAction.type"
             :card="card"
             :action="currAction"
@@ -403,6 +405,7 @@ export default {
         },
       ],
       currAction: null,
+      isPopupShow:false
     };
   },
   watch: {
@@ -450,9 +453,9 @@ export default {
       console.log("cannot get group", err);
       throw err;
     }
-  },
-  async mounted() {
-    setTimeout(() => {
+},
+async mounted() {
+   setTimeout(() => {
       this.$refs.comment.$el.addEventListener(
         "focusout",
         this.checkCommentEmpty
@@ -463,16 +466,11 @@ export default {
     async clearUserNotifications() {
       try {
         const loggedinUser = JSON.parse(JSON.stringify(this.loggedinUser));
-        console.log("loggedinUser before clear", loggedinUser.mentions);
         const clearedMentions = loggedinUser.mentions.filter((mention) => {
-          console.log("mention.cardId", mention.cardId);
-          console.log("this.card.id", this.card.id);
           return mention.cardId !== this.card.id;
         });
-        loggedinUser.mentions = clearedMentions;
-        console.log("loggedinUser after clear", loggedinUser.mentions);
+        loggedinUser.mentions = clearedMentions
         await this.$store.dispatch({ type: "updateUser", user: loggedinUser });
-        console.log("loggedinUser after clear", loggedinUser.mentions);
       } catch (err) {
         console.log("Had a problem clearing user notifications", err);
       }
@@ -570,10 +568,12 @@ export default {
     },
     //POPUP-COMPONENTS
     closeEditPopup() {
+       this.isPopupShow = false;
       this.currAction = null;
     },
     setCurrAction(action) {
       this.currAction = action;
+      this.isPopupShow = true;
     },
     //ATTACHMENT
     async onUploadImg(ev) {
@@ -694,7 +694,6 @@ export default {
       });
     },
     checkCommentEmpty() {
-      console.log("yes");
       if (!this.commentTxt) this.iscommentOpen = false;
       else this.iscommentOpen = true;
       this.socketUpdateBoard();

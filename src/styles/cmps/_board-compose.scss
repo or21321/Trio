@@ -8,7 +8,7 @@
     cursor: pointer;
     display: grid;
     grid-template-columns: 1fr 300px 1fr;
-    z-index: 3;
+    z-index: 10;
     .board-compose {
       min-width: 400px;
       grid-column: 2;

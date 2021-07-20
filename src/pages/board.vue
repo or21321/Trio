@@ -33,10 +33,9 @@
           :loggedinUser="loggedinUser"
         ></groupList>
       </draggable>
-      <!-- @socketBoardUpdate="socketBoardUpdate" -->
       <group-compose
-        @socketUpdateBoard="socketUpdateBoard"
         :boardId="boardId"
+        @socketUpdateBoard="socketUpdateBoard"
       ></group-compose>
     </div>
     <router-view
@@ -141,10 +140,6 @@ export default {
   },
   methods: {
     socketUpdateBoard() {
-      console.log("socketUpdateBoard()");
-      console.log(
-        "ye**********************************************************s"
-      );
       socketService.emit(SOCKET_EMIT_BOARD_UPDATE, this.board);
     },
     loadBoard() {

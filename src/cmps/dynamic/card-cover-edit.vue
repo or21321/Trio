@@ -8,7 +8,7 @@
        <section class="size">
           <h4 class="title">SIZE</h4>
           <section class="boards"> 
-            <button @click="setSize('half')" :class="outlineHalfButtonClass">
+            <button @click="setSize('half')" ref="halfBtn" :class="outlineHalfButtonClass">
                <div class="board-half">
                   <div class="bgc" :style="{backgroundColor:getBgc}">
                   </div>
@@ -21,7 +21,7 @@
                   <div class="circle" :style="{backgroundColor:getColor}"></div>
                   </div> 
             </button>
-            <button @click="setSize('full')" :class="outlineFullButtonClass">
+            <button @click="setSize('full')" ref="fullBtn" :class="outlineFullButtonClass">
                <div class="board-full"
                :style="{backgroundColor: getBgc}">
                    <div class="lines">
@@ -33,7 +33,7 @@
           </section>
        </section>
           <button class="remove-cover" v-if="this.cardToEdit.cover.color"
-          @click="setColor(''),setSize('')">Remove cover</button>
+          @click="removeCover">Remove cover</button>
        <section class="colors-container">
           <h4 class="title">COLORS</h4>
           <section class="colors">
@@ -62,7 +62,8 @@ export default {
     return {
         cardToEdit: JSON.parse(JSON.stringify(this.card)),
         colors:['#7BC86C','#F5DD29','#FFAF3F','#EF7564','#CD8DE5','#5BA4CF','#29CCE5',
-        '#6DECA9','#FF8ED4','#9e9e9e']
+        '#6DECA9','#FF8ED4','#9e9e9e'],
+        isRemove:false
     }
     },
     created() {  
@@ -81,9 +82,18 @@ export default {
         this.updateCard();
       },
       setSize(type){
+         if(!this.cardToEdit.cover.color && !this.isRemove) return
         this.cardToEdit.cover.type = type;
         this.updateCard();
       },
+      removeCover(){
+         this.isRemove = true
+         this.setColor('');
+         this.setSize('');
+         this.$refs.halfBtn.classList.remove('out-line')
+         this.$refs.fullBtn.classList.remove('out-line')
+           this.isRemove = false
+      }
     },
     computed:{
        getBgc(){

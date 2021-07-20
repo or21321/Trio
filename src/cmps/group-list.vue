@@ -13,15 +13,18 @@
       />
       <!-- @click.exact.prevent -->
     </div>
-    <span @click="toggleGroupMenu" class="material-icons group-extras-menu">
+    <span @click.stop="toggleGroupMenu" class="material-icons group-extras-menu">
       more_horiz
     </span>
     <group-menu
+      v-if="showGroupMenu"
+      v-clickoutside="hidePopup"
       class="popup"
       :group="group"
-      v-if="isGroupMenuOpen"
-      @closeGroupMenu="isGroupMenuOpen = false"
+      @closeGroupMenu="showGroupMenu = false"
       @removeGroup="removeGroup"
+      @addCard="addCard"
+      
     />
     <div class="card-preview-list">
       <draggable
@@ -37,6 +40,7 @@
           :card="card"
           :groupId="group.id"
           :darkWindow="darkWindow"
+         
           :isLabelsTitlesShown="isCardPreviewLabelsShown"
           @socketUpdateBoard="socketUpdateBoard"
           @toggleLabelsTitles="toggleLabelsTitles"
@@ -46,11 +50,13 @@
         ></card-preview>
       </draggable>
     </div>
-    <card-compose
-      :groupId="group.id"
-      :boardId="board._id"
-      @socketUpdateBoard="socketUpdateBoard"
-    ></card-compose>
+    <card-compose 
+    :groupId="group.id" 
+    :isAddCard="isAddCard"
+    :boardId="board._id"
+    @closeAddCard="isAddCard = false"
+   @socketUpdateBoard="socketUpdateBoard">
+    </card-compose>
   </div>
 </template>
 
@@ -59,6 +65,10 @@ import cardPreview from "@/cmps/card-preview";
 import cardCompose from "@/cmps/card-compose";
 import groupMenu from "@/cmps/group-menu";
 import draggable from "vuedraggable";
+
+
+// import Vue from 'vue';
+
 
 export default {
   props: {
@@ -89,20 +99,31 @@ export default {
   },
   data() {
     return {
-      isGroupMenuOpen: false,
       lastTitleChar: "",
-      // isLabelsTitlesShown: false
+      isAddCard:false,
+      showGroupMenu: false
     };
   },
   methods: {
+    // updateCard() {
+    // console.log("from group", { card, groupId: this.group.id });
+    // this.$emit('updateCard', { card, groupId: this.group.id })
+    //   this.$emit("updateBoard");
+    // },
+    hidePopup(){
+      this.showGroupMenu = false;
+    },  
     socketUpdateBoard() {
       this.$emit("socketUpdateBoard");
     },
     removeGroup() {
       this.$emit("removeGroup", this.group.id);
     },
+    addCard(){
+      this.isAddCard = true; 
+    },
     toggleGroupMenu() {
-      this.isGroupMenuOpen = !this.isGroupMenuOpen;
+       this.showGroupMenu = !this.showGroupMenu;
     },
     saveGroupTitle() {
       if (this.group.title === "")

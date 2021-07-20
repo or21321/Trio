@@ -40,12 +40,13 @@
       </section>
       <button
         class="board-header-btn invite-btn"
-        @click="isMembersMenuOpen = true"
+        @click.stop="toggleMemberMenu"
       >
         Invite
       </button>
       <boardMembersEdit
         v-if="isMembersMenuOpen"
+        v-clickoutside="closeMembersMenu"
         :users="users"
         :members="board.members"
         class="popup members-popup"
@@ -57,7 +58,7 @@
     <div class="menu-section">
       <button
         class="board-header-btn menu-section"
-        @click="isSideMenuOpen = true"
+        @click.stop="isSideMenuOpen = true"
       >
         <span class="material-icons title">more_horiz</span>
         Show menu
@@ -65,6 +66,7 @@
       <transition name="slide">
         <sideMenu
           v-if="isSideMenuOpen"
+          v-clickoutside="closeSideMenu"
           :board="board"
           class="popup"
           @updateMembers="updateMembers"
@@ -131,6 +133,15 @@ export default {
     setBackground(style) {
       this.$emit("setBackground", style);
     },
+     toggleMemberMenu(){
+        this.isMembersMenuOpen = !this.isMembersMenuOpen;
+     },
+     closeMembersMenu(){
+        this.isMembersMenuOpen = false;
+     },
+     closeSideMenu(){
+        this.isSideMenuOpen = false;
+     },
     updateTitleDebounce() {
       this.updateTitle();
     },

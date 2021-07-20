@@ -1,61 +1,61 @@
-    .side-menu-popup {
-        left: unset;
-        right: 0px;
-        top: 0px;
-        z-index: 5;
-        min-height: unset;
-        width: 339px;
-        border-radius: unset;
-        background-color: #f4f5f7;
+.side-menu-popup {
+    left: unset;
+    right: 0px;
+    top: 0px;
+    z-index: 5;
+    min-height: unset;
+    width: 339px;
+    border-radius: unset;
+    background-color: #f4f5f7;
+    
+    .card-edit-header {
+        // font-family: Segoe UI Bold,Roboto,sans-serif;
+        font-weight: 600;
+        font-size: 16px;
         
-        .card-edit-header {
-            // font-family: Segoe UI Bold,Roboto,sans-serif;
-            font-weight: 600;
-            font-size: 16px;
-            
+    }
+
+    ul {
+        margin-top: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(9, 30, 66, 0.13);
+    }
+
+    li {
+        display: grid;
+        grid-template-columns: 40px 1fr;
+        font-weight: 600;
+        padding: 6px 0 6px 0;
+        width: 100%;
+        
+        &:hover {
+            border-radius: 3px;
+            background-color: rgba(9,30,66,.08);
+        }
+        
+        .icon {
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+            border-radius: 3px;
+            box-sizing: content-box;
+            background-size: cover;
+        }
+        
+        .option {
+            font-size: 14px;
         }
 
-        ul {
-            margin-top: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(9, 30, 66, 0.13);
+        .activity-txt {
+            font-weight: 400;
         }
-
-        li {
-            display: grid;
-            grid-template-columns: 40px 1fr;
-            font-weight: 600;
-            padding: 6px 0 6px 0;
-            width: 100%;
-            
-            &:hover {
-                border-radius: 3px;
-                background-color: rgba(9,30,66,.08);
-            }
-            
-            .icon {
-                font-size: 20px;
-                width: 20px;
-                height: 20px;
-                margin-left: 10px;
-                border-radius: 3px;
-                box-sizing: content-box;
-                background-size: cover;
-            }
-            
-            .option {
-                font-size: 14px;
-            }
-
-            .activity-txt {
-                font-weight: 400;
-            }
-            
-            .activity-time {
-                color: #5e6c84;
-                font-weight: 400;
-                font-size: 12px;
-            }
+        
+        .activity-time {
+            color: #5e6c84;
+            font-weight: 400;
+            font-size: 12px;
         }
     }
+}
     

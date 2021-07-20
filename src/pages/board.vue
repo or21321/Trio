@@ -91,7 +91,7 @@ export default {
             boardId: this.$route.params.boardId,
           });
           this.$emit("setBackground", currBoard.style);
-          console.log('********activities', currBoard.activities)
+          // console.log('********activities', currBoard.activities)
           // SOCKET
           console.log("SOCKET_EMIT_BOARD_WATCH", SOCKET_EMIT_BOARD_WATCH);
           socketService.emit(SOCKET_EMIT_BOARD_WATCH, boardId);

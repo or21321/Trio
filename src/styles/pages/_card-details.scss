@@ -33,7 +33,7 @@
          grid-row: 1/2;
       }
       .header {
-         grid-column: 2/3;
+         grid-column: 2/4;
          grid-row: 1/2;  
          &.is-cover{
             grid-row: 2/3;
@@ -61,12 +61,13 @@
                color: #172b4de5;
                background-color: inherit;
                font-weight: 600;
-               width: 100%;
-               padding: 2px 0;
+               width: 95%;
+               padding: 5px 0;
                font-family: Segoe-UI;
                &:focus {
                   background-color: #fff;
-                  outline: 2px solid $clr-outline;
+                  padding: 5px 5px;
+                  outline:2px solid $clr-outline;
                }
             }
             .sub-title {

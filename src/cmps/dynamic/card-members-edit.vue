@@ -1,9 +1,8 @@
 <template>
   <section>
-    <!-- <div class="card-members-edit"> -->
     <div class="card-edit-header">
       <span>{{ action.name }}</span>
-      <span @click.stop="close" class="close-popup-btn">X</span>
+           <span class="close material-icons close-popup-btn" @click.stop="close">close</span>
     </div>
     <div class="card-edit-main popup-layout-1">
       <input type="text" placeholder="Search members" />
@@ -33,7 +32,6 @@
     <!-- <div class="card-members"> -->
     <!-- </div> -->
     <!-- <div class="edit-content-holder"> -->
-    <!-- </div> -->
     <!-- </div> -->
   </section>
 </template>

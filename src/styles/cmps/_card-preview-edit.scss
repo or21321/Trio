@@ -72,6 +72,22 @@
                   font-size: 1rem;
                }
             }
+            .date-badge {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               gap: 5px;
+               border-radius: 3px;
+               padding: 2px 6px;
+               color: #ffffff;
+               margin-bottom: 4px;
+               align-self: flex-start;
+               background-color: #fc4c4c;
+
+               &.done {
+                  background-color: #61bd4f;
+               }
+            }
          }
          .card-members {
             display: flex;

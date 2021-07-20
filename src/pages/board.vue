@@ -88,7 +88,7 @@ export default {
         try {
           const currBoard = await this.$store.dispatch({
             type: "loadBoard",
-            boardId: this.$route.params.boardId,
+            boardId,
           });
           this.$emit("setBackground", currBoard.style);
           // console.log('********activities', currBoard.activities)

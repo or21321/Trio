@@ -63,6 +63,7 @@
          top: 1px;
          padding: 4px;
          display: none;
+         border-radius: 3px;
          &.is-cover{
             background-color: rgba(221, 221, 221, 0.74);  
          }
@@ -169,7 +170,7 @@
                   // Might be a different way to style the whole badge section, for now its ok.
                   margin-bottom: 4px;
                   align-self: flex-start;
-                  background-color: #f2d600;
+                  background-color: #fc4c4c;
 
                   &.done {
                      background-color: #61bd4f;

@@ -133,6 +133,7 @@
       :card="cardToEdit"
       :groupId="groupId"
       :isLabelsTitlesShown="isLabelsTitlesShown"
+      @socketUpdateBoard="socketUpdateBoard"
       @closeEdit="setToPreviewEdit(null,false)"
     />
   </div>
@@ -203,7 +204,6 @@ export default {
   },
   methods: {
     toggleDueDateIsDone() {
-      console.log("toggleDueDateIsDone()");
       // const cardToSave = JSON.parse(JSON.stringify(this.card));
       // cardToSave.dueDate.isDone = !cardToSave.dueDate.isDone;
       this.card.dueDate.isDone = !this.card.dueDate.isDone;
@@ -211,17 +211,14 @@ export default {
       this.$emit("updateCard");
     },
     countCardTodos() {
-      console.log("countCardTodos", this.cardChecklistsTodos);
       this.checklistsDoneTodos = 0;
       this.cardChecklistsTodos = [];
       this.card.checklists.forEach((cl) => {
-        console.log("cl", cl);
         cl.todos.forEach((todo) => {
           if (todo.isDone) this.checklistsDoneTodos++;
           this.cardChecklistsTodos.push(todo);
         });
       });
-      console.log("cardChecklistsTodos", this.cardChecklistsTodos);
     },
     filterCardLabels() {
       // this.cardLabels = [];
@@ -233,7 +230,6 @@ export default {
         else console.log("cardLabel undefined", cardLabel);
         return acc;
       }, []);
-      console.log("cardLabels from preview", this.cardLabels);
     },
     toCardDetails() {
       this.$router.push(
@@ -248,6 +244,9 @@ export default {
       this.cardToEdit = card;
       this.$store.commit({ type: "setCardEdit", card });
     },
+    socketUpdateBoard(){
+       this.$emit('socketUpdateBoard')
+    }
   },
   computed: {
     cardEdit() {

@@ -23,15 +23,16 @@
           :group="group"
           :board="board"
           :darkWindow="darkWindow"
+          :isCardPreviewLabelsShown="isCardPreviewLabelsShown"
+          @socketUpdateBoard="socketUpdateBoard"
           @removeGroup="removeGroup"
           @updateBoard="saveBoard"
           @toggleLabelsTitles="toggleLabelsTitles"
           @setToPreviewEdit="setToPreviewEdit"
-          :isCardPreviewLabelsShown="isCardPreviewLabelsShown"
         ></groupList>
       </draggable>
+        <!-- @socketBoardUpdate="socketBoardUpdate" -->
       <group-compose
-        @socketBoardUpdate="socketBoardUpdate"
         :boardId="boardId"
       ></group-compose>
     </div>
@@ -105,11 +106,7 @@ export default {
         try {
           const currBoard = await this.$store.dispatch({
             type: "loadBoard",
-<<<<<<< HEAD
             boardId,
-=======
-            boardId: boardId,
->>>>>>> d10f88b58c38479876b047f483a495783c135022
           });
           this.$emit("setBackground", currBoard.style);
           // console.log('********activities', currBoard.activities)
@@ -139,6 +136,7 @@ export default {
   methods: {
     socketUpdateBoard() {
       console.log("socketUpdateBoard()");
+      console.log('ye**********************************************************s');
       socketService.emit(SOCKET_EMIT_BOARD_UPDATE, this.board);
     },
     loadBoard() {

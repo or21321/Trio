@@ -5,6 +5,7 @@
    top:39px;
    left: unset;
    color: #091e42b7;
+   width: 250px;
    .card-edit-main{
       justify-content:unset;
       grid-column: 1/-1;
@@ -18,7 +19,7 @@
          font-weight: 600;
          font-size: 1rem;
          &:hover{
-            background-color: rgba(9, 30, 66, 0.075);
+            background-color: rgba(93, 116, 156, 0.075);
          }
       }
    }  

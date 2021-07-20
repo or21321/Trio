@@ -37,10 +37,11 @@
           :card="card"
           :groupId="group.id"
           :darkWindow="darkWindow"
+          :isLabelsTitlesShown="isCardPreviewLabelsShown"
+          @socketUpdateBoard="socketUpdateBoard"
           @toggleLabelsTitles="toggleLabelsTitles"
           @updateCard="updateBoard"
           @setToPreviewEdit="setToPreviewEdit"
-          :isLabelsTitlesShown="isCardPreviewLabelsShown"
         ></card-preview>
       </draggable>
     </div>
@@ -113,6 +114,9 @@ export default {
     setToPreviewEdit(deff) {
       this.$emit("setToPreviewEdit", deff);
     },
+    socketUpdateBoard(){
+       this.$emit('socketUpdateBoard')
+    }
   },
 };
 </script>

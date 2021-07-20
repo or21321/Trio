@@ -99,7 +99,7 @@
               <span
                 class="material-icons-outlined delete-img"
                 @click="deleteImg(img)"
-                >clear</span
+                >delete</span
               >
               <img :src="img.url" />
               <p>{{ img.creatAt | moment("dddd, MMM Do YYYY") }}</p>
@@ -279,8 +279,17 @@
         </section>
       </main>
       <nav class="details-actions" :class="isCoverClass">
+
+          <section class="suggested-nav"  v-if="userNotInclude">
+          <h4 class="title">SAGGESTED</h4>
+          <label @click="addUserToCard">
+            <span class="material-icons-outlined icon">person_add</span>
+            <span> Join </span>
+          </label>
+        </section>
+
         <section class="add-to-card">
-          <h3 class="title">Add to card</h3>
+          <h4 class="title">ADD TO CARD</h4>
           <label
             v-for="action in actions"
             :key="action.name"
@@ -314,7 +323,7 @@
         </section>
 
         <section class="action-nav">
-          <h3 class="title">Actions</h3>
+          <h4 class="title">ACTIONS</h4>
           <label @click="removeCard">
             <span class="material-icons-outlined icon">delete</span>
             <span> Delete card </span>
@@ -611,7 +620,6 @@ export default {
       this.currChecklist = null;
     },
     saveCheckbox(ev) {
-      console.log("ev", ev);
       this.saveCard();
       ev.target.blur();
     },
@@ -628,6 +636,7 @@ export default {
         groupId: this.groupId,
         boardId: this.boardId,
       });
+      console.log('yeeeeeeee1111');
       this.commentTxt = "";
       this.iscommentOpen = false;
     },
@@ -662,6 +671,11 @@ export default {
       }, 0);
       return Math.floor((acc * 100) / all);
     },
+    addUserToCard(){
+        const user = this.$store.getters.getMyMiniUser;
+        this.card.members.push(user)
+        this.saveCard();
+    }
   },
   computed: {
     currBoard() {
@@ -676,6 +690,14 @@ export default {
     isCoverClass() {
       return { "is-cover": this.card.cover.color };
     },
+    userNotInclude(){
+      const user = this.$store.getters.loggedinUser;
+      const isUserMemberIdx = this.card.members.findIndex((member) => {
+        return member._id === user._id;
+      });
+      console.log(isUserMemberIdx);
+      return (isUserMemberIdx === -1) ? true : false
+    }
   },
 };
 </script>

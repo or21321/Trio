@@ -105,7 +105,7 @@
           type="text"
           v-model="photosFilterBy"
           @input="getPhotos"
-          placeholder="Search"
+          placeholder="Photos"
         />
         <ul v-if="photosUrls.length">
           <li

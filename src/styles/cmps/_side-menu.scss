@@ -1,4 +1,5 @@
 .side-menu-popup {
+    // Containetr
     left: unset;
     right: 0px;
     top: 0px;
@@ -15,12 +16,18 @@
         right: 0;
     }
 
+    // Header
     .card-edit-header {
         // font-family: Segoe UI Bold,Roboto,sans-serif;
         font-weight: 600;
         font-size: 16px;
+
+        .unsplash {
+            text-decoration: underline;
+        }
     }
 
+    // Main content list
     ul {
         margin-top: 15px;
         padding-bottom: 15px;
@@ -64,6 +71,7 @@
         }
     }
 
+    // Deeper options: (change background, search cards)
     .change-background {
         ul {
             display: flex;
@@ -109,9 +117,7 @@
     }
 
     .photos {
-        .unsplash {
-            text-decoration: underline;
-        }
+       
         input {
             outline: none;
             border: none;

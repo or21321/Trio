@@ -63,15 +63,15 @@
         <span class="material-icons title">more_horiz</span>
         Show menu
       </button>
+          <!-- v-clickoutside="closeSideMenu" -->
       <transition name="slide">
         <sideMenu
           v-if="isSideMenuOpen"
-          v-clickoutside="closeSideMenu"
           :board="board"
           class="popup"
           @updateMembers="updateMembers"
-          @close="isSideMenuOpen = false"
           @removeBoard="removeBoard"
+          @close="isSideMenuOpen = false"
           @setBackground="setBackground"
         />
         <!-- class="popup members-popup" -->
@@ -122,6 +122,11 @@ export default {
         }, 150);
       },
     },
+    isSideMenuOpen: {
+      handler() {
+        console.log(this.isSideMenuOpen);
+      },
+    },
   },
   //   mounted() {
   //     setTimeout(() => {
@@ -133,15 +138,15 @@ export default {
     setBackground(style) {
       this.$emit("setBackground", style);
     },
-     toggleMemberMenu(){
-        this.isMembersMenuOpen = !this.isMembersMenuOpen;
-     },
-     closeMembersMenu(){
-        this.isMembersMenuOpen = false;
-     },
-     closeSideMenu(){
-        this.isSideMenuOpen = false;
-     },
+    toggleMemberMenu() {
+      this.isMembersMenuOpen = !this.isMembersMenuOpen;
+    },
+    closeMembersMenu() {
+      this.isMembersMenuOpen = false;
+    },
+    closeSideMenu() {
+      this.isSideMenuOpen = false;
+    },
     updateTitleDebounce() {
       this.updateTitle();
     },

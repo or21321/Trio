@@ -138,6 +138,7 @@
             :username="member.fullname"
             :src="member.imgUrl"
             :size="28"
+            color="#172b4e"
             backgroundColor="#dfe1e6"
           />
         </ul>

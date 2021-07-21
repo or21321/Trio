@@ -92,12 +92,32 @@
         </ul>
       </div>
     </transition>
+
+    <!-- <transition name="slide-from-right">
+      <div v-if="deeperOption === 'photos'" class="photos">
+        <ul>
+          <li
+            v-for="photo in photos"
+            :key="photo"
+            class="color"
+            @click="changeBackground(photo)"
+          >
+            <img :src="photo.links.html" alt="" />
+          </li>
+        </ul>
+      </div>
+    </transition> -->
   </section>
 </template>
 
 <script>
 import avatar from "vue-avatar";
-
+// import { createApi } from "unsplash-js";
+// const unsplash = createApi({
+//   accessKey: "FtAiz5o_uM9Ab_oizQTJSEHWEqQaBm6ygimUsEWNKlc",
+//   // `fetch` options to be sent with every request
+//   headers: { "X-Custom-Header": "foo" },
+// });
 export default {
   props: {
     board: {
@@ -119,7 +139,11 @@ export default {
         "#00aecc",
         "#838c91",
       ],
+      photos: null,
     };
+  },
+  created() {
+    // this.getPhotos();
   },
   computed: {
     background() {
@@ -150,7 +174,24 @@ export default {
     },
   },
   methods: {
+    // async getPhotos() {
+    // try {
+    // const photos = await unsplash.photos.get(
+    // { photoId: "", count: 10 }
+    // `fetch` options to be sent only with _this_ request
+    // );
+    // for (var i = 0; i < photos.length - 1; i++) {
+    //   this.photos.push(photos.response[i].links.html);
+    // }
+    // this.photos = photos.response;
+    // const photos = await unsplash.collections.get({ collectionId: '2533618', page: 1, perPage: 20, count:5 })
+    //     console.log("photos", photos);
+    //   } catch (err) {
+    //     console.log("Had problem getting photos from unsplash", err);
+    //   }
+    // },
     setDeeperOption(option) {
+      console.log(option);
       this.deeperOption = option;
     },
     close() {
@@ -165,7 +206,7 @@ export default {
         "background-color": color,
         "background-image": "",
       };
-      console.log('style', style);
+      console.log("style", style);
       this.$emit("setBackground", style);
     },
   },

@@ -1,59 +1,64 @@
 <template>
   <div class="board-header">
-    <div class="board-section">
-      <contenteditable
-        v-if="isEditing"
-        class="board-header-btn"
-        tag="span"
-        :contenteditable="true"
-        v-model="boardTitle"
-        :noNL="false"
-        :noHTML="true"
-        @keypress.enter="updateTitle"
-        @input="updateTitleDebounce"
-      />
-      <h1 v-else class="board-header-btn" @click="isEditing = !isEditing">
-        {{ boardTitle }}
-      </h1>
-      <!-- <span class="material-icons">dashboard</span>
+    <div class="board-members-section">
+      <div class="board-section">
+        <contenteditable
+          v-if="isEditing"
+          class="board-header-btn"
+          tag="span"
+          :contenteditable="true"
+          v-model="boardTitle"
+          :noNL="false"
+          :noHTML="true"
+          @keypress.enter="updateTitle"
+          @input="updateTitleDebounce"
+        />
+        <h1 v-else class="board-header-btn" @click="isEditing = !isEditing">
+          {{ boardTitle }}
+        </h1>
+        <!-- <span class="material-icons">dashboard</span>
       <span class="">{{ title }}</span>
       <span class="material-icons">keyboard_arrow_down</span> -->
-      <span
-        class="material-icons board-header-btn star"
-        @click="toggleStar"
-        :class="selected"
-        >star_border</span
-      >
-    </div>
-    <div class="members-section">
-      <section class="avatars" v-if="board.members.length">
-        <avatar
-          v-for="member in board.members"
-          :key="member.id"
-          :username="member.fullname"
-          :src="member.imgUrl"
-          :size="28"
-          backgroundColor="#DFE1E6"
-          color="#172b4d"
-          :customStyle="{ fontSize: '12px' }"
+        <span
+          class="material-icons board-header-btn star"
+          @click="toggleStar"
+          :class="selected"
+          >star_border</span
+        >
+      </div>
+      <span class="seperator">|</span>
+      <div class="members-section">
+        <section class="avatars" v-if="board.members.length">
+          <avatar
+            v-for="(member, idx) in board.members"
+            :key="member.id"
+            :username="member.fullname"
+            :src="member.imgUrl"
+            :size="28"
+            backgroundColor="#DFE1E6"
+            color="#172b4d"
+            :customStyle="{ fontSize: '12px'}"
+          />
+          <!-- if time permits: make avatars have different z-indexes for the hover effect -->
+            <!-- :customStyle="{ fontSize: '12px', 'z-index': `100-${idx} !important` }" -->
+        </section>
+        <button
+          class="board-header-btn invite-btn"
+          @click.stop="toggleMemberMenu"
+        >
+          Invite
+        </button>
+        <boardMembersEdit
+          v-if="isMembersMenuOpen"
+          v-clickoutside="closeMembersMenu"
+          :users="users"
+          :members="board.members"
+          class="popup members-popup"
+          @updateMembers="updateMembers"
+          @close="isMembersMenuOpen = false"
         />
-      </section>
-      <button
-        class="board-header-btn invite-btn"
-        @click.stop="toggleMemberMenu"
-      >
-        Invite
-      </button>
-      <boardMembersEdit
-        v-if="isMembersMenuOpen"
-        v-clickoutside="closeMembersMenu"
-        :users="users"
-        :members="board.members"
-        class="popup members-popup"
-        @updateMembers="updateMembers"
-        @close="isMembersMenuOpen = false"
-      />
-      <!-- @updateBoard="updateBoard" -->
+        <!-- @updateBoard="updateBoard" -->
+      </div>
     </div>
     <div class="menu-section">
       <button
@@ -63,15 +68,15 @@
         <span class="material-icons title">more_horiz</span>
         Show menu
       </button>
+      <!-- v-clickoutside="closeSideMenu" -->
       <transition name="slide">
         <sideMenu
           v-if="isSideMenuOpen"
-          v-clickoutside="closeSideMenu"
           :board="board"
           class="popup"
           @updateMembers="updateMembers"
-          @close="isSideMenuOpen = false"
           @removeBoard="removeBoard"
+          @close="isSideMenuOpen = false"
           @setBackground="setBackground"
         />
         <!-- class="popup members-popup" -->
@@ -122,6 +127,11 @@ export default {
         }, 150);
       },
     },
+    isSideMenuOpen: {
+      handler() {
+        console.log(this.isSideMenuOpen);
+      },
+    },
   },
   //   mounted() {
   //     setTimeout(() => {
@@ -133,15 +143,15 @@ export default {
     setBackground(style) {
       this.$emit("setBackground", style);
     },
-     toggleMemberMenu(){
-        this.isMembersMenuOpen = !this.isMembersMenuOpen;
-     },
-     closeMembersMenu(){
-        this.isMembersMenuOpen = false;
-     },
-     closeSideMenu(){
-        this.isSideMenuOpen = false;
-     },
+    toggleMemberMenu() {
+      this.isMembersMenuOpen = !this.isMembersMenuOpen;
+    },
+    closeMembersMenu() {
+      this.isMembersMenuOpen = false;
+    },
+    closeSideMenu() {
+      this.isSideMenuOpen = false;
+    },
     updateTitleDebounce() {
       this.updateTitle();
     },

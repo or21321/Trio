@@ -81,6 +81,7 @@ export default {
   },
   async created() {
     this.user = this.$store.getters.loggedinUser;
+    if (!this.$store.getters.watchedUser) this.$store.dispatch({type:'loadAndWatchUser', userId: this.user._id})
   },
   methods: {
     toggleBoardCompose() {

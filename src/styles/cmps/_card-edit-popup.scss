@@ -40,6 +40,9 @@
         justify-content: start;
         padding: 0 12px 12px 12px;
         overflow-y: auto;
+        // Need to make it fit screen height and scroll when needed, after dynamic cmps are placed correctly
+        // max-height: 350px;
+
 
         // Main scrollbar style:
         &::-webkit-scrollbar {

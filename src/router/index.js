@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import home from '@/pages/home.vue'
 import board from '@/pages/board.vue'
+import boards from '@/pages/boards.vue'
 import cardDetails from '@/pages/card-details.vue'
 import login from '@/pages/login.vue'
 import signup from '@/pages/signup.vue'
@@ -13,6 +14,11 @@ const routes = [
       path: '/',
       name: 'Home',
       component: home
+   },
+   {
+      path: '/b',
+      name: 'Boards',
+      component: boards
    },
    {
       path: '/b/:boardId',

@@ -115,11 +115,10 @@ export default {
       this.updateCard(this.cardToEdit);
     },
    filterCardMembers(){
+      this.boardMembers.map((user) =>{user.isCardMember = false})
       this.boardMembers.map((user) =>{
          this.card.members.forEach(member => { 
-            if(member._id === user._id){
-               user.isCardMember = true
-            }
+            if(member._id === user._id) user.isCardMember = true
          }) 
       })
    },

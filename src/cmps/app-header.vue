@@ -2,7 +2,7 @@
   <section class="app-header">
     <nav class="nav">
       <div class="wh">
-        <router-link class="btn-container" to="/"
+        <router-link class="btn-container" to="/b"
           ><span class="material-icons-outlined">home</span></router-link
         >
       </div>

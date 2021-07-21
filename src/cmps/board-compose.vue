@@ -13,8 +13,12 @@
           placeholder="Add board title"
           v-model="board.title"
         ></el-input>
-        <el-button @click="createBoard" type="primary" :disabled="!board.title"
-         class="compose-btn" >Create board</el-button
+        <el-button
+          @click="createBoard"
+          type="primary"
+          :disabled="!board.title"
+          class="compose-btn"
+          >Create board</el-button
         >
         <el-button @click="renderColors" type="primary" class="change-colors"
           >Change Colors</el-button
@@ -59,7 +63,7 @@ export default {
         "https://images.wunderstock.com/Bodies-of-Water-Near-Mountain-At-Starry-Night_u9zZpYBztI57_1600.jpeg",
         "https://images8.alphacoders.com/926/thumb-1920-926492.jpg",
         "https://i.pinimg.com/originals/45/b3/c8/45b3c8edad36060ad7908ae64b10b87d.jpg",
-        "https://cdn.wallpapersafari.com/23/23/bq9Hw7.jpg"
+        "https://cdn.wallpapersafari.com/23/23/bq9Hw7.jpg",
       ],
       selectImg: "https://wallpaperaccess.com/full/109672.jpg",
       selectColor: "",
@@ -85,16 +89,16 @@ export default {
         "background-color": this.selectColor,
         "background-image": `url(${this.selectImg})`,
       };
-      this.board.createdAt = Date.now()
+      this.board.createdAt = Date.now();
       try {
-        const loggedUserId = this.$store.getters.loggedinUser._id
+        const loggedUserId = this.$store.getters.loggedinUser._id;
         const miniLoggedInUser = await this.$store.dispatch({
           type: "getMiniUser",
           userId: loggedUserId,
-        })
-        this.board.createdBy = miniLoggedInUser
-        this.board.members = [ miniLoggedInUser ]
-         this.$emit("addBoard", this.board);
+        });
+        this.board.createdBy = miniLoggedInUser;
+        this.board.members = [miniLoggedInUser];
+        this.$emit("addBoard", this.board);
       } catch (err) {
         console.log("failed to get miniLoggedInUser", err);
       }

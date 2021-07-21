@@ -108,9 +108,27 @@
             class="photo"
             @click="changeBackground('', photoUrl)"
             :style="{ backgroundImage: `url(${photoUrl})` }"
-          >
-            <!-- <img :src="photoUrl" alt="" /> -->
-          </li>
+          ></li>
+        </ul>
+      </div>
+    </transition>
+
+    <transition name="slide-from-right">
+      <div v-if="deeperOption === 'searchCards'" class="search-cards">
+        <input
+          type="text"
+          v-model="photosFilterBy"
+          @input="getPhotos"
+          placeholder="Search"
+        />
+        <ul v-if="photosUrls.length">
+          <li
+            v-for="photoUrl in photosUrls"
+            :key="photoUrl"
+            class="photo"
+            @click="changeBackground('', photoUrl)"
+            :style="{ backgroundImage: `url(${photoUrl})` }"
+          ></li>
         </ul>
       </div>
     </transition>
@@ -120,12 +138,7 @@
 <script>
 import avatar from "vue-avatar";
 import { unsplashService } from "@/services/unsplash.service";
-// import { createApi } from "unsplash-js";
-// const unsplash = createApi({
-//   accessKey: "FtAiz5o_uM9Ab_oizQTJSEHWEqQaBm6ygimUsEWNKlc",
-//   // `fetch` options to be sent with every request
-//   headers: { "X-Custom-Header": "foo" },
-// });
+
 export default {
   props: {
     board: {
@@ -136,8 +149,19 @@ export default {
   data() {
     return {
       deeperOption: "",
-      filterBy: "",
-      photosUrls: [],
+      photosFilterBy: "",
+      photosUrls: [
+        'https://images.unsplash.com/photo-1485356824219-4bc17c2a2ea7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80',
+        'https://images.unsplash.com/photo-1490079027102-cd08f2308c73?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
+        'https://images.unsplash.com/photo-1611421964761-452bcf2a4a24?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=665&q=80',
+        'https://images.unsplash.com/photo-1490643056814-058241121f45?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHRyZWxsb3xlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
+        'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=753&q=80',
+        'https://images.unsplash.com/photo-1439923274069-a6f070db0c99?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YmFja2dyb3VuZHN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
+        'https://images.unsplash.com/photo-1524169113253-c6ba17f68498?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fGJhY2tncm91bmRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
+        'https://images.unsplash.com/photo-1554034483-04fda0d3507b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mjd8fGJhY2tncm91bmRzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60',
+        'https://images.unsplash.com/photo-1500673922987-e212871fec22?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzN8fGJhY2tncm91bmRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
+        'https://images.unsplash.com/photo-1507608869274-d3177c8bb4c7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OTd8fGJhY2tncm91bmRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60'
+      ],
       colors: [
         "#0079bf",
         "#d29034",
@@ -187,29 +211,10 @@ export default {
     },
   },
   methods: {
-    // async getPhotos() {
-    // try {
-    // const photos = await unsplash.photos.get(
-    // { photoId: "", count: 10 }
-    // `fetch` options to be sent only with _this_ request
-    // );
-    // for (var i = 0; i < photos.length - 1; i++) {
-    //   this.photos.push(photos.response[i].links.html);
-    // }
-    // this.photos = photos.response;
-    // const photos = await unsplash.collections.get({ collectionId: '2533618', page: 1, perPage: 20, count:5 })
-    //     console.log("photos", photos);
-    //   } catch (err) {
-    //     console.log("Had problem getting photos from unsplash", err);
-    //   }
-    // },
     async getPhotos() {
       try {
-        console.log("filterBy", this.flterBy);
         const photos = await unsplashService.query(this.filterBy);
-        console.log("photos", photos);
         this.photosUrls = photos.map((photo) => photo.urls.regular);
-        console.log("photosUrls", this.photosUrls);
       } catch (err) {
         console.log("Had a problem getting photos", err);
       }

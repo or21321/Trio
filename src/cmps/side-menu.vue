@@ -203,7 +203,7 @@ export default {
     //     console.log("Had problem getting photos from unsplash", err);
     //   }
     // },
-    async getPhotos(filterBy) {
+    async getPhotos() {
       try {
         console.log("filterBy", this.flterBy);
         const photos = await unsplashService.query(this.filterBy);

@@ -121,6 +121,7 @@ async function updateUser(user) {
       // queryParams += `&_id=${board._id}`
       // return storageService.put(KEY, board)
       // console.log('update user');
+      console.log('user', user)
       const savedUser = await httpService.put(`user/${user._id}`, user)
       return savedUser
       // return axios.put(`http://localhost:3200/api/board`, board).then(res => res.data)

@@ -232,6 +232,7 @@ export default {
   },
   methods: {
     countUserNotifications() {
+      if(!this.loggedinUser) return
       this.userNotifications = this.loggedinUser.mentions.reduce(
         (acc, mention) => {
           if (mention.cardId === this.card.id) acc++;

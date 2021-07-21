@@ -68,7 +68,9 @@ export default {
       // immediate: true,
       deep: true,
       handler() {
-        if (this.loggedinUser?._id === this.watchedUser?._id) this.updateUserMentions();  
+         if(this.loggedinUser && this.watchedUser){
+             if (this.loggedinUser._id === this.watchedUser._id) this.updateUserMentions(); 
+         } 
       },
     },
   },

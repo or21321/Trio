@@ -47,7 +47,7 @@ export const boardStore = {
          state.boards = boards
       },
       addBoard(state, { savedBoard }) {
-         state.boards.unshift(savedBoard);
+         state.boards.push(savedBoard);
       },
       updateBoard(state, { savedBoard }) {
          const idx = state.boards.findIndex(board => board._id === savedBoard._id)

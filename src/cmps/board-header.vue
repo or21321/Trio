@@ -30,17 +30,17 @@
       <div class="members-section">
         <section class="avatars" v-if="board.members.length">
           <avatar
-            v-for="(member, idx) in board.members"
+            v-for="member in board.members"
             :key="member.id"
             :username="member.fullname"
             :src="member.imgUrl"
             :size="28"
             backgroundColor="#DFE1E6"
             color="#172b4d"
-            :customStyle="{ fontSize: '12px'}"
+            :customStyle="{ fontSize: '12px' }"
           />
           <!-- if time permits: make avatars have different z-indexes for the hover effect -->
-            <!-- :customStyle="{ fontSize: '12px', 'z-index': `100-${idx} !important` }" -->
+          <!-- :customStyle="{ fontSize: '12px', 'z-index': `100-${idx} !important` }" -->
         </section>
         <button
           class="board-header-btn invite-btn"
@@ -127,18 +127,7 @@ export default {
         }, 150);
       },
     },
-    isSideMenuOpen: {
-      handler() {
-        console.log(this.isSideMenuOpen);
-      },
-    },
   },
-  //   mounted() {
-  //     setTimeout(() => {
-  //       this.$refs.header.$el.addEventListener("focusout", this.updateTitle);
-  //       this.isEditing = false;
-  //     }, 1);
-  //   },
   methods: {
     setBackground(style) {
       this.$emit("setBackground", style);

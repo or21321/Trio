@@ -9,7 +9,13 @@
           >arrow_back_ios</span
         >
       </transition>
-      <span>{{ title }}</span>
+      <span v-if="deeperOption === 'photos'"
+        >{{ title }}
+        <span class="unsplash" @click="openNewWindowUnsplash"
+          >unsplash</span
+        ></span
+      >
+      <span v-else>{{ title }} </span>
       <span @click.stop="close" class="close-popup-btn">X</span>
     </div>
 
@@ -19,9 +25,9 @@
           <span :style="background" class="background icon"></span>
           <span class="option">Change background</span>
         </li>
-        <li>
+        <li @click="setDeeperOption('searchCards')">
           <span class="material-icons-outlined icon">search</span>
-          <span class="option">Search cards</span>
+          <span class="option" >Search cards</span>
         </li>
         <li>
           <span class="material-icons-outlined icon">delete_outline</span>
@@ -97,7 +103,7 @@
       <div v-if="deeperOption === 'photos'" class="photos">
         <input
           type="text"
-          v-model="filterBy"
+          v-model="photosFilterBy"
           @input="getPhotos"
           placeholder="Search"
         />
@@ -117,19 +123,18 @@
       <div v-if="deeperOption === 'searchCards'" class="search-cards">
         <input
           type="text"
-          v-model="photosFilterBy"
-          @input="getPhotos"
+          v-model="cardsFilterBy.txt"
+          @input="searchCards"
           placeholder="Search"
         />
-        <ul v-if="photosUrls.length">
+        <!-- <ul v-if="board.labels.length">
           <li
-            v-for="photoUrl in photosUrls"
-            :key="photoUrl"
-            class="photo"
-            @click="changeBackground('', photoUrl)"
-            :style="{ backgroundImage: `url(${photoUrl})` }"
+            v-for="label in board.labels"
+            :key="label.id"
+            class="label"
+            @click="filterCards(label.id)"
           ></li>
-        </ul>
+        </ul> -->
       </div>
     </transition>
   </section>
@@ -138,6 +143,7 @@
 <script>
 import avatar from "vue-avatar";
 import { unsplashService } from "@/services/unsplash.service";
+import { debounce } from "@/services/util.service";
 
 export default {
   props: {
@@ -149,18 +155,21 @@ export default {
   data() {
     return {
       deeperOption: "",
+      cardsFilterBy: {  
+        txt: ''
+      },
       photosFilterBy: "",
       photosUrls: [
-        'https://images.unsplash.com/photo-1485356824219-4bc17c2a2ea7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80',
-        'https://images.unsplash.com/photo-1490079027102-cd08f2308c73?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
-        'https://images.unsplash.com/photo-1611421964761-452bcf2a4a24?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=665&q=80',
-        'https://images.unsplash.com/photo-1490643056814-058241121f45?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHRyZWxsb3xlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
-        'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=753&q=80',
-        'https://images.unsplash.com/photo-1439923274069-a6f070db0c99?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YmFja2dyb3VuZHN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
-        'https://images.unsplash.com/photo-1524169113253-c6ba17f68498?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fGJhY2tncm91bmRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
-        'https://images.unsplash.com/photo-1554034483-04fda0d3507b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mjd8fGJhY2tncm91bmRzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60',
-        'https://images.unsplash.com/photo-1500673922987-e212871fec22?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzN8fGJhY2tncm91bmRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
-        'https://images.unsplash.com/photo-1507608869274-d3177c8bb4c7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OTd8fGJhY2tncm91bmRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60'
+        "https://images.unsplash.com/photo-1485356824219-4bc17c2a2ea7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80",
+        "https://images.unsplash.com/photo-1490079027102-cd08f2308c73?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
+        "https://images.unsplash.com/photo-1611421964761-452bcf2a4a24?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=665&q=80",
+        "https://images.unsplash.com/photo-1490643056814-058241121f45?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHRyZWxsb3xlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60",
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=753&q=80",
+        "https://images.unsplash.com/photo-1439923274069-a6f070db0c99?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YmFja2dyb3VuZHN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60",
+        "https://images.unsplash.com/photo-1524169113253-c6ba17f68498?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fGJhY2tncm91bmRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60",
+        "https://images.unsplash.com/photo-1554034483-04fda0d3507b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mjd8fGJhY2tncm91bmRzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60",
+        "https://images.unsplash.com/photo-1500673922987-e212871fec22?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzN8fGJhY2tncm91bmRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60",
+        "https://images.unsplash.com/photo-1507608869274-d3177c8bb4c7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OTd8fGJhY2tncm91bmRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60",
       ],
       colors: [
         "#0079bf",
@@ -177,7 +186,8 @@ export default {
     };
   },
   created() {
-    // this.getPhotos();
+    this.getPhotos = debounce(this.getPhotos, 500);
+    this.searchCards = debounce(this.searchCards, 500);
   },
   computed: {
     background() {
@@ -201,7 +211,7 @@ export default {
           title = "Colors";
           break;
         case "photos":
-          title = "Photos by unsplash";
+          title = "Photos by";
           break;
         case "":
           title = "Menu";
@@ -213,7 +223,9 @@ export default {
   methods: {
     async getPhotos() {
       try {
-        const photos = await unsplashService.query(this.filterBy);
+        const photos = await unsplashService.query(
+          this.photosFilterBy.toLowerCase()
+        );
         this.photosUrls = photos.map((photo) => photo.urls.regular);
       } catch (err) {
         console.log("Had a problem getting photos", err);
@@ -238,6 +250,12 @@ export default {
       console.log("style", style);
       this.$emit("setBackground", style);
     },
+    openNewWindowUnsplash() {
+      window.open("https://unsplash.com/");
+    },
+    searchCards() { 
+      console.log('cardsFilterBy', this.cardsFilterBy);
+    }
   },
   components: {
     avatar,

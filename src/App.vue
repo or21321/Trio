@@ -68,9 +68,7 @@ export default {
       // immediate: true,
       deep: true,
       handler() {
-        console.log("watch on watchedUser", this.watchedUser);
-        // if (this.watchedUser.mentions.length !== this.loggedinUser.length)
-        if (this.loggedinUser._id === this.watchedUser._id) this.updateUserMentions();  
+        if (this.loggedinUser?._id === this.watchedUser?._id) this.updateUserMentions();  
       },
     },
   },

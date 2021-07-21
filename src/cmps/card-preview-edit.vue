@@ -103,6 +103,8 @@
             :username="member.fullname"
             :src="member.imgUrl"
             :size="28"
+            backgroundColor="#dfe1e6"
+            color="#172b4d"
           />
         </ul>
         </div>
@@ -214,7 +216,7 @@ export default {
   },
 //   mounted(){
 //      console.log('this.$refs.textareaTitle', this.$refs.textareaTitle.$el)
-//      this.$refs.textareaTitle.$el.focus();
+//         this.$refs.textareaTitle.$el.focus();
 //   },
   watch: {
     "cardToEdit.labelIds": {

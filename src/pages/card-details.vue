@@ -63,7 +63,7 @@
                 v-model="card.dueDate.isDone"
               ></el-checkbox>
               <p>{{ card.dueDate.time | moment(" MMM Do") }}</p>
-              <p class="complete" v-if="card.dueDate.isDone">complete</p>
+              <p class="complete" v-if="card.dueDate.isDone">COMPLETE</p>
             </section>
           </div>
         </section>
@@ -284,7 +284,7 @@
         </section>
       </main>
       <nav class="details-actions" :class="isCoverClass">
-        <section class="suggested-nav" v-if="userNotInclude">
+          <section class="suggested-nav"  v-if="userNotInclude">
           <h4 class="title">SAGGESTED</h4>
           <label @click="addUserToCard">
             <span class="material-icons-outlined icon">person_add</span>
@@ -347,6 +347,7 @@ import cardLabelsEdit from "@/cmps/dynamic/card-labels-edit";
 import cardChecklistEdit from "@/cmps/dynamic/card-checklist-edit";
 import cardDatesEdit from "@/cmps/dynamic/card-dates-edit";
 import cardCoverEdit from "@/cmps/dynamic/card-cover-edit";
+// import {debounce} from '../services/util.service'
 import avatar from "vue-avatar";
 export default {
   components: {
@@ -441,6 +442,7 @@ export default {
     },
   },
   async created() {
+   // this.updateDescription = debounce(this.saveCard,1000);
     try {
       const group = await this.$store.dispatch({
         type: "getGroupById",
@@ -725,11 +727,11 @@ async mounted() {
       }, 0);
       return Math.floor((acc * 100) / all);
     },
-    addUserToCard() {
-      const user = this.$store.getters.getMyMiniUser;
-      this.card.members.push(user);
-      this.saveCard();
-    },
+    addUserToCard(){
+        const user = this.$store.getters.getMyMiniUser;
+        this.card.members.push(user)
+        this.saveCard();
+    }
   },
   computed: {
     currBoard() {
@@ -744,14 +746,14 @@ async mounted() {
     isCoverClass() {
       return { "is-cover": this.card.cover.color };
     },
-    userNotInclude() {
+    userNotInclude(){
       const user = this.$store.getters.loggedinUser;
       const isUserMemberIdx = this.card.members.findIndex((member) => {
         return member._id === user._id;
       });
       console.log(isUserMemberIdx);
-      return isUserMemberIdx === -1 ? true : false;
-    },
+      return (isUserMemberIdx === -1) ? true : false
+    }
   },
 };
 </script>

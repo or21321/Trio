@@ -9,7 +9,7 @@
         v-model="group.title"
         :noNL="false"
         :noHTML="true"
-        @input="saveGroupTitle"
+        @input="updateTitleDebounce"
       />
       <!-- @click.exact.prevent -->
     </div>
@@ -65,7 +65,7 @@ import cardPreview from "@/cmps/card-preview";
 import cardCompose from "@/cmps/card-compose";
 import groupMenu from "@/cmps/group-menu";
 import draggable from "vuedraggable";
-
+import {debounce} from '../services/util.service'
 
 // import Vue from 'vue';
 
@@ -104,6 +104,9 @@ export default {
       showGroupMenu: false
     };
   },
+  created(){
+   this.updateTitleDebounce = debounce(this.saveGroupTitle,1000);
+  },
   methods: {
     // updateCard() {
     // console.log("from group", { card, groupId: this.group.id });
@@ -129,6 +132,7 @@ export default {
       if (this.group.title === "")
         return (this.group.title = this.lastTitleChar);
       this.lastTitleChar = this.group.title;
+      console.log(this.lastTitleChar);
       this.updateBoard();
     },
     updateBoard() {

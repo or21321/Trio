@@ -1,0 +1,30 @@
+.board-members-list {
+    max-height: 300px;
+    overflow-y:auto;
+
+    &::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+        border-radius: 3px;
+    }
+
+    /* Track */
+        &::-webkit-scrollbar-track {
+        background: rgba(9, 30, 66, 0.08);
+        border-radius: 3px;
+        margin-left: 100%;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        background-color: #bfc4ce;
+        border-radius: 6px;
+        height: 195px;
+    }
+
+    &::-webkit-scrollbar-button {
+        display: block;
+        height: 4px;
+        width: 4px;
+    }
+}

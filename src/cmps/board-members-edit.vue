@@ -7,7 +7,7 @@
     </div>
     <div class="card-edit-main popup-layout-1">
       <input type="text" placeholder="Search members" />
-      <ul>
+      <ul class="board-members-list">
         <!-- <h4>BOARD MEMBERS</h4> -->
         <li
           @click="toggleUserAsBoardMember(user)"
@@ -16,7 +16,9 @@
           :key="user._id"
         >
           <div class="member-name">
-            <avatar :size="28" :username="user.fullname" :src="user.imgUrl" />
+            <avatar :size="28" :username="user.fullname" :src="user.imgUrl"
+             color="#172b4d"
+              backgroundColor="#dfe1e6" />
             <span>{{ user.fullname }} ({{ user.username }})</span>
           </div>
           <span

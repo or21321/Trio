@@ -11,11 +11,14 @@
         <li
           @click="toggleUserAsCardMember(user)"
           class="card-member-preview"
-          v-for="user in CardMembers"
+          v-for="user in boardMembers"
           :key="user._id"
         >
           <div class="member-name">
-            <avatar :size="32" :username="user.fullname" :src="user.imgUrl" />
+            <avatar :size="32" :username="user.fullname" :src="user.imgUrl"
+              color="#172b4d"
+              backgroundColor="#dfe1e6"
+               />
             <span>{{ user.fullname }} ({{ user.username }})</span>
           </div>
           <span
@@ -33,12 +36,12 @@
     <!-- </div> -->
     <!-- <div class="edit-content-holder"> -->
     <!-- </div> -->
+
   </section>
 </template>
 
 <script>
 import avatar from "vue-avatar";
-
 export default {
   components: {
     avatar,
@@ -61,9 +64,9 @@ export default {
   },
   async created() {
     try {
-      await this.$store.dispatch({ type: "loadUsers" });
+       this.filterCardMembers();
+       await this.$store.dispatch({ type: "loadUsers" });
       this.cardToEdit = JSON.parse(JSON.stringify(this.card));
-      this.filterCardMembers();
     } catch (err) {
       console.log("Error loading users:", err);
     }
@@ -84,50 +87,42 @@ export default {
     cardMembers() {
       return this.card.members;
     },
+    boardMembers(){
+       console.log(this.$store.getters.currBoard.members);
+       return this.$store.getters.currBoard.members
+    }
   },
   methods: {
     toggleUserAsCardMember(user) {
       const isUserMemberIdx = this.cardToEdit.members.findIndex((member) => {
-        return member.id === user._id;
+        return member._id === user._id;
       });
       if (isUserMemberIdx === -1) {
-        console.log("Add");
         const miniUser = {
           username: user.username,
           fullname: user.fullname,
-          id: user._id,
+          _id: user._id,
           imgUrl: user.imgUrl,
         };
         this.cardToEdit.members.push(miniUser);
+        user.isCardMember = true;
       } else {
-        console.log("Remove");
         this.cardToEdit.members.splice(isUserMemberIdx, 1);
+          user.isCardMember = false;
         this.updateCard;
       }
       console.log("card to update", this.cardToEdit);
       this.updateCard(this.cardToEdit);
     },
-    filterCardMembers() {
-      console.log("card members from filter", this.card.members);
-      const users = JSON.parse(JSON.stringify(this.users));
-      users.map((user) => (user.isCardMember = false));
-      console.log("users from filter after deep copy", users);
-      if (this.card.members.length) {
-        this.card.members.map((member) => {
-          console.log("member", member);
-          const filteredCardMembers = users.map((user) => {
-            console.log("user", user);
-            if (user._id === member.id) user.isCardMember = true;
-            return user;
-          });
-          console.log("filteredUsersMembers", filteredCardMembers);
-          this.CardMembers = filteredCardMembers;
-        });
-      } else {
-        this.CardMembers = users;
-      }
-      console.log('', )
-    },
+   filterCardMembers(){
+      this.boardMembers.map((user) =>{
+         this.card.members.forEach(member => { 
+            if(member._id === user._id){
+               user.isCardMember = true
+            }
+         }) 
+      })
+   },
     updateCard() {
       console.log("update", this.cardToEdit);
       this.$emit("updateCard", this.cardToEdit);

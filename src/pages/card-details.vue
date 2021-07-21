@@ -63,7 +63,7 @@
                 v-model="card.dueDate.isDone"
               ></el-checkbox>
               <p>{{ card.dueDate.time | moment(" MMM Do") }}</p>
-              <p class="complete" v-if="card.dueDate.isDone">complete</p>
+              <p class="complete" v-if="card.dueDate.isDone">COMPLETE</p>
             </section>
           </div>
         </section>

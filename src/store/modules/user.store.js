@@ -127,11 +127,11 @@ export const userStore = {
          }
       },
 
-      async signupAsGuest({ dispatch }) {
+      async signupAsGuest({ commit,dispatch }) {
          try {
             const user = await userService.signupAsGuest();
             await dispatch({ type: 'loadAndWatchUser', userId: user._id })
-            // commit({ type: 'setLoggedinUser', user })
+            commit({ type: 'setLoggedinUser', user })
          } catch (err) {
             console.log('userStore: Error in signup As Guest', err)
             throw err

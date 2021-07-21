@@ -205,7 +205,6 @@ export default {
     // },
     async getPhotos() {
       try {
-        console.log("filterBy", this.flterBy);
         const photos = await unsplashService.query(this.filterBy);
         console.log("photos", photos);
         this.photosUrls = photos.map((photo) => photo.urls.regular);

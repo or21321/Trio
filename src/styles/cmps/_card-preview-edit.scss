@@ -2,7 +2,6 @@
       z-index: 15;
       position:absolute;
       display: flex;
-      top:0;
       width: 430px;
       cursor: auto;
       .cover{
@@ -134,6 +133,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            float: left;
             gap:7px;
             &:hover{
                transform: translateX(10px);

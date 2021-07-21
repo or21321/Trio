@@ -22,7 +22,7 @@
         //     margin-left: 9.5px;
         //     color: #263858;
         // }
-        
+
         .group-title {
             background: transparent;
             border-radius: 3px;
@@ -57,9 +57,6 @@
                 &:hover {
                     background-color: rgb(223, 223, 223);
                 }
-                &:not(:focus) {
-                    // min-height: 7ch;
-                }
             }
         }
     }
@@ -90,9 +87,6 @@
         overflow-y: auto;
         width: 272px;
         margin: 0 4.5px;
-        & > :last-child {
-            // margin-bottom: 5.75px;
-        }
 
         &::-webkit-scrollbar {
 

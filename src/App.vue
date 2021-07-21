@@ -111,6 +111,7 @@ export default {
       }
     },
     setBackground(style) {
+      console.log('setBackground', style);
       this.backgroundColor = style["background-color"];
       this.backgroundImg = style["background-image"];
     },

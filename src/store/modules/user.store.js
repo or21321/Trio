@@ -1,8 +1,6 @@
 import { userService } from '@/services/user.service'
 import { socketService, SOCKET_EMIT_USER_WATCH, SOCKET_EVENT_USER_UPDATED } from '@/services/socket.service'
 
-// var localLoggedinUser = null;
-// if (sessionStorage.user) localLoggedinUser = JSON.parse(sessionStorage.user || null);
 
 export const userStore = {
    state: {
@@ -86,10 +84,14 @@ export const userStore = {
             console.log('Had a problem updating user', err);
          }
       },
-      async login({ commit }, { userCred }) {
+      async login({ commit, dispatch }, { userCred }) {
          try {
             const user = await userService.login(userCred);
             commit({ type: 'setLoggedinUser', user })
+            await dispatch({
+               type: "loadAndWatchUser",
+               userId: user._id,
+            });
             return user;
          } catch (err) {
             console.log('userStore: Error in login', err)
@@ -125,10 +127,11 @@ export const userStore = {
          }
       },
 
-      async signupAsGuest({ commit }) {
+      async signupAsGuest({ dispatch }) {
          try {
             const user = await userService.signupAsGuest();
-            commit({ type: 'setLoggedinUser', user })
+            await dispatch({ type: 'loadAndWatchUser', userId: user._id })
+            // commit({ type: 'setLoggedinUser', user })
          } catch (err) {
             console.log('userStore: Error in signup As Guest', err)
             throw err

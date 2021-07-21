@@ -7,6 +7,10 @@
     justify-content: space-between;
     flex-wrap: wrap;
 
+    .board-members-section {
+        display: flex;
+    }
+
     .board-header-btn {
         // font-size: 18px;
         // font-weight: 700;
@@ -25,8 +29,8 @@
         height: 32px;
         line-height: 32px;
         margin: 0 4px 4px 0;
-        max-width: 400px;
-        overflow: hidden;
+        // max-width: 400px;
+        // overflow: hidden;
         // padding-left: 32px;
         padding: 0 12px;
         margin-block-end: 0.67em;
@@ -77,6 +81,12 @@
         }
     }
 
+    .seperator {
+        color: hsla(0, 0%, 100%, 0.24);
+        margin: 5px 8px 12px 4px;
+        font-size: 14px;
+    }
+
     .members-section {
         // position:absolute;
         // left:50%;
@@ -89,10 +99,10 @@
         .avatars {
             display: flex;
             flex-direction: row;
-
+            margin-top: 2.75px;
             > * {
                 //move avatars a bit override each other
-
+                margin-left: -2px;
                 &:hover {
                     opacity: 0.8;
                 }
@@ -122,8 +132,6 @@
             margin-right: 8px;
             font-size: 18px;
         }
-
-   
 
         .slide-enter-active,
         .slide-leave-enter {
@@ -159,10 +167,6 @@
         .slide-from-right-leave-to {
             transform: translateX(100%);
             transition: all 0.1s linear;
-        }
-
-        .slide-from-right-leave-enter {
-            opacity: 0;
         }
     }
 }

@@ -72,12 +72,8 @@ async function getById(userId) {
 
 async function login(userCred) {
    try {
-      // const users = await storageService.query('users')
       const user = await httpService.post('auth/login', userCred)
-      // const user = users.find(user => user.username === userCred.username && user.password === userCred.password)
       if (user) return _saveLocalUser(user)
-      // socketService.emit('login', user._id);
-      // if (user) return _saveLocalUser(user)
    } catch (err) {
       console.log('userService: Error in login user', err)
       throw err

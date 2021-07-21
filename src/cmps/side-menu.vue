@@ -61,7 +61,7 @@
         class="popup-layout-1 change-background"
       >
         <ul>
-          <div>
+          <div @click="setDeeperOption('photos')">
             <img
               src="https://a.trellocdn.com/prgb/dist/images/photos-thumbnail@3x.8f9c1323c9c16601a9a4.jpg"
               alt=""
@@ -87,31 +87,39 @@
             :key="color"
             :style="{ backgroundColor: color }"
             class="color"
-            @click="changeBackground(color)"
+            @click="changeBackground(color, '')"
           ></li>
         </ul>
       </div>
     </transition>
 
-    <!-- <transition name="slide-from-right">
+    <transition name="slide-from-right">
       <div v-if="deeperOption === 'photos'" class="photos">
-        <ul>
+        <input
+          type="text"
+          v-model="filterBy"
+          @input="getPhotos"
+          placeholder="Search"
+        />
+        <ul v-if="photosUrls.length">
           <li
-            v-for="photo in photos"
-            :key="photo"
-            class="color"
-            @click="changeBackground(photo)"
+            v-for="photoUrl in photosUrls"
+            :key="photoUrl"
+            class="photo"
+            @click="changeBackground('', photoUrl)"
+            :style="{ backgroundImage: `url(${photoUrl})` }"
           >
-            <img :src="photo.links.html" alt="" />
+            <!-- <img :src="photoUrl" alt="" /> -->
           </li>
         </ul>
       </div>
-    </transition> -->
+    </transition>
   </section>
 </template>
 
 <script>
 import avatar from "vue-avatar";
+import { unsplashService } from "@/services/unsplash.service";
 // import { createApi } from "unsplash-js";
 // const unsplash = createApi({
 //   accessKey: "FtAiz5o_uM9Ab_oizQTJSEHWEqQaBm6ygimUsEWNKlc",
@@ -128,6 +136,8 @@ export default {
   data() {
     return {
       deeperOption: "",
+      filterBy: "",
+      photosUrls: [],
       colors: [
         "#0079bf",
         "#d29034",
@@ -166,6 +176,9 @@ export default {
         case "colors":
           title = "Colors";
           break;
+        case "photos":
+          title = "Photos by unsplash";
+          break;
         case "":
           title = "Menu";
           break;
@@ -190,6 +203,17 @@ export default {
     //     console.log("Had problem getting photos from unsplash", err);
     //   }
     // },
+    async getPhotos(filterBy) {
+      try {
+        console.log("filterBy", this.flterBy);
+        const photos = await unsplashService.query(this.filterBy);
+        console.log("photos", photos);
+        this.photosUrls = photos.map((photo) => photo.urls.regular);
+        console.log("photosUrls", this.photosUrls);
+      } catch (err) {
+        console.log("Had a problem getting photos", err);
+      }
+    },
     setDeeperOption(option) {
       console.log(option);
       this.deeperOption = option;
@@ -201,10 +225,10 @@ export default {
       this.close();
       this.$emit("removeBoard", this.board._id);
     },
-    changeBackground(color) {
+    changeBackground(color, photoUrl) {
       const style = {
         "background-color": color,
-        "background-image": "",
+        "background-image": `url(${photoUrl})`,
       };
       console.log("style", style);
       this.$emit("setBackground", style);

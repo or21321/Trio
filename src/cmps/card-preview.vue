@@ -8,7 +8,7 @@
       <button
         class="edit-btn"
         :class="{ 'is-cover': card.cover.color }"
-        @click.stop="setToPreviewEdit(card, true)"
+        @click.stop="setToPreviewEdit($event,card, true)"
       >
         <span class="material-icons-outlined icon">edit</span>
       </button>
@@ -20,8 +20,8 @@
     >
       <button
         class="edit-btn"
-        :class="{ 'is-cover': card.cover.color }"
-        @click.stop="setToPreviewEdit(card, true)"
+        :class="{ 'is-cover': card.cover.color}"
+        @click.stop="setToPreviewEdit($event,card, true)"
       >
         <span class="material-icons-outlined icon">edit</span>
       </button>
@@ -32,8 +32,9 @@
       <button
         v-if="card.cover.type !== 'half'"
         class="edit-btn"
-        :class="{ 'is-cover': card.cover.color }"
-        @click.stop="setToPreviewEdit(card, true)"
+        :class="{ 'is-cover': card.cover.color , 'is-img-no-cover': (card.attachments.length >= 1 
+        && !card.cover.color) }"
+        @click.stop="setToPreviewEdit($event,card, true)"
       >
         <span class="material-icons-outlined icon">edit</span>
       </button>
@@ -272,7 +273,8 @@ export default {
     toggleLabelTitle() {
       this.$emit("toggleLabelsTitles");
     },
-    setToPreviewEdit(card, deff) {
+    setToPreviewEdit(ev,card, deff) {
+       console.log(ev);
       this.$emit("setToPreviewEdit", deff);
       this.cardToEdit = card;
       this.$store.commit({ type: "setCardEdit", card });

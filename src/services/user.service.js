@@ -138,8 +138,8 @@ async function updateUser(user) {
 
 async function signupAsGuest() {
    const user = {
-      fullname: 'Guest' + Date.now() % 10000,
-      username: 'Guest',
+      fullname: 'Guest',
+      username: 'Guest' + Date.now() % 10000,
       password: 'Guest',
       imgUrl: '',
       mentions: []

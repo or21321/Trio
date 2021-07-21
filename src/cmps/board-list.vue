@@ -213,7 +213,9 @@ export default {
     };
   },
   created(){
-   this.$store.commit({ type: "addBoardToRecentBoards", board:this.$store.getters.currBoard });
+     if(this.$store.getters.currBoard){
+        this.$store.commit({ type: "addBoardToRecentBoards", board:this.$store.getters.currBoard });
+     }
    this.recentBoards= this.$store.getters.recentBoards;
   },
   mounted() {
@@ -225,11 +227,12 @@ export default {
     },
     openBoard(board) {
       this.$store.commit({ type: "addBoardToRecentBoards", board });
-      if (board._id !== this.$store.getters.currBoard._id) {
-        this.$emit("setBackground", board.style);
-        this.$store.commit({ type: "setCurrBoard", board });
-        this.$router.push(`/b/${board._id}`);
-      }
+         if (!this.$store.getters.currBoard ||
+          board._id !== this.$store.getters.currBoard._id) {
+         this.$emit("setBackground", board.style);
+         this.$store.commit({ type: "setCurrBoard", board });
+         this.$router.push(`/b/${board._id}`);
+         }
       this.closeBoardList();
     },
     async toggleStar(board) {

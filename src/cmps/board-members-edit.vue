@@ -7,7 +7,7 @@
     </div>
     <div class="card-edit-main popup-layout-1">
       <input type="text" placeholder="Search members" />
-      <ul>
+      <ul class="board-members-list">
         <!-- <h4>BOARD MEMBERS</h4> -->
         <li
           @click="toggleUserAsBoardMember(user)"

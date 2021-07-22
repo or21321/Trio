@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isComposeOn" class="group-compose">
+  <div v-if="isComposeOn" class="group-compose" :class="{'unset-margin' : isBoardEmpty}">
     <input
       type="text"
       v-model="groupToCompose.title"
@@ -10,11 +10,17 @@
     />
     <!-- </div> -->
     <div class="compose-features">
-      <button @click="add" :disabled="!groupToCompose.title" class="compose-btn">Add list</button>
+      <button
+        @click="add"
+        :disabled="!groupToCompose.title"
+        class="compose-btn"
+      >
+        Add list
+      </button>
       <button @click="toggleCompose" class="material-icons">close</button>
     </div>
   </div>
-  <div v-else @click="toggleCompose" class="group-compose-btn">
+  <div v-else @click="toggleCompose" class="group-compose-btn" :class="{'unset-margin' : isBoardEmpty}">
     <span class="group-compose-btn-content btn-container"
       ><span class="material-icons">add</span>Add another list
     </span>
@@ -30,6 +36,13 @@ export default {
       type: String,
       required: true,
     },
+    isBoardEmpty: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  created() {
+    if (this.isBoardEmpty) this.isComposeOn = true;
   },
   data() {
     return {
@@ -37,11 +50,6 @@ export default {
       isComposeOn: false,
     };
   },
-  // created() {
-  //  setTimeout(() => {
-  //       this.$refs.titleInput.focus()
-  //     }, 100)
-  // },
   watch: {
     isComposeOn: {
       handler() {
@@ -63,19 +71,26 @@ export default {
           group: this.groupToCompose,
           boardId: this.boardId,
         });
-        const activity = {txt: `added ${this.groupToCompose.title} to this board`, byMember: this.$store.getters.getMyMiniUser }
-        await this.$store.dispatch({type: "addActivity", activity, boardId: this.boardId});
+        const activity = {
+          txt: `added ${this.groupToCompose.title} to this board`,
+          byMember: this.$store.getters.getMyMiniUser,
+        };
+        await this.$store.dispatch({
+          type: "addActivity",
+          activity,
+          boardId: this.boardId,
+        });
         this.groupToCompose = boardService.getEmptyGroup();
         this.$emit("socketUpdateBoard");
         setTimeout(() => {
           this.$refs.titleInput.focus();
-        }, 100);  
+        }, 100);
         // this.toggleCompose();
         msg = {
           txt: "List was successfully added",
           type: "success",
         };
-        this.$emit('socketUpdateBoard')
+        this.$emit("socketUpdateBoard");
       } catch (err) {
         msg = {
           txt: "Fail to add list, try again later",

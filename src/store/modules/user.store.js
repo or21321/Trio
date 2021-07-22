@@ -127,7 +127,7 @@ export const userStore = {
          }
       },
 
-      async signupAsGuest({ commit,dispatch }) {
+      async signupAsGuest({ commit, dispatch }) {
          try {
             const user = await userService.signupAsGuest();
             await dispatch({ type: 'loadAndWatchUser', userId: user._id })

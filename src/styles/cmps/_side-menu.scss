@@ -1,11 +1,12 @@
 .side-menu-popup {
+    // Containetr
     left: unset;
     right: 0px;
     top: 0px;
     z-index: 5;
     min-height: unset;
     max-height: calc(100vh - 40px);
-    overflow-y:auto;
+    overflow-y: auto;
     width: 339px;
     border-radius: unset;
     background-color: #f4f5f7;
@@ -16,17 +17,22 @@
         right: 0;
     }
 
+    // Header
     .card-edit-header {
         // font-family: Segoe UI Bold,Roboto,sans-serif;
         font-weight: 600;
         font-size: 16px;
+
+        .unsplash {
+            text-decoration: underline;
+        }
     }
 
-    ul {
+    // Main content list
+    ul.first-option {
         margin-top: 15px;
         padding-bottom: 15px;
         border-bottom: 1px solid rgba(9, 30, 66, 0.13);
-    }
 
     li {
         display: grid;
@@ -57,17 +63,19 @@
             font-size: 14px;
         }
 
-        .activity-txt {
-            font-weight: 400;
-        }
+            .activity-txt {
+                font-weight: 400;
+            }
 
-        .activity-time {
-            color: #5e6c84;
-            font-weight: 400;
-            font-size: 12px;
+            .activity-time {
+                color: #5e6c84;
+                font-weight: 400;
+                font-size: 12px;
+            }
         }
     }
 
+    // Deeper options: (change background, search cards)
     .change-background {
         ul {
             display: flex;
@@ -113,14 +121,29 @@
     }
 
     .photos {
+        input {
+            outline: none;
+            border: none;
+            box-shadow: inset 0 0 0 2px #dfe1e6;
+            background-color: #fafbfc;
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            border-radius: 3px;
+            display: block;
+            line-height: 20px;
+            margin: 12px 0;
+            padding: 8px 12px;
+            transition-property: background-color, border-color, box-shadow;
+            transition-duration: 85ms;
+            transition-timing-function: ease;
+        }
         ul {
             display: flex;
             flex-wrap: wrap;
             // justify-content: center;
             align-items: center;
             gap: 8px;
-            margin: 10px 0 0;
-
+            margin: 0;
             .photo {
                 // background-color: #dfe1e6;
                 background-size: cover;
@@ -133,7 +156,108 @@
                 padding: 0 4px;
 
                 &:hover {
-                    opacity: .8;
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+
+    .search-cards {
+        input {
+            outline: none;
+            border: none;
+            box-shadow: inset 0 0 0 2px #dfe1e6;
+            background-color: #fafbfc;
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            border-radius: 3px;
+            display: block;
+            line-height: 20px;
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            transition-property: background-color, border-color, box-shadow;
+            transition-duration: 85ms;
+            transition-timing-function: ease;
+
+            &:focus {
+                box-shadow: rgb(0, 121, 191) 0px;
+            }
+        }
+
+        // Board labels list
+        ul:nth-child(2) {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            .label-preview {
+                display: flex;
+                // flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+                transition: padding 85ms, margin 85ms, box-shadow 85ms;
+                border-radius: 3px;
+                // padding: 6px 12px;
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding: 4px;
+
+                &:hover {
+                    background-color: rgba(9, 30, 66, 0.04);
+                }
+
+                .label-container {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    .label-clr {
+                        height: 30px;
+                        width: 30px;
+                        border-radius: 3px;
+                        display: inline-block;
+                    }
+                    // Label title
+                    span:nth-child(2) {
+                        color: #091e42;
+                    }
+                }
+
+                .check-label-icon {
+                    margin-right: 10px;
+                    font-size: 14px;
+                }
+            }
+        }
+
+        // Board members list
+        ul.members {
+            height: 800px;
+            li.card-member-preview {
+                display: flex;
+                align-items: center;
+                // gap: 7px;
+                position: relative;
+                border-radius: 3px;
+                width: 100%;
+                height: 40px;
+                padding: 4px;
+                margin-bottom: 2px;
+                justify-content: space-between;
+
+                &:hover {
+                    background-color: rgba(9, 30, 66, 0.04);
+                    cursor: pointer;
+                }
+                .member-name {
+                    display: flex;
+                    align-items: center;
+                    gap: 7px;
+                }
+                // Checked user as member of card icon:
+                .check-member-icon {
+                    margin-right: 10px;
+                    font-size: 14px;
                 }
             }
         }

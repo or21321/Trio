@@ -7,9 +7,7 @@
       @updateMembers="updateMembers"
       @setBackground="setBackground"
     ></board-header>
-    <!-- * for when dragscroll is working with draggable -->
     <div v-dragscroll:nochilddrag class="board-canvas my-scrollbar">
-      <!-- <div class="board-canvas my-scrollbar"> -->
       <draggable
         data-dragscroll
         :list="board.groups"
@@ -35,6 +33,7 @@
       </draggable>
       <group-compose
         :boardId="boardId"
+        :isBoardEmpty="isBoardEmpty"
         @socketUpdateBoard="socketUpdateBoard"
       ></group-compose>
     </div>
@@ -54,7 +53,6 @@ import draggable from "vuedraggable";
 import { socketService } from "@/services/socket.service.js";
 import { SOCKET_EMIT_BOARD_WATCH } from "@/services/socket.service";
 import { SOCKET_EMIT_BOARD_UPDATE } from "@/services/socket.service";
-// import { SOCKET_ON_BOARD_UPDATE} from '@/services/socket.service'
 
 export default {
   directives: {
@@ -66,18 +64,6 @@ export default {
     groupCompose,
     draggable,
   },
-  // async created() {
-  //   try {
-  //     await this.$store.dispatch({
-  //       type: "loadBoard",
-  //       boardId: this.$route.params.boardId,
-  //     });
-  //     this.$emit("setBackground", this.board.style);
-  //     // socketService.on(SOCKET_ON_BOARD_UPDATE, this.loadBoard())
-  //   } catch (err) {
-  //     console.log("ERROR: cannot get board");
-  //   }
-  // },
   props: {
     darkWindow: {
       type: Boolean,
@@ -87,17 +73,6 @@ export default {
       type: Object,
     },
   },
-  // async created() {
-  //   try {
-  //     await this.$store.dispatch({
-  //       type: "loadBoard",
-  //       boardId: this.$route.params.boardId,
-  //     });
-  //     this.$emit("setBackground", this.board.style);
-  //   } catch (err) {
-  //     console.log("ERROR: cannot get board");
-  //   }
-  // },
   computed: {
     boardId() {
       return this.$route.params.boardId;
@@ -105,12 +80,14 @@ export default {
     board() {
       return this.$store.getters.currBoard;
     },
+    isBoardEmpty() {
+      return this.board.groups.length === 0 ? true : false;
+    },
   },
   watch: {
     "$route.params.boardId": {
       immediate: true,
       async handler() {
-        console.log("handler on board");
         const { boardId } = this.$route.params;
         try {
           const currBoard = await this.$store.dispatch({
@@ -118,10 +95,7 @@ export default {
             boardId,
           });
           this.$emit("setBackground", currBoard.style);
-          // SOCKET
-          console.log("SOCKET_EMIT_BOARD_WATCH", SOCKET_EMIT_BOARD_WATCH);
           socketService.emit(SOCKET_EMIT_BOARD_WATCH, this.boardId);
-          // socketService.on("board updated", this.loadBoard);
         } catch (err) {
           console.log("ERROR: cannot get board");
         }
@@ -198,9 +172,9 @@ export default {
         await this.$store.dispatch({ type: "showMsg", msg });
       }
     },
-    async saveBoard(board) {
+    async saveBoard() {
       try {
-        await this.$store.dispatch({ type: "saveBoard", board });
+        await this.$store.dispatch({ type: "saveBoard", board: this.board });
         this.socketUpdateBoard();
       } catch (err) {
         console.log("Error saving board:", err);
@@ -217,10 +191,11 @@ export default {
     },
     async setBackground(style) {
       try {
-        console.log("style", style);
+        console.log("style from board", style);
         const boardToSave = JSON.parse(JSON.stringify(this.board));
         boardToSave.style = style;
         await this.saveBoard(boardToSave);
+        console.log('AAA', style);
         this.$emit("setBackground", style);
       } catch (err) {
         console.log("Had problem setting background", err);

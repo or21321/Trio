@@ -294,10 +294,11 @@
 
         <section class="add-to-card">
           <h4 class="title">ADD TO CARD</h4>
-          <label class="nav-action"
+          <label
+            class="nav-action"
             v-for="action in actions"
             :key="action.name"
-            @click="setCurrAction(action)"
+            @click="setCurrAction($event, action)"
           >
             <span class="material-icons-outlined icon">{{ action.icon }}</span>
             <span> {{ action.name }} </span>
@@ -315,11 +316,11 @@
             accept="image/png, image/gif, image/jpeg"
             hidden
           />
-            <!-- v-if="currAction" -->
+          <!-- v-if="currAction" -->
           <component
             class="popup"
-             v-if="isPopupShow"
-             v-clickoutside="closeEditPopup"
+            v-if="isPopupShow"
+            v-clickoutside="closeEditPopup"
             :is="currAction.type"
             :card="card"
             :action="currAction"
@@ -410,7 +411,7 @@ export default {
         },
       ],
       currAction: null,
-      isPopupShow:false
+      isPopupShow: false,
     };
   },
   watch: {
@@ -446,7 +447,7 @@ export default {
     },
   },
   async created() {
-   // this.updateDescription = debounce(this.saveCard,1000);
+    // this.updateDescription = debounce(this.saveCard,1000);
     try {
       const group = await this.$store.dispatch({
         type: "getGroupById",
@@ -459,9 +460,9 @@ export default {
       console.log("cannot get group", err);
       throw err;
     }
-},
-async mounted() {
-   setTimeout(() => {
+  },
+  async mounted() {
+    setTimeout(() => {
       this.$refs.comment.$el.addEventListener(
         "focusout",
         this.checkCommentEmpty
@@ -475,7 +476,7 @@ async mounted() {
         const clearedMentions = loggedinUser.mentions.filter((mention) => {
           return mention.cardId !== this.card.id;
         });
-        loggedinUser.mentions = clearedMentions
+        loggedinUser.mentions = clearedMentions;
         await this.$store.dispatch({ type: "updateUser", user: loggedinUser });
       } catch (err) {
         console.log("Had a problem clearing user notifications", err);
@@ -483,7 +484,6 @@ async mounted() {
     },
     filterCardLabels() {
       if (!this.card.labelIds.length) return (this.cardLabels = []);
-      console.log("filterCardLabels", this.card.labelIds);
       this.cardLabels = [];
       this.card.labelIds.forEach((cardLabelId) => {
         const label = this.currBoard.labels.find((label) => {
@@ -574,10 +574,12 @@ async mounted() {
     },
     //POPUP-COMPONENTS
     closeEditPopup() {
-       this.isPopupShow = false;
+      this.isPopupShow = false;
       this.currAction = null;
     },
-    setCurrAction(action) {
+    setCurrAction(ev = null, action) {
+      // Preparation for positioning dynamic cmps.
+      if (ev) console.log("ev", ev);
       this.currAction = action;
       this.isPopupShow = true;
     },
@@ -769,14 +771,14 @@ async mounted() {
     isCoverClass() {
       return { "is-cover": this.card.cover.color };
     },
-    userNotInclude(){
+    userNotInclude() {
       const user = this.$store.getters.loggedinUser;
       const isUserMemberIdx = this.card.members.findIndex((member) => {
         return member._id === user._id;
       });
       console.log(isUserMemberIdx);
-      return (isUserMemberIdx === -1) ? true : false
-    }
+      return isUserMemberIdx === -1 ? true : false;
+    },
   },
 };
 </script>

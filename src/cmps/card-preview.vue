@@ -8,7 +8,7 @@
       <button
         class="edit-btn"
         :class="{ 'is-cover': card.cover.color }"
-        @click.stop="setToPreviewEdit($event,card, true)"
+        @click.stop="setToPreviewEdit($event, card, true)"
       >
         <span class="material-icons-outlined icon">edit</span>
       </button>
@@ -20,8 +20,8 @@
     >
       <button
         class="edit-btn"
-        :class="{ 'is-cover': card.cover.color}"
-        @click.stop="setToPreviewEdit($event,card, true)"
+        :class="{ 'is-cover': card.cover.color }"
+        @click.stop="setToPreviewEdit($event, card, true)"
       >
         <span class="material-icons-outlined icon">edit</span>
       </button>
@@ -32,9 +32,11 @@
       <button
         v-if="card.cover.type !== 'half'"
         class="edit-btn"
-        :class="{ 'is-cover': card.cover.color , 'is-img-no-cover': (card.attachments.length >= 1 
-        && !card.cover.color) }"
-        @click.stop="setToPreviewEdit($event,card, true)"
+        :class="{
+          'is-cover': card.cover.color,
+          'is-img-no-cover': card.attachments.length >= 1 && !card.cover.color,
+        }"
+        @click.stop="setToPreviewEdit($event, card, true)"
       >
         <span class="material-icons-outlined icon">edit</span>
       </button>
@@ -112,11 +114,11 @@
             <span>{{ card.comments.length }}</span>
           </div>
 
-            <div v-if="card.attachments.length" class="attachments-badge">
-               <span class="material-icons-outlined badge-icon">
-               attachments
-               </span>
-               <span>{{ card.attachments.length }}</span>
+          <div v-if="card.attachments.length" class="attachments-badge">
+            <span class="material-icons-outlined badge-icon">
+              attachments
+            </span>
+            <span>{{ card.attachments.length }}</span>
           </div>
 
           <div v-if="cardChecklistsTodos.length" class="checklist-badge">
@@ -151,7 +153,7 @@
       :groupId="groupId"
       :isLabelsTitlesShown="isLabelsTitlesShown"
       @socketUpdateBoard="socketUpdateBoard"
-      @closeEdit="setToPreviewEdit(null,false)"
+      @closeEdit="setToPreviewEdit(null, false)"
     />
   </div>
 </template>
@@ -215,15 +217,9 @@ export default {
       immediate: true,
       deep: true,
       handler() {
-        console.log("MENTIONS!");
         this.countUserNotifications();
       },
-    },  
-    // isCardDone: {
-    //   handler() {
-    //     console.log("watcher from preview on isCardDone", this.isCardDone);
-    //   },
-    // },
+    },
     darkWindow: {
       handler() {
         this.isEdit = this.darkWindow;
@@ -232,11 +228,11 @@ export default {
   },
   methods: {
     countUserNotifications() {
-      if(!this.loggedinUser) return
+      if (!this.loggedinUser) return;
       this.userNotifications = this.loggedinUser.mentions.reduce(
         (acc, mention) => {
           if (mention.cardId === this.card.id) acc++;
-          return acc
+          return acc;
         },
         0
       );
@@ -256,13 +252,11 @@ export default {
       });
     },
     filterCardLabels() {
-      // this.cardLabels = [];
       this.cardLabels = this.card.labelIds.reduce((acc, labelId) => {
         const cardLabel = this.currBoard.labels.find((label) => {
           return label.id === labelId;
         });
         if (cardLabel) acc.push(cardLabel);
-        else console.log("cardLabel undefined", cardLabel);
         return acc;
       }, []);
     },
@@ -274,15 +268,15 @@ export default {
     toggleLabelTitle() {
       this.$emit("toggleLabelsTitles");
     },
-    setToPreviewEdit(ev,card, deff) {
-       console.log(ev);
+    setToPreviewEdit(ev, card, deff) {
+      console.log(ev);
       this.$emit("setToPreviewEdit", deff);
       this.cardToEdit = card;
       this.$store.commit({ type: "setCardEdit", card });
     },
-    socketUpdateBoard(){
-       this.$emit('socketUpdateBoard')
-    }
+    socketUpdateBoard() {
+      this.$emit("socketUpdateBoard");
+    },
   },
   computed: {
     cardEdit() {

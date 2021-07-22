@@ -1,6 +1,6 @@
 .group-compose-btn {
     height: fit-content;
-
+    margin-left: 8px;
     .group-compose-btn-content {
         display: flex;
         justify-content: start;
@@ -22,6 +22,10 @@
             font-size: 19px;
         }
     }
+
+    &.unset-margin {
+        margin: 0px 0px !important;
+    }
 }
 
 .group-compose {
@@ -33,7 +37,7 @@
     transition: background 85ms ease-in, opacity 40ms ease-in, border-color 85ms ease-in;
 
     min-width: 272px;
-    margin: 0 4px;
+    margin: 0 8px;
     box-sizing: border-box;
     display: inline-block;
     vertical-align: top;
@@ -72,6 +76,11 @@
             transition: background 120ms ease-in-out, opacity 40ms ease-in, border-color 85ms ease-in;
         }
     }
+    
+            &.unset-margin {
+                margin: 0px 0px !important;
+            }
+
     .compose-features {
         display: flex;
 

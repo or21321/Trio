@@ -1,6 +1,6 @@
 import { boardService } from '@/services/board.service.js'
 import { socketService } from '@/services/socket.service'
-import { SOCKET_ON_BOARD_UPDATE} from '@/services/socket.service'
+import { SOCKET_ON_BOARD_UPDATE } from '@/services/socket.service'
 // import Vue from 'vue'
 
 export const boardStore = {
@@ -8,14 +8,52 @@ export const boardStore = {
       boards: [],
       currBoard: null,
       recentBoards: [],
-      cardEdit:null,
+      cardEdit: null,
       filterBy: {
-         txt: ''
+         txt: '',
+         labelIds: [],
+         memberIds: [],
       }
    },
    getters: {
       boards({ boards }) { return boards },
-      currBoard({ currBoard }) { return currBoard },
+      currBoard({ currBoard, filterBy }) {
+         console.log('filterBy', filterBy);
+
+         var boardForDisplay = JSON.parse(JSON.stringify(currBoard))
+         if (filterBy.txt) {
+            boardForDisplay.groups.map(g => {
+               let regex = new RegExp(filterBy.txt, 'i')
+               g.cards = g.cards.filter(c => regex.test(c.title))
+               return g
+            })
+         }
+
+         if (filterBy.labelIds.length) {
+            boardForDisplay.groups.map(g => {
+               g.cards = g.cards.filter(c => {
+                  return c.labelIds.some(labelId => {  
+                     return filterBy.labelIds.some(lId => lId === labelId)
+                  })
+               })
+               return g
+            })
+         }
+
+         if (filterBy.memberIds.length) { 
+            boardForDisplay.groups.map(g => {
+               g.cards = g.cards.filter(c => {
+                  console.log('c.members', c.members);
+                  return c.members.some(member => {  
+                     console.log('member', member);
+                     return filterBy.memberIds.some(mId => mId === member.id)
+                  })
+               })
+               return g
+            })
+         }
+         return boardForDisplay
+      },
       recentBoards({ recentBoards }) { return recentBoards },
       cardEdit({ cardEdit }) { return cardEdit },
       boardsToShow(state) {
@@ -31,8 +69,8 @@ export const boardStore = {
          state.filterBy = filterBy
       },
       setCurrBoard(state, { board }) {
-         socketService.on(SOCKET_ON_BOARD_UPDATE, board => {   
-            socketService.on(SOCKET_ON_BOARD_UPDATE, board => {   
+         socketService.on(SOCKET_ON_BOARD_UPDATE, board => {
+            socketService.on(SOCKET_ON_BOARD_UPDATE, board => {
                console.log('FROM STORE FROM SOCKET', board);
                state.currBoard = board
             })
@@ -52,7 +90,7 @@ export const boardStore = {
       updateBoard(state, { savedBoard }) {
          const idx = state.boards.findIndex(board => board._id === savedBoard._id)
          state.boards.splice(idx, 1, savedBoard)
-         
+
          state.currBoard = savedBoard
       },
       removeBoard(state, { boardId }) {

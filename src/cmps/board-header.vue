@@ -1,5 +1,5 @@
 <template>
-  <div class="board-header">
+  <div class="board-header" >
     <div class="board-members-section">
       <div class="board-section">
         <contenteditable
@@ -30,7 +30,7 @@
       <div class="members-section">
         <section class="avatars" v-if="board.members.length">
           <avatar
-            v-for="(member, idx) in board.members"
+            v-for="member in board.members"
             :key="member.id"
             :username="member.fullname"
             :src="member.imgUrl"

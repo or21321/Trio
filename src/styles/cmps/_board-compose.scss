@@ -27,7 +27,7 @@
          // background-image: url("../assets/mountains-stars-bc.jpg");
          background-size: cover;
          border-radius: 3px;
-         height: 100px;
+         height: 120px;
          width: 300px;
          display: flex;
          flex-direction: column;
@@ -49,15 +49,21 @@
             }
          }
          .compose-btn{
-               width: 110px;
-               padding: 8px;
+            width: 170px;
+            padding: 8px;
          }
          .change-colors{
-            width: 110px;
-            padding: 8px;
+            width: 100px;
             position: absolute;
-            right: 8px;
+            right: 0px;
             bottom: 8px;
+            font-size: 0.9rem;
+            &:focus{
+               background-color: #0079bf;
+               &:hover{
+                  background-color: darken(#0079bf, 5);
+               }
+            }
          }
          .close-compose{
             padding:5px;
@@ -65,79 +71,46 @@
             background-color: unset;
             font-size: rem(20px);
             position: absolute;
-            right: 0;
-            top: 0;
+            right: 5px;
+            top: 10px;
             cursor: pointer;
          }
       }
       .backgrounds{
-         display: flex;
-         gap:100px;
-         // justify-content: space-between;
-         .board-compose-bcgs,.board-compose-imgs {
-            width: 100px;
+         width: 300px;
+         display: grid;
+         gap:10px;
+         grid-template-columns: 3fr 1fr;
+         background-color: rgba(219, 219, 219, 0.295);
+         padding: 10px;
+         padding-bottom: 6px;
+         border-radius: 5px;
+      
+        .board-compose-bgcs,.board-compose-imgs {
             height: 100px;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             list-style: none;
+        }
+         .board-compose-imgs {
+            grid-column: 1;
+            width: 170px;
+
+           &>*{
+               cursor: pointer;
+               background-size: cover;
+               @include img-preview();
+            }
+         }
+         .board-compose-bgcs{
+            grid-column: 2;
+            width: 100px;
+     
             &>*{
                cursor: pointer;
                background-size: cover;
-            }
-            & > :nth-child(1) {
-                  // @include random-bgr();
-                  @include bcg-preview();
-                  grid-column: 1;
-                  grid-row: 1;
-               }
-               & > :nth-child(2) {
-                  // @include random-bgr();
-                  @include bcg-preview();
-                  grid-column: 2;
-                  grid-row: 1;
-            }
-            & > :nth-child(3) {
-                  // @include random-bgr();
-                  @include bcg-preview();
-                  grid-column: 3;
-                  grid-row: 1;
-            }
-            & > :nth-child(4) {
-                  // @include random-bgr();
-                  @include bcg-preview();
-                  grid-column: 1;
-                  grid-row: 2;
-            }
-            & > :nth-child(5) {
-                  // @include random-bgr();
-                  @include bcg-preview();
-                  grid-column: 2;
-                  grid-row: 2;
-            }
-            & > :nth-child(6) {
-                  // @include random-bgr();
-                  @include bcg-preview();
-                  grid-column: 3;
-                  grid-row: 2;
-            }
-            & > :nth-child(7) {
-                  // @include random-bgr();
-                  @include bcg-preview();
-                  grid-column: 1;
-                  grid-row: 3;
-            }
-            & > :nth-child(8) {
-                  // @include random-bgr();
-                  @include bcg-preview();
-                  grid-column: 2;
-                  grid-row: 3;
-            }
-            & > :nth-child(9) {
-                  // @include random-bgr();
-                  @include bcg-preview();
-                  grid-column: 3;
-                  grid-row: 3;
+               @include bcg-preview();
             }
          }
       }

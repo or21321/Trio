@@ -18,7 +18,7 @@
         group="groups"
         @end="saveBoard"
       >
-        <groupList
+        <group-list
           v-for="group in board.groups"
           :key="group.id"
           :group="group"
@@ -31,7 +31,7 @@
           @toggleLabelsTitles="toggleLabelsTitles"
           @setToPreviewEdit="setToPreviewEdit"
           :loggedinUser="loggedinUser"
-        ></groupList>
+        ></group-list>
       </draggable>
       <group-compose
         :boardId="boardId"

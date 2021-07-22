@@ -3,10 +3,12 @@
     flex-direction: column;
     height: 100%;
     padding-bottom: 10px;
-   //  background-color: blue;
     background-repeat: no-repeat;
     background-size: cover;
-
+    background-color: whitesmoke;
+    .main{
+       min-height: 93.6vh;
+    }
     .darkWindow{
       position: absolute;
       top: 0;

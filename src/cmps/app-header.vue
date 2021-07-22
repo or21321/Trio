@@ -1,10 +1,9 @@
 <template>
-  <section class="app-header">
+  <section class="app-header" :class="classBoardsPage">
     <nav class="nav">
       <div class="wh">
-        <router-link class="btn-container" to="/b"
-          ><span class="material-icons-outlined">home</span></router-link
-        >
+        <div class="btn-container" @click="goToBoardsPage"
+          ><span class="material-icons-outlined">home</span></div>
       </div>
       <button @click.stop="toggleBoardList" class="btn-container">
         <span class="material-icons-outlined boards-icon">space_dashboard</span>
@@ -18,7 +17,7 @@
       @setBackground="setBackground"
       :boards="boards"
     />
-    <div class="logo">
+    <div class="logo" @click="goToBoardsPage">
       <span class="material-icons-outlined logo-icon">space_dashboard</span>
       Trio
     </div>
@@ -107,11 +106,18 @@ export default {
       await this.$store.dispatch({ type: "logout" });
       this.$router.push("/");
     },
+    goToBoardsPage(){
+        this.$router.push("/b");
+        this.$store.commit({type:'setCurrBoard',board:null})
+    },
   },
   computed: {
     boards() {
       return this.$store.getters.boards;
     },
+    classBoardsPage(){
+      return {'isBoards-page': this.$route.path === '/b'}
+    }
   },
 };
 </script>

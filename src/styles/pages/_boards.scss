@@ -2,8 +2,7 @@
    // background-image: url('~@/assets/background-Img-boards-page.jpg');
    // background-size: cover;
    background-color:wheat;
-   // min-height: 600px;
-   height: fit-content;
+//   max-height: fit-content;
 
    .title{
       margin: 30px auto;
@@ -13,21 +12,23 @@
    }
    .container{
       display: grid;
-      grid-template-columns:1fr minmax(330px, 1100px)1fr;
+      grid-template-columns:1fr minmax(340px, 1180px) 1fr;
+      // background-image: url('~@/assets/background-Img-boards-page.jpg');
+      // background-size: cover;
      .boards-list{
          grid-column: 2;
          margin: auto;
-         margin-bottom: 50px;
+         // margin-bottom: 50px;
+         // height: fit-content;
          display: flex;
          flex-direction: row;
          justify-content: center;
          align-items: center;
-         justify-content: flex-start;
-         gap:50px;
+         gap:30px;
          flex-wrap: wrap;
          .boards-preview{
-            height: 230px;
             width: 330px;
+            height: 200px;
             // background-image: url('~@/assets/background-Img-board.png');
             // background-size: cover;
             display: flex;
@@ -35,68 +36,54 @@
             justify-content: space-between;
             align-items: center;
             position: relative;
-
-            .clothespin-right{
-               width: 100px;
-               transform: rotate(15deg);
-               position: absolute;
-               right: -10px;
-               top:-10px;
-            }
-            .clothespin-left{
-               width: 100px;
-               transform: rotate(-15deg);
-               position: absolute;
-               left: -10px;
-               top:-10px;
-            }
-            .rope{
-               width: 390px;
-               position: absolute;
-               left:-35px;
-            }
-            .title-board-bg{
-               position: absolute;
-               background-color: rgb(226, 226, 226);
-               min-height: 35px;
-               color:rgb(226, 226, 226);
-               border-top-right-radius: 10px;
-               border-top-left-radius: 10px;
-               width:100%;
-               padding: 4px 8px;
-            }
-            .title-board, .title-board-bg{
+            
+            .title-container{
                position: absolute;
                min-height: 35px;
                width:100%;
-               padding: 5px 30px;
+               padding: 5px 10px;
                border-top-right-radius: 10px;
                border-top-left-radius: 10px;
-               color:rgb(0, 0, 0);
-               font-size: 1.4rem;
-            }
-            .title-board{
-               font-weight: 600;
-               border: 2px solid rgb(138, 138, 138);
-               border-bottom: 0;
-            }
-            .title-board-bg{
-               background-color: rgba(238, 238, 238, 0.74);
-               color:black;
-               font-weight: 600;
-               border: 2px solid rgb(138, 138, 138);
-               border-bottom: 0;
+               background-color: rgba(0, 0, 0, 0.493);
+               color:white;
+               display: flex;
+               justify-content: space-between;
+               align-items: center;
+                .title-board{
+                  font-size: 1.4rem;
+                  font-weight: 600;
+                  
+               }
+               .star{
+                  font-size: 1.6rem; 
+                  &.is-stared{
+                     color:gold;
+                  }
+               }
             }
             .background{
+               background-image: url('https://wallpaperaccess.com/full/109672.jpg');
+               background-size: cover;
                cursor: pointer;
                position: absolute;
                top:50px;
-               border-top-right-radius: 10px;
-               border-top-left-radius: 10px;
-               width: 270px;
+               border-radius: 10px;
+               width: 330px;
                height: 200px;
-               background-size: cover;
                margin: 0px;
+               display: flex;
+               justify-content: center;
+               &:hover{
+                
+                  transition: opacity 1s;
+               }
+               .icon{
+                  align-self: center;
+                  color:rgb(255, 255, 255);
+                  font-size: 4rem;
+                  z-index: 9;
+               }
+               transition: opacity 1s;
             }
          }
       }

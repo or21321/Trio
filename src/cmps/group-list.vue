@@ -4,6 +4,7 @@
       <!-- <h2>{{ group.title }}</h2> -->
       <contenteditable
         tag="h2"
+        ref="groupTitle"
         class="group-title"
         :contenteditable="true"
         v-model="group.title"
@@ -11,7 +12,6 @@
         :noHTML="true"
         @input="updateTitleDebounce"
       />
-      <!-- @click.exact.prevent -->
     </div>
     <span @click.stop="toggleGroupMenu" class="material-icons group-extras-menu">
       more_horiz

@@ -8,15 +8,16 @@
           backgroundImage: `url(${selectImg})`,
         }"
       >
-        <button @click="close" class="close-compose">X</button>
+       <span class="close material-icons-outlined close-compose" @click="close">close</span>
         <el-input
           placeholder="Add board title"
           v-model="board.title"
+        
         ></el-input>
         <el-button @click="createBoard" type="primary" :disabled="!board.title"
          class="compose-btn" >Create board</el-button
         >
-        <el-button @click="renderColors" type="primary" class="change-colors"
+        <el-button @click="renderColors" type="primary" class="compose-btn change-colors"
           >Change Colors</el-button
         >
       </div>
@@ -29,7 +30,7 @@
             @click="setimg(img)"
           ></span>
         </div>
-        <div class="board-compose-bcgs">
+        <div class="board-compose-bgcs">
           <span
             v-for="(color, idx) in colors"
             :key="idx"

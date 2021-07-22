@@ -12,6 +12,7 @@
       @setBackground="setBackground"
     />
     <router-view
+     class="main"
       @setBackground="setBackground"
       :loggedinUser="loggedinUser"
       @setToPreviewEdit="setDarkWindow"

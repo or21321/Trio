@@ -283,5 +283,15 @@ export const boardStore = {
             throw err;
          }
       },
+      async copyCard({commit}, { card, groupId, boardId }) {
+         try {
+            const newCard = await boardService.copyCard(card, groupId, boardId)
+            commit({ type: 'saveCard', isUpdate: false, card: newCard, groupId })
+            return newCard;
+         } catch (err) {
+            console.log('Cannot copy card ', card, ',', err);
+            throw err;
+         }
+      }
    }
 }

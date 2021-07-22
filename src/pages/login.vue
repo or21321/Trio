@@ -20,9 +20,9 @@
           placeholder="Enter password"
           required
         />
-        <button>Log in</button>
+        <button class="login">Log in</button>
       </form>
-      <router-link to="/signup">Sign up for an account</router-link>
+      <router-link class="logout" to="/signup">Sign up for an account</router-link>
     </div>
   </div>
 </template>

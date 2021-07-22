@@ -15,30 +15,32 @@
 
     <div v-if="deeperOption === ''" class="card-edit-main popup-layout-1">
       <ul>
-        <li @click="setDeeperOption('changeBackground')">
+        <li class="clickable" @click="setDeeperOption('changeBackground')">
           <span :style="background" class="background icon"></span>
           <span class="option">Change background</span>
         </li>
-        <li>
+        <li class="clickable">
           <span class="material-icons-outlined icon">search</span>
           <span class="option">Search cards</span>
         </li>
-        <li>
+        <li class="clickable">
           <span class="material-icons-outlined icon">delete_outline</span>
           <span class="option" @click="remove">Delete Board</span>
         </li>
       </ul>
 
       <ul>
-        <li>
+        <li class="activity">
           <span class="material-icons-outlined icon">format_list_bulleted</span>
           <span class="option">Activity</span>
         </li>
-        <li v-for="activity in activities" :key="activity.id">
+        <li v-for="activity in activities" :key="activity.id" class="activity">
           <avatar
             :size="32"
             :username="activity.byMember.fullname"
             :src="activity.byMember.imgUrl"
+            backgroundColor="#DFE1E6"
+            color="#172b4d"
           />
           <div class="info">
             <p class="option">

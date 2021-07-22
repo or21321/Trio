@@ -172,9 +172,9 @@ export default {
         await this.$store.dispatch({ type: "showMsg", msg });
       }
     },
-    async saveBoard(board) {
+    async saveBoard() {
       try {
-        await this.$store.dispatch({ type: "saveBoard", board });
+        await this.$store.dispatch({ type: "saveBoard", board: this.board });
         this.socketUpdateBoard();
       } catch (err) {
         console.log("Error saving board:", err);
@@ -191,10 +191,11 @@ export default {
     },
     async setBackground(style) {
       try {
-        console.log("style", style);
+        console.log("style from board", style);
         const boardToSave = JSON.parse(JSON.stringify(this.board));
         boardToSave.style = style;
         await this.saveBoard(boardToSave);
+        console.log('AAA', style);
         this.$emit("setBackground", style);
       } catch (err) {
         console.log("Had problem setting background", err);

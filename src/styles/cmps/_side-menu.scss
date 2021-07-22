@@ -28,46 +28,46 @@
     }
 
     // Main content list
-    ul {
+    ul.first-option {
         margin-top: 15px;
         padding-bottom: 15px;
         border-bottom: 1px solid rgba(9, 30, 66, 0.13);
-    }
 
-    li {
-        display: grid;
-        grid-template-columns: 40px 1fr;
-        font-weight: 600;
-        padding: 6px 0 6px 0;
-        width: 100%;
+        li {
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            font-weight: 600;
+            padding: 6px 0 6px 0;
+            width: 100%;
 
-        &:hover {
-            border-radius: 3px;
-            background-color: rgba(9, 30, 66, 0.08);
-        }
+            &:hover {
+                border-radius: 3px;
+                background-color: rgba(9, 30, 66, 0.08);
+            }
 
-        .icon {
-            font-size: 20px;
-            width: 20px;
-            height: 20px;
-            margin-left: 10px;
-            border-radius: 3px;
-            box-sizing: content-box;
-            background-size: cover;
-        }
+            .icon {
+                font-size: 20px;
+                width: 20px;
+                height: 20px;
+                margin-left: 10px;
+                border-radius: 3px;
+                box-sizing: content-box;
+                background-size: cover;
+            }
 
-        .option {
-            font-size: 14px;
-        }
+            .option {
+                font-size: 14px;
+            }
 
-        .activity-txt {
-            font-weight: 400;
-        }
+            .activity-txt {
+                font-weight: 400;
+            }
 
-        .activity-time {
-            color: #5e6c84;
-            font-weight: 400;
-            font-size: 12px;
+            .activity-time {
+                color: #5e6c84;
+                font-weight: 400;
+                font-size: 12px;
+            }
         }
     }
 
@@ -117,7 +117,6 @@
     }
 
     .photos {
-       
         input {
             outline: none;
             border: none;
@@ -178,6 +177,84 @@
 
             &:focus {
                 box-shadow: rgb(0, 121, 191) 0px;
+            }
+        }
+
+        // Board labels list
+        ul:nth-child(2) {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            .label-preview {
+                display: flex;
+                // flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+                transition: padding 85ms, margin 85ms, box-shadow 85ms;
+                border-radius: 3px;
+                // padding: 6px 12px;
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding: 4px;
+
+                &:hover {
+                    background-color: rgba(9, 30, 66, 0.04);
+                }
+
+                .label-container {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    .label-clr {
+                        height: 30px;
+                        width: 30px;
+                        border-radius: 3px;
+                        display: inline-block;
+                    }
+                    // Label title
+                    span:nth-child(2) {
+                        color: #091e42;
+                    }
+                }
+
+                .check-label-icon {
+                    margin-right: 10px;
+                    font-size: 14px;
+                }
+            }
+        }
+
+        // Board members list
+        ul.members {
+            height: 800px;
+            li.card-member-preview {
+                display: flex;
+                align-items: center;
+                // gap: 7px;
+                position: relative;
+                border-radius: 3px;
+                width: 100%;
+                height: 40px;
+                padding: 4px;
+                margin-bottom: 2px;
+                justify-content: space-between;
+
+                &:hover {
+                    background-color: rgba(9, 30, 66, 0.04);
+                    cursor: pointer;
+                }
+                .member-name {
+                    display: flex;
+                    align-items: center;
+                    gap: 7px;
+                }
+                // Checked user as member of card icon:
+                .check-member-icon {
+                    margin-right: 10px;
+                    font-size: 14px;
+                }
             }
         }
     }

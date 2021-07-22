@@ -236,7 +236,8 @@ export default {
     this.boardMembers = [];
     this.boardMembers = JSON.parse(JSON.stringify(this.board.members));
   },
-  destoryed() {
+  destroyed() {
+    console.log('destroyed');
     this.cardsFilterBy = {
       txt: "",
       labelIds: [],

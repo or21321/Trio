@@ -1,12 +1,18 @@
 .homepage {
     font-family: Segoe-UI-Bold;
     text-align: center;
-
-    h1 {
-        color: white;
+    height: 100vh;
+   //  background-image: url('~@/assets/home-background-img.jpg');
+   .header{
+      z-index: 4;
+      background-color: rgb(194, 194, 194);
+      height: 55px;
+      padding: 10px;
+      .logo {
+         color:rgb(136, 0, 248);;
         font-size: 3rem;
-        margin: 5rem 0;
-        
+        z-index: 6;
+
         .logo-icon {
         -webkit-transition: -webkit-transform 0.8s ease-in-out;
         -ms-transition: -ms-transform 0.8s ease-in-out;
@@ -21,34 +27,58 @@
             }
         }
     }
-    .start-btn {
-        font-size: 3rem;
-        background-color: white;
-        border-radius: 30px;
-        color: royalblue;
-        padding: 10px 15px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-}
-
-.homepage-nav {
-    font-size: 25px;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-family: 'Segoe UI', sans-serif;
-
-    .login {
-        color: whitesmoke;
-        margin-inline-end: 10px;
-    }
-
-    .signup {
-        background-color: whitesmoke;
-        border-radius: 5px;
-        padding: 5px 10px 7px 10px;
-    }
+    .homepage-nav {
+       font-size: 25px;
+       position: absolute;
+       top: 20px;
+       right: 20px;
+       font-family: 'Segoe UI', sans-serif;
+       
+       .login {
+          color: whitesmoke;
+          margin-inline-end: 10px;
+         }
+         
+         .signup {
+            background-color: whitesmoke;
+            border-radius: 5px;
+            padding: 5px 10px 7px 10px;
+         }
+      }
+   }
+      .start-btn {
+          font-size: 3rem;
+          background-color: rgb(194, 194, 194);
+          border:2px solid rgb(146, 146, 250);
+          border-radius: 15px;
+          color: rgb(157, 38, 255);
+          padding: 10px 40px;
+          position: absolute;
+          top: 35%;
+          left: 20%;
+          cursor: pointer;
+      }
+   .hero{
+      position: absolute;
+      top:15%;
+      right:5%;
+      z-index: 1;
+      height: 300px;
+      width: 500px;
+   }
+   .wave{
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 2;
+   }
+   .wave3{
+      opacity: 0.7;
+   }
+   .wave2{
+      opacity: 0.7;
+   }
+   .wave1{
+      opacity: 0.5;
+   }
 }

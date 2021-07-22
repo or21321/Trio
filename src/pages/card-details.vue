@@ -284,8 +284,8 @@
         </section>
       </main>
       <nav class="details-actions" :class="isCoverClass">
-        <section class="suggested-nav" v-if="userNotInclude">
-          <h4 class="title">SAGGESTED</h4>
+          <section class="suggested-nav"  v-if="userNotInclude">
+          <h4 class="title">SUGGESTED</h4>
           <label @click="addUserToCard">
             <span class="material-icons-outlined icon">person_add</span>
             <span> Join </span>
@@ -331,6 +331,10 @@
 
         <section class="action-nav">
           <h4 class="title">ACTIONS</h4>
+          <label @click="copyCard">
+            <span class="material-icons-outlined icon">copy</span>
+            <span> Copy</span>
+          </label>
           <label @click="removeCard">
             <span class="material-icons-outlined icon">delete</span>
             <span> Delete card </span>
@@ -631,7 +635,7 @@ export default {
     },
     async deleteCheckbox(checkboxId, checklistId) {
       try {
-        await this.$store.dispatch({
+        this.card = await this.$store.dispatch({
           type: "removeCheckbox",
           checkboxId: checkboxId,
           checklistId: checklistId,
@@ -729,11 +733,30 @@ export default {
       }, 0);
       return Math.floor((acc * 100) / all);
     },
-    addUserToCard() {
-      const user = this.$store.getters.getMyMiniUser;
-      this.card.members.push(user);
-      this.saveCard();
+    addUserToCard(){
+        const user = this.$store.getters.getMyMiniUser;
+        this.card.members.push(user)
+        this.saveCard();
     },
+    async copyCard(){
+      try{
+         var msg ={};
+        this.card = await this.$store.dispatch({type:'copyCard', card: this.card,
+          groupId: this.groupId,
+          boardId: this.boardId,})
+        msg = {
+          txt: "Card was successfully copied",
+          type: "success",
+        };
+      } catch (err) {
+        msg = {
+          txt: "Fail copied card, try again later",
+          type: "error",
+        };
+      } finally {
+        await this.$store.dispatch({ type: "showMsg", msg });
+      }
+    }
   },
   computed: {
     currBoard() {

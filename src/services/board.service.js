@@ -26,6 +26,7 @@ export const boardService = {
    removeCheckbox,
    addComment,
    removeComment,
+   copyCard
 
 }
 
@@ -205,7 +206,7 @@ async function removeChecklist(checklistId, card, groupId, boardId) {
    try {
       const currChecklistIdx = card.checklists.findIndex(cl => cl.id === checklistId)
       card.checklists.splice(currChecklistIdx, 1);
-      return saveCard(card, groupId, boardId)
+      return await saveCard(card, groupId, boardId)
    } catch (err) {
       console.log('Error:', err);
    }
@@ -213,10 +214,10 @@ async function removeChecklist(checklistId, card, groupId, boardId) {
 async function removeCheckbox(checkboxId, checklistId, card, groupId, boardId) {
    try {
       const currChecklistIdx = card.checklists.findIndex(cl => cl.id === checklistId)
-      const currCheckboxId = card.checklists[currChecklistIdx].todos
+      const currCheckboxIdx = card.checklists[currChecklistIdx].todos
          .findIndex(cb => cb.id === checkboxId)
-      card.checklists[currChecklistIdx].todos.splice(currCheckboxId, 1);
-      return saveCard(card, groupId, boardId)
+      card.checklists[currChecklistIdx].todos.splice(currCheckboxIdx, 1);
+      return await saveCard(card, groupId, boardId)
    } catch (err) {
       console.log('Error:', err);
    }
@@ -245,6 +246,17 @@ async function removeComment(commentId, card, groupId, boardId) {
       const commentIdx = card.comments.findIndex(comment => comment.id === commentId)
       card.comments.splice(commentIdx, 1)
       saveCard(card, groupId, boardId)
+   } catch (err) {
+      console.log('Error:', err);
+   }
+}
+
+async function copyCard(card, groupId, boardId) {
+   try {
+      const newCard = JSON.parse(JSON.stringify(card))
+      delete newCard.id;
+      saveCard(newCard, groupId, boardId)
+      return newCard;
    } catch (err) {
       console.log('Error:', err);
    }

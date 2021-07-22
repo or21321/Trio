@@ -14,6 +14,19 @@
         }
     }
 }
+.logo-icon {
+   -webkit-transition: -webkit-transform 0.8s ease-in-out;
+   -ms-transition: -ms-transform 0.8s ease-in-out;
+   transition: transform 0.8s ease-in-out;
+   transform: rotate(90deg);
+   font-size: 30px;
+   margin-top: .5px;
+   margin-inline-end: 8px;
+   
+       &:hover {
+           transform: unset;
+       }
+   }
 
 .login-signup .main-container {
     background-color: white;

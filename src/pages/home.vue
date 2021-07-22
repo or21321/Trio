@@ -1,15 +1,21 @@
 <template>
   <div class="homepage">
-    <h1>
-      <span class="material-icons-outlined logo-icon">space_dashboard</span>Trio
-    </h1>
-    <button class="start-btn" @click="signupAndStart">Get Started</button>
-    <nav class="homepage-nav">
-      <!-- <button>Log in</button>
-      <button>Sign in</button> -->
-      <router-link to='/login' class="login">Log in</router-link>
-      <router-link to='/signup' class="signup">Sign up</router-link>
-    </nav>
+     <section class="header">
+      <div class="logo">
+         <span class="material-icons-outlined logo-icon">space_dashboard</span>Trio
+      </div>
+      <button class="start-btn" @click="signupAndStart">Get Started</button>
+      <nav class="homepage-nav">
+         <router-link to='/login' class="login">Log in</router-link>
+         <router-link to='/signup' class="signup">Sign up</router-link>
+      </nav>
+    </section>
+
+    <img class="hero" src="@/assets/hero.svg" alt="">
+
+    <img class="wave wave1" src="@/assets/waves/wave1.svg" alt="">
+    <img class="wave wave2" src="@/assets/waves/wave2.svg" alt="">
+    <img class="wave wave3" src="@/assets/waves/wave3.svg" alt="">
   </div>
 </template>
 

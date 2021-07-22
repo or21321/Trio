@@ -1,5 +1,5 @@
 <template>
-  <div class="board-header">
+  <div class="board-header" >
     <div class="board-members-section">
       <div class="board-section">
         <contenteditable

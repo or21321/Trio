@@ -63,7 +63,12 @@
 }
 
 @mixin bcg-preview() {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+}
+@mixin img-preview() {
+  width: 53.5px;
+  height: 30px;
   border-radius: 3px;
 }

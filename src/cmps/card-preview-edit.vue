@@ -1,6 +1,6 @@
 <template>
   <section class="card-preview-edit" @click.stop>
-    <div class="main">
+    <div>
       <div
         class="cover"
         v-if="cardToEdit.cover.color"
@@ -130,6 +130,10 @@
         <span class="icon material-icons-outlined">wallpaper</span>
         Change cover
       </button>
+      <button class="open-card" @click="copyCard">
+        <span class="icon material-icons-outlined">copy</span>
+        Copy
+      </button>
       <button class="open-card" @click="setCurrAction(actions[2])">
         <span class="icon material-icons-outlined">watch_later</span>
         Edit dates
@@ -222,7 +226,8 @@ export default {
     "cardToEdit.labelIds": {
       deep: true,
       handler() {
-        this.filterCardLabels();
+         this.filterCardLabels();
+
       },
     },
     "cardToEdit.checklists": {
@@ -280,6 +285,30 @@ export default {
         await this.$store.dispatch({ type: "showMsg", msg });
       }
     },
+    async copyCard(){
+       this.closeEdit();
+      var msg = {};
+      try {
+        await this.$store.dispatch({
+          type: "copyCard",
+          card: this.card,
+          groupId: this.groupId,
+          boardId: this.boardId,
+        });
+        msg = {
+          txt: "Card was successfully copied",
+          type: "success",
+        };
+      } catch (err) {
+        msg = {
+          txt: "Fail copied card, try again later",
+          type: "error",
+        };
+        throw err;
+      } finally {
+        await this.$store.dispatch({ type: "showMsg", msg });
+      }
+    },
     closeEditPopup() {
       this.currAction = null;
     },
@@ -305,8 +334,6 @@ export default {
       this.saveCard();
     },
     filterCardLabels() {
-      //  console.log('this.currBoard().labels', this.currBoard().labels)
-      // console.log('this.cardToEdit.labelIds', this.cardToEdit.labelIds)
        this.cardLabels = this.cardToEdit.labelIds.reduce((acc, labelId) => {
         const cardLabel = this.currBoard().labels.find((label) => {
           return label.id === labelId;
@@ -316,12 +343,12 @@ export default {
         return acc;
       }, []);
     },
-    currBoard() {
-      return this.$store.getters.currBoard;
-    },
+     currBoard() {
+       return this.$store.getters.currBoard;
+     },
   },
   computed: {
-    todosIcon() {
+     todosIcon() {
       return this.cardChecklistsTodos.length === this.checklistsDoneTodos &&
         this.checklistsDoneTodos
         ? "check_box"

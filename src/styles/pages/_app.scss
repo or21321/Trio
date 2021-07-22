@@ -5,7 +5,10 @@
     padding-bottom: 8px;
     background-repeat: no-repeat;
     background-size: cover;
-
+    background-color: whitesmoke;
+    .main{
+       min-height: 93.6vh;
+    }
     .darkWindow{
       position: absolute;
       top: 0;

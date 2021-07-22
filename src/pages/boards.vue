@@ -1,45 +1,110 @@
 <template>
   <section class="boards-page">
-     <h1 class="title">Choose Your Board</h1>
-     <div class="container">
+    <h1 class="title">Choose Your Board</h1>
+    <div class="container">
       <ul class="boards-list">
-         <li class="boards-preview" v-for="board in boards" :key="board._id"
-        >
-           <img class="rope" src="@/assets/rope.png" alt="">
-           <section class="background" @click="openBoard(board._id)"
-           :style="{backgroundColor:board.style['background-color'],
-           backgroundImage:board.style['background-image']}">
-               <div class="title-board-bg">{{board.title}}</div>
-               <div class="title-board">{{board.title}}</div>
-               </section>
-               <img class="clothespin-right" src="@/assets/Clothespin.png" alt="">
-               <img class="clothespin-left" src="@/assets/Clothespin.png" alt="">
-         </li>
+        <li class="boards-preview">
+          <section class="background" @click="openAddBoard">
+            <span class="material-icons-outlined icon">add</span>
+          </section>
+        </li>
+        <li class="boards-preview" v-for="board in boards" :key="board._id">
+          <section
+            class="background"
+            @click="openBoard(board._id)"
+            :style="{
+              backgroundColor: board.style['background-color'],
+              backgroundImage: board.style['background-image'],
+            }"
+          >
+            <div class="title-container">
+            <span class="title-board"> {{ boardTitleToShow(board.title) }} </span>
+            <span class="star material-icons-outlined" 
+            :class="{'is-stared':board.isStarred}" @click.stop="toggleStartted(board)"
+            >star_border</span>
+               </div>
+          </section>
+        </li>
       </ul>
     </div>
+    <board-compose
+      @closeCompose="closeAddBoard"
+      @addBoard="addBoard"
+      v-if="isAddBoard" />
   </section>
 </template>
 
 <script>
+import boardCompose from "../cmps/board-compose.vue";
+
 export default {
+   components:{
+      boardCompose
+   },
+  data() {
+    return {
+      isAddBoard: false,
+    };
+  },
   async created() {
-     if(!this.boards){
-         try {
-            await this.$store.dispatch({ type: "loadBoards" });
-         } catch (err) {
-            console.log("ERROR cannot load boards");
-         }
-     }
+    if (!this.boards) {
+      try {
+        await this.$store.dispatch({ type: "loadBoards" });
+      } catch (err) {
+        console.log("ERROR cannot load boards");
+      }
+    }
   },
-  methods:{
-     openBoard(boardId){
-        this.$router.push(`/b/${boardId}`);
-     }
+  methods: {
+    openBoard(boardId) {
+      this.$router.push(`/b/${boardId}`);
+    },
+    boardTitleToShow(boardTitle) {
+      if (boardTitle.length > 40) return boardTitle.substring(0, 40) + "...";
+      else return boardTitle;
+    },
+    openAddBoard() {
+      this.isAddBoard = true;
+    },
+    closeAddBoard() {
+      this.isAddBoard = false;
+    },
+    async addBoard(board) {
+      try {
+        const newBoard = await this.$store.dispatch({
+          type: "saveBoard",
+          board,
+        });
+        this.$store.commit({ type: "setCurrBoard", board: newBoard });
+        this.backgroundColor = board.style["background-color"];
+        this.backgroundImg = board.style["background-image"];
+        const activity = {
+          txt: "created this board",
+          byMember: this.$store.getters.getMyMiniUser,
+        };
+        await this.$store.dispatch({
+          type: "addActivity",
+          activity,
+          boardId: newBoard._id,
+        });
+        this.$router.push(`/b/${newBoard._id}`);
+      } catch (err) {
+        console.log("ERROR cannot add board");
+      }
+    },
+    async toggleStartted(board){
+      try {
+        board.isStarred = !board.isStarred;
+        this.$store.dispatch({ type: "saveBoard", board });
+      } catch (err) {
+        console.log("ERROR: cannot save board ", err);
+      }
+    }
   },
-  computed:{
-     boards(){
-         return this.$store.getters.boards
-     }
-  }
-}
+  computed: {
+    boards() {
+      return this.$store.getters.boards;
+    },
+  },
+};
 </script>

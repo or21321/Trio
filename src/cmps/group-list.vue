@@ -13,7 +13,10 @@
         @input="updateTitleDebounce"
       />
     </div>
-    <span @click.stop="toggleGroupMenu" class="material-icons group-extras-menu">
+    <span
+      @click.stop="toggleGroupMenu"
+      class="material-icons group-extras-menu"
+    >
       more_horiz
     </span>
     <group-menu
@@ -24,7 +27,6 @@
       @closeGroupMenu="showGroupMenu = false"
       @removeGroup="removeGroup"
       @addCard="addCard"
-      
     />
     <div class="card-preview-list">
       <draggable
@@ -40,22 +42,24 @@
           :card="card"
           :groupId="group.id"
           :darkWindow="darkWindow"
-         
           :isLabelsTitlesShown="isCardPreviewLabelsShown"
           @socketUpdateBoard="socketUpdateBoard"
           @toggleLabelsTitles="toggleLabelsTitles"
           @updateCard="updateBoard"
           @setToPreviewEdit="setToPreviewEdit"
           :loggedinUser="loggedinUser"
+          ref="cardPreview"
         ></card-preview>
       </draggable>
     </div>
-    <card-compose 
-    :groupId="group.id" 
-    :isAddCard="isAddCard"
-    :boardId="board._id"
-    @closeAddCard="isAddCard = false"
-   @socketUpdateBoard="socketUpdateBoard">
+    <card-compose
+      :groupId="group.id"
+      :isAddCard="isAddCard"
+      :boardId="board._id"
+      @closeAddCard="isAddCard = false"
+      @socketUpdateBoard="socketUpdateBoard"
+      ref="cardCompose"
+    >
     </card-compose>
   </div>
 </template>
@@ -65,10 +69,9 @@ import cardPreview from "@/cmps/card-preview";
 import cardCompose from "@/cmps/card-compose";
 import groupMenu from "@/cmps/group-menu";
 import draggable from "vuedraggable";
-import {debounce} from '../services/util.service'
+import { debounce } from "../services/util.service";
 
 // import Vue from 'vue';
-
 
 export default {
   props: {
@@ -100,12 +103,26 @@ export default {
   data() {
     return {
       lastTitleChar: "",
-      isAddCard:false,
-      showGroupMenu: false
+      isAddCard: false,
+      showGroupMenu: false,
     };
   },
-  created(){
-   this.updateTitleDebounce = debounce(this.saveGroupTitle,1000);
+  created() {
+    this.updateTitleDebounce = debounce(this.saveGroupTitle, 1000);
+  },
+  mounted() {
+    // console.log("card-preview", this.$refs.cardPreview[0].$el.clientWidth);
+    // console.log("****", this.$refs.cardCompose.$el.clientWidth);
+    // this.$refs.cardCompose.$el.clientWidth = this.$refs.cardPreview[0].$el.clientWidth
+  },
+  watch: {
+    "$refs.cardPreview": {
+      deep: true,
+      handler() {
+        // this.$refs.cardCompose.$el.clientWidth = this.$refs.cardPreview.$el.clientWidth
+        console.log('!#$#52', this.$refs.cardPreview[0].$el.clientWidth);
+      },
+    },
   },
   methods: {
     // updateCard() {
@@ -113,20 +130,20 @@ export default {
     // this.$emit('updateCard', { card, groupId: this.group.id })
     //   this.$emit("updateBoard");
     // },
-    hidePopup(){
+    hidePopup() {
       this.showGroupMenu = false;
-    },  
+    },
     socketUpdateBoard() {
       this.$emit("socketUpdateBoard");
     },
     removeGroup() {
       this.$emit("removeGroup", this.group.id);
     },
-    addCard(){
-      this.isAddCard = true; 
+    addCard() {
+      this.isAddCard = true;
     },
     toggleGroupMenu() {
-       this.showGroupMenu = !this.showGroupMenu;
+      this.showGroupMenu = !this.showGroupMenu;
     },
     saveGroupTitle() {
       if (this.group.title === "")

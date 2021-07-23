@@ -67,13 +67,15 @@
          }
          .close-compose{
             padding:5px;
-            color:rgba(255, 255, 255, 0.623);
+            color:rgb(255, 255, 255);
             background-color: unset;
             font-size: rem(20px);
             position: absolute;
             right: 5px;
             top: 10px;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: 100;
          }
       }
       .backgrounds{

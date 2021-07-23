@@ -1,16 +1,13 @@
 .card-compose-btn {
-    width: 90.5%;
+    width: 91.3%;
     align-self: baseline;
     display: flex;
     justify-content: baseline;
     align-items: center;
-    // margin-bottom: 8px;
-    // margin-left: 9px;
     color: #5e6c84;
     border-radius: 3px;
-    padding: 4px 6px;
-    // margin-top: 2.5px;
-    margin: 2.5px 0 8px 9px;
+    padding: 4px 7px;
+    margin: 1.5px 0 8px 8.2px;
     &:hover {
         cursor: pointer;
         background-color: darken(#ebecf0, 5);
@@ -35,9 +32,9 @@
         overflow: hidden;
         overflow-wrap: break-word;
         resize: none;
-        height: 60px;
+        height: 66px;
         font-size: 14px;
-        max-width: 253px;
+        // max-width: 253px;
 
         &:placeholder-shown {
             font-family: Segoe-UI;

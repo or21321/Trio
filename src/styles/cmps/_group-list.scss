@@ -1,4 +1,7 @@
 .group-list {
+    &:first-child {
+        margin-left: 8px;
+    }
     background-color: #ebecf0;
     border-radius: 3px;
     box-sizing: border-box;
@@ -10,6 +13,7 @@
     max-height: calc(100vh - 120px);
     height: fit-content !important;
     position: relative;
+    width: 272px;
     .group-header {
         flex: 0 0 auto;
         padding: 10px 8px;
@@ -27,21 +31,26 @@
             background: transparent;
             border-radius: 3px;
             box-shadow: none;
-            font-weight: 600;
+            // In trello they dont use the bold font, but when we do it, it looks kind of blurred
+            font-family: Segoe-UI-Bold;
+            // font-weight: 600;
             margin: -4px 0;
             min-height: 20px;
             padding: 4px 8px;
             resize: none;
+            min-height: -webkit-fit-content;
+            min-height: -moz-fit-content;
             min-height: fit-content;
             max-height: 256px;
             overflow-y: auto;
             overflow-wrap: break-word;
             max-height: 200px;
-            // min-height: 4ch;
             max-width: 30ch;
             font-size: 14px;
+            color: #172b4d;
             cursor: pointer;
             border-radius: 3px;
+
             &:focus {
                 // padding: 5px;
                 background-color: #fff;
@@ -63,14 +72,15 @@
 
     .group-extras-menu {
         position: absolute;
-        top: 3.5px;
+        top: 4px;
         right: 4px;
-        // color: #6b778c;
         color: #6b778c;
         border-radius: 3px;
-        // float: left;
-        padding: 6px;
-        font-size: 16px;
+        padding: 6px 6px 6px 8.2px;
+        font-size: 17px;
+        width: 32px;
+        height: 32px;
+        line-height: 1.25;
 
         &:hover {
             background-color: darken(#ebecf0, 7.5);
@@ -85,11 +95,10 @@
         flex-direction: column;
         gap: 8px;
         overflow-y: auto;
-        width: 272px;
-        margin: 0 4.5px;
+        max-width: 272px;
+        margin: 0 4px;
 
         &::-webkit-scrollbar {
-
             // height: 12px;
             // width: 12px;
             height: 8px;
@@ -97,7 +106,6 @@
             /* width: 7.5px; */
             // border-radius: 20px;
             border-radius: 3px;
-          
         }
 
         /* Track */
@@ -110,6 +118,7 @@
             background: rgba(9, 30, 66, 0.08);
             //    background: rgba(0,0,0,.15);
             border-radius: 3px;
+            width: 100%;
             // margin-left: 100%;
         }
 
@@ -120,7 +129,6 @@
         /* Handle */
 
         &::-webkit-scrollbar-thumb {
-
             /* border-radius: 130px; */
             // margin-left: -14px;
             // background-color: darkgoldenrod;

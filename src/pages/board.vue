@@ -107,11 +107,6 @@ export default {
         }
       },
     },
-    "board.style": {
-      handler() {
-        this.$emit("setBackground", this.board.style);
-      },
-    },
   },
   data() {
     return {
@@ -124,14 +119,12 @@ export default {
       socketService.emit(SOCKET_EMIT_BOARD_UPDATE, this.board);
     },
     loadBoard() {
-      console.log("loadBoard from board.vue");
       this.$store.dispatch({ type: "loadBoard", boardId: this.board._Id });
     },
     toggleLabelsTitles() {
       this.isCardPreviewLabelsShown = !this.isCardPreviewLabelsShown;
     },
     async updateTitle(title) {
-      console.log("updateTitle()", title);
       this.board.title = title;
       await this.$store.dispatch({ type: "saveBoard", board: this.board });
     },
@@ -190,7 +183,6 @@ export default {
     async updateMembers(members) {
       const updatedBoard = this.board;
       updatedBoard.members = members;
-      console.log("updated board", updatedBoard);
       this.saveBoard(updatedBoard);
     },
     setToPreviewEdit(deff) {
@@ -198,11 +190,9 @@ export default {
     },
     async setBackground(style) {
       try {
-        console.log("style from board", style);
         const boardToSave = JSON.parse(JSON.stringify(this.board));
         boardToSave.style = style;
         await this.saveBoard(boardToSave);
-        console.log('AAA', style);
         this.$emit("setBackground", style);
       } catch (err) {
         console.log("Had problem setting background", err);

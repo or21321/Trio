@@ -5,6 +5,11 @@
     justify-content: space-between;
     color: #95959b;
     font-family: Segoe-UI-Bold;
+
+    .material-icons-outlined {  
+        font-size: 19px;
+    }
+
     &.isBoards-page{
       background-color:rgb(82, 75, 75);
    }
@@ -42,7 +47,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 5px;
+        gap: 3px;
+        // gap: 5px;
         letter-spacing: 0.6px;
         
         &:hover {
@@ -59,7 +65,7 @@
             transform: rotate(90deg);
             font-size: 21px;
             margin-top: 0.5px;
-
+            margin-inline-end: unset;
             &:hover {
                 transform: unset;
             }

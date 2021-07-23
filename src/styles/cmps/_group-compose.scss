@@ -1,6 +1,8 @@
 .group-compose-btn {
     height: fit-content;
     margin-left: 8px;
+    margin-right: 4px;
+
     .group-compose-btn-content {
         display: flex;
         justify-content: start;
@@ -76,10 +78,10 @@
             transition: background 120ms ease-in-out, opacity 40ms ease-in, border-color 85ms ease-in;
         }
     }
-    
-            &.unset-margin {
-                margin: 0px 0px !important;
-            }
+
+    &.unset-margin {
+        margin: 0px 0px !important;
+    }
 
     .compose-features {
         display: flex;

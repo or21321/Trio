@@ -37,7 +37,7 @@
 .card-preview {
     overflow: hidden;
     background-color: #ffffff;
-    margin: 0 4.5px;
+    margin: 0 4px;
     border-radius: 3px;
     color: #54637c;
     // min-height: 60px;
@@ -57,48 +57,49 @@
             display: flex;
         }
     }
-    .cover-full,.cover-half,.main-preview{
-      position: relative;
-      .edit-btn{
-         position: absolute;
-         z-index: 1;
-         right: 2px;
-         top: 2px;
-         display: none;
-         border-radius: 3px;
-         width: 27px;
-         height: 26px;
-         &.is-cover{
-            background-color: rgba(221, 221, 221, 0.74);
+    .cover-full,
+    .cover-half,
+    .main-preview {
+        position: relative;
+        .edit-btn {
+            position: absolute;
+            z-index: 1;
+            right: 2px;
             top: 2px;
-            &:hover{
-               background-color: rgb(236, 236, 236); 
+            display: none;
+            border-radius: 3px;
+            width: 28px;
+            height: 28px;
+            &.is-cover {
+                background-color: rgba(221, 221, 221, 0.74);
+                top: 2px;
+                &:hover {
+                    background-color: rgb(236, 236, 236);
+                }
             }
-         }
-         &.is-img-no-cover{
-            background-color: rgba(221, 221, 221, 0.74);
-            right: 10px;
-            top: 8px;
-            &:hover{
-               background-color: rgb(236, 236, 236); 
+            &.is-img-no-cover {
+                background-color: rgba(221, 221, 221, 0.74);
+                right: 10px;
+                top: 8px;
+                &:hover {
+                    background-color: rgb(236, 236, 236);
+                }
             }
-         }
-         .icon{
-            font-size: 1rem;
-            color:gray;
-            position: relative;
-            top:50%;
-            left: 50%;
-            transform: translate(-40%, -50%);
-         }
-         &:hover{
-            background-color: rgba(223, 223, 223, 0.822); 
-         }
-       
-      }
-   }
-    .cover-half{
-       height: 30px;
+            .icon {
+                font-size: 1rem;
+                color: gray;
+                position: relative;
+                top: 50%;
+                left: 50%;
+                transform: translate(-40%, -50%);
+            }
+            &:hover {
+                background-color: rgba(223, 223, 223, 0.822);
+            }
+        }
+    }
+    .cover-half {
+        height: 30px;
     }
     .cover-full {
         min-height: 56px;
@@ -108,13 +109,16 @@
         align-items: flex-end;
         .card-preview-title {
             word-wrap: break-word;
-            color: black;
+            color: #172b4d;
             font-weight: 600;
-            padding: 10px;
+            padding: 10px 8px;
         }
     }
     .main-preview {
-        padding: 6px 8px 2px;
+        // padding: 6px 8px 2px;
+        padding: 5.6px 8px 2px;
+        min-height: 32px;
+        color: #172b4d;
         .card-preview-title {
             min-height: 20px;
             margin-bottom: 4px;
@@ -122,7 +126,14 @@
         .card-labels {
             display: flex;
             flex-wrap: wrap;
-            margin-bottom: 2px;
+            margin: 0.8px 0 4.5px 0;
+            row-gap: 4px;
+            padding-top: 3.8px;
+            // &:focus-within {
+            // .label-review.title-shown {
+            // margin: 2.8px 0 0 0;
+            // }
+            // }
             .label-preview {
                 padding: 3px;
                 border-radius: 3px;
@@ -145,7 +156,7 @@
                     max-width: 198px;
                     white-space: nowrap;
                     text-overflow: ellipsis;
-                    margin-bottom: 4px;
+                    // margin-bottom: 4px;
                     line-height: 1.25;
                 }
                 // &:not(.title-shown) {
@@ -168,11 +179,12 @@
             flex-wrap: wrap;
             align-items: center;
             row-gap: 8px;
+            margin-top: 2px;
             .card-badges {
                 flex-grow: 1;
                 display: flex;
                 gap: 13px;
-                margin-top: 4px;
+                // margin-top: 4px;
                 & > * {
                     font-size: 12px;
                 }
@@ -194,18 +206,18 @@
                     color: #ffffff;
                 }
 
-               .date-badge {
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  gap: 5px;
-                  border-radius: 3px;
-                  padding: 2px 6px;
-                  color: #ffffff;
-                  // Might be a different way to style the whole badge section, for now its ok.
-                  margin-bottom: 4px;
-                  align-self: flex-start;
-                  background-color: #fc4c4c;
+                .date-badge {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                    border-radius: 3px;
+                    padding: 2px 6px;
+                    color: #ffffff;
+                    // Might be a different way to style the whole badge section, for now its ok.
+                    margin-bottom: 4px;
+                    align-self: flex-start;
+                    background-color: #fc4c4c;
 
                     &.done {
                         background-color: #61bd4f;
@@ -223,38 +235,45 @@
                     }
                 }
 
-               .checklist-badge {
-                  // font-size: 12px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  gap: 5px;
-               }
-               .attachments-badge{
-                  .badge-icon {
-                     transform: rotate(130deg);
-                     height: 14px;
-                     width: 14px;
-                  }
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  gap: 3px;
-               }
-               .comment-badge {
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  gap: 5px;
-               }
-         }
-         .card-members {
-               flex-grow: 1;
-               display: flex;
-               flex-direction: row-reverse;
-               gap: 4px;
-               margin: 0 0 4.5px auto;
-         }
-      }
-   }
+                .checklist-badge {
+                    // font-size: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                }
+                .attachments-badge {
+                    .badge-icon {
+                        transform: rotate(130deg);
+                        height: 14px;
+                        width: 14px;
+                    }
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 3px;
+                }
+                .comment-badge {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                }
+            }
+            .card-members {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: row-reverse;
+                gap: 4px;
+                margin: 0 0 4.5px auto;
+
+                & > * {
+                    // margin-top: 5.25px;
+                    span {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
 }

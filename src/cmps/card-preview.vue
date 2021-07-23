@@ -45,7 +45,7 @@
         v-if="card.attachments.length"
         :src="card.attachments[0].url"
       />
-      <div class="card-labels" v-if="cardLabels && !isLabelsTitlesShown">
+      <div class="card-labels" v-if="cardLabels.length && !isLabelsTitlesShown">
         <span
           class="label-preview"
           v-for="label in cardLabels"
@@ -56,7 +56,7 @@
         </span>
         <!-- <span v-else class="label" v-for="label in cardLabels" :key="label.id" :style="{backgroundColor:label.color}">{{label.title}}</span> -->
       </div>
-      <div class="card-labels" v-else>
+      <div class="card-labels" v-if="cardLabels.length && isLabelsTitlesShown">
         <!-- <span class="label-preview" v-for="label in cardLabels" :key="label.id" :style="{backgroundColor:label.color}"></span> -->
         <span
           class="label-preview title-shown"
@@ -99,7 +99,7 @@
             <span v-else class="material-icons-outlined badge-icon"
               >schedule</span
             >
-            <span> {{ card.dueDate.time | moment(" MMM d") }} </span>
+            <span> {{ card.dueDate.time | moment(" MMM D") }} </span>
           </div>
 
           <!-- <div v-if="card.description !== '\n\n'" class="description-badge"> -->

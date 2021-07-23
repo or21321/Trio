@@ -23,6 +23,9 @@
       grid-template-columns:16px 4fr 1fr 16px;
       grid-template-rows:85px 85px 1fr;
       border-radius: 2px;
+      @media (max-width:640px){
+         grid-template-columns:14px 5fr 1fr 7px;
+      }
       .icon {
          color: #42526ea9;
       }
@@ -531,12 +534,6 @@
          &.is-cover{
             grid-row: 3/4;  
          }
-         @media (max-width:640px){
-            &{
-              text-align: center;
-            }
-         }
-         
          .suggested-nav {
             display: flex;
             flex-direction: column;
@@ -601,6 +598,14 @@
          }
          .attachments-icon {
             transform: rotate(130deg);
+         }
+         @media (max-width:640px){
+            & >*{
+              align-items: center;
+              min-width: 90px;
+              padding-left: 0 !important;
+
+            }
          }
       }
    }

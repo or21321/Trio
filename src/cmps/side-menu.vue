@@ -25,7 +25,7 @@
           <span :style="background" class="background icon"></span>
           <span class="option">Change background</span>
         </li>
-        <li class="clickable">
+        <li class="clickable" @click="setDeeperOption('searchCards')">
           <span class="material-icons-outlined icon">search</span>
           <span class="option">Search cards</span>
         </li>
@@ -407,6 +407,7 @@ export default {
 
       console.log("add");
       this.cardsFilterBy.memberIds.push(memberId);
+      console.log('this.cardsFilterBy.memberIds', this.cardsFilterBy.memberIds)
       this.filterIsMemberFilterActive();
       this.searchCards();
     },

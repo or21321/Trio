@@ -1,0 +1,140 @@
+.container-dashboard{
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.64);
+   cursor: pointer;
+   display: grid;
+   grid-template-columns: 1fr minmax(300px, 1000px) 1fr;
+   grid-template-rows: 530px;
+   z-index: 10;
+   .dashboard{
+      grid-column: 2;
+      border-radius: 5px;
+      z-index: 25;
+      cursor: auto;
+      background-color: whitesmoke;
+      position: relative;
+      top: 50px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      .dashboard-header{
+         margin-bottom: 15px;
+         .close{
+            position: absolute;
+            top:7px;
+            right:7px;
+            cursor: pointer;
+            padding: 8px;
+            &:hover{
+               background-color: rgba(0, 0, 0, 0.452);
+               color:white;
+               border-radius: 20px;
+            }
+         }
+      }
+      .statistics{
+         background-color: #fff;
+         min-height: 60px;
+         border-radius: 5px;
+         padding: 5px 15px;
+         display: flex;
+         gap:10px;
+         flex-wrap: wrap;
+         align-items: center;
+         justify-content: space-around;
+         margin-bottom: 20px;
+         .members,.total-cards,.unassigned-cards,.activities{
+            display: flex;
+            gap:12px;
+            .info{
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+               .count{
+                  font-size: 1.4rem;
+               }
+            }
+            .dashboard-icon{
+               padding: 8px;
+               background-color: rgb(221, 221, 221);
+               border-radius: 25px;   
+               font-size: 2rem         
+            }
+            .icon-total-cards{
+               background-color: rgba(175, 255, 138, 0.274);
+               color:rgb(0, 255, 34);
+            }
+            .icon-unassigned-cards{
+               background-color: rgba(255, 128, 128, 0.253);
+             ;
+               color:rgb(255, 59, 59);
+            }
+            .icon-member{
+               background-color: rgba(173, 214, 228, 0.274);
+               color:rgb(136, 138, 250);
+            }
+            .icon-activities{
+               background-color: rgba(224, 98, 255, 0.219);
+               color:rgb(195, 0, 255);
+            }
+         }
+      }
+      .charts{
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         flex-wrap: wrap;
+         gap:50px;
+         .chart-container{
+            width: 370px;
+            height: 400px;
+            .title-chart{
+               text-align: center;
+               font-size: 1.5rem;
+               color:rgb(129, 129, 129);
+               font-weight: 700;
+               margin-bottom: 10px;;
+            }
+            .chartjs-render-monitor{
+               width: 370px;
+               height: 370px;
+            }
+         }
+      }
+   }
+   @media (max-width:620px){
+      .statistics{
+         display: grid !important;
+         gap:0;
+         grid-template-columns: 1fr 1fr;
+         grid-template-rows: 1fr 1fr;
+         .total-cards{
+            grid-column: 1;
+            grid-row: 1;
+         }
+         .unassigned-cards{
+            grid-column: 2;
+            grid-row: 1;
+         }
+         .members{
+            grid-column: 1;
+            grid-row: 2;
+         }
+         .activities{
+            grid-column: 2;
+            grid-row: 2;
+         }
+         .info{
+            .title{
+               font-size: 0.9rem;
+            }
+         }
+      }
+   }
+}

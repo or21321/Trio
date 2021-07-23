@@ -303,6 +303,12 @@
             <span class="material-icons-outlined icon">{{ action.icon }}</span>
             <span> {{ action.name }} </span>
           </label>
+          <label v-if="this.card.dueDate.time" @click="removeDate">
+            <span class="material-icons-outlined"
+              >history</span
+            >
+            <span> Remove date </span>
+          </label>
           <label for="input-file">
             <span class="attachments-icon material-icons-outlined"
               >attachments</span
@@ -318,7 +324,7 @@
           />
           <!-- v-if="currAction" -->
           <component
-            class="popup"
+            class="popup dynamic-component"
             v-if="isPopupShow"
             v-clickoutside="closeEditPopup"
             :is="currAction.type"
@@ -400,15 +406,15 @@ export default {
           name: "Checklist",
         },
         {
-          type: "cardDatesEdit",
-          icon: "watch_later",
-          name: "Dates",
-        },
-        {
-          type: "cardCoverEdit",
+           type: "cardCoverEdit",
           icon: "wallpaper",
           name: "Cover",
         },
+         {
+            type: "cardDatesEdit",
+            icon: "watch_later",
+            name: "Dates",
+         }
       ],
       currAction: null,
       isPopupShow: false,
@@ -577,11 +583,10 @@ export default {
       this.isPopupShow = false;
       this.currAction = null;
     },
-    setCurrAction(ev = null, action) {
+    setCurrAction(action) {
       // Preparation for positioning dynamic cmps.
-      if (ev) console.log("ev", ev);
       this.currAction = action;
-      this.isPopupShow = true;
+       this.isPopupShow = true;
     },
     //ATTACHMENT
     async onUploadImg(ev) {
@@ -677,6 +682,9 @@ export default {
     openDate(ev) {
       if (ev.target.tagName === "P") this.setCurrAction(this.actions[3]);
     },
+    removeDate(){
+      this.card.dueDate = {};
+    },
     //COMMENTS
     async addComment() {
       await this.$store.dispatch({
@@ -735,6 +743,7 @@ export default {
     },
     addUserToCard(){
         const user = this.$store.getters.getMyMiniUser;
+        console.log(user);
         this.card.members.push(user)
         this.saveCard();
     },

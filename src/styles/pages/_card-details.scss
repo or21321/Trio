@@ -561,6 +561,11 @@
             padding-left: 8px;
             margin-bottom: 24px;
             position: relative;
+            .dynamic-component{
+               position:absolute;
+               left: unset;
+               right: -16px;
+            }
          }
          .action-nav {
             display: flex;

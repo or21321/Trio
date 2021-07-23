@@ -6,6 +6,7 @@
       @toggleStar="toggleStar"
       @updateMembers="updateMembers"
       @setBackground="setBackground"
+      @openDashboard="isDashboardOpen = true"
     ></board-header>
     <div v-dragscroll:nochilddrag class="board-canvas my-scrollbar">
       <draggable
@@ -41,6 +42,9 @@
       @socketUpdateBoard="socketUpdateBoard"
       :loggedinUser="loggedinUser"
     />
+    <dashboard v-if="isDashboardOpen"
+    :board="board"
+    @closeDashboard="isDashboardOpen = false"/>
   </div>
 </template>
 
@@ -48,6 +52,7 @@
 import groupList from "@/cmps/group-list";
 import boardHeader from "@/cmps/board-header";
 import groupCompose from "@/cmps/group-compose";
+import dashboard from '../cmps/dashboard.vue'
 import { dragscroll } from "vue-dragscroll";
 import draggable from "vuedraggable";
 import { socketService } from "@/services/socket.service.js";
@@ -62,6 +67,7 @@ export default {
     groupList,
     boardHeader,
     groupCompose,
+    dashboard,
     draggable,
   },
   props: {
@@ -110,6 +116,7 @@ export default {
   data() {
     return {
       isCardPreviewLabelsShown: false,
+      isDashboardOpen:false
     };
   },
   methods: {

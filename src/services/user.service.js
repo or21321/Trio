@@ -112,24 +112,8 @@ function getLoggedinUser() {
 
 async function updateUser(user) {
    try {
-      // console.log('from service', user);
-      // if (user._id) {
-      // queryParams += `&_id=${board._id}`
-      // return storageService.put(KEY, board)
-      // console.log('update user');
-      console.log('user', user)
       const savedUser = await httpService.put(`user/${user._id}`, user)
       return savedUser
-      // return axios.put(`http://localhost:3200/api/board`, board).then(res => res.data)
-      // } else {
-      // return storageService.post(KEY, board)
-      // console.log('save user');
-      // const savedUser = await httpService.post(`user`, user)
-      // const savedBoard = await boardToSave
-      // console.log('from service boardToSave', boardToSave);
-      // return savedUser
-      // return axios.get(`/api/board/add?${queryParams}`).then(res => res.data)
-      // }
    } catch (err) {
       console.log('Had a problem adding mention', err);
       throw err
@@ -161,33 +145,6 @@ async function getMiniUser(userId) {
       throw err
    }
 }
-
-// This IIFE functions for Dev purposes 
-// It allows testing of real time updates (such as sockets) by listening to storage events
-// (async () => {
-//     var user = getLoggedinUser()
-// Dev Helper: Listens to when localStorage changes in OTHER browser
-
-// Here we are listening to changes for the watched user (comming from other browsers)
-//     window.addEventListener('storage', async () => {
-//         if (!gWatchedUser) return;
-//         const freshUsers = await storageService.query('users')
-//         const watchedUser = freshUsers.find(u => u._id === gWatchedUser._id)
-//         if (!watchedUser) return;
-//         if (gWatchedUser.score !== watchedUser.score) {
-//             console.log('Watched user score changed - localStorage updated from another browser')
-//             socketService.emit(SOCKET_EVENT_USER_UPDATED, watchedUser)
-//         }
-//         gWatchedUser = watchedUser
-//     })
-// })();
-
-// This is relevant when backend is connected
-// (async () => {
-//     var user = getLoggedinUser()
-//     if (user) socketService.emit('set-user-socket', user._id)
-// })();
-
 
 async function createDemoUsers() {
    try {

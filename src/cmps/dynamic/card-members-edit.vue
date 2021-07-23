@@ -5,13 +5,13 @@
            <span class="close material-icons close-popup-btn" @click.stop="close">close</span>
     </div>
     <div class="card-edit-main popup-layout-1">
-      <input type="text" placeholder="Search members" />
+      <input type="text" v-model="filterName" placeholder="Search members" />
       <ul>
         <h4>BOARD MEMBERS</h4>
         <li
           @click="toggleUserAsCardMember(user)"
           class="card-member-preview"
-          v-for="user in boardMembers"
+          v-for="user in membersToDisplay"
           :key="user._id"
         >
           <div class="member-name">
@@ -26,17 +26,9 @@
             class="material-icons-outlined check-member-icon"
             >check</span
           >
-          <!-- <span v-if="user.isCardMember === true" class="check-member-icon"
-            >check</span
-          > -->
         </li>
       </ul>
     </div>
-    <!-- <div class="card-members"> -->
-    <!-- </div> -->
-    <!-- <div class="edit-content-holder"> -->
-    <!-- </div> -->
-
   </section>
 </template>
 
@@ -60,6 +52,7 @@ export default {
     return {
       cardToEdit: null,
       CardMembers: null,
+      filterName:''
     };
   },
   async created() {
@@ -88,8 +81,13 @@ export default {
       return this.card.members;
     },
     boardMembers(){
-       console.log(this.$store.getters.currBoard.members);
        return this.$store.getters.currBoard.members
+    },
+    membersToDisplay(){
+       const members = this.boardMembers
+       if(!this.filterName) return members
+       let rgx = new RegExp(this.filterName ,'i')
+      return members.filter(member => rgx.test(member.username) || rgx.test(member.fullname))
     }
   },
   methods: {

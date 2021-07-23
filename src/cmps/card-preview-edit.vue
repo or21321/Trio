@@ -70,7 +70,7 @@
           <div v-if="cardToEdit.description" class="description-badge">
             <span class="material-icons-outlined badge-icon">subject</span>
           </div>
-
+         
           <div v-if="cardToEdit.comments.length" class="comment-badge">
             <span class="material-icons-outlined badge-icon">
               mode_comment
@@ -110,7 +110,7 @@
         </div>
       </div>
 
-      <el-button type="primary" class="save" @click="saveCard(true)">Save</el-button>
+      <el-button type="primary" class="save compose-btn" :disabled="!cardToEdit.title" @click="saveCard(true)">Save</el-button>
     </div>
 
     <nav>

@@ -1,5 +1,5 @@
 .card-compose-btn {
-    width: 90.5%;
+    width: 263px;
     align-self: baseline;
     display: flex;
     justify-content: baseline;
@@ -11,6 +11,7 @@
     padding: 4px 6px;
     // margin-top: 2.5px;
     margin: 2.5px 0 8px 9px;
+   //  background-color: red;
     &:hover {
         cursor: pointer;
         background-color: darken(#ebecf0, 5);
@@ -23,7 +24,7 @@
     gap: 8px;
     textarea {
         font-size: 14px;
-        // padding: 6px 8px 6px;
+      //   padding: 6px 8px 6px;
         padding: 6px 8px 2px;
         color: #4b5a74;
         text-decoration: none;

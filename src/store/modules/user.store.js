@@ -63,9 +63,7 @@ export const userStore = {
             }
             const userToSaveIdx = context.state.users.findIndex(u => u.username === username)
             const userToSave = JSON.parse(JSON.stringify(context.state.users[userToSaveIdx]))
-            console.log('userToSave', userToSave);
             userToSave.mentions.push(mention)
-            console.log('mentions.length', userToSave.mentions.length);
             const savedUser = await userService.updateUser(userToSave)
             context.commit({ type: 'updateUser', user: savedUser })
          } catch (err) {
@@ -74,10 +72,8 @@ export const userStore = {
       },
       async updateUser(context, { user }) {
          try {
-            console.log('from updateUser', user);
             await context.dispatch({ type: 'loadUsers' })
             const savedUser = await userService.updateUser(user)
-            console.log('from service savedUser', savedUser);
             context.commit({ type: 'updateUser', user: savedUser })
 
          } catch (err) {

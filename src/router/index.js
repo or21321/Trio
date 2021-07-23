@@ -30,11 +30,11 @@ const routes = [
             name: 'CardDetails',
             component: cardDetails,
          }]
-   },
-   {
-      path: '/login',
-      name: 'Login',
-      component: login
+      },
+      {
+         path: '/login',
+         name: 'Login',
+         component: login
    },
    {
       path: '/signup',

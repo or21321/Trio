@@ -15,10 +15,11 @@
       grid-template-columns:1fr minmax(340px, 1180px) 1fr;
       // background-image: url('~@/assets/background-Img-boards-page.jpg');
       // background-size: cover;
+      background-color:wheat;
+      padding-bottom: 50px;
      .boards-list{
-         grid-column: 2;
-         margin: auto;
-         // margin-bottom: 50px;
+      grid-column: 2;
+         margin: auto;        
          // height: fit-content;
          display: flex;
          flex-direction: row;

@@ -12,7 +12,7 @@
         <el-input
           placeholder="Add board title"
           v-model="board.title"
-        
+           @keyup.enter.native="createBoard"
         ></el-input>
         <el-button
           @click="createBoard"

@@ -43,11 +43,13 @@ export const boardStore = {
          if (filterBy.memberIds.length) { 
             boardForDisplay.groups.map(g => {
                g.cards = g.cards.filter(c => {
-                  console.log('c.members', c.members);
-                  return c.members.some(member => {  
-                     console.log('member', member);
-                     return filterBy.memberIds.some(mId => mId === member.id)
+                  return c.members.some(member => {
+                     return filterBy.memberIds.some(mId => {
+                        console.log('mId', mId,',', (mId === member.id))
+                        return mId === member.id
+                     })
                   })
+
                })
                return g
             })

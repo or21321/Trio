@@ -6,7 +6,7 @@
     </div>
 
     <div class="card-edit-main">
-      <input type="text" placeholder="Search labels" v-model="filterBy" />
+      <!-- <input type="text" placeholder="Search labels" v-model="filterBy" /> -->
       <ul class="popup-list-layout-1">
         <h4>LABELS</h4>
         <li

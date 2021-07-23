@@ -61,8 +61,12 @@
       </div>
     </div>
     <div class="menu-section">
+      <button  class="board-header-btn menu-section dashboard" @click="openDashboard">
+       <span class="material-icons-outlined">
+   leaderboard
+      </span> </button>
       <button
-        class="board-header-btn menu-section"
+        class="board-header-btn menu-section "
         @click.stop="isSideMenuOpen = true"
       >
         <span class="material-icons title">more_horiz</span>
@@ -91,6 +95,7 @@ import sideMenu from "@/cmps/side-menu";
 import avatar from "vue-avatar";
 import { debounce } from "@/services/util.service";
 
+
 export default {
   props: {
     board: {
@@ -115,7 +120,7 @@ export default {
     },
   },
   created() {
-    this.updateTitleDebounce = debounce(this.updateTitle, 2500);
+    this.updateTitleDebounce = debounce(this.updateTitle, 2000);
   },
   watch: {
     "$route.params.boardId": {
@@ -177,11 +182,15 @@ export default {
         await this.$store.dispatch({ type: "showMsg", msg });
       }
     },
+    openDashboard(){
+      this.$emit('openDashboard');
+    }
   },
   components: {
     boardMembersEdit,
     avatar,
     sideMenu,
+ 
   },
 };
 </script>

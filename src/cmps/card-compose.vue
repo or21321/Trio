@@ -30,6 +30,7 @@
 
 <script>
 import { boardService } from "@/services/board.service.js";
+import { eventBus } from "@/services/event-bus-service";
 
 export default {
   props: {
@@ -95,15 +96,18 @@ export default {
         });
         // this.toggleCompose()
         this.$emit('socketUpdateBoard')
+        const group = await this.$store.dispatch({type: "getGroupById", groupId: this.groupId, boardId: this.boardId});
+        const activity = { 
+          txt: `added ${newCard.title} to ${group.title}`,
+          card: { id: newCard.id, title: newCard.title }
+          }
         this.cardToEdit = boardService.getEmptyCard();
           this.$refs.textarea.focus();
         msg = {
           txt: "Card was successfully added",
           type: "success",
         };
-        const group = await this.$store.dispatch({type: "getGroupById", groupId: this.groupId, boardId: this.boardId});
-        const activity = {txt: `added ${newCard.title} to ${group.title}`, byMember: this.$store.getters.getMyMiniUser, card: { id: newCard.id, title: newCard.title } }
-        await this.$store.dispatch({type: "addActivity", activity, boardId: this.boardId});
+        eventBus.$emit("addActivity", activity)    
       } catch (err) {
         msg = {
           txt: "Fail to add card, try again later",

@@ -1,0 +1,54 @@
+ul.first-option.activities {
+    margin-top: 15px;
+    padding-bottom: 15px;
+    color: #172b4d;
+    // border-bottom: 1px solid rgba(9, 30, 66, 0.13);
+    
+    li {
+        display: grid;
+        grid-template-columns: 40px 1fr;
+        font-weight: 600;
+        padding: 10px 0 6px 0;
+        width: 100%;
+        &:hover {
+            border-radius: 3px;
+            background-color: rgba(9, 30, 66, 0.08);
+        }
+
+        &.activity:hover{
+            background-color: unset;
+        }
+
+        &.clickable{
+        cursor: pointer;
+        }
+
+        .icon {
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+            border-radius: 3px;
+            box-sizing: content-box;
+            background-size: cover;
+        }
+
+        .option {
+            font-size: 14px;
+        }
+
+        .activity-user {
+            color: #172b4d;
+        }
+
+        .activity-txt {
+            font-weight: 400;
+        }
+
+        .activity-time {
+            color: #5e6c84;
+            font-weight: 400;
+            font-size: 12px;
+        }
+    }
+}

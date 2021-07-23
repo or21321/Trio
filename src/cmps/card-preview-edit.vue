@@ -160,6 +160,7 @@ import cardMembersEdit from "@/cmps/dynamic/card-members-edit";
 import cardLabelsEdit from "@/cmps/dynamic/card-labels-edit";
 import cardDatesEdit from "@/cmps/dynamic/card-dates-edit";
 import cardCoverEdit from "@/cmps/dynamic/card-cover-edit";
+import { eventBus } from "@/services/event-bus-service";
 import avatar from "vue-avatar";
 export default {
   props: {
@@ -265,12 +266,19 @@ export default {
       this.closeEdit();
       var msg = {};
       try {
+        const group = await this.$store.dispatch({type: "getGroupById", groupId: this.groupId, boardId: this.boardId});
+        const activity = {
+          txt: `deleted ${this.card.title} from ${group.title}`,
+          card: { id: this.card.id, title: this.card.title },
+        };
         await this.$store.dispatch({
           type: "removeCard",
           cardId: this.card.id,
           groupId: this.groupId,
           boardId: this.boardId,
         });
+        this.$emit('socketUpdateBoard')
+        eventBus.$emit("addActivity", activity);
         msg = {
           txt: "Card was successfully removed",
           type: "success",
@@ -295,6 +303,13 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
+        this.$emit('socketUpdateBoard')
+        const group = await this.$store.dispatch({type: "getGroupById", groupId: this.groupId, boardId: this.boardId});
+        const activity = {
+          txt: `copied ${this.card.title} from ${this.card.title} in list ${group.title}`,
+          card: { id: this.card.id, title: this.card.title },
+        };
+        eventBus.$emit("addActivity", activity);
         msg = {
           txt: "Card was successfully copied",
           type: "success",

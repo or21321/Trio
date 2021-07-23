@@ -58,6 +58,8 @@ import draggable from "vuedraggable";
 import { socketService } from "@/services/socket.service.js";
 import { SOCKET_EMIT_BOARD_WATCH } from "@/services/socket.service";
 import { SOCKET_EMIT_BOARD_UPDATE } from "@/services/socket.service";
+import { eventBus } from "@/services/event-bus-service";
+// import { SOCKET_ON_BOARD_UPDATE} from '@/services/socket.service'
 
 export default {
   directives: {
@@ -78,6 +80,11 @@ export default {
       immediate: true,
       type: Object,
     },
+  },
+  created(){
+    eventBus.$on("addActivity", async (activity)=> {
+        await this.$store.dispatch({type: "addActivity", activity});
+    })
   },
   computed: {
     boardId() {
@@ -153,15 +160,8 @@ export default {
           txt: "List was successfully removed",
           type: "success",
         };
-        const activity = {
-          txt: `deleted list ${group.title}`,
-          byMember: this.$store.getters.getMyMiniUser,
-        };
-        await this.$store.dispatch({
-          type: "addActivity",
-          activity,
-          boardId: this.board._id,
-        });
+        const activity = {txt: `deleted list ${group.title}`}
+        eventBus.$emit("addActivity", activity)
       } catch (err) {
         msg = {
           txt: "Fail remove list, try again later",

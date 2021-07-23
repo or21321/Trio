@@ -99,9 +99,9 @@ export const boardStore = {
          const idx = state.boards.findIndex(board => board._id === boardId)
          state.boards.splice(idx, 1);
       },
-      addActivity(state, { activity, boardId }) {
-         const idx = state.boards.findIndex(board => board._id === boardId)
-         state.boards[idx].activities.unshift(activity)
+      addActivity(state, { activity }) {
+         // state.currBoard.activities.unshift(activity)
+         state.currBoard.activities.push(activity)
       },
       addBoardToRecentBoards(state, { board }) {
          if (state.recentBoards.length >= 5) state.recentBoards.pop()
@@ -196,10 +196,16 @@ export const boardStore = {
             throw err;
          }
       },
-      async addActivity({ commit }, { activity, boardId }) {
+      async addActivity( context, { activity }) {
          try {
+            console.log('%%%%%% inside store')
+            const boardId = context.state.currBoard._id
+            // activity.byMember = context.getters.getMyMiniUser
+            // console.log(activity.byMember)
             const newActivity = await boardService.addActivity(activity, boardId);
-            commit({ type: 'addActivity', activity: newActivity, boardId })
+            console.log('print newActivity returned to store:', newActivity)
+            context.commit({ type: 'addActivity', activity: newActivity, boardId })
+            console.log('%%%%%% inside store after sevice',newActivity, context.state.currBoard.activities[0].txt)
          } catch (err) {
             console.log('Cannot add activity ', activity, ',', err);
             throw err;

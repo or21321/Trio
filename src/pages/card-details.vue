@@ -31,7 +31,7 @@
                 :username="member.fullname"
                 :size="32"
               />
-              <span class="item-add-btn" @click="setCurrAction(actions[0])">
+              <span class="item-add-btn" @click="setCurrAction($event,actions[0])">
                 <span class="material-icons-outlined icon">add</span>
               </span>
             </div>
@@ -45,11 +45,11 @@
                 :key="label.id"
                 :style="{ backgroundColor: label.color }"
                 class="preview-label"
-                @click="setCurrAction(actions[1])"
+                @click="setCurrAction($event,actions[1])"
               >
                 <span>{{ label.title }}</span>
               </span>
-              <span class="item-add-btn" @click="setCurrAction(actions[1])">
+              <span class="item-add-btn" @click="setCurrAction($event ,actions[1])">
                 <span class="material-icons-outlined icon">add</span>
               </span>
             </div>
@@ -681,7 +681,7 @@ export default {
     },
     //  DATE
     openDate(ev) {
-      if (ev.target.tagName === "P") this.setCurrAction(this.actions[3]);
+      if (ev.target.tagName === "P") this.setCurrAction(ev ,this.actions[4]);
     },
     removeDate(){
       this.card.dueDate = {};

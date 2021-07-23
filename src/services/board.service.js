@@ -98,7 +98,6 @@ async function addActivity(activity, boardId) {
       console.log('recevied activity to board service:', activity)
       activity.id = utilService.makeId()
       activity.createdAt = Date.now()
-      // const savedActivity = 
       const newActivity = await httpService.post(`board/${boardId}/activity`, { boardId, activity })
       // const board = await getById(boardId)
       // board.activities.unshift(activity)

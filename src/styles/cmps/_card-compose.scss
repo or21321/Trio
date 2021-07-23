@@ -1,6 +1,5 @@
 .card-compose-btn {
     width: 263px;
-   //  width: 91.3%;
     align-self: baseline;
     display: flex;
     justify-content: baseline;
@@ -35,7 +34,7 @@
         resize: none;
         height: 66px;
         font-size: 14px;
-        // max-width: 253px;
+        max-width: 253px;
 
         &:placeholder-shown {
             font-family: Segoe-UI;

@@ -22,7 +22,7 @@
     <group-menu
       v-if="showGroupMenu"
       v-clickoutside="hidePopup"
-      class="popup"
+      class="popup group-menu"
       :group="group"
       @closeGroupMenu="showGroupMenu = false"
       @removeGroup="removeGroup"

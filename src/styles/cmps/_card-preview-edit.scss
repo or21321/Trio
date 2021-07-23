@@ -14,8 +14,9 @@
          padding-top: 6px;
          padding-left: 8px;
          display: flex;
+         flex-wrap: wrap;
          align-items: center;
-         gap:1px;
+         row-gap:3px;
          background-color: #fff;
          &.no-cover{
             border-top-left-radius: 3px;

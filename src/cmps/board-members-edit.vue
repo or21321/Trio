@@ -5,14 +5,15 @@
       <span>Invite to Board</span>
       <span @click.stop="close" class="close-popup-btn">X</span>
     </div>
+    {{filterName}}
     <div class="card-edit-main popup-layout-1">
-      <input type="text" placeholder="Search members" />
+      <input type="text" v-model="filterName" placeholder="Search members" />
       <ul class="board-members-list">
         <!-- <h4>BOARD MEMBERS</h4> -->
         <li
           @click="toggleUserAsBoardMember(user)"
           class="card-member-preview"
-          v-for="user in filteredBoardMembers"
+          v-for="user in membersToDisplay"
           :key="user._id"
         >
           <div class="member-name">
@@ -57,6 +58,7 @@ export default {
     return {
       membersToEdit: null,
       filteredBoardMembers: null,
+      filterName:''
     };
   },
   async created() {
@@ -81,6 +83,12 @@ export default {
     allUsers() {
       return this.$store.getters.users;
     },
+     membersToDisplay(){
+       const members = this.filteredBoardMembers
+       if(!this.filterName) return members
+       let rgx = new RegExp(this.filterName ,'i')
+      return members.filter(member => rgx.test(member.username) || rgx.test(member.fullname))
+    }
   },
   methods: {
     toggleUserAsBoardMember(user) {

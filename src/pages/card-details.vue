@@ -288,7 +288,7 @@
           <h4 class="title">SUGGESTED</h4>
           <label @click="addUserToCard">
             <span class="material-icons-outlined icon">person_add</span>
-            <span> Join </span>
+            <span class="txt"> Join </span>
           </label>
         </section>
 
@@ -301,19 +301,19 @@
             @click="setCurrAction($event, action)"
           >
             <span class="material-icons-outlined icon">{{ action.icon }}</span>
-            <span> {{ action.name }} </span>
+            <span class="txt"> {{ action.name }} </span>
           </label>
           <label v-if="this.card.dueDate.time" @click="removeDate">
             <span class="material-icons-outlined"
               >history</span
             >
-            <span> Remove date </span>
+            <span class="txt"> Remove date </span>
           </label>
           <label for="input-file">
             <span class="attachments-icon material-icons-outlined"
               >attachments</span
             >
-            <span> Attachment </span>
+            <span class="txt"> Attachment </span>
           </label>
           <input
             id="input-file"
@@ -339,11 +339,11 @@
           <h4 class="title">ACTIONS</h4>
           <label @click="copyCard">
             <span class="material-icons-outlined icon">copy</span>
-            <span> Copy</span>
+            <span class="txt"> Copy</span>
           </label>
           <label @click="removeCard">
             <span class="material-icons-outlined icon">delete</span>
-            <span> Delete card </span>
+            <span class="txt"> Delete card </span>
           </label>
         </section>
       </nav>
@@ -583,8 +583,9 @@ export default {
       this.isPopupShow = false;
       this.currAction = null;
     },
-    setCurrAction(action) {
+    setCurrAction(ev , action) {
       // Preparation for positioning dynamic cmps.
+      console.log(ev);
       this.currAction = action;
        this.isPopupShow = true;
     },

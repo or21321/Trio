@@ -116,7 +116,7 @@
     }
     .main-preview {
         // padding: 6px 8px 2px;
-        padding: 3.5px 8px 2px;
+        padding: 5.6px 8px 2px;
         min-height: 32px;
         color: #172b4d;
         .card-preview-title {
@@ -126,7 +126,14 @@
         .card-labels {
             display: flex;
             flex-wrap: wrap;
-            margin-bottom: 2px;
+            margin: 0.8px 0 4.5px 0;
+            row-gap: 4px;
+            padding-top: 3.8px;
+            // &:focus-within {
+            // .label-review.title-shown {
+            // margin: 2.8px 0 0 0;
+            // }
+            // }
             .label-preview {
                 padding: 3px;
                 border-radius: 3px;
@@ -149,7 +156,7 @@
                     max-width: 198px;
                     white-space: nowrap;
                     text-overflow: ellipsis;
-                    margin-bottom: 4px;
+                    // margin-bottom: 4px;
                     line-height: 1.25;
                 }
                 // &:not(.title-shown) {

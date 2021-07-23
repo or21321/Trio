@@ -239,7 +239,6 @@ export default {
     this.boardMembers = JSON.parse(JSON.stringify(this.board.members));
   },
   destroyed() {
-    console.log('destroyed');
     this.cardsFilterBy = {
       txt: "",
       labelIds: [],
@@ -247,49 +246,6 @@ export default {
     };
     this.searchCards();
   },
-  // watch: {
-  // "board.labels": {
-  //   immediate: true,
-  //   handler() {
-  //     this.boardLabels = [];
-  //     this.boardLabels = JSON.parse(JSON.stringify(this.board.labels));
-  //   },
-  // },
-  // "board.members": {
-  //   immediate: true,
-  //   handler() {
-  //     this.boardMembers = [];
-  //     this.boardMembers = this.board.members;
-  //   },
-  // },
-  // "cardsFilterBy.memberIds": {
-  //   handler() {
-  //     console.log("cardsFilterBy.memberIds", this.cardsFilterBy.memberIds);
-  //   },
-  // },
-  // "cardsFilterBy.labelIds": {
-  //   // immediate: true,
-  //   handler() {
-  //     console.log(
-  //       "***WATCH*** cardsFilterBy.labelIds",
-  //       this.cardsFilterBy.labelIds
-  //     );
-
-  // if (!this.boardLabels.length || this.deeperOption !== "searchCards")
-  //   return;
-  // const boardLabels = this.boardLabels.map((bLabel) => {
-  //   bLabel.isFilterBy = this.cardsFilterBy.labelIds.some(
-  //     (cfLabelId) => cfLabelId === bLabel.id
-  //   )
-  //     ? true
-  //     : false;
-  //   return bLabel;
-  // });
-  // this.boardLabels = boardLabels;
-  // console.log("boardLabels", this.boardLabels);
-  // },
-  // },
-  // },
   computed: {
     background() {
       if (this.board.style["background-color"])
@@ -333,7 +289,6 @@ export default {
       }
     },
     setDeeperOption(option) {
-      console.log(option);
       this.deeperOption = option;
     },
     close() {
@@ -344,35 +299,28 @@ export default {
       this.$emit("removeBoard", this.board._id);
     },
     changeBackground(color, photoUrl) {
-      console.log(color, photoUrl);
       const style = {
         "background-color": color,
         "background-image": `url(${photoUrl})`,
       };
-      console.log("style", style);
       this.$emit("setBackground", style);
     },
     openNewWindowUnsplash() {
       window.open("https://unsplash.com/");
     },
     searchCards() {
-      console.log("cardsFilterBy()", this.cardsFilterBy);
       this.$store.commit({ type: "setFilterBy", filterBy: this.cardsFilterBy });
     },
     filterCardsByLabel(labelId) {
-      // console.log("filterCardsByLabel()", labelId);
       const isFilteredByIdx = this.cardsFilterBy.labelIds.findIndex(
         (lId) => lId === labelId
       );
-      // console.log('isFilteredByIdx', isFilteredByIdx);
       if (isFilteredByIdx !== -1) {
-        console.log("splice");
         this.cardsFilterBy.labelIds.splice(isFilteredByIdx, 1);
         this.filterIsLabelFilterActive();
         return this.searchCards();
       }
 
-      console.log("add");
       this.cardsFilterBy.labelIds.push(labelId);
       this.filterIsLabelFilterActive();
       this.searchCards();
@@ -388,25 +336,18 @@ export default {
           : false;
         return bLabel;
       });
-      console.log("boardLabels ***", boardLabels);
       this.boardLabels = boardLabels;
-      console.log("boardLabels", this.boardLabels);
     },
     filterCardsByMember(memberId) {
-      console.log("filterCardsByLabel()", memberId);
       const isFilteredByIdx = this.cardsFilterBy.memberIds.findIndex(
         (mId) => mId === memberId
       );
-      // console.log('isFilteredByIdx', isFilteredByIdx);
       if (isFilteredByIdx !== -1) {
-        console.log("isFilteredByIdx", isFilteredByIdx);
-        console.log("splice");
         this.cardsFilterBy.memberIds.splice(isFilteredByIdx, 1);
         this.filterIsMemberFilterActive();
         return this.searchCards();
       }
 
-      console.log("add");
       this.cardsFilterBy.memberIds.push(memberId);
       this.filterIsMemberFilterActive();
       this.searchCards();
@@ -415,7 +356,6 @@ export default {
       if (!this.boardLabels.length || this.deeperOption !== "searchCards")
         return;
       const boardMembers = this.boardMembers.map((bMember) => {
-        console.log("bMember", bMember);
         bMember.isFilterBy = this.cardsFilterBy.memberIds.some(
           (cfMemberId) => cfMemberId === bMember._id
         )

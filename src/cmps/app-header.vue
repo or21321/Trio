@@ -100,6 +100,7 @@ export default {
       this.isBoardComposeOn = false;
     },
     setBackground(style) {
+      console.log('from app header', style);
       this.$emit("setBackground", style);
     },
     async logout() {

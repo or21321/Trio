@@ -85,7 +85,6 @@ export default {
   },
   methods: {
     updateUserMentions() {
-      console.log("updateUserMentions()");
       this.loggedinUser.mentions = this.watchedUser.mentions;
     },
     async addBoard(board) {
@@ -112,7 +111,6 @@ export default {
       }
     },
     setBackground(style) {
-      console.log('setBackground', style);
       this.backgroundColor = style["background-color"];
       this.backgroundImg = style["background-image"];
     },

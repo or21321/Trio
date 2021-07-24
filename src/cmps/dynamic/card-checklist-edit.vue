@@ -64,7 +64,7 @@ export default {
           txt: `added ${this.checklistTitle} to ${this.card.title}`,
           card: { id: this.card.id, title: this.card.title }
         }
-        this.$emit("updateCard", this.cardToEdit);
+        this.$emit("updateCard", this.cardToEdit,true);
         eventBus.$emit("addActivity", activity)
         this.close();
     },

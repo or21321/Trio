@@ -134,7 +134,7 @@ export default {
    },
     updateCard() {
       console.log("update", this.cardToEdit);
-      this.$emit("updateCard", this.cardToEdit);
+      this.$emit("updateCard", this.cardToEdit,true);
     },
     close() {
       this.$emit("close");

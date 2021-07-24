@@ -11,7 +11,7 @@
           >movie_creation</span
         >
         <section class="titles">
-          <input v-model="card.title" class="main-title" @change="saveCard" />
+          <input v-model="card.title" class="main-title" @input="saveCard" />
           <h4 class="sub-title">in list {{ groupName }}</h4>
         </section>
         <span class="close material-icons" @click="closeCardDetails">
@@ -520,8 +520,8 @@ export default {
         console.log("Had problem loading card", err);
       }
     },
-    async saveCard(savedCard) {
-       savedCard = (savedCard) ? savedCard :this.card;
+    async saveCard(savedCard, isDaynamicComponent = false) {
+       savedCard = (isDaynamicComponent) ? savedCard :this.card;
       try {
         this.card = await this.$store.dispatch({
           type: "saveCard",

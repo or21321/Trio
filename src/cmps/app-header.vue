@@ -80,7 +80,11 @@ export default {
   },
   async created() {
     this.user = this.$store.getters.loggedinUser;
-    if (!this.$store.getters.watchedUser) this.$store.dispatch({type:'loadAndWatchUser', userId: this.user._id})
+    if(!this.user && this.$route.path.includes('b/')){
+       await this.$store.dispatch({type:'signupAsGuest'})
+       this.user = this.$store.getters.loggedinUser;
+    }
+    if (!this.$store.getters.watchedUser) await this.$store.dispatch({type:'loadAndWatchUser', userId: this.user._id})
   },
   methods: {
     toggleBoardCompose() {

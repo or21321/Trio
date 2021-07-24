@@ -83,10 +83,6 @@ export default {
   },
   async created(){
      try{
-      //   if(!this.$store.getters.loggedinUser){
-      //      console.log('yes');
-      //      await this.$store.dispatch({type: "signupAsGuest"});
-      //   }
          eventBus.$on("addActivity", async (activity)=> {
             await this.$store.dispatch({type: "addActivity", activity});
          })

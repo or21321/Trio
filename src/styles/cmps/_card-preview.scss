@@ -79,7 +79,7 @@
             }
             &.is-img-no-cover {
                 background-color: rgba(221, 221, 221, 0.74);
-                right: 10px;
+                right: 11px;
                 top: 8px;
                 &:hover {
                     background-color: rgb(236, 236, 236);
@@ -99,7 +99,7 @@
         }
     }
     .cover-half {
-        height: 30px;
+        height: 32px;
     }
     .cover-full {
         min-height: 56px;
@@ -126,9 +126,8 @@
         .card-labels {
             display: flex;
             flex-wrap: wrap;
-            margin: 0.8px 0 4.5px 0;
+            margin: 0px 0 4.5px 0;
             row-gap: 4px;
-            padding-top: 3.8px;
             // &:focus-within {
             // .label-review.title-shown {
             // margin: 2.8px 0 0 0;

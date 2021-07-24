@@ -16,7 +16,7 @@ async function query(filterBy) {
     console.log('query filterBy', filterBy);
     try {
         const photos = await axios({
-            url: `https://api.unsplash.com/search/photos?query=${filterBy}&client_id=${ACCESS_KEY}`,
+            url: `https://api.unsplash.com/search/photos?query=${filterBy}&client_id=${ACCESS_KEY}&orientation=landscape&per_page=50`,
         })
         console.log('photos', photos);
         return photos.data.results

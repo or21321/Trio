@@ -13,6 +13,7 @@ export const boardStore = {
          txt: '',
          labelIds: [],
          memberIds: [],
+         timeLeft: 0
       }
    },
    getters: {
@@ -52,6 +53,14 @@ export const boardStore = {
 
                })
                return g
+            })
+         }
+
+         if (filterBy.timeLeft) {   
+            boardForDisplay.groups.map(g => {   
+               g.cards = g.cards.filter(c => {  
+                  return (Date.parse(c.dueDate.time) - Date.now()) < filterBy.timeLeft  
+               })
             })
          }
          return boardForDisplay

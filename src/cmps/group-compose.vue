@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isComposeOn" class="group-compose" :class="{'unset-margin' : isBoardEmpty}">
+  <div v-if="isComposeOn" class="group-compose">
     <input
       type="text"
       v-model="groupToCompose.title"
@@ -20,7 +20,7 @@
       <button @click="toggleCompose" class="material-icons">close</button>
     </div>
   </div>
-  <div v-else @click="toggleCompose" class="group-compose-btn" :class="{'unset-margin' : isBoardEmpty}">
+  <div v-else @click="toggleCompose" class="group-compose-btn">
     <span class="group-compose-btn-content btn-container"
       ><span class="material-icons">add</span>Add another list
     </span>
@@ -42,8 +42,11 @@ export default {
       required: true,
     },
   },
-  created() {
-    if (this.isBoardEmpty) this.isComposeOn = true;
+  mounted() {
+    if (this.isBoardEmpty) {
+      this.isComposeOn = true;
+    }
+    console.log("mounted", this.isBoardEmpty);
   },
   data() {
     return {
@@ -52,9 +55,10 @@ export default {
     };
   },
   watch: {
-    isComposeOn: {
+    'isComposeOn': {
+      immediate: true,
       handler() {
-        console.log(this.$refs);
+        console.log('fk my life');
         if (this.isComposeOn)
           setTimeout(() => {
             this.$refs.titleInput.focus();

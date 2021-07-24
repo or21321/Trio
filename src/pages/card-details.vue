@@ -329,9 +329,9 @@
           />
           <!-- v-if="currAction" -->
           <component
+            v-clickoutside="closeEditPopup"
             class="popup dynamic-component"
             v-if="isPopupShow"
-            v-clickoutside="closeEditPopup"
             :is="currAction.type"
             :card="card"
             :action="currAction"
@@ -587,9 +587,9 @@ export default {
       this.isPopupShow = false;
       this.currAction = null;
     },
-    setCurrAction(ev , action) {
+    setCurrAction(event, action) {
       // Preparation for positioning dynamic cmps.
-      console.log(ev);
+      console.log('setCurrAction, event', event.path[1].getBoundingClientRect());
       this.currAction = action;
       this.isPopupShow = true;
     },

@@ -207,5 +207,8 @@ export default {
       }
     },
   },
+  beforeDestroy(){
+    eventBus.$off("addActivity")
+  },
 };
 </script>

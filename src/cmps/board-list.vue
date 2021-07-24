@@ -17,7 +17,7 @@
       <section class="regular-listes" v-if="!searchBoard">
         <div class="list-starred" v-if="boardsStarred.length">
           <h2 class="title">
-            <span class="material-icons-outlined">star_border</span>STARRED
+            <span class="material-icons-round">star_outline</span>STARRED
             BOARDS
             <span
               class="material-icons-outlined close-list"
@@ -57,8 +57,8 @@
               <span
                 :class="{ selected: board.isStarred }"
                 @click.stop="toggleStar(board)"
-                class="material-icons star"
-                >star_border</span
+                class="material-icons-round star"
+                >star_outline</span
               >
             </article>
           </div>
@@ -105,8 +105,8 @@
               <span
                 :class="{ selected: board.isStarred }"
                 @click.stop="toggleStar(board)"
-                class="material-icons star"
-                >star_border</span
+                class="material-icons-round star"
+                >star_outline</span
               >
             </article>
           </div>
@@ -154,8 +154,8 @@
               <span
                 :class="{ selected: board.isStarred }"
                 @click.stop="toggleStar(board)"
-                class="material-icons star"
-                >star_border</span
+                class="material-icons-round star"
+                >star_outline</span
               >
             </article>
           </div>
@@ -187,8 +187,8 @@
             <span
               :class="{ selected: board.isStarred }"
               @click.stop="toggleStar(board)"
-              class="material-icons star"
-              >star_border</span
+              class="material-icons-round star"
+              >star_outline</span
             >
           </article>
         </div>

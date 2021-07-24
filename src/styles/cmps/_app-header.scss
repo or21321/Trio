@@ -6,13 +6,13 @@
     color: #95959b;
     font-family: Segoe-UI-Bold;
 
-    .material-icons-outlined {  
+    .material-icons-outlined {
         font-size: 19px;
     }
 
-    &.isBoards-page{
-      background-color:rgb(82, 75, 75);
-   }
+    &.isBoards-page {
+        background-color: rgb(82, 75, 75);
+    }
     .nav {
         display: flex;
         align-items: center;
@@ -22,6 +22,7 @@
         }
         & > button :last-child {
             padding: 0 7.5px 0 0;
+            font-size: 14px;
         }
 
         .wh {
@@ -43,14 +44,12 @@
     .logo {
         font-size: 1.4rem;
         height: 30px;
-        margin-top: 1px;
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 3px;
-        // gap: 5px;
         letter-spacing: 0.6px;
-        
+
         &:hover {
             color: rgb(206, 200, 200);
             // color: rgb(212, 204, 204);
@@ -66,8 +65,13 @@
             font-size: 21px;
             margin-top: 0.5px;
             margin-inline-end: unset;
+            font-weight: 600;
             &:hover {
                 transform: unset;
+            }
+            // Trio
+            span:last-child {
+                padding-top: 0.667px;
             }
         }
     }
@@ -81,14 +85,14 @@
         & > button:first-child {
             font-weight: 100;
             font-size: 24px;
-            transition: background-color .15s;
+            transition: background-color 0.15s;
 
             &:hover {
                 background-color: darken(rgba(255, 255, 255, 0.3), 15);
             }
         }
 
-        & > .avatar:nth-child(2) {  
+        & > .avatar:nth-child(2) {
             margin-right: 4px;
         }
     }

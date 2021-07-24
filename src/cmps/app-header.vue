@@ -19,7 +19,7 @@
     />
     <div class="logo" @click="goToBoardsPage">
       <span class="material-icons-outlined logo-icon">space_dashboard</span>
-      Trio
+      <span>Trio</span>
     </div>
 
     <div class="header-features">

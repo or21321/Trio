@@ -20,11 +20,11 @@
       <span class="">{{ title }}</span>
       <span class="material-icons">keyboard_arrow_down</span> -->
         <span
-          class="material-icons board-header-btn star"
+          class="material-icons-round board-header-btn star"
           @click="toggleStar"
-          :class="selected"
-          >star_border</span
-        >
+          :class="selected" 
+          >star_outline</span>
+          <!-- >star_border</span -->
       </div>
       <span class="seperator">|</span>
       <div class="members-section">

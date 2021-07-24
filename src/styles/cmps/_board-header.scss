@@ -6,6 +6,11 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+
+    .board-section {
+        margin-top: .5px;
+    }
+
     .board-members-section {
         display: flex;
     }
@@ -73,7 +78,8 @@
         }
 
         &.star {
-            padding: 0 6px;
+            padding: 0 6.5px;
+            font-size: 19px;
         }
         &.star.selected {
             color: yellow;
@@ -111,6 +117,7 @@
         & .invite-btn {
             font-size: 14px;
             margin-left: 7px;
+            margin-top: .5px;
         }
 
         .members-popup {
@@ -126,6 +133,7 @@
         display: flex;
         align-items: center;
         padding-left: 8px;
+        margin-top: -1.25px;
 
         .title {
             margin-right: 8px;
@@ -170,6 +178,9 @@
         }
     }
     .dashboard{
-      padding: 8px;
+      padding: 7px;
+      span {    
+          font-size: 18px;
+      }
    }
 }

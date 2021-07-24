@@ -19,9 +19,9 @@
           >
             <div class="title-container">
             <span class="title-board"> {{ boardTitleToShow(board.title) }} </span>
-            <span class="star material-icons-outlined" 
+            <span class="star material-icons-round" 
             :class="{'is-stared':board.isStarred}" @click.stop="toggleStartted(board)"
-            >star_border</span>
+            >star_outline</span>
                </div>
           </section>
         </li>

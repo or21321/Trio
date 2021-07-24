@@ -16,7 +16,9 @@
         ></span
       >
       <span v-else>{{ title }} </span>
-      <span @click.stop="close" class="close-popup-btn">X</span>
+      <span @click.stop="close" class="close-popup-btn material-icons"
+        >close</span
+      >
     </div>
 
     <div v-if="deeperOption === ''" class="card-edit-main popup-layout-1">
@@ -118,6 +120,12 @@
             :style="{ backgroundImage: `url(${photoUrl})` }"
           ></li>
         </ul>
+          <img
+              class="loading-gif"
+              src="@/assets/loading.gif"
+              v-if="isLoading"
+              alt=""
+            />
       </div>
     </transition>
 
@@ -176,6 +184,22 @@
             >
           </li>
         </ul>
+
+        <ul class="due-date">
+          <li
+            v-for="dateOption in dateFilterOptions"
+            :key="dateOption.txt"
+            class="date-preview"
+            @click="filterCardsByDueDate(dateOption.timeLeft)"
+          >
+            <span>{{ dateOption.txt }}</span>
+            <span
+              v-if="dateOption.isFilterBy"
+              class="material-icons-outlined check-due-date-icon"
+              >check</span
+            >
+          </li>
+        </ul>
       </div>
     </transition>
   </section>
@@ -195,15 +219,44 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       deeperOption: "",
       cardsFilterBy: {
         txt: "",
         labelIds: [],
         memberIds: [],
+        timeLeft: Infinity,
       },
       boardMembers: [],
       boardLabels: [],
       photosFilterBy: "",
+      dateFilterOptions: [
+        {
+          txt: "Due in the next day",
+          timeLeft: 1000 * 60 * 60 * 24,
+          isFilterBy: false,
+        },
+        {
+          txt: "Due in the next week",
+          timeLeft: 1000 * 60 * 60 * 24 * 7,
+          isFilterBy: false,
+        },
+        {
+          txt: "Due in the next month",
+          timeLeft: 1000 * 60 * 60 * 24 * 7 * 4,
+          isFilterBy: false,
+        },
+        // {
+        //   txt: 'Has no due date',
+        //   timeLeft: null
+        // isFilterBy: false
+        // },
+        // {
+        //   txt: 'Due date marked as complete',
+        //   timeLeft: 1000 * 60 * 60 * 24
+        // isFilterBy: false
+        // },
+      ],
       photosUrls: [
         "https://images.unsplash.com/photo-1485356824219-4bc17c2a2ea7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80",
         "https://images.unsplash.com/photo-1490079027102-cd08f2308c73?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
@@ -280,12 +333,16 @@ export default {
   methods: {
     async getPhotos() {
       try {
+        this.isLoading = true
+        this.photosUrls = []
         const photos = await unsplashService.query(
           this.photosFilterBy.toLowerCase()
         );
         this.photosUrls = photos.map((photo) => photo.urls.regular);
       } catch (err) {
         console.log("Had a problem getting photos", err);
+      } finally { 
+        this.isLoading = false
       }
     },
     setDeeperOption(option) {
@@ -301,7 +358,7 @@ export default {
     changeBackground(color, photoUrl) {
       const style = {
         "background-color": color,
-        "background-image": `url(${photoUrl})`,
+        "background-image": `url(${photoUrl}}&fit=scale&w=${window.screen.width-300}&h=${window.screen.height-300})`,
       };
       this.$emit("setBackground", style);
     },
@@ -349,7 +406,7 @@ export default {
       }
 
       this.cardsFilterBy.memberIds.push(memberId);
-      console.log('this.cardsFilterBy.memberIds', this.cardsFilterBy.memberIds)
+      console.log("this.cardsFilterBy.memberIds", this.cardsFilterBy.memberIds);
       this.filterIsMemberFilterActive();
       this.searchCards();
     },
@@ -365,6 +422,40 @@ export default {
         return bMember;
       });
       this.boardMembers = boardMembers;
+    },
+    filterCardsByDueDate(timeLeft) {
+      console.log("filterCardsByDueDate, timeLeft", timeLeft);
+      const isFilteredBy =
+        timeLeft === this.cardsFilterBy.timeLeft ? true : false;
+      console.log("isFilteredByIdx", isFilteredBy);
+
+      if (isFilteredBy) {
+        this.cardsFilterBy.timeLeft = 0;
+        this.filterIsDueDateFilterActive(timeLeft);
+        return this.searchCards();
+      }
+
+      this.cardsFilterBy.timeLeft = timeLeft;
+      this.filterIsDueDateFilterActive(timeLeft);
+      this.searchCards();
+    },
+    filterIsDueDateFilterActive(timeLeft) {
+      console.log("filterIsDeDateFilterActive()");
+      if (this.deeperOption !== "searchCards") return;
+
+      const dateFilterOptions = this.dateFilterOptions.map((dueDateOption) => {
+        if (dueDateOption.isFilterBy) {
+          dueDateOption.isFilterBy = false;
+          return dueDateOption;
+        } else {
+          dueDateOption.isFilterBy =
+            dueDateOption.timeLeft === timeLeft ? true : false;
+          console.log(dueDateOption);
+          return dueDateOption;
+        }
+      });
+      console.log("dateFilterOptions", dateFilterOptions);
+      this.dateFilterOptions = dateFilterOptions;
     },
   },
   components: {

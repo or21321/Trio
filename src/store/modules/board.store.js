@@ -101,16 +101,15 @@ export const boardStore = {
       updateBoard(state, { savedBoard }) {
          const idx = state.boards.findIndex(board => board._id === savedBoard._id)
          state.boards.splice(idx, 1, savedBoard)
-
          state.currBoard = savedBoard
       },
       removeBoard(state, { boardId }) {
          const idx = state.boards.findIndex(board => board._id === boardId)
          state.boards.splice(idx, 1);
       },
-      addActivity(state, { activity, boardId }) {
-         const idx = state.boards.findIndex(board => board._id === boardId)
-         state.boards[idx].activities.unshift(activity)
+      addActivity(state, { activity }) {
+         // state.currBoard.activities.unshift(activity)
+         state.currBoard.activities.push(activity)
       },
       addBoardToRecentBoards(state, { board }) {
          if (state.recentBoards.length >= 5) state.recentBoards.pop()
@@ -141,7 +140,6 @@ export const boardStore = {
             // Vue.set(state.currBoard.groups[groupIdx].cards, cardIdx, card)
          } else {
             state.currBoard.groups[groupIdx].cards.push(card)
-            console.log('ahalan', state.currBoard.groups[groupIdx].cards);
             // Vue.set(state.currBoard.groups[groupIdx].cards, state.currBoard.groups[groupIdx].cards.length - 1, card)
          }
       },
@@ -205,10 +203,12 @@ export const boardStore = {
             throw err;
          }
       },
-      async addActivity({ commit }, { activity, boardId }) {
+      async addActivity( context, { activity }) {
          try {
+            const boardId = context.state.currBoard._id
+            // activity.byMember = context.getters.getMyMiniUser
             const newActivity = await boardService.addActivity(activity, boardId);
-            commit({ type: 'addActivity', activity: newActivity, boardId })
+            context.commit({ type: 'addActivity', activity: newActivity, boardId })
          } catch (err) {
             console.log('Cannot add activity ', activity, ',', err);
             throw err;

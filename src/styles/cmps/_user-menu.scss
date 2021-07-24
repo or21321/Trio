@@ -1,8 +1,9 @@
 // section .user-menu-popup.popup{
 .user-menu-popup {
+   cursor: auto;
     left: calc(100% - 309px);
     top: 43px;
-    z-index: 5;
+    z-index: 6;
     min-height: unset;
     font-family: 'Segoe UI', sans-serif;
     color: #5E6C84;
@@ -20,9 +21,8 @@
             color: #172B4D;
 
 
-            & .email {
+            & .username {
                 color: #B3BAC5;
-
             }
         }
     }

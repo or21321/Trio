@@ -1,9 +1,17 @@
 <template>
   <div class="login-signup">
-    <h1>
-      <span class="material-icons-outlined logo-icon">space_dashboard</span>Trio
-    </h1>
-    <div class="main-container">
+      <img class="wave" src="@/assets/wave.svg" alt="">
+     <section class="header-waves">
+      <div class="logo">
+         <span class="material-icons-outlined logo-icon">space_dashboard</span>Trio
+      </div>
+      <nav class="homepage-nav">
+         <router-link to='/' class="login">Home</router-link>
+         <span> | </span>
+         <router-link to='/signup' class="signup">Sign up</router-link>
+      </nav>
+    </section>
+    <div class="main-container login-container">
       <p>Log in to Trio</p>
       <form @submit.prevent="login">
         <input
@@ -22,7 +30,7 @@
         />
         <button class="login">Log in</button>
       </form>
-      <router-link class="logout" to="/signup">Sign up for an account</router-link>
+      <router-link class="btn-signup" to="/signup">Sign up for an account</router-link>
     </div>
   </div>
 </template>

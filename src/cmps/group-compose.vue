@@ -29,6 +29,7 @@
 
 <script>
 import { boardService } from "@/services/board.service.js";
+import { eventBus } from "@/services/event-bus-service.js";
 
 export default {
   props: {
@@ -75,17 +76,10 @@ export default {
           group: this.groupToCompose,
           boardId: this.boardId,
         });
-        const activity = {
-          txt: `added ${this.groupToCompose.title} to this board`,
-          byMember: this.$store.getters.getMyMiniUser,
-        };
-        await this.$store.dispatch({
-          type: "addActivity",
-          activity,
-          boardId: this.boardId,
-        });
-        this.groupToCompose = boardService.getEmptyGroup();
         this.$emit("socketUpdateBoard");
+        const activity = { txt: `added ${this.groupToCompose.title} to this board` }
+        eventBus.$emit("addActivity", activity)
+        this.groupToCompose = boardService.getEmptyGroup();
         setTimeout(() => {
           this.$refs.titleInput.focus();
         }, 100);
@@ -94,7 +88,6 @@ export default {
           txt: "List was successfully added",
           type: "success",
         };
-        this.$emit("socketUpdateBoard");
       } catch (err) {
         msg = {
           txt: "Fail to add list, try again later",

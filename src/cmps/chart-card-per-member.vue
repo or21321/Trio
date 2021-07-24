@@ -14,7 +14,6 @@ export default {
        options: {
              legend: {
                 labels: {
-                    // This more specific font property overrides the global property
                    fontSize: 11
                 }
             }

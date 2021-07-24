@@ -17,7 +17,7 @@
       @setBackground="setBackground"
       :boards="boards"
     />
-    <div class="logo" @click="goToBoardsPage">
+    <div class="logo" @click="goToHomePage">
       <span class="material-icons-outlined logo-icon">space_dashboard</span>
       <span>Trio</span>
     </div>
@@ -105,10 +105,20 @@ export default {
     },
     async logout() {
       await this.$store.dispatch({ type: "logout" });
+      const style = {"background-color": 'whitesmoke' };
+      this.setBackground(style)
       this.$router.push("/");
     },
     goToBoardsPage(){
+      const style = {"background-color": 'whitesmoke' };
+      this.setBackground(style)
         this.$router.push("/b");
+        this.$store.commit({type:'setCurrBoard',board:null})
+    },
+    goToHomePage(){
+      const style = {"background-color": 'whitesmoke' };
+      this.setBackground(style)
+        this.$router.push("/");
         this.$store.commit({type:'setCurrBoard',board:null})
     },
   },

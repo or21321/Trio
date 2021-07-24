@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { eventBus } from "@/services/event-bus-service";
 import avatar from "vue-avatar";
 export default {
   components: {
@@ -92,6 +93,8 @@ export default {
   },
   methods: {
     toggleUserAsCardMember(user) {
+      var activityTxt = ''
+      var loggedinUser = this.$store.getters.loggedinUser
       const isUserMemberIdx = this.cardToEdit.members.findIndex((member) => {
         return member._id === user._id;
       });
@@ -104,13 +107,22 @@ export default {
         };
         this.cardToEdit.members.push(miniUser);
         user.isCardMember = true;
+        if (user._id === loggedinUser._id) { activityTxt = `joined ${this.card.title}` }
+        else { activityTxt = `added ${miniUser.fullname} to ${this.card.title}` }
       } else {
+        if (user._id === loggedinUser._id) { activityTxt = `left ${this.card.title}` }
+        else { activityTxt = `removed ${this.cardToEdit.members[isUserMemberIdx].fullname} from ${this.card.title}` }
         this.cardToEdit.members.splice(isUserMemberIdx, 1);
-          user.isCardMember = false;
-        this.updateCard;
+        user.isCardMember = false;
+        this.updateCard;  //does this line do something??
+      }
+      const activity = { 
+        txt: activityTxt,
+        card: { id: this.cardToEdit.id, title: this.cardToEdit.title } 
       }
       console.log("card to update", this.cardToEdit);
       this.updateCard(this.cardToEdit);
+      eventBus.$emit("addActivity", activity);
     },
    filterCardMembers(){
       this.boardMembers.map((user) =>{user.isCardMember = false})

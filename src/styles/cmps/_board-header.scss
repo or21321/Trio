@@ -16,65 +16,23 @@
     }
 
     .board-header-btn {
-        // font-size: 18px;
-        // font-weight: 700;
-        // line-height: 32px;
-        // padding: 0 12px;
-        // width: fit-content;
-        // font-family: 'Segoe-UI-Bold';
         background-color: rgba(255, 255, 255, 0.3);
         border-radius: 3px;
         color: #fff;
-        // outline: $clr-outline;
         cursor: pointer;
-        // cursor: default;
         float: left;
         font-size: 18px;
         height: 32px;
         line-height: 32px;
         margin: 0 4px 4px 0;
-        // max-width: 400px;
-        // overflow: hidden;
-        // padding-left: 32px;
         padding: 0 12px;
         margin-block-end: 0.67em;
         position: relative;
         text-decoration: none;
         text-overflow: ellipsis;
 
-        // First button on board-header in Trello
-        // width: fit-content;
-        // font-size: 18px;
-        // padding-right: 5px;
-        // padding-left: 5px;
-        // float: left;
-        // display: inline-flex;
-        // margin-right: 4px;
-        // white-space: nowrap;
-
-        // & > span:first-child {
-        //     display: inline-flex;
-        //     height: 100%;
-        //     width: 100%;
-        //     justify-content: center;
-        //     align-items: center;
-        //     flex-direction: row;
-        // }
-
-        // & > span:nth-child(2) {
-        //     display: inline-flex;
-        //     height: 100%;
-        //     width: 100%;
-        //     padding: 0 0 0 2px;
-        // }
-
-        // & > span:last-child {
-        //     margin-left: 4px;
-        // }
         &:hover {
             background-color: rgba(255, 255, 255, 0.377);
-            // background-color: hsla(0,0%,100%,.32);
-            // opacity: 0.8;
         }
 
         &.star {
@@ -84,6 +42,14 @@
         &.star.selected {
             color: yellow;
         }
+      //   &.title-board{
+      //       // text-align: center;
+      //      &:focus{
+      //       //   line-height: 1.65;
+      //       outline: none;
+      //       border:2px solid $clr-outline;
+      //      }
+      //   }
     }
 
     .seperator {
@@ -93,9 +59,6 @@
     }
 
     .members-section {
-        // position:absolute;
-        // left:50%;
-        // transform: translate(-50%);
         cursor: pointer;
         font-size: 14px;
         display: flex;
@@ -106,11 +69,15 @@
             flex-direction: row;
             margin-top: 2.75px;
             > * {
-                //move avatars a bit override each other
                 margin-left: -2px;
                 &:hover {
                     opacity: 0.8;
                 }
+            }
+            @media (max-width:615px) {
+               &{
+                  display: none;
+               }
             }
         }
 
@@ -118,12 +85,22 @@
             font-size: 14px;
             margin-left: 7px;
             margin-top: .5px;
+            @media (max-width:615px) {
+               &{
+                  margin-left:0;
+               }
+            }
         }
 
         .members-popup {
-            left: calc(100% - 62px);
-            top: 38px;
+            top: 44px;
+            left: -3px;
             z-index: 5;
+            @media (max-width:615px) {
+               &{
+                  left: -124px;
+               }
+            }
         }
     }
 
@@ -139,8 +116,14 @@
             margin-right: 8px;
             font-size: 18px;
         }
-
-
+        @media (max-width:615px) {
+           .word-show{
+            display: none;
+           }
+           .word-menu::first-letter{
+               text-transform: capitalize;
+           }
+        }
         .slide-enter-active,
         .slide-leave-enter {
             transform: translateX(0);

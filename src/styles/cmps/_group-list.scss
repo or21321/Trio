@@ -51,11 +51,11 @@
             color: #172b4d;
             cursor: pointer;
             border-radius: 3px;
-
+            
             &:focus {
-                // padding: 5px;
+               outline: none;
+               border:2px solid $clr-outline;
                 background-color: #fff;
-                outline: 2px solid $clr-outline;
                 cursor: text;
             }
             &:empty {
@@ -151,5 +151,9 @@
             height: 4px;
             width: 4px;
         }
+    }
+    .group-menu{
+       height: 150px;
+       min-height:unset;
     }
 }

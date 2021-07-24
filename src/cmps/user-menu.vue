@@ -9,7 +9,7 @@
         <avatar :size="40" :username="user.fullname" :src="user.imgUrl" />
         <div class="account-details">
           <span>{{ user.fullname }}</span>
-          <span class="email"> {{ user.email }}</span>
+          <span class="username"> ( {{ user.username }} )</span>
         </div>
       </div>
       <div class="logout" @click="logout">

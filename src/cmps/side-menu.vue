@@ -37,7 +37,8 @@
         </li>
       </ul>
 
-      <ul class="first-option">
+      <activity :activities="activities" :hasHeader="true" />
+      <!-- <ul class="first-option">
         <li class="activity">
           <span class="material-icons-outlined icon">format_list_bulleted</span>
           <span class="option">Activity</span>
@@ -62,7 +63,7 @@
             }}</span>
           </div>
         </li>
-      </ul>
+      </ul> -->
     </div>
 
     <transition name="slide-from-right">
@@ -209,6 +210,7 @@
 import avatar from "vue-avatar";
 import { unsplashService } from "@/services/unsplash.service";
 import { debounce } from "@/services/util.service";
+import activity from "@/cmps/activity";
 
 export default {
   props: {
@@ -306,7 +308,8 @@ export default {
       else return { "background-image": this.board.style["background-image"] };
     },
     activities() {
-      return this.board.activities;
+      return JSON.parse(JSON.stringify(this.board.activities)).reverse();
+      // return this.board.activities
     },
     title() {
       var title = "";
@@ -460,6 +463,7 @@ export default {
   },
   components: {
     avatar,
+    activity
   },
 };
 </script>

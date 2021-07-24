@@ -58,6 +58,8 @@ import draggable from "vuedraggable";
 import { socketService } from "@/services/socket.service.js";
 import { SOCKET_EMIT_BOARD_WATCH } from "@/services/socket.service";
 import { SOCKET_EMIT_BOARD_UPDATE } from "@/services/socket.service";
+import { eventBus } from "@/services/event-bus-service";
+// import { SOCKET_ON_BOARD_UPDATE} from '@/services/socket.service'
 
 export default {
   directives: {
@@ -78,6 +80,19 @@ export default {
       immediate: true,
       type: Object,
     },
+  },
+  async created(){
+     try{
+      //   if(!this.$store.getters.loggedinUser){
+      //      console.log('yes');
+      //      await this.$store.dispatch({type: "signupAsGuest"});
+      //   }
+         eventBus.$on("addActivity", async (activity)=> {
+            await this.$store.dispatch({type: "addActivity", activity});
+         })
+     }catch(err){
+        console.log('ERROR, cannot SignupAsGuest or addActivity', err);
+     }
   },
   computed: {
     boardId() {
@@ -153,15 +168,8 @@ export default {
           txt: "List was successfully removed",
           type: "success",
         };
-        const activity = {
-          txt: `deleted list ${group.title}`,
-          byMember: this.$store.getters.getMyMiniUser,
-        };
-        await this.$store.dispatch({
-          type: "addActivity",
-          activity,
-          boardId: this.board._id,
-        });
+        const activity = {txt: `deleted list ${group.title}`}
+        eventBus.$emit("addActivity", activity)
       } catch (err) {
         msg = {
           txt: "Fail remove list, try again later",
@@ -198,6 +206,9 @@ export default {
         console.log("Had problem setting background", err);
       }
     },
+  },
+  beforeDestroy(){
+    eventBus.$off("addActivity")
   },
 };
 </script>

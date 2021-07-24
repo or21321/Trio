@@ -30,8 +30,10 @@
                 :src="member.imgUrl"
                 :username="member.fullname"
                 :size="32"
+                backgroundColor="#DFE1E6"
+                color="#172b4d"
               />
-              <span class="item-add-btn" @click="setCurrAction(actions[0])">
+              <span class="item-add-btn" @click="setCurrAction($event,actions[0])">
                 <span class="material-icons-outlined icon">add</span>
               </span>
             </div>
@@ -45,11 +47,11 @@
                 :key="label.id"
                 :style="{ backgroundColor: label.color }"
                 class="preview-label"
-                @click="setCurrAction(actions[1])"
+                @click="setCurrAction($event,actions[1])"
               >
                 <span>{{ label.title }}</span>
               </span>
-              <span class="item-add-btn" @click="setCurrAction(actions[1])">
+              <span class="item-add-btn" @click="setCurrAction($event ,actions[1])">
                 <span class="material-icons-outlined icon">add</span>
               </span>
             </div>
@@ -150,9 +152,8 @@
                     <el-checkbox
                       class="checkbox-input"
                       v-model="checkbox.isDone"
-                      @change="saveCard"
+                      @change="addCheckboxActivityAndSave(checkbox)"
                     ></el-checkbox>
-
                     <input
                       class="info"
                       :class="{ 'is-done': checkbox.isDone }"
@@ -224,6 +225,8 @@
                 :size="32"
                 :username="getLoggedinUser.fullname"
                 :src="getLoggedinUser.imgUrl"
+                backgroundColor="#DFE1E6"
+                color="#172b4d"
               />
 
               <contenteditable
@@ -249,7 +252,6 @@
             </div>
             <div
               class="comment-list"
-              v-if="titleActivityBtn === 'Hide Details'"
             >
               <article
                 class="comment-preview"
@@ -261,6 +263,8 @@
                   :size="32"
                   :username="comment.byMember.fullname"
                   :src="comment.byMember.imgUrl"
+                  backgroundColor="#DFE1E6"
+                  color="#172b4d"
                 />
                 <section class="comment-info">
                   <h3 class="comment-info-header">
@@ -280,15 +284,16 @@
                 </section>
               </article>
             </div>
+            <activity v-if="titleActivityBtn === 'Hide Details'" :activities="activitiesToShow" :hasHeader="false" />
           </section>
         </section>
       </main>
       <nav class="details-actions" :class="isCoverClass">
-          <section class="suggested-nav"  v-if="userNotInclude">
+        <section class="suggested-nav" v-if="userNotInclude">
           <h4 class="title">SUGGESTED</h4>
           <label @click="addUserToCard">
             <span class="material-icons-outlined icon">person_add</span>
-            <span> Join </span>
+            <span class="txt"> Join </span>
           </label>
         </section>
 
@@ -301,19 +306,19 @@
             @click="setCurrAction($event, action)"
           >
             <span class="material-icons-outlined icon">{{ action.icon }}</span>
-            <span> {{ action.name }} </span>
+            <span class="txt"> {{ action.name }} </span>
           </label>
           <label v-if="this.card.dueDate.time" @click="removeDate">
             <span class="material-icons-outlined"
               >history</span
             >
-            <span> Remove date </span>
+            <span class="txt"> Remove date </span>
           </label>
           <label for="input-file">
             <span class="attachments-icon material-icons-outlined"
               >attachments</span
             >
-            <span> Attachment </span>
+            <span class="txt"> Attachment </span>
           </label>
           <input
             id="input-file"
@@ -339,11 +344,11 @@
           <h4 class="title">ACTIONS</h4>
           <label @click="copyCard">
             <span class="material-icons-outlined icon">copy</span>
-            <span> Copy</span>
+            <span class="txt"> Copy</span>
           </label>
           <label @click="removeCard">
             <span class="material-icons-outlined icon">delete</span>
-            <span> Delete card </span>
+            <span class="txt"> Delete card </span>
           </label>
         </section>
       </nav>
@@ -358,6 +363,8 @@ import cardLabelsEdit from "@/cmps/dynamic/card-labels-edit";
 import cardChecklistEdit from "@/cmps/dynamic/card-checklist-edit";
 import cardDatesEdit from "@/cmps/dynamic/card-dates-edit";
 import cardCoverEdit from "@/cmps/dynamic/card-cover-edit";
+import activity from "@/cmps/activity";
+import { eventBus } from "@/services/event-bus-service";
 // import {debounce} from '../services/util.service'
 import avatar from "vue-avatar";
 export default {
@@ -368,6 +375,7 @@ export default {
     cardDatesEdit,
     cardCoverEdit,
     avatar,
+    activity,
   },
   props: {
     loggedinUser: {
@@ -406,15 +414,15 @@ export default {
           name: "Checklist",
         },
         {
-           type: "cardCoverEdit",
+          type: "cardCoverEdit",
           icon: "wallpaper",
           name: "Cover",
         },
-         {
-            type: "cardDatesEdit",
-            icon: "watch_later",
-            name: "Dates",
-         }
+        {
+          type: "cardDatesEdit",
+          icon: "watch_later",
+          name: "Dates",
+        },
       ],
       currAction: null,
       isPopupShow: false,
@@ -449,6 +457,7 @@ export default {
       handler() {
         console.log("watch on card.dueDate.isDone");
         this.updateCard(this.card);
+        // this.markDueDateActivity();
       },
     },
   },
@@ -530,9 +539,8 @@ export default {
       try {
         this.closeCardDetails();
         const activity = {
-          txt: `deleted card ${this.card.title} from ${this.groupName}`,
-          byMember: this.$store.getters.getMyMiniUser,
-          card: { id: this.card.Id, title: this.card.title },
+          txt: `deleted ${this.card.title} from ${this.groupName}`,
+          card: { id: this.card.id, title: this.card.title },
         };
         await this.$store.dispatch({
           type: "removeCard",
@@ -540,11 +548,7 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        await this.$store.dispatch({
-          type: "addActivity",
-          activity,
-          boardId: this.boardId,
-        });
+        eventBus.$emit("addActivity", activity);
         msg = {
           txt: "Card was successfully removed",
           type: "success",
@@ -587,7 +591,7 @@ export default {
       // Preparation for positioning dynamic cmps.
       console.log('setCurrAction, event', event.path[1].getBoundingClientRect());
       this.currAction = action;
-       this.isPopupShow = true;
+      this.isPopupShow = true;
     },
     //ATTACHMENT
     async onUploadImg(ev) {
@@ -595,7 +599,12 @@ export default {
         this.isLoading = true;
         const res = await uploadImg(ev);
         this.card.attachments.push({ url: res.url, creatAt: Date.now() });
+        const activity = {
+          txt: `added an attachment to ${this.card.title}`,
+          card: { id: this.card.id, title: this.card.title },
+        };
         this.saveCard();
+        eventBus.$emit("addActivity", activity);
       } catch (err) {
         console.log("cannot upload image", err);
         throw err;
@@ -608,7 +617,12 @@ export default {
         (att) => att.url === img.url
       );
       this.card.attachments.splice(imgIdx, 1);
+      const activity = {
+        txt: `deleted an attachment from ${this.card.title}`,
+        card: { id: this.card.id, title: this.card.title },
+      };
       this.saveCard();
+      eventBus.$emit("addActivity", activity);
     },
     //Checklist
     openChanges(checklistId) {
@@ -681,9 +695,9 @@ export default {
     },
     //  DATE
     openDate(ev) {
-      if (ev.target.tagName === "P") this.setCurrAction(this.actions[3]);
+      if (ev.target.tagName === "P") this.setCurrAction(ev ,this.actions[4]);
     },
-    removeDate(){
+    removeDate() {
       this.card.dueDate = {};
     },
     //COMMENTS
@@ -696,6 +710,11 @@ export default {
         boardId: this.boardId,
       });
       this.isMention();
+      const activity = {
+        txt: `added a comment on ${this.card.title}`,
+        card: { id: this.card.id, title: this.card.title },
+      };
+      eventBus.$emit("addActivity", activity);
       this.commentTxt = "";
       this.iscommentOpen = false;
     },
@@ -726,6 +745,11 @@ export default {
         groupId: this.groupId,
         boardId: this.boardId,
       });
+      const activity = {
+        txt: `deleted a comment from ${this.card.title}`,
+        card: { id: this.card.id, title: this.card.title },
+      };
+      eventBus.$emit("addActivity", activity);
       this.socketUpdateBoard();
     },
     setShowComments() {
@@ -742,18 +766,32 @@ export default {
       }, 0);
       return Math.floor((acc * 100) / all);
     },
-    addUserToCard(){
-        const user = this.$store.getters.getMyMiniUser;
-        console.log(user);
-        this.card.members.push(user)
-        this.saveCard();
+    addUserToCard() {
+      const user = this.$store.getters.getMyMiniUser;
+      console.log(user);
+      this.card.members.push(user);
+      this.saveCard();
+      const activity = {
+        txt: `joined ${this.card.title}`,
+        card: { id: this.card.id, title: this.card.title },
+      };
+      eventBus.$emit("addActivity", activity);
     },
-    async copyCard(){
-      try{
-         var msg ={};
-        this.card = await this.$store.dispatch({type:'copyCard', card: this.card,
+    async copyCard() {
+      try {
+        var msg = {};
+        this.card = await this.$store.dispatch({
+          type: "copyCard",
+          card: this.card,
           groupId: this.groupId,
-          boardId: this.boardId,})
+          boardId: this.boardId,
+        });
+        this.socketUpdateBoard();
+        const activity = {
+          txt: `copied ${this.card.title} from ${this.card.title} in list ${this.groupName}`,
+          card: { id: this.card.id, title: this.card.title },
+        };
+        eventBus.$emit("addActivity", activity);
         msg = {
           txt: "Card was successfully copied",
           type: "success",
@@ -766,7 +804,34 @@ export default {
       } finally {
         await this.$store.dispatch({ type: "showMsg", msg });
       }
-    }
+    },
+    async addCheckboxActivityAndSave(checkbox) {
+      var activity = {};
+      if (checkbox.isDone)
+        activity = {
+          txt: `completed ${checkbox.title} on card ${this.card.title}`,
+        };
+      else
+        activity = {
+          txt: `removed completed mark from ${checkbox.title} on card ${this.card.title}`,
+        };
+      activity.card = { id: this.card.id, title: this.card.title };
+      this.saveCard();
+      eventBus.$emit("addActivity", activity);
+    },
+    markDueDateActivity() {
+      var activity = {};
+      if (this.card.dueDate.isDone)
+        activity = {
+          txt: `marked the due date on ${this.card.title} complete`,
+        };
+      else
+        activity = {
+          txt: `marked the due date on ${this.card.title} incomplete`,
+        };
+      activity.card = { id: this.card.id, title: this.card.title };
+      eventBus.$emit("addActivity", activity);
+    },
   },
   computed: {
     currBoard() {
@@ -788,6 +853,15 @@ export default {
       });
       console.log(isUserMemberIdx);
       return isUserMemberIdx === -1 ? true : false;
+    },
+    activitiesToShow() {
+      const cardActivities = this.$store.getters.currBoard.activities.filter(
+        (activity) => {
+          if (activity.card) return activity.card.id === this.card.id;
+          return false;
+        }
+      );
+      return JSON.parse(JSON.stringify(cardActivities)).reverse();
     },
   },
 };

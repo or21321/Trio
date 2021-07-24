@@ -92,7 +92,6 @@ export const boardStore = {
       updateBoard(state, { savedBoard }) {
          const idx = state.boards.findIndex(board => board._id === savedBoard._id)
          state.boards.splice(idx, 1, savedBoard)
-
          state.currBoard = savedBoard
       },
       removeBoard(state, { boardId }) {
@@ -132,7 +131,6 @@ export const boardStore = {
             // Vue.set(state.currBoard.groups[groupIdx].cards, cardIdx, card)
          } else {
             state.currBoard.groups[groupIdx].cards.push(card)
-            console.log('ahalan', state.currBoard.groups[groupIdx].cards);
             // Vue.set(state.currBoard.groups[groupIdx].cards, state.currBoard.groups[groupIdx].cards.length - 1, card)
          }
       },

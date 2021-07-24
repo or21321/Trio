@@ -1,84 +1,145 @@
 .homepage {
-    font-family: Segoe-UI-Bold;
-    text-align: center;
-    height: 100vh;
-   //  background-image: url('~@/assets/home-background-img.jpg');
-   .header{
+   font-family: Segoe-UI-Bold;
+   text-align: center;
+   height: 100vh;
+   .wave{
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      min-height: 100px;
+   }
+   .header-waves{
+      position: fixed;
       z-index: 4;
-      background-color: rgb(194, 194, 194);
       height: 55px;
+      width: 100%;
       padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       .logo {
-         color:rgb(136, 0, 248);;
+         color:$clr-outline;
         font-size: 3rem;
-        z-index: 6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         .logo-icon {
         -webkit-transition: -webkit-transform 0.8s ease-in-out;
         -ms-transition: -ms-transform 0.8s ease-in-out;
         transition: transform 0.8s ease-in-out;
         transform: rotate(90deg);
-        font-size: 30px;
-        margin-top: .5px;
-        margin-inline-end: 8px;
+        font-size: 3rem;       
+        font-weight: 600;
+        margin-bottom:0 ;
         
             &:hover {
                 transform: unset;
             }
         }
+        @media (max-width:600px) {
+         &{
+            font-size: 2rem;
+            & .logo-icon{
+               font-size: 2rem;
+            }
+         }
+      }
     }
     .homepage-nav {
-       font-size: 25px;
-       position: absolute;
-       top: 20px;
-       right: 20px;
+       font-size: 20px;
        font-family: 'Segoe UI', sans-serif;
-       
+       margin-right: 13px;
+       color: whitesmoke;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       gap:15px;
        .login {
           color: whitesmoke;
-          margin-inline-end: 10px;
          }
          
          .signup {
-            background-color: whitesmoke;
+            color: whitesmoke;
             border-radius: 5px;
-            padding: 5px 10px 7px 10px;
+         }
+      }
+      @media (max-width:600px) {
+         &{
+            padding: 0 10px;
+            height: 35px;
          }
       }
    }
-      .start-btn {
-          font-size: 3rem;
-          background-color: rgb(194, 194, 194);
-          border:2px solid rgb(146, 146, 250);
-          border-radius: 15px;
-          color: rgb(157, 38, 255);
-          padding: 10px 40px;
-          position: absolute;
-          top: 35%;
-          left: 20%;
-          cursor: pointer;
+   .layout{
+      background-color: whitesmoke;
+      display: grid;
+      grid-template-columns: 20px 1fr 20px;
+      .main-home-page{
+         grid-column: 2;
+         margin-top: 180px;
+         display: flex;
+         align-items: center;
+         justify-content: space-around;
+         .started{
+            max-width: 600px;
+            margin-bottom: 50px;
+            z-index: 13;
+            display: flex;
+            flex-direction: column;
+            gap:20px;
+            @media (max-width:550px) {
+               &{
+                  gap:0;
+                  line-height: 1.3;
+               }
+            }
+            .txt-title{
+               color:rgb(117, 117, 117);
+               font-size: 2rem;
+               letter-spacing: 1;
+               line-height: 2;
+               text-align: left;
+               @media (max-width:550px) {
+                  &{
+                     line-height: 1.3;
+                  }
+               }
+               @media (max-width:450px) {
+                  &{
+                     font-size: 1.7rem;
+                  }
+               }
+            }
+            .start-btn {
+               margin-top: 20px;
+               font-size: 2rem;
+               background-color: $clr-outline;
+               border-radius: 60px;
+               color: rgb(255, 255, 255);
+               padding: 10px 40px;
+               width: 230px;
+               height: 70px;
+               cursor: pointer;
+               &:hover{
+                  background-color:darken($color: $clr-outline, $amount: 5) ;
+               }
+            }
+         }
+         @media (max-width:900px) {
+            &{
+               margin-top: 100px;
+               flex-direction: column-reverse;
+           
+               & .started{
+                  align-items: center;
+                  & .txt-title{
+                     text-align: center;
+                  }
+               }
+            }
+         }
       }
-   .hero{
-      position: absolute;
-      top:15%;
-      right:5%;
-      z-index: 1;
-      height: 300px;
-      width: 500px;
-   }
-   .wave{
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      z-index: 2;
-   }
-   .wave3{
-      opacity: 0.7;
-   }
-   .wave2{
-      opacity: 0.7;
-   }
-   .wave1{
-      opacity: 0.5;
    }
 }

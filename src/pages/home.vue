@@ -1,25 +1,38 @@
 <template>
   <div class="homepage">
-     <section class="header">
+    <img class="wave" src="@/assets/wave.svg" alt="">
+     <section class="header-waves">
       <div class="logo">
          <span class="material-icons-outlined logo-icon">space_dashboard</span>Trio
       </div>
-      <button class="start-btn" @click="signupAndStart">Get Started</button>
       <nav class="homepage-nav">
          <router-link to='/login' class="login">Log in</router-link>
+         <span> | </span>
          <router-link to='/signup' class="signup">Sign up</router-link>
       </nav>
     </section>
+    <div class="layout">
+    <main class="main-home-page">
+    <section class="started">
+       <p class="txt-title"> Manage your projects with your team/friends easily and efficiently.</p>
+      <button class="start-btn" @click="signupAndStart">Get Started</button>
+    </section>
 
-    <img class="hero" src="@/assets/hero.svg" alt="">
-
-    <img class="wave wave1" src="@/assets/waves/wave1.svg" alt="">
-    <img class="wave wave2" src="@/assets/waves/wave2.svg" alt="">
-    <img class="wave wave3" src="@/assets/waves/wave3.svg" alt="">
+    <lottie-player
+  autoplay
+  loop
+  mode="normal"
+  src="https://assets8.lottiefiles.com/packages/lf20_ca8zbrdk.json"
+  style="max-width: 700px"
+>
+</lottie-player>
+</main>
+</div>
   </div>
 </template>
 
 <script>
+import "@lottiefiles/lottie-player";
 export default {
   name: 'Home',
   components: {

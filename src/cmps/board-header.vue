@@ -4,8 +4,8 @@
       <div class="board-section">
         <contenteditable
           v-if="isEditing"
-          class="board-header-btn"
-          tag="span"
+          class="board-header-btn title-board"
+          tag="h1"
           :contenteditable="true"
           v-model="boardTitle"
           :noNL="false"
@@ -13,12 +13,9 @@
           @keypress.enter="updateTitle"
           @input="updateTitleDebounce"
         />
-        <h1 v-else class="board-header-btn" @click="isEditing = !isEditing">
+        <h1 v-else class="board-header-btn title-board" @click="isEditing = !isEditing">
           {{ boardTitle }}
         </h1>
-        <!-- <span class="material-icons">dashboard</span>
-      <span class="">{{ title }}</span>
-      <span class="material-icons">keyboard_arrow_down</span> -->
         <span
           class="material-icons board-header-btn star"
           @click="toggleStar"
@@ -39,8 +36,6 @@
             color="#172b4d"
             :customStyle="{ fontSize: '12px' }"
           />
-          <!-- if time permits: make avatars have different z-indexes for the hover effect -->
-          <!-- :customStyle="{ fontSize: '12px', 'z-index': `100-${idx} !important` }" -->
         </section>
         <button
           class="board-header-btn invite-btn"
@@ -57,7 +52,6 @@
           @updateMembers="updateMembers"
           @close="isMembersMenuOpen = false"
         />
-        <!-- @updateBoard="updateBoard" -->
       </div>
     </div>
     <div class="menu-section">
@@ -70,9 +64,9 @@
         @click.stop="isSideMenuOpen = true"
       >
         <span class="material-icons title">more_horiz</span>
-        Show menu
+      <span class="word-show">Show&nbsp;</span>
+      <span class="word-menu">menu</span>
       </button>
-      <!-- v-clickoutside="closeSideMenu" -->
       <transition name="slide">
         <sideMenu
           v-if="isSideMenuOpen"
@@ -83,7 +77,6 @@
           @close="isSideMenuOpen = false"
           @setBackground="setBackground"
         />
-        <!-- class="popup members-popup" -->
       </transition>
     </div>
   </div>
@@ -153,7 +146,6 @@ export default {
       this.$emit("toggleStar");
     },
     updateTitle() {
-      // this.boardTitle = ev.target.textContent
       this.isEditing = !this.isEditing;
       this.$emit("updateTitle", this.boardTitle);
     },

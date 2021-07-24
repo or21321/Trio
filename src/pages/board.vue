@@ -81,10 +81,18 @@ export default {
       type: Object,
     },
   },
-  created(){
-    eventBus.$on("addActivity", async (activity)=> {
-        await this.$store.dispatch({type: "addActivity", activity});
-    })
+  async created(){
+     try{
+      //   if(!this.$store.getters.loggedinUser){
+      //      console.log('yes');
+      //      await this.$store.dispatch({type: "signupAsGuest"});
+      //   }
+         eventBus.$on("addActivity", async (activity)=> {
+            await this.$store.dispatch({type: "addActivity", activity});
+         })
+     }catch(err){
+        console.log('ERROR, cannot SignupAsGuest or addActivity', err);
+     }
   },
   computed: {
     boardId() {

@@ -11,7 +11,17 @@
     }
 
     &.isBoards-page{
-      background-color:rgb(82, 75, 75);
+      background-color:rgb(155, 155, 155);
+     & *{
+        color:black;
+     }
+     & .logo:hover{
+        color: #d1d1d1;
+        .logo-icon{
+           color: #d1d1d1;
+
+        }
+     } 
    }
     .nav {
         display: flex;

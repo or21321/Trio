@@ -3,11 +3,6 @@
     <h1 class="title">Choose Your Board</h1>
     <div class="container">
       <ul class="boards-list">
-        <li class="boards-preview">
-          <section class="background" @click="openAddBoard">
-            <span class="material-icons-outlined icon">add</span>
-          </section>
-        </li>
         <li class="boards-preview" v-for="board in boards" :key="board._id">
           <section
             class="background"
@@ -27,25 +22,12 @@
         </li>
       </ul>
     </div>
-    <board-compose
-      @closeCompose="closeAddBoard"
-      @addBoard="addBoard"
-      v-if="isAddBoard" />
   </section>
 </template>
 
 <script>
-import boardCompose from "../cmps/board-compose.vue";
 
 export default {
-   components:{
-      boardCompose
-   },
-  data() {
-    return {
-      isAddBoard: false,
-    };
-  },
   async created() {
     if (!this.boards) {
       try {
@@ -62,9 +44,6 @@ export default {
     boardTitleToShow(boardTitle) {
       if (boardTitle.length > 40) return boardTitle.substring(0, 40) + "...";
       else return boardTitle;
-    },
-    openAddBoard() {
-      this.isAddBoard = true;
     },
     closeAddBoard() {
       this.isAddBoard = false;

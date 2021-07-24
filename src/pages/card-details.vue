@@ -855,10 +855,6 @@ export default {
       return isUserMemberIdx === -1 ? true : false;
     },
     activitiesToShow() {
-      console.log(
-        "&&&& all activities",
-        this.$store.getters.currBoard.activities
-      );
       const cardActivities = this.$store.getters.currBoard.activities.filter(
         (activity) => {
           if (activity.card) return activity.card.id === this.card.id;

@@ -6,15 +6,19 @@
     </div>
     <div class="card-edit-main popup-layout-1">
       <div class="account-info">
-        <avatar :size="40" :username="user.fullname" :src="user.imgUrl" />
+        <avatar
+          :size="40"
+          :username="user.fullname"
+          :src="user.imgUrl"
+          backgroundColor="#DFE1E6"
+          color="#172b4d"
+        />
         <div class="account-details">
           <span>{{ user.fullname }}</span>
           <span class="username"> ( {{ user.username }} )</span>
         </div>
       </div>
-      <div class="logout" @click="logout">
-        Log out
-      </div>
+      <div class="logout" @click="logout">Log out</div>
     </div>
   </section>
 </template>
@@ -37,9 +41,9 @@ export default {
     close() {
       this.$emit("close");
     },
-    logout(){
-      this.$emit("logout")
-    }
+    logout() {
+      this.$emit("logout");
+    },
   },
   components: {
     avatar,

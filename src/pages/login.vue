@@ -1,14 +1,15 @@
 <template>
   <div class="login-signup">
-      <img class="wave" src="@/assets/wave.svg" alt="">
-     <section class="header-waves">
+    <img class="wave" src="@/assets/wave.svg" alt="" />
+    <section class="header-waves">
       <div class="logo">
-         <span class="material-icons-outlined logo-icon">space_dashboard</span>Trio
+        <span class="material-icons-outlined logo-icon">space_dashboard</span
+        >Trio
       </div>
       <nav class="homepage-nav">
-         <router-link to='/' class="login">Home</router-link>
-         <span> | </span>
-         <router-link to='/signup' class="signup">Sign up</router-link>
+        <router-link to="/" class="login">Home</router-link>
+        <span> | </span>
+        <router-link to="/signup" class="signup">Sign up</router-link>
       </nav>
     </section>
     <div class="main-container login-container">
@@ -30,7 +31,9 @@
         />
         <button class="login">Log in</button>
       </form>
-      <router-link class="btn-signup" to="/signup">Sign up for an account</router-link>
+      <router-link class="btn-signup" to="/signup"
+        >Sign up for an account</router-link
+      >
     </div>
   </div>
 </template>
@@ -47,13 +50,21 @@ export default {
   },
   methods: {
     async login() {
-      const user = await this.$store.dispatch({
-        type: "login",
-        userCred: this.user,
-      });
-      console.log("user after login", user);
-      // TODO: Add memeber to general shared board/s
-      if (user) this.$router.push(`/b/${this.$store.getters.boards[0]._id}`);
+      try {
+        const user = await this.$store.dispatch({
+          type: "login",
+          userCred: this.user,
+        });
+        console.log("user after login", user);
+        if (user) this.$router.push(`/b/${this.$store.getters.boards[0]._id}`);
+      } catch (err) {
+        console.log( "ERROR: cannot login. User and/or password are incorrect", err );
+        const msg = {
+          txt: "Invalid username or password",
+          type: "error",
+        };
+        await this.$store.dispatch({ type: "showMsg", msg });
+      }
     },
   },
 };

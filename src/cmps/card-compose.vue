@@ -78,6 +78,7 @@ export default {
      hideCompose(ev){
         if(!ev.target.classList.contains('add-card-btn'))
             this.isComposeOn = false;
+            this.$emit('closeAddCard')
      },
     async add() {
       var msg = {};

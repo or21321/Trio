@@ -180,9 +180,10 @@ export default {
         await this.$store.dispatch({ type: "showMsg", msg });
       }
     },
-    async saveBoard() {
+    async saveBoard(board) {
       try {
-        await this.$store.dispatch({ type: "saveBoard", board: this.board });
+         const boardToSave = (board) ? board :  this.board;
+        await this.$store.dispatch({ type: "saveBoard", board: boardToSave });
         this.socketUpdateBoard();
       } catch (err) {
         console.log("Error saving board:", err);
@@ -200,6 +201,7 @@ export default {
       try {
         const boardToSave = JSON.parse(JSON.stringify(this.board));
         boardToSave.style = style;
+        console.log('boardToSave', boardToSave)
         await this.saveBoard(boardToSave);
         this.$emit("setBackground", style);
       } catch (err) {

@@ -2,11 +2,10 @@ ul.first-option.activities {
     margin-top: 15px;
     padding-bottom: 15px;
     color: #172b4d;
-    // border-bottom: 1px solid rgba(9, 30, 66, 0.13);
     
     li {
         display: grid;
-        grid-template-columns: 40px 1fr;
+        grid-template-columns: 32px 1fr;
         font-weight: 600;
         padding: 10px 0 6px 0;
         width: 100%;
@@ -22,7 +21,10 @@ ul.first-option.activities {
         &.clickable{
         cursor: pointer;
         }
-
+        .avatar-activity{
+           position: relative;
+           left:-5px;
+        }
         .icon {
             font-size: 20px;
             width: 20px;

@@ -6,6 +6,7 @@
     </li>
     <li v-for="activity in activities" :key="activity.id" class="activity">
       <avatar
+      class="avatar-activity"
         :size="32"
         :username="activity.byMember.fullname"
         :src="activity.byMember.imgUrl"

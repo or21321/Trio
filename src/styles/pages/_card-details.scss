@@ -111,47 +111,6 @@
             &>*{
                margin-bottom:10px;
             }
-         .description {
-            margin-top: 5px;
-            display: grid;
-            grid-template-columns: 24px 1fr;
-            grid-template-rows: 30px 1fr;
-            .description-text {
-               margin-top: 12px;
-               margin-left: 8px;
-               padding: 8px 0;
-               white-space: pre-line;
-               flex-grow: 1;
-               max-width: 70ch;
-               min-width: 30ch;
-               min-height: 7ch;
-               cursor: pointer;
-               &:focus {
-                  padding: 8px 12px;
-                  min-height: 15ch;
-                  background-color: #fff;
-                  outline: 2px solid $clr-outline;
-                  cursor: text;
-               }
-               &:empty {
-                  padding: 8px 12px;
-                  background-color: rgb(231, 231, 231);
-                  &::before {
-                     content: attr(placeholder);
-                  }
-                  &:hover {
-                     background-color: rgb(223, 223, 223);
-                  }
-                  &:focus {
-                     background-color: #fff;
-                  }
-                  &:not(:focus) {
-                     min-height: 7ch;
-                  }
-               }
-            }
-         }
-
          .material-icons-outlined {
             padding-top: 5px;
          }
@@ -257,6 +216,46 @@
                   font-size: 0.825em;
                   padding: 0 5px 2px;
                   
+               }
+            }
+         }
+      }
+      .description {
+         margin-top: 5px;
+         display: grid;
+         grid-template-columns: 24px 1fr;
+         grid-template-rows: 30px 1fr;
+         .description-text {
+            margin-top: 12px;
+            margin-left: 8px;
+            padding: 8px 0;
+            white-space: pre-line;
+            flex-grow: 1;
+            max-width: 70ch;
+            min-width: 30ch;
+            min-height: 7ch;
+            cursor: pointer;
+            &:focus {
+               padding: 8px 12px;
+               min-height: 15ch;    
+               background-color: #fff;
+               outline: 2px solid $clr-outline;
+               cursor: text;
+            }
+            &:empty {
+               padding: 8px 12px;
+               background-color: rgb(231, 231, 231);
+               &::before {
+                  content: attr(placeholder);
+               }
+               &:hover {
+                  background-color: rgb(223, 223, 223);
+               }
+               &:focus {
+                  background-color: #fff;
+               }
+               &:not(:focus) {
+                  min-height: 7ch;
                }
             }
          }

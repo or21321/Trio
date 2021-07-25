@@ -17,7 +17,7 @@
       <section class="regular-listes" v-if="!searchBoard">
         <div class="list-starred" v-if="boardsStarred.length">
           <h2 class="title">
-            <span class="material-icons-round">star_outline</span>STARRED
+            <span class="material-icons-round star-title">star_outline</span>STARRED
             BOARDS
             <span
               class="material-icons-outlined close-list"

@@ -1,14 +1,12 @@
 <template>
   <section>
-    <!-- <div class="card-members-edit"> -->
     <div class="card-edit-header">
       <span>Invite to Board</span>
-      <span @click.stop="close" class="close-popup-btn">X</span>
+        <span class="close material-icons-outlined close-popup-btn" @click.stop="close">close</span>
     </div>
     <div class="card-edit-main popup-layout-1">
       <input type="text" v-model="filterName" placeholder="Search members" />
       <ul class="board-members-list">
-        <!-- <h4>BOARD MEMBERS</h4> -->
         <li
           @click="toggleUserAsBoardMember(user)"
           class="card-member-preview"

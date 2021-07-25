@@ -3,9 +3,9 @@
      
       <div class="card-edit-header">
         <span>List actions</span>
-        <span @click.stop="close" class="close-popup-btn">X</span>
+        <span class="close material-icons-outlined close-popup-btn" @click.stop="close">close</span>
       </div>
-      <div class="card-edit-main">         
+      <div class="card-edit-main">
           <button @click="addCard" class="add-card-btn">Add card...</button>
           <button @click="removeGroup">Delete list</button>
       </div>

@@ -19,51 +19,46 @@ export const boardStore = {
    getters: {
       boards({ boards }) { return boards },
       currBoard({ currBoard, filterBy }) {
-         console.log('filterBy', filterBy);
+
+         if (!currBoard) return
 
          var boardForDisplay = JSON.parse(JSON.stringify(currBoard))
-         if (filterBy.txt) {
-            boardForDisplay.groups.map(g => {
+
+         boardForDisplay.groups.forEach(g => {
+
+            if (filterBy.txt) {
                let regex = new RegExp(filterBy.txt, 'i')
                g.cards = g.cards.filter(c => regex.test(c.title))
-               return g
-            })
-         }
+            }
 
-         if (filterBy.labelIds.length) {
-            boardForDisplay.groups.map(g => {
+            if (filterBy.labelIds.length) {
                g.cards = g.cards.filter(c => {
-                  return c.labelIds.some(labelId => {  
+                  return c.labelIds.some(labelId => {
                      return filterBy.labelIds.some(lId => lId === labelId)
                   })
                })
-               return g
-            })
-         }
+            }
 
-         if (filterBy.memberIds.length) { 
-            boardForDisplay.groups.map(g => {
+            if (filterBy.memberIds.length) {
                g.cards = g.cards.filter(c => {
                   return c.members.some(member => {
                      return filterBy.memberIds.some(mId => {
-                        console.log('mId', mId,',', (mId === member.id))
-                        return mId === member.id
+                        return mId === member._id
                      })
                   })
-
                })
-               return g
-            })
-         }
+            }
 
-         if (filterBy.timeLeft) {   
-            boardForDisplay.groups.map(g => {   
-               g.cards = g.cards.filter(c => {  
-                  return (Date.parse(c.dueDate.time) - Date.now()) < filterBy.timeLeft  
+            if (filterBy.timeLeft) {
+               g.cards = g.cards.filter(c => {
+                  return (Date.parse(c.dueDate.time) - Date.now()) < filterBy.timeLeft
                })
-            })
-         }
+            }
+
+         })
+
          return boardForDisplay
+
       },
       recentBoards({ recentBoards }) { return recentBoards },
       cardEdit({ cardEdit }) { return cardEdit },
@@ -80,6 +75,7 @@ export const boardStore = {
          state.filterBy = filterBy
       },
       setCurrBoard(state, { board }) {
+         console.log('Yeafgf', board);
          socketService.on(SOCKET_ON_BOARD_UPDATE, board => {
             socketService.on(SOCKET_ON_BOARD_UPDATE, board => {
                console.log('FROM STORE FROM SOCKET', board);
@@ -87,6 +83,7 @@ export const boardStore = {
             })
             state.currBoard = board
          });
+         console.log('baord', board);
          state.currBoard = board
       },
       setCardEdit(state, { card }) {
@@ -164,7 +161,9 @@ export const boardStore = {
       },
       async loadBoard({ commit }, { boardId }) {
          try {
+            console.log('AHALAN');
             const board = await boardService.getById(boardId)
+            console.log('BOARD', board);
             commit({ type: 'setCurrBoard', board })
             return board
          }
@@ -203,7 +202,7 @@ export const boardStore = {
             throw err;
          }
       },
-      async addActivity( context, { activity }) {
+      async addActivity(context, { activity }) {
          try {
             const boardId = context.state.currBoard._id
             // activity.byMember = context.getters.getMyMiniUser
@@ -332,7 +331,7 @@ export const boardStore = {
             throw err;
          }
       },
-      async copyCard({commit}, { card, groupId, boardId }) {
+      async copyCard({ commit }, { card, groupId, boardId }) {
          try {
             const newCard = await boardService.copyCard(card, groupId, boardId)
             commit({ type: 'saveCard', isUpdate: false, card: newCard, groupId })

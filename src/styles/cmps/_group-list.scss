@@ -26,46 +26,80 @@
         //     margin-left: 9.5px;
         //     color: #263858;
         // }
-
-        .group-title {
-            background: transparent;
-            border-radius: 3px;
-            box-shadow: none;
-            // In trello they dont use the bold font, but when we do it, it looks kind of blurred
-            // font-family: Segoe-UI-Bold;
-            // font-weight: 600;
-            color: #43536f;
-            margin: -4px 0;
-            min-height: 20px;
+        
+    .group-title-preview {
+        font-weight: 600;
+        background: transparent;
+        border-radius: 3px;
+        box-shadow: none;
+        // In trello they dont use the bold font, but when we do it, it looks kind of blurred
+        // font-family: Segoe-UI-Bold;
+        // font-weight: 600;
+        color: #43536f;
+        margin: -4px 0;
+        min-height: 20px;
+        padding: 4px 8px;
+        resize: none;
+        min-height: -webkit-fit-content;
+        min-height: -moz-fit-content;
+        min-height: fit-content;
+        max-height: 256px;
+        overflow-y: auto;
+        overflow-wrap: break-word;
+        max-height: 200px;
+        max-width: 30ch;
+        font-size: 14px;
+        color: #172b4d;
+        cursor: pointer;
+        border-radius: 3px;
+        margin: -4px 0;
+    }
+    
+    .group-title {
+        background: transparent;
+        border-radius: 3px;
+        box-shadow: none;
+        // In trello they dont use the bold font, but when we do it, it looks kind of blurred
+        // font-family: Segoe-UI-Bold;
+        // font-weight: 600;
+        color: #43536f;
+        margin: -4px 0;
+        min-height: 20px;
+        padding: 4px 8px;
+        resize: none;
+        min-height: -webkit-fit-content;
+        min-height: -moz-fit-content;
+        min-height: fit-content;
+        max-height: 256px;
+        overflow-y: auto;
+        overflow-wrap: break-word;
+        max-height: 200px;
+        max-width: 30ch;
+        font-size: 14px;
+        color: #172b4d;
+        cursor: pointer;
+        border-radius: 3px;
+        
+        &:focus {
             padding: 4px 8px;
-            resize: none;
-            min-height: -webkit-fit-content;
-            min-height: -moz-fit-content;
-            min-height: fit-content;
-            max-height: 256px;
-            overflow-y: auto;
+            max-width: 30ch;
+            outline: none;
+            border:2px solid $clr-outline;
+            background-color: #ffffff;
+            cursor: text;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: Segoe-UI;
             overflow-wrap: break-word;
             max-height: 200px;
             max-width: 30ch;
-            font-size: 14px;
-            color: #172b4d;
-            cursor: pointer;
-            border-radius: 3px;
-            
-            &:focus {
-               outline: none;
-               border:2px solid $clr-outline;
-                background-color: #fff;
-                cursor: text;
-            }
-            &:empty {
+        }
+        &:empty {
+            border:0px;
                 // padding: 8px 12px;
-                background-color: rgb(231, 231, 231);
+                background-color: #ffffff;
                 &::before {
                     content: attr(placeholder);
-                }
-                &:hover {
-                    background-color: rgb(223, 223, 223);
                 }
             }
         }

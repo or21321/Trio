@@ -35,10 +35,20 @@
     cursor: pointer;
 }
 
-.ghost-card-draggable {
-    opacity: 0.5;
-    background: #f7fafc;
-    border: 1px solid #4299e1;
+.sortable-ghost {
+    border: 1px dashed grey;
+    font-size: 0;
+    overflow: hidden;
+}
+.ghost-card {
+    border: 1px dashed grey;
+    font-size: 0;
+    overflow: hidden;
+}
+
+.drag-preview {
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%) rotate(7deg) translateY(55%);
 }
 
 .compose-btn {
@@ -51,19 +61,19 @@
 
     margin: 0px 9.5px 0 0.5px;
     transition: background-color 0.3s;
-    &:disabled{
-      background-color: #97d5f8;
-       &:hover {
-         background-color: #97d5f8;
-         cursor:not-allowed;
-      }
+    &:disabled {
+        background-color: #97d5f8;
+        &:hover {
+            background-color: #97d5f8;
+            cursor: not-allowed;
+        }
     }
     &:hover {
         background-color: darken(#0079bf, 5);
     }
 }
 
-.hover-background { 
+.hover-background {
     &:hover {
         // opacity: .8 ;
         // background-color: lightgray;

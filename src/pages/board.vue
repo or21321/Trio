@@ -10,14 +10,17 @@
     ></board-header>
     <div v-dragscroll:nochilddrag class="board-canvas my-scrollbar">
       <draggable
+        ghost-class="ghost-card"
         data-dragscroll
         :list="board.groups"
         :animation="200"
-        ghost-class="ghost-card"
         group="groups"
-        @end="saveBoard"
+        @end="dragEnd"
+        @start="dragStart"
       >
+        <!-- @mousedown="dragHandler" -->
         <group-list
+          ref="group"
           v-for="group in board.groups"
           :key="group.id"
           :group="group"
@@ -31,6 +34,7 @@
           @setToPreviewEdit="setToPreviewEdit"
           :loggedinUser="loggedinUser"
         ></group-list>
+        <div class="drag-preview" :style="dragStyle" ref="dragPreview"></div>
       </draggable>
       <group-compose
         :boardId="boardId"
@@ -42,9 +46,11 @@
       @socketUpdateBoard="socketUpdateBoard"
       :loggedinUser="loggedinUser"
     />
-    <dashboard v-if="isDashboardOpen"
-    :board="board"
-    @closeDashboard="isDashboardOpen = false"/>
+    <dashboard
+      v-if="isDashboardOpen"
+      :board="board"
+      @closeDashboard="isDashboardOpen = false"
+    />
   </div>
 </template>
 
@@ -52,7 +58,7 @@
 import groupList from "@/cmps/group-list";
 import boardHeader from "@/cmps/board-header";
 import groupCompose from "@/cmps/group-compose";
-import dashboard from '../cmps/dashboard.vue'
+import dashboard from "../cmps/dashboard.vue";
 import { dragscroll } from "vue-dragscroll";
 import draggable from "vuedraggable";
 import { socketService } from "@/services/socket.service.js";
@@ -81,28 +87,46 @@ export default {
       type: Object,
     },
   },
-  async created(){
-     try{
-      //   if(!this.$store.getters.loggedinUser){
-      //      console.log('yes');
-      //      await this.$store.dispatch({type: "signupAsGuest"});
-      //   }
-         eventBus.$on("addActivity", async (activity)=> {
-            await this.$store.dispatch({type: "addActivity", activity});
-         })
-     }catch(err){
-        console.log('ERROR, cannot SignupAsGuest or addActivity', err);
-     }
+  async created() {
+    try {
+      eventBus.$on("addActivity", async (activity) => {
+        await this.$store.dispatch({ type: "addActivity", activity });
+      });
+    } catch (err) {
+      console.log("ERROR, cannot SignupAsGuest or addActivity", err);
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      console.log("AH", this.$refs.group);
+      const groups = this.$refs.group;
+      groups.forEach((g) => {
+        console.log('G', g.$el);
+        g.$el.addEventListener("drag", function (e) {
+          this.x = e.x;
+          this.y = e.y;
+          console.log("this.x", this.x);
+          console.log("this.y", this.y);
+        });
+      });
+    }, 150);
   },
   computed: {
     boardId() {
       return this.$route.params.boardId;
     },
     board() {
+      console.log("***");
       return this.$store.getters.currBoard;
     },
     isBoardEmpty() {
       return this.board.groups.length === 0 ? true : false;
+    },
+    dragStyle() {
+      return {
+        'top': `${this.y}px`,
+        'left': `${this.x}px`,
+      };
     },
   },
   watch: {
@@ -111,10 +135,12 @@ export default {
       async handler() {
         const { boardId } = this.$route.params;
         try {
+          console.log("YALLOW");
           const currBoard = await this.$store.dispatch({
             type: "loadBoard",
             boardId,
           });
+          console.log("from board view", currBoard);
           this.$emit("setBackground", currBoard.style);
           socketService.emit(SOCKET_EMIT_BOARD_WATCH, this.boardId);
         } catch (err) {
@@ -122,14 +148,42 @@ export default {
         }
       },
     },
+    x: {
+      handler() {
+        console.log("Heyo", this.x);
+      },
+    },
   },
   data() {
     return {
       isCardPreviewLabelsShown: false,
-      isDashboardOpen:false
+      isDashboardOpen: false,
+      x: 0,
+      y: 0,
+      dragPreview: null,
     };
   },
   methods: {
+    dragStart(e) {
+      console.log("e", e);
+      console.log("refs", this.$refs);
+      this.dragPreview = e.originalEvent.target.cloneNode(true);
+      this.$refs["dragPreview"].appendChild(this.dragPreview);
+
+      e.originalEvent.dataTransfer.setDragImage(new Image(), 0, 0);
+    },
+    dragEnd() {
+      this.dragPreview.remove();
+      this.dragPreview = null;
+      this.saveBoard();
+    },
+    // dragHandler() {
+    //   console.log("DRAG HANDLER", e.pageX);
+    //   this.x = e.pageX;
+    //   this.y = e.pageY;
+    //   console.log("this.x", this.x);
+    //   console.log("this.y", this.y);
+    // },
     socketUpdateBoard() {
       socketService.emit(SOCKET_EMIT_BOARD_UPDATE, this.board);
     },
@@ -168,8 +222,8 @@ export default {
           txt: "List was successfully removed",
           type: "success",
         };
-        const activity = {txt: `deleted list ${group.title}`}
-        eventBus.$emit("addActivity", activity)
+        const activity = { txt: `deleted list ${group.title}` };
+        eventBus.$emit("addActivity", activity);
       } catch (err) {
         msg = {
           txt: "Fail remove list, try again later",
@@ -207,8 +261,8 @@ export default {
       }
     },
   },
-  beforeDestroy(){
-    eventBus.$off("addActivity")
+  beforeDestroy() {
+    eventBus.$off("addActivity");
   },
 };
 </script>

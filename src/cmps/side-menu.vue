@@ -121,12 +121,12 @@
             :style="{ backgroundImage: `url(${photoUrl})` }"
           ></li>
         </ul>
-          <img
-              class="loading-gif"
-              src="@/assets/loading.gif"
-              v-if="isLoading"
-              alt=""
-            />
+        <img
+          class="loading-gif"
+          src="@/assets/loading.gif"
+          v-if="isLoading"
+          alt=""
+        />
       </div>
     </transition>
 
@@ -227,7 +227,7 @@ export default {
         txt: "",
         labelIds: [],
         memberIds: [],
-        timeLeft: Infinity,
+        timeLeft: 0,
       },
       boardMembers: [],
       boardLabels: [],
@@ -248,16 +248,6 @@ export default {
           timeLeft: 1000 * 60 * 60 * 24 * 7 * 4,
           isFilterBy: false,
         },
-        // {
-        //   txt: 'Has no due date',
-        //   timeLeft: null
-        // isFilterBy: false
-        // },
-        // {
-        //   txt: 'Due date marked as complete',
-        //   timeLeft: 1000 * 60 * 60 * 24
-        // isFilterBy: false
-        // },
       ],
       photosUrls: [
         "https://images.unsplash.com/photo-1485356824219-4bc17c2a2ea7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80",
@@ -288,16 +278,19 @@ export default {
   created() {
     this.getPhotos = debounce(this.getPhotos, 500);
     this.searchCards = debounce(this.searchCards, 500);
-    this.boardLabels = [];
+    // this.boardLabels = [];
     this.boardLabels = JSON.parse(JSON.stringify(this.board.labels));
-    this.boardMembers = [];
+    this.filterIsLabelFilterActive();
+    // this.boardMembers = [];
     this.boardMembers = JSON.parse(JSON.stringify(this.board.members));
+    console.log("HEY", this.cardsFilterBy.labelIds);
   },
   destroyed() {
     this.cardsFilterBy = {
       txt: "",
       labelIds: [],
       memberIds: [],
+      timeLeft: 0,
     };
     this.searchCards();
   },
@@ -333,19 +326,31 @@ export default {
       return title;
     },
   },
+  watch: {
+    deeperOption: {
+      immediate: true,
+      handler() {
+        if (this.deeperOption === "searchCards") {
+          console.log("HADNLDER");
+          this.filterIsLabelFilterActive();
+          this.filterIsMemberFilterActive();
+        }
+      },
+    },
+  },
   methods: {
     async getPhotos() {
       try {
-        this.isLoading = true
-        this.photosUrls = []
+        this.isLoading = true;
+        this.photosUrls = [];
         const photos = await unsplashService.query(
           this.photosFilterBy.toLowerCase()
         );
         this.photosUrls = photos.map((photo) => photo.urls.regular);
       } catch (err) {
         console.log("Had a problem getting photos", err);
-      } finally { 
-        this.isLoading = false
+      } finally {
+        this.isLoading = false;
       }
     },
     setDeeperOption(option) {
@@ -361,7 +366,10 @@ export default {
     changeBackground(color, photoUrl) {
       const style = {
         "background-color": color,
-        "background-image": `url(${photoUrl}}&fit=scale&w=${window.screen.width-300}&h=${window.screen.height-300})`,
+        "background-image": `url(${photoUrl}}&fit=scale&w=${
+          window.screen.width - 300
+        }&h=${window.screen.height - 300})`,
+        // "background-image": `url(${photoUrl}}&fit=scale&w=${window.screen.width-300}&h=${window.screen.height-300})`,
       };
       this.$emit("setBackground", style);
     },
@@ -386,16 +394,19 @@ export default {
       this.searchCards();
     },
     filterIsLabelFilterActive() {
-      if (!this.boardLabels.length || this.deeperOption !== "searchCards")
-        return;
-      const boardLabels = this.boardLabels.map((bLabel) => {
-        bLabel.isFilterBy = this.cardsFilterBy.labelIds.some(
-          (cfLabelId) => cfLabelId === bLabel.id
-        )
-          ? true
-          : false;
-        return bLabel;
-      });
+      // if (!this.boardLabels.length || this.deeperOption !== "searchCards")
+      //   return;
+      console.log("Hey", this.boardLabels);
+      const boardLabels = JSON.parse(JSON.stringify(this.boardLabels)).map(
+        (bLabel) => {
+          bLabel.isFilterBy = this.cardsFilterBy.labelIds.some(
+            (cfLabelId) => cfLabelId === bLabel.id
+          )
+            ? true
+            : false;
+          return bLabel;
+        }
+      );
       this.boardLabels = boardLabels;
     },
     filterCardsByMember(memberId) {
@@ -463,7 +474,7 @@ export default {
   },
   components: {
     avatar,
-    activity
+    activity,
   },
 };
 </script>

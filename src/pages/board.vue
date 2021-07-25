@@ -16,9 +16,9 @@
         :animation="200"
         group="groups"
         @end="dragEnd"
-        @start="dragStart"
         ref="group"
       >
+        <!-- @start="dragStart" -->
         <!-- :dragged="dragHandler" -->
         <!-- :clone="(original) => clone(original)" -->
         <!-- @end="saveBoard" --> 
@@ -166,17 +166,17 @@ export default {
     };
   },
   methods: {
-    dragStart(e) {
-      console.log("e", e);
-      console.log("refs", this.$refs);
-      this.dragPreview = e.originalEvent.target.cloneNode(true);
-      this.$refs["dragPreview"].appendChild(this.dragPreview);
+   //  dragStart(e) {
+   //    console.log("e", e);
+   //    console.log("refs", this.$refs);
+   //    this.dragPreview = e.originalEvent.target.cloneNode(true);
+   //    this.$refs["dragPreview"].appendChild(this.dragPreview);
 
-      e.originalEvent.dataTransfer.setDragImage(new Image(), 0, 0);
-    },
+   //    e.originalEvent.dataTransfer.setDragImage(new Image(), 0, 0);
+   //  },
     dragEnd() {
-      this.dragPreview.remove();
-      this.dragPreview = null;
+      // this.dragPreview.remove();
+      // this.dragPreview = null;
       this.saveBoard();
     },
     // clone(original) { 

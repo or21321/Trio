@@ -71,7 +71,7 @@ export default {
     },
     methods: {  
         updateCard() {  
-            this.$emit('updateCard', this.cardToEdit)
+            this.$emit('updateCard', this.cardToEdit ,true)
         },
          close() {
       this.$emit("close");

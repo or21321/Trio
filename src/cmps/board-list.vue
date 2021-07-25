@@ -80,6 +80,7 @@
               >add</span
             >
           </h2>
+          
           <div class="main-list" v-if="!listClose.includes('recentBoards')">
             <article
               v-for="board in recentBoards"
@@ -214,9 +215,9 @@ export default {
   },
   created(){
      if(this.$store.getters.currBoard){
-        this.$store.commit({ type: "addBoardToRecentBoards", board:this.$store.getters.currBoard });
+         this.$store.commit({ type: "addBoardToRecentBoards", board:(this.$store.getters.currBoard) });
      }
-   this.recentBoards= this.$store.getters.recentBoards;
+         this.recentBoards = this.$store.getters.recentBoards;
   },
   mounted() {
     this.$refs.searchBoard.focus();

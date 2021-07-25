@@ -11,7 +11,7 @@
           >movie_creation</span
         >
         <section class="titles">
-          <input v-model="card.title" class="main-title" @change="saveCard" />
+          <input v-model="card.title" class="main-title" @input="saveCard" />
           <h4 class="sub-title">in list {{ groupName }}</h4>
         </section>
         <span class="close material-icons" @click="closeCardDetails">
@@ -38,7 +38,7 @@
               </span>
             </div>
           </div>
-          <div class="labels grid-details" v-if="cardLabels.length">
+          <div class="labels grid-details" v-if="cardLabels && cardLabels.length">
             <span></span>
             <h1 class="title-labels">Labels</h1>
             <div class="list-labels">
@@ -336,7 +336,7 @@
             :card="card"
             :action="currAction"
             @close="closeEditPopup"
-            @updateCard="updateCard"
+            @updateCard="saveCard"
           />
         </section>
 
@@ -447,16 +447,11 @@ export default {
         this.filterCardLabels();
       },
     },
-    card: {
-      handler() {
-        console.log("watch on card.labelIds from details");
-        this.filterCardLabels();
-      },
-    },
-    "card.dueDate.isDone": {
+    "card.dueDate": {
+       deep:true,
       handler() {
         console.log("watch on card.dueDate.isDone");
-        this.updateCard(this.card);
+        this.saveCard();
         // this.markDueDateActivity();
       },
     },
@@ -520,11 +515,12 @@ export default {
         console.log("Had problem loading card", err);
       }
     },
-    async saveCard() {
+    async saveCard(savedCard, isDaynamicComponent = false) {
+       savedCard = (isDaynamicComponent) ? savedCard :this.card;
       try {
         this.card = await this.$store.dispatch({
           type: "saveCard",
-          card: this.card,
+          card: savedCard,
           groupId: this.groupId,
           boardId: this.boardId,
         });
@@ -564,20 +560,6 @@ export default {
     },
     socketUpdateBoard() {
       this.$emit("socketUpdateBoard");
-    },
-    async updateCard(card) {
-      try {
-        await this.$store.dispatch({
-          type: "saveCard",
-          card,
-          groupId: this.groupId,
-          boardId: this.boardId,
-        });
-        await this.loadCard();
-        this.socketUpdateBoard();
-      } catch (err) {
-        console.log("Error updating card:", err);
-      }
     },
     closeCardDetails() {
       this.$router.push(`/b/${this.boardId}`);
@@ -643,6 +625,7 @@ export default {
           txt: "Checklist was successfully removed",
           type: "success",
         };
+        this.saveCard();
         this.socketUpdateBoard();
       } catch (err) {
         msg = {
@@ -655,7 +638,7 @@ export default {
     },
     async deleteCheckbox(checkboxId, checklistId) {
       try {
-        this.card = await this.$store.dispatch({
+          await this.$store.dispatch({
           type: "removeCheckbox",
           checkboxId: checkboxId,
           checklistId: checklistId,
@@ -663,6 +646,7 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
+        this.saveCard();
         this.socketUpdateBoard();
       } catch (err) {
         console.log("ERROR: cannot remove checkbox", checkboxId, ",", err);
@@ -670,7 +654,7 @@ export default {
     },
     async addCheckbox() {
       try {
-        this.card = await this.$store.dispatch({
+          await this.$store.dispatch({
           type: "addCheckbox",
           title: this.checkboxTitle,
           checklistId: this.currChecklist,
@@ -678,6 +662,7 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
+        this.saveCard();
         this.socketUpdateBoard();
         this.closeChanges();
       } catch (err) {
@@ -699,6 +684,7 @@ export default {
     },
     removeDate() {
       this.card.dueDate = {};
+      this.saveCard();
     },
     //COMMENTS
     async addComment() {
@@ -710,6 +696,7 @@ export default {
         boardId: this.boardId,
       });
       this.isMention();
+      this.saveCard();
       const activity = {
         txt: `added a comment on ${this.card.title}`,
         card: { id: this.card.id, title: this.card.title },
@@ -745,6 +732,7 @@ export default {
         groupId: this.groupId,
         boardId: this.boardId,
       });
+      this.saveCard();
       const activity = {
         txt: `deleted a comment from ${this.card.title}`,
         card: { id: this.card.id, title: this.card.title },
@@ -780,12 +768,13 @@ export default {
     async copyCard() {
       try {
         var msg = {};
-        this.card = await this.$store.dispatch({
+        await this.$store.dispatch({
           type: "copyCard",
           card: this.card,
           groupId: this.groupId,
           boardId: this.boardId,
         });
+      //   this.saveCard();
         this.socketUpdateBoard();
         const activity = {
           txt: `copied ${this.card.title} from ${this.card.title} in list ${this.groupName}`,
@@ -844,7 +833,7 @@ export default {
       return this.$store.getters.loggedinUser;
     },
     isCoverClass() {
-      return { "is-cover": this.card.cover.color };
+      return { "is-cover": this.card.cover.color};
     },
     userNotInclude() {
       const user = this.$store.getters.loggedinUser;

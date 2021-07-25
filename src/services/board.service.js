@@ -247,7 +247,7 @@ async function removeComment(commentId, card, groupId, boardId) {
    try {
       const commentIdx = card.comments.findIndex(comment => comment.id === commentId)
       card.comments.splice(commentIdx, 1)
-      saveCard(card, groupId, boardId)
+      await saveCard(card, groupId, boardId)
    } catch (err) {
       console.log('Error:', err);
    }
@@ -257,8 +257,7 @@ async function copyCard(card, groupId, boardId) {
    try {
       const newCard = JSON.parse(JSON.stringify(card))
       delete newCard.id;
-      saveCard(newCard, groupId, boardId)
-      return newCard;
+      return await saveCard(newCard, groupId, boardId)
    } catch (err) {
       console.log('Error:', err);
    }

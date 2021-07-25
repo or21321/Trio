@@ -16,7 +16,7 @@
         <form @submit.prevent="signup">
             <input type="text" name="fullname" v-model="user.fullname" placeholder="Enter full name" autocomplete="off" required />
             <input type="text" name="username" v-model="user.username" placeholder="Enter username" autocomplete="off" required />
-            <input type="email" name="email" v-model="user.email"  placeholder="Enter email" />
+            <input type="email" name="email" v-model="user.email"  placeholder="Enter email" required />
             <input type="password" name="password" v-model="user.password" placeholder="Enter password" required />
         <!-- imgUrl: 'http://some-img.jpg', // need to add an avatar img -->
             <div class="avatar">

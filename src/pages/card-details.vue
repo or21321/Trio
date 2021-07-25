@@ -654,17 +654,17 @@ export default {
     },
     async addCheckbox() {
       try {
-          await this.$store.dispatch({
-          type: "addCheckbox",
+         this.$store.dispatch({
+            type: "addCheckbox",
           title: this.checkboxTitle,
           checklistId: this.currChecklist,
           card: this.card,
           groupId: this.groupId,
           boardId: this.boardId,
         });
+        this.closeChanges();
         this.saveCard();
         this.socketUpdateBoard();
-        this.closeChanges();
       } catch (err) {
         console.log("ERROR: cannot add checkbox");
       }

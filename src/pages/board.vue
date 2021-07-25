@@ -18,8 +18,8 @@
         @end="dragEnd"
         @start="dragStart"
         ref="group"
-        :clone="dragHandler"
       >
+        <!-- :clone="dragHandler" -->
         <!-- :clone="(original) => clone(original)" -->
         <!-- @end="saveBoard" -->
         <group-list

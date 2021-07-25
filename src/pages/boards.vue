@@ -1,7 +1,7 @@
 <template>
   <section class="boards-page" :class="classToBoardPage">
-    <h1 class="title">Choose Your Board</h1>
     <div class="container">
+    <h1 class="title">Choose Your Board</h1>
       <ul class="boards-list">
         <li class="boards-preview" v-for="board in boards" :key="board._id">
           <section

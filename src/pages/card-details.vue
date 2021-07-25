@@ -511,6 +511,7 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
+        console.log('this.card', this.card);
       } catch (err) {
         console.log("Had problem loading card", err);
       }

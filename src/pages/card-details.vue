@@ -289,7 +289,7 @@
         </section>
       </main>
       <nav class="details-actions" :class="isCoverClass">
-        <section class="suggested-nav" v-if="userNotInclude">
+        <section class="suggested-nav" v-if="userNotInclude && userIsMemberShip">
           <h4 class="title">SUGGESTED</h4>
           <label @click="addUserToCard">
             <span class="material-icons-outlined icon">person_add</span>
@@ -842,6 +842,13 @@ export default {
       });
       console.log(isUserMemberIdx);
       return isUserMemberIdx === -1 ? true : false;
+    },
+    userIsMemberShip(){
+        const user = this.$store.getters.loggedinUser;
+        return this.currBoard.members.some((member) => {
+        return member._id === user._id;
+      })
+    
     },
     activitiesToShow() {
       const cardActivities = this.$store.getters.currBoard.activities.filter(

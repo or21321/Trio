@@ -1,5 +1,5 @@
 <template>
-  <section class="boards-page">
+  <section class="boards-page" :class="classToBoardPage">
     <h1 class="title">Choose Your Board</h1>
     <div class="container">
       <ul class="boards-list">
@@ -84,6 +84,9 @@ export default {
     boards() {
       return this.$store.getters.boards;
     },
+    classToBoardPage(){
+       return {'isLessThen3Boards':this.boards.length <= 6,'isMoreThen3Boards': this.boards.length > 6}
+    }
   },
 };
 </script>

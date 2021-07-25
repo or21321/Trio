@@ -2,8 +2,13 @@
    background-image: url('~@/assets/gradient.jpg');
    background-size: cover;
    // background-color:#fadec0;
-   min-height: 93.5vh;
-   height: fit-content !important;
+   // min-height:unset;
+   &.isLessThen3Boards{
+      min-height: 93.5vh;
+   }
+   &.isMoreThen3Boards{
+      height: fit-content !important;
+   }
    & .title{
       margin: 30px auto 0;
       letter-spacing: 1px;

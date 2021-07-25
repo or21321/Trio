@@ -17,10 +17,12 @@
         group="groups"
         @end="dragEnd"
         @start="dragStart"
+        ref="group"
+        :clone="dragHandler"
       >
-        <!-- @mousedown="dragHandler" -->
+        <!-- :clone="(original) => clone(original)" -->
+        <!-- @end="saveBoard" -->
         <group-list
-          ref="group"
           v-for="group in board.groups"
           :key="group.id"
           :group="group"
@@ -96,21 +98,21 @@ export default {
       console.log("ERROR, cannot SignupAsGuest or addActivity", err);
     }
   },
-  mounted() {
-    setTimeout(() => {
-      console.log("AH", this.$refs.group);
-      const groups = this.$refs.group;
-      groups.forEach((g) => {
-        console.log('G', g.$el);
-        g.$el.addEventListener("drag", function (e) {
-          this.x = e.x;
-          this.y = e.y;
-          console.log("this.x", this.x);
-          console.log("this.y", this.y);
-        });
-      });
-    }, 150);
-  },
+  // mounted() {
+  //   setTimeout(() => {
+  //     console.log("AH", this.$refs.group);
+  //     const groups = this.$refs.group;
+  //     groups.forEach((g) => {
+  //       console.log('G', g.$el);
+  //       g.$el.addEventListener("drag", function (e) {
+  //         this.x = e.x;
+  //         this.y = e.y;
+  //         console.log("this.x", this.x);
+  //         console.log("this.y", this.y);
+  //       });
+  //     });
+  //   }, 150);
+  // },
   computed: {
     boardId() {
       return this.$route.params.boardId;
@@ -177,13 +179,18 @@ export default {
       this.dragPreview = null;
       this.saveBoard();
     },
-    // dragHandler() {
-    //   console.log("DRAG HANDLER", e.pageX);
-    //   this.x = e.pageX;
-    //   this.y = e.pageY;
-    //   console.log("this.x", this.x);
-    //   console.log("this.y", this.y);
+    // clone(original) { 
+    //   console.log('original', original);
+    //   return original
     // },
+    dragHandler(event, originalEvent) {
+      console.log("DRAG HANDLER, event", event);
+      console.log("DRAG HANDLER, originalEvent", originalEvent);
+      this.x = originalEvent.pageX;
+      this.y = originalEvent.pageY;
+      console.log("this.x", this.x);
+      console.log("this.y", this.y);
+    },
     socketUpdateBoard() {
       socketService.emit(SOCKET_EMIT_BOARD_UPDATE, this.board);
     },
@@ -236,7 +243,7 @@ export default {
     },
     async saveBoard(board) {
       try {
-         const boardToSave = (board) ? board :  this.board;
+        const boardToSave = board ? board : this.board;
         await this.$store.dispatch({ type: "saveBoard", board: boardToSave });
         this.socketUpdateBoard();
       } catch (err) {
@@ -255,7 +262,7 @@ export default {
       try {
         const boardToSave = JSON.parse(JSON.stringify(this.board));
         boardToSave.style = style;
-        console.log('boardToSave', boardToSave)
+        console.log("boardToSave", boardToSave);
         await this.saveBoard(boardToSave);
         this.$emit("setBackground", style);
       } catch (err) {

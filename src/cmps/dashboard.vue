@@ -39,11 +39,11 @@
             </div>
             <div class="charts">
                <div class="chart-container">
-                  <div class="title-chart"> Card per list</div>
+                  <div class="title-chart"> Cards per list</div>
                <chart-card-per-group :board="board" class="card-per-group"/>
                </div>
                 <div class="chart-container">
-                  <div class="title-chart"> Card per Member</div>
+                  <div class="title-chart"> Cards per Member</div>
                <chart-card-per-member :board="board" class="card-per-member"/>
                </div>
             </div>

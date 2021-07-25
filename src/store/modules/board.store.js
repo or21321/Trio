@@ -172,7 +172,7 @@ export const boardStore = {
             throw err;
          }
       },
-      async saveBoard({ commit, state }, { board }) {
+      async saveBoard({ state, commit }, { board }) {
          const filterBy = state.filterBy
          if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
          const type = (board._id) ? 'updateBoard' : 'addBoard';

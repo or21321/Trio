@@ -64,7 +64,7 @@
             <span v-else class="material-icons-outlined badge-icon"
               >schedule</span
             >
-            <span> {{ cardToEdit.dueDate.time | moment(" MMM d") }} </span>
+            <span> {{ cardToEdit.dueDate.time | moment(" MMM D") }} </span>
           </div>
 
           <div v-if="cardToEdit.description" class="description-badge">

@@ -1,32 +1,28 @@
 .boards-page{
    background-image: url('~@/assets/gradient.jpg');
    background-size: cover;
-   // background-color:#fadec0;
-   // min-height:unset;
-   &.isLessThen3Boards{
       min-height: 93.5vh;
-   }
-   &.isMoreThen3Boards{
-      height: fit-content !important;
-   }
    & .title{
       margin: 30px auto 0;
       letter-spacing: 1px;
       text-align: center;
       font-size: 2.5rem;
       color:#c7cddb;
+      grid-column: 2;
+      grid-row: 1;
    }
    & .container{
       display: grid;
       grid-template-columns:1fr minmax(340px, 1180px) 1fr;
-      grid-template-rows:1fr;
+      grid-template-rows: 80px 1fr;
 
-      // background-image: url('~@/assets/gradient.jpg');
-      // background-size: cover;
+      background-image: url('~@/assets/gradient.jpg');
+      background-size: cover;
       // background-color:#fadec0;
       padding-bottom: 50px;
      .boards-list{
       grid-column: 2;
+      grid-row: 2;
          margin: auto;
          margin-bottom: 30px;        
          display: flex;

@@ -18,10 +18,10 @@
         @end="dragEnd"
         @start="dragStart"
         ref="group"
-        :clone="dragHandler"
       >
+        <!-- :dragged="dragHandler" -->
         <!-- :clone="(original) => clone(original)" -->
-        <!-- @end="saveBoard" -->
+        <!-- @end="saveBoard" --> 
         <group-list
           v-for="group in board.groups"
           :key="group.id"
@@ -36,7 +36,7 @@
           @setToPreviewEdit="setToPreviewEdit"
           :loggedinUser="loggedinUser"
         ></group-list>
-        <div class="drag-preview" :style="dragStyle" ref="dragPreview"></div>
+        <!-- <div class="drag-preview" :style="dragStyle" ref="dragPreview"></div> -->
       </draggable>
       <group-compose
         :boardId="boardId"
@@ -124,12 +124,12 @@ export default {
     isBoardEmpty() {
       return this.board.groups.length === 0 ? true : false;
     },
-    dragStyle() {
-      return {
-        'top': `${this.y}px`,
-        'left': `${this.x}px`,
-      };
-    },
+    // dragStyle() {
+    //   return {
+    //     'top': `${this.y}px`,
+    //     'left': `${this.x}px`,
+    //   };
+    // },
   },
   watch: {
     "$route.params.boardId": {
@@ -183,14 +183,14 @@ export default {
     //   console.log('original', original);
     //   return original
     // },
-    dragHandler(event, originalEvent) {
-      console.log("DRAG HANDLER, event", event);
-      console.log("DRAG HANDLER, originalEvent", originalEvent);
-      this.x = originalEvent.pageX;
-      this.y = originalEvent.pageY;
-      console.log("this.x", this.x);
-      console.log("this.y", this.y);
-    },
+    // dragHandler(event, originalEvent) {
+    //   console.log("DRAG HANDLER, event", event);
+    //   console.log("DRAG HANDLER, originalEvent", originalEvent);
+    //   this.x = originalEvent.pageX;
+    //   this.y = originalEvent.pageY;
+    //   console.log("this.x", this.x);
+    //   console.log("this.y", this.y);
+    // },
     socketUpdateBoard() {
       socketService.emit(SOCKET_EMIT_BOARD_UPDATE, this.board);
     },

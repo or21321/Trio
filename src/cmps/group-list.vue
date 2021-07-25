@@ -2,16 +2,24 @@
   <div class="group-list">
     <div class="group-header">
       <!-- <h2>{{ group.title }}</h2> -->
+      <!-- <input -->
       <contenteditable
-        tag="h2"
-        ref="groupTitle"
-        class="group-title"
-        :contenteditable="true"
-        v-model="group.title"
-        :noNL="false"
         :noHTML="true"
+        :contenteditable="true"
+        tag="h2"
+        :noNL="false"
+        type="text"
+        v-if="isTitleEdit"
+        class="group-title"
+        v-model="group.title"
         @input="updateTitleDebounce"
+        @blur="close"
+        @focus="this.select()"
+        ref="titleGroup"
       />
+      <div v-else class="group-title-preview" @click="showTitleInput()">
+        {{ group.title }}
+      </div>
     </div>
     <span
       @click.stop="toggleGroupMenu"
@@ -105,12 +113,17 @@ export default {
       lastTitleChar: "",
       isAddCard: false,
       showGroupMenu: false,
+      isTitleEdit: false,
     };
   },
   created() {
     this.updateTitleDebounce = debounce(this.saveGroupTitle, 1000);
+    
   },
   mounted() {
+    // this.$refs.groupTitle.addEventListener("focus", () => {
+    //   this.$refs.groupTitle.$el.select()
+    // });
     // console.log("card-preview", this.$refs.cardPreview[0].$el.clientWidth);
     // console.log("****", this.$refs.cardCompose.$el.clientWidth);
     // this.$refs.cardCompose.$el.clientWidth = this.$refs.cardPreview[0].$el.clientWidth
@@ -120,16 +133,35 @@ export default {
       deep: true,
       handler() {
         // this.$refs.cardCompose.$el.clientWidth = this.$refs.cardPreview.$el.clientWidth
-        console.log('!#$#52', this.$refs.cardPreview[0].$el.clientWidth);
+        console.log("!#$#52", this.$refs.cardPreview[0].$el.clientWidth);
       },
     },
   },
   methods: {
+    close() {
+      this.isTitleEdit = false;
+      console.log("WTF", this.isTitleEdit);
+    },
     // updateCard() {
     // console.log("from group", { card, groupId: this.group.id });
     // this.$emit('updateCard', { card, groupId: this.group.id })
     //   this.$emit("updateBoard");
     // },
+    async showTitleInput() {
+      try {
+        this.isTitleEdit = true;
+        console.log("Hello", this.isTitleEdit);
+        await setTimeout(() => {
+          console.log(this.$refs.titleGroup);
+          this.$refs.titleGroup.$el.focus();
+        }, 100);
+        // setTimeout(() => {
+        //   this.$refs.titleGroup.$el.select();
+        // }, 150);
+      } catch (err) {
+        console.log("Error showing input", err);
+      }
+    },
     hidePopup() {
       this.showGroupMenu = false;
     },
@@ -145,12 +177,16 @@ export default {
     toggleGroupMenu() {
       this.showGroupMenu = !this.showGroupMenu;
     },
-    saveGroupTitle() {
-      if (this.group.title === "")
-        return (this.group.title = this.lastTitleChar);
-      this.lastTitleChar = this.group.title;
-      console.log(this.lastTitleChar);
-      this.updateBoard();
+    async saveGroupTitle() {
+      try {
+        if (this.group.title === "")
+          return (this.group.title = this.lastTitleChar);
+        this.lastTitleChar = this.group.title;
+        await this.updateBoard();
+        this.isTitleEdit = false;
+      } catch (err) {
+        console.log("Had a problem updating group title", err);
+      }
     },
     updateBoard() {
       this.$emit("updateBoard", this.board);

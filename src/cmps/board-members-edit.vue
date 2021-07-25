@@ -5,7 +5,6 @@
       <span>Invite to Board</span>
       <span @click.stop="close" class="close-popup-btn">X</span>
     </div>
-    {{filterName}}
     <div class="card-edit-main popup-layout-1">
       <input type="text" v-model="filterName" placeholder="Search members" />
       <ul class="board-members-list">
@@ -116,7 +115,7 @@ export default {
       this.members.forEach(member => {
 
         const foundMember = users.find(user => user._id === member._id)
-        foundMember.isBoardMember = true
+        if(foundMember) foundMember.isBoardMember = true
       })
         this.filteredBoardMembers = users;
     },

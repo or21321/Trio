@@ -42,14 +42,13 @@
         &.star.selected {
             color: yellow;
         }
-      //   &.title-board{
-      //       // text-align: center;
-      //      &:focus{
-      //       //   line-height: 1.65;
-      //       outline: none;
-      //       border:2px solid $clr-outline;
-      //      }
-      //   }
+        &.title-board{
+           &:focus{
+              line-height: 1.65;
+            outline: none;
+            border:2px solid $clr-outline;
+           }
+        }
     }
 
     .seperator {

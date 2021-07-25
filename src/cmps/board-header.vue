@@ -160,7 +160,7 @@ export default {
           type: "removeBoardFromRecentBoards",
           board: this.board,
         });
-        this.$router.push(`/b/${this.$store.getters.boards[0]._id}`);
+        this.$router.push(`/b`);
         msg = {
           txt: "Board was successfully removed",
           type: "success",

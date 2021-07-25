@@ -58,7 +58,6 @@ export default {
   },
   async created() {
     try {
-       this.filterCardMembers();
        await this.$store.dispatch({ type: "loadUsers" });
       this.cardToEdit = JSON.parse(JSON.stringify(this.card));
     } catch (err) {
@@ -70,7 +69,6 @@ export default {
       deep:true,
       handler() {
         console.log("Watcher on card");
-        this.filterCardMembers();
       },
     },
   },
@@ -86,6 +84,12 @@ export default {
     },
     membersToDisplay(){
        const members = this.boardMembers
+       members.map((user) =>{user.isCardMember = false})
+       members.map((user) =>{
+         this.card.members.forEach(member => {
+            if(member._id === user._id) user.isCardMember = true
+         }) 
+      })
        if(!this.filterName) return members
        let rgx = new RegExp(this.filterName ,'i')
       return members.filter(member => rgx.test(member.username) || rgx.test(member.fullname))
@@ -114,7 +118,6 @@ export default {
         else { activityTxt = `removed ${this.cardToEdit.members[isUserMemberIdx].fullname} from ${this.card.title}` }
         this.cardToEdit.members.splice(isUserMemberIdx, 1);
         user.isCardMember = false;
-        this.updateCard;  //does this line do something??
       }
       const activity = { 
         txt: activityTxt,
@@ -124,14 +127,6 @@ export default {
       this.updateCard(this.cardToEdit);
       eventBus.$emit("addActivity", activity);
     },
-   filterCardMembers(){
-      this.boardMembers.map((user) =>{user.isCardMember = false})
-      this.boardMembers.map((user) =>{
-         this.card.members.forEach(member => { 
-            if(member._id === user._id) user.isCardMember = true
-         }) 
-      })
-   },
     updateCard() {
       console.log("update", this.cardToEdit);
       this.$emit("updateCard", this.cardToEdit,true);

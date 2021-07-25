@@ -86,6 +86,9 @@ export default {
          eventBus.$on("addActivity", async (activity)=> {
             await this.$store.dispatch({type: "addActivity", activity});
          })
+         if(this.$store.getters.currBoard){
+            this.$store.commit({ type: "addBoardToRecentBoards", board:this.$store.getters.currBoard });
+         }
      }catch(err){
         console.log('ERROR, cannot SignupAsGuest or addActivity', err);
      }

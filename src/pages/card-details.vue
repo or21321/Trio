@@ -38,7 +38,7 @@
               </span>
             </div>
           </div>
-          <div class="labels grid-details" v-if="cardLabels.length">
+          <div class="labels grid-details" v-if="cardLabels && cardLabels.length">
             <span></span>
             <h1 class="title-labels">Labels</h1>
             <div class="list-labels">
@@ -447,13 +447,8 @@ export default {
         this.filterCardLabels();
       },
     },
-    card: {
-      handler() {
-        console.log("watch on card.labelIds from details");
-        this.filterCardLabels();
-      },
-    },
-    "card.dueDate.isDone": {
+    "card.dueDate": {
+       deep:true,
       handler() {
         console.log("watch on card.dueDate.isDone");
         this.saveCard();

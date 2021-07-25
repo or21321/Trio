@@ -29,7 +29,7 @@
       >
         add
       </button>
-      <div @click="isUserMenuOpen = true" class="avatar">
+      <div @click.stop="isUserMenuOpen = true" class="avatar">
         <avatar
           :size="32"
           :username="user.fullname" 
@@ -38,11 +38,10 @@
           backgroundColor="#DFE1E6"
           :customStyle="{fontSize:'14px'}"
         />
-        <!-- src="https://res.cloudinary.com/or21321/image/upload/v1626317415/pp_bqtkzw.jpg" -->
-        <!-- "http://res.cloudinary.com/or21321/image/upload/v1626387050/vnodxsvuzaeapjkgxw9g.jpg" -->
         <user-menu
           class="popup"
           v-if="isUserMenuOpen"
+          v-clickoutside="hideUserMenu"
           :user="user"
           @logout="logout"
           @close="isUserMenuOpen = false"
@@ -99,6 +98,9 @@ export default {
     hideBoardList(){
        this.isBoardListOpen = false;
     },
+    hideUserMenu(){
+       this.isUserMenuOpen = false;
+    },
     addBoard(board) {
       this.$emit("addBoard", board);
       this.isBoardComposeOn = false;
@@ -116,7 +118,9 @@ export default {
     goToBoardsPage(){
       const style = {"background-color": 'whitesmoke' };
       this.setBackground(style)
-        this.$router.push("/b");
+         if(this.$route.path !== '/b'){
+           this.$router.push("/b");
+         }
         this.$store.commit({type:'setCurrBoard',board:null})
     },
     goToHomePage(){

@@ -58,7 +58,7 @@ export default {
         txt: `set ${this.card.title} to be due ${this.cardToEdit.dueDate.time}`,
         card: { id: this.card.id, title: this.card.title },
       };
-      this.$emit("updateCard", this.cardToEdit,true);
+      this.$emit("updateCard", this.cardToEdit, true);
       eventBus.$emit("addActivity", activity);
       this.close();
     },

@@ -90,7 +90,7 @@ export default {
             if(member._id === user._id) user.isCardMember = true
          }) 
       })
-       if(!this.filterName) return members
+       if(!this.filterName) return members;
        let rgx = new RegExp(this.filterName ,'i')
       return members.filter(member => rgx.test(member.username) || rgx.test(member.fullname))
     }

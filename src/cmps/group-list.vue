@@ -51,7 +51,7 @@
           :isLabelsTitlesShown="isCardPreviewLabelsShown"
           @socketUpdateBoard="socketUpdateBoard"
           @toggleLabelsTitles="toggleLabelsTitles"
-          @updateCard="updateBoard"
+          @updateCard="updateCard"
           @setToPreviewEdit="setToPreviewEdit"
           :loggedinUser="loggedinUser"
           ref="cardPreview"
@@ -119,6 +119,10 @@ export default {
     
   },
   methods: {
+  updateCard(card) {
+    console.log('updateCard from group-list', card);
+    this.$emit('updateCard', card, this.group.id)
+  },
     close() {
       this.isTitleEdit = false;
     },

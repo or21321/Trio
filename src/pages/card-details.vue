@@ -458,6 +458,7 @@ export default {
           this.description = this.card.description;
           this.filterCardLabels();
           await this.clearUserNotifications();
+          this.filterCardLabels()
           this.isLoadingCard = false;
         } catch (err) {
           console.log("cannot get card", err);

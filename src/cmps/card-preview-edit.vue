@@ -277,7 +277,7 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        this.$emit('socketUpdateBoard')
+        await this.$emit('socketUpdateBoard')
         eventBus.$emit("addActivity", activity);
         msg = {
           txt: "Card was successfully removed",

@@ -458,7 +458,7 @@ export default {
           this.groupName = group.title;
           this.description = this.card.description;
           await this.clearUserNotifications();
-          this.filterCardLabels()
+          this.filterCardLabels();
           this.isLoadingCard = false;
         } catch (err) {
           console.log("cannot get card", err);
@@ -481,7 +481,7 @@ export default {
         }
         console.log("watch on card.dueDate.isDone");
         console.log("THIS.CARD", this.card);
-        console.log('this duedate', this.card.dueDate);
+        console.log("this duedate", this.card.dueDate);
         this.saveCard();
         // this.markDueDateActivity();
       },
@@ -566,7 +566,7 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        console.log('AFTER SAVECARD', this.card);
+        console.log("AFTER SAVECARD", this.card);
         this.socketUpdateBoard();
       } catch (err) {
         console.log("cannot save card", err);
@@ -576,7 +576,6 @@ export default {
     async removeCard() {
       var msg = {};
       try {
-        this.closeCardDetails();
         const activity = {
           txt: `deleted ${this.card.title} from ${this.groupName}`,
           card: { id: this.card.id, title: this.card.title },
@@ -587,7 +586,9 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        eventBus.$emit("addActivity", activity);
+        await this.socketUpdateBoard();
+        await this.closeCardDetails();
+        await eventBus.$emit("addActivity", activity);
         msg = {
           txt: "Card was successfully removed",
           type: "success",
@@ -603,6 +604,7 @@ export default {
     },
     socketUpdateBoard() {
       if (!this.card) return;
+      console.log("EMITTING SOCKET");
       this.$emit("socketUpdateBoard");
     },
     closeCardDetails() {

@@ -39,10 +39,10 @@
     <div class="card-preview-list">
       <draggable
         :list="group.cards"
-        :animation="200"
+        :animation="350"
         ghost-class="ghost-card"
         group="cards"
-        @end="updateBoard"
+        @end="updateBoardAfterDrag"
       >
         <card-preview
           v-for="card in group.cards"
@@ -118,7 +118,6 @@ export default {
   },
   created() {
     this.updateTitleDebounce = debounce(this.saveGroupTitle, 1000);
-    
   },
   mounted() {
     // this.$refs.groupTitle.addEventListener("focus", () => {
@@ -138,10 +137,10 @@ export default {
     },
   },
   methods: {
-  updateCard(card) {
-    console.log('updateCard from group-list', card);
-    this.$emit('updateCard', card, this.group.id)
-  },
+    updateCard(card) {
+      console.log("updateCard from group-list", card);
+      this.$emit("updateCard", card, this.group.id);
+    },
     close() {
       this.isTitleEdit = false;
       console.log("WTF", this.isTitleEdit);
@@ -186,15 +185,22 @@ export default {
         if (this.group.title === "")
           return (this.group.title = this.lastTitleChar);
         this.lastTitleChar = this.group.title;
-        await this.updateBoard();
+        this.updateGroup();
+        // await this.updateBoard();
         this.isTitleEdit = false;
       } catch (err) {
         console.log("Had a problem updating group title", err);
       }
     },
-    updateBoard() {
-      this.$emit("updateBoard", this.board);
+    // updateBoard() {
+    //   this.$emit("updateBoard", this.board);
+    // },
+    updateGroup() {
+      this.$emit("updateGroup", this.group);
     },
+  updateBoardAfterDrag() {
+    this.$emit('updateBoardAfterDrag')
+  },
     toggleLabelsTitles() {
       // this.isLabelsTitlesShown = !this.isLabelsTitlesShown
       this.$emit("toggleLabelsTitles");

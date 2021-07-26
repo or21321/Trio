@@ -21,7 +21,7 @@
         <!-- @start="dragStart" -->
         <!-- :dragged="dragHandler" -->
         <!-- :clone="(original) => clone(original)" -->
-        <!-- @end="saveBoard" --> 
+        <!-- @end="saveBoard" -->
         <group-list
           v-for="group in board.groups"
           :key="group.id"
@@ -32,6 +32,7 @@
           @socketUpdateBoard="socketUpdateBoard"
           @removeGroup="removeGroup"
           @updateBoard="saveBoard"
+          @updateCard="updateCard"
           @toggleLabelsTitles="toggleLabelsTitles"
           @setToPreviewEdit="setToPreviewEdit"
           :loggedinUser="loggedinUser"
@@ -124,6 +125,9 @@ export default {
     isBoardEmpty() {
       return this.board.groups.length === 0 ? true : false;
     },
+    unfilteredBoard() { 
+      return this.$store.state.boardStore.currBoard
+    },
     // dragStyle() {
     //   return {
     //     'top': `${this.y}px`,
@@ -166,20 +170,35 @@ export default {
     };
   },
   methods: {
-   //  dragStart(e) {
-   //    console.log("e", e);
-   //    console.log("refs", this.$refs);
-   //    this.dragPreview = e.originalEvent.target.cloneNode(true);
-   //    this.$refs["dragPreview"].appendChild(this.dragPreview);
+    async updateCard(card, groupId) {
+      try {
+        console.log("from board, updateCard", card, groupId, this.board._id);
+        await this.$store.dispatch({
+          type: "saveCard",
+          card: card,
+          groupId: groupId,
+          boardId: this.board._id,
+        });
+        console.log('da', this.$store.state);
+        this.socketUpdateBoard()
+      } catch (err) {
+        console.log("Had a problem updating card from board", err);
+      }
+    },
+    //  dragStart(e) {
+    //    console.log("e", e);
+    //    console.log("refs", this.$refs);
+    //    this.dragPreview = e.originalEvent.target.cloneNode(true);
+    //    this.$refs["dragPreview"].appendChild(this.dragPreview);
 
-   //    e.originalEvent.dataTransfer.setDragImage(new Image(), 0, 0);
-   //  },
+    //    e.originalEvent.dataTransfer.setDragImage(new Image(), 0, 0);
+    //  },
     dragEnd() {
       // this.dragPreview.remove();
       // this.dragPreview = null;
       this.saveBoard();
     },
-    // clone(original) { 
+    // clone(original) {
     //   console.log('original', original);
     //   return original
     // },
@@ -192,7 +211,7 @@ export default {
     //   console.log("this.y", this.y);
     // },
     socketUpdateBoard() {
-      socketService.emit(SOCKET_EMIT_BOARD_UPDATE, this.board);
+      socketService.emit(SOCKET_EMIT_BOARD_UPDATE, this.unfilteredBoard);
     },
     loadBoard() {
       this.$store.dispatch({ type: "loadBoard", boardId: this.board._Id });

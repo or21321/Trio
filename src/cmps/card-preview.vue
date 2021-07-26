@@ -239,7 +239,7 @@ export default {
     },
     toggleDueDateIsDone() {
       this.card.dueDate.isDone = !this.card.dueDate.isDone;
-      this.$emit("updateCard");
+      this.$emit("updateCard", JSON.parse(JSON.stringify(this.card)));
     },
     countCardTodos() {
       this.checklistsDoneTodos = 0;

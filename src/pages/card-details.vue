@@ -458,6 +458,7 @@ export default {
           this.groupName = group.title;
           this.description = this.card.description;
           await this.clearUserNotifications();
+          this.filterCardLabels()
           this.isLoadingCard = false;
         } catch (err) {
           console.log("cannot get card", err);

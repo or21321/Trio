@@ -33,12 +33,18 @@
                 backgroundColor="#DFE1E6"
                 color="#172b4d"
               />
-              <span class="item-add-btn" @click="setCurrAction($event,actions[0])">
+              <span
+                class="item-add-btn"
+                @click="setCurrAction($event, actions[0])"
+              >
                 <span class="material-icons-outlined icon">add</span>
               </span>
             </div>
           </div>
-          <div class="labels grid-details" v-if="cardLabels && cardLabels.length">
+          <div
+            class="labels grid-details"
+            v-if="cardLabels && cardLabels.length"
+          >
             <span></span>
             <h1 class="title-labels">Labels</h1>
             <div class="list-labels">
@@ -47,11 +53,14 @@
                 :key="label.id"
                 :style="{ backgroundColor: label.color }"
                 class="preview-label"
-                @click="setCurrAction($event,actions[1])"
+                @click="setCurrAction($event, actions[1])"
               >
                 <span>{{ label.title }}</span>
               </span>
-              <span class="item-add-btn" @click="setCurrAction($event ,actions[1])">
+              <span
+                class="item-add-btn"
+                @click="setCurrAction($event, actions[1])"
+              >
                 <span class="material-icons-outlined icon">add</span>
               </span>
             </div>
@@ -250,9 +259,7 @@
                 >Save</el-button
               >
             </div>
-            <div
-              class="comment-list"
-            >
+            <div class="comment-list">
               <article
                 class="comment-preview"
                 v-for="comment in card.comments"
@@ -284,12 +291,19 @@
                 </section>
               </article>
             </div>
-            <activity v-if="titleActivityBtn === 'Hide Details'" :activities="activitiesToShow" :hasHeader="false" />
+            <activity
+              v-if="titleActivityBtn === 'Hide Details'"
+              :activities="activitiesToShow"
+              :hasHeader="false"
+            />
           </section>
         </section>
       </main>
       <nav class="details-actions" :class="isCoverClass">
-        <section class="suggested-nav" v-if="userNotInclude && userIsMemberShip">
+        <section
+          class="suggested-nav"
+          v-if="userNotInclude && userIsMemberShip"
+        >
           <h4 class="title">SUGGESTED</h4>
           <label @click="addUserToCard">
             <span class="material-icons-outlined icon">person_add</span>
@@ -309,9 +323,7 @@
             <span class="txt"> {{ action.name }} </span>
           </label>
           <label v-if="this.card.dueDate.time" @click="removeDate">
-            <span class="material-icons-outlined"
-              >history</span
-            >
+            <span class="material-icons-outlined">history</span>
             <span class="txt"> Remove date </span>
           </label>
           <label for="input-file">
@@ -397,6 +409,7 @@ export default {
       commentTxt: "",
       iscommentOpen: false,
       isLoading: false,
+      isLoadingCard: false,
       actions: [
         {
           type: "cardMembersEdit",
@@ -433,8 +446,19 @@ export default {
       immediate: true,
       async handler() {
         try {
+          this.isLoadingCard = true;
           await this.loadCard();
+          console.log("Hey OR!", this.card);
+          const group = await this.$store.dispatch({
+            type: "getGroupById",
+            groupId: this.groupId,
+            boardId: this.boardId,
+          });
+          console.log("Hallow Or!", group);
+          this.groupName = group.title;
           this.description = this.card.description;
+          await this.clearUserNotifications();
+          this.isLoadingCard = false;
         } catch (err) {
           console.log("cannot get card", err);
           throw err;
@@ -448,42 +472,53 @@ export default {
       },
     },
     "card.dueDate": {
-       deep:true,
+      deep: true,
       handler() {
+        if (this.isLoadingCard) {
+          console.log("NOPE");
+          return;
+        }
         console.log("watch on card.dueDate.isDone");
+        console.log("THIS.CARD", this.card);
+        console.log('this duedate', this.card.dueDate);
         this.saveCard();
         // this.markDueDateActivity();
       },
     },
   },
-  async created() {
-    // this.updateDescription = debounce(this.saveCard,1000);
-    try {
-      const group = await this.$store.dispatch({
-        type: "getGroupById",
-        groupId: this.groupId,
-        boardId: this.boardId,
-      });
-      this.groupName = group.title;
-      this.clearUserNotifications();
-    } catch (err) {
-      console.log("cannot get group", err);
-      throw err;
+  // this.updateDescription = debounce(this.saveCard,1000);
+  // async created() {
+  //   try {
+  //     const group = await this.$store.dispatch({
+  //       type: "getGroupById",
+  //       groupId: this.groupId,
+  //       boardId: this.boardId,
+  //     });
+  //     this.groupName = group.title;
+  //     await this.loadCard();
+  //     await this.clearUserNotifications();
+  //   } catch (err) {
+  //     console.log("cannot get group", err);
+  //     throw err;
+  //   }
+  // },
+  mounted() {
+    if (this.card) {
+      setTimeout(() => {
+        console.log("KUS RABAK", this.card);
+        this.$refs.comment.$el.addEventListener(
+          "focusout",
+          this.checkCommentEmpty
+        );
+      }, 500);
     }
-  },
-  async mounted() {
-    setTimeout(() => {
-      this.$refs.comment.$el.addEventListener(
-        "focusout",
-        this.checkCommentEmpty
-      );
-    }, 500);
   },
   methods: {
     async clearUserNotifications() {
       try {
         const loggedinUser = JSON.parse(JSON.stringify(this.loggedinUser));
         const clearedMentions = loggedinUser.mentions.filter((mention) => {
+          console.log("OMFG!!", this.card);
           return mention.cardId !== this.card.id;
         });
         loggedinUser.mentions = clearedMentions;
@@ -493,11 +528,12 @@ export default {
       }
     },
     filterCardLabels() {
+      if (!this.card) return;
       if (!this.card.labelIds.length) return (this.cardLabels = []);
       this.cardLabels = [];
       this.card.labelIds.forEach((cardLabelId) => {
         const label = this.currBoard.labels.find((label) => {
-          console.log("hey");
+          console.log("hey label", label);
           return label.id == cardLabelId;
         });
         if (label) this.cardLabels.push(label);
@@ -511,13 +547,17 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        console.log('this.card', this.card);
+        console.log("OMFG OMFG OMFG OMFG", this.card);
       } catch (err) {
         console.log("Had problem loading card", err);
       }
     },
     async saveCard(savedCard, isDaynamicComponent = false) {
-       savedCard = (isDaynamicComponent) ? savedCard :this.card;
+      savedCard = isDaynamicComponent ? savedCard : this.card;
+      if (!savedCard) return;
+      console.log("HELLO!!!!!!#R#$", savedCard);
+      console.log("HELLO!!!!!!#R#$", this.groupId);
+      console.log("HELLO!!!!!!#R#$", this.boardId);
       try {
         this.card = await this.$store.dispatch({
           type: "saveCard",
@@ -525,6 +565,7 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
+        console.log('AFTER SAVECARD', this.card);
         this.socketUpdateBoard();
       } catch (err) {
         console.log("cannot save card", err);
@@ -560,6 +601,7 @@ export default {
       }
     },
     socketUpdateBoard() {
+      if (!this.card) return;
       this.$emit("socketUpdateBoard");
     },
     closeCardDetails() {
@@ -572,7 +614,10 @@ export default {
     },
     setCurrAction(event, action) {
       // Preparation for positioning dynamic cmps.
-      console.log('setCurrAction, event', event.path[1].getBoundingClientRect());
+      console.log(
+        "setCurrAction, event",
+        event.path[1].getBoundingClientRect()
+      );
       this.currAction = action;
       this.isPopupShow = true;
     },
@@ -639,7 +684,7 @@ export default {
     },
     async deleteCheckbox(checkboxId, checklistId) {
       try {
-          await this.$store.dispatch({
+        await this.$store.dispatch({
           type: "removeCheckbox",
           checkboxId: checkboxId,
           checklistId: checklistId,
@@ -655,8 +700,8 @@ export default {
     },
     async addCheckbox() {
       try {
-         this.$store.dispatch({
-            type: "addCheckbox",
+        this.$store.dispatch({
+          type: "addCheckbox",
           title: this.checkboxTitle,
           checklistId: this.currChecklist,
           card: this.card,
@@ -681,7 +726,7 @@ export default {
     },
     //  DATE
     openDate(ev) {
-      if (ev.target.tagName === "P") this.setCurrAction(ev ,this.actions[4]);
+      if (ev.target.tagName === "P") this.setCurrAction(ev, this.actions[4]);
     },
     removeDate() {
       this.card.dueDate = {};
@@ -775,7 +820,7 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-      //   this.saveCard();
+        //   this.saveCard();
         this.socketUpdateBoard();
         const activity = {
           txt: `copied ${this.card.title} from ${this.card.title} in list ${this.groupName}`,
@@ -834,7 +879,7 @@ export default {
       return this.$store.getters.loggedinUser;
     },
     isCoverClass() {
-      return { "is-cover": this.card.cover.color};
+      return { "is-cover": this.card.cover.color };
     },
     userNotInclude() {
       const user = this.$store.getters.loggedinUser;
@@ -844,12 +889,11 @@ export default {
       console.log(isUserMemberIdx);
       return isUserMemberIdx === -1 ? true : false;
     },
-    userIsMemberShip(){
-        const user = this.$store.getters.loggedinUser;
-        return this.currBoard.members.some((member) => {
+    userIsMemberShip() {
+      const user = this.$store.getters.loggedinUser;
+      return this.currBoard.members.some((member) => {
         return member._id === user._id;
-      })
-    
+      });
     },
     activitiesToShow() {
       const cardActivities = this.$store.getters.currBoard.activities.filter(

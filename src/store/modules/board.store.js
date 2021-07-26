@@ -76,14 +76,11 @@ export const boardStore = {
       },
       setCurrBoard(state, { board }) {
          console.log('Yeafgf', board);
-         // socketService.on(SOCKET_ON_BOARD_UPDATE, board => {
             socketService.on(SOCKET_ON_BOARD_UPDATE, board => {
                console.log('FROM STORE FROM SOCKET', board);
                state.currBoard = board
             })
-            // state.currBoard = board
-         // });
-         console.log('baord', board);
+         console.log('board', board);
          state.currBoard = board
       },
       setCardEdit(state, { card }) {
@@ -250,9 +247,9 @@ export const boardStore = {
          }
       },
       // Card
-      async saveCard({ commit, state }, { card, groupId, boardId }) {
-         const filterBy = state.filterBy
-         if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
+      async saveCard({ commit}, { card, groupId, boardId }) {
+         // const filterBy = state.filterBy
+         // if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
          const isUpdate = (card.id) ? true : false;
          try {
             console.log('saveCard', card);
@@ -278,7 +275,9 @@ export const boardStore = {
       },
       async getCardById(context, { cardId, groupId, boardId }) {
          try {
-            return await boardService.getCardById(cardId, groupId, boardId)
+            const currCard =  await boardService.getCardById(cardId, groupId, boardId)
+            console.log('currCard', currCard);
+            return currCard
          } catch (err) {
             console.log('Cannot get card', cardId, ',', err);
             throw err;

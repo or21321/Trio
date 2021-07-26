@@ -642,7 +642,6 @@ export default {
           txt: "Checklist was successfully removed",
           type: "success",
         };
-        this.saveCard();
         this.socketUpdateBoard();
       } catch (err) {
         msg = {
@@ -663,7 +662,6 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        this.saveCard();
         this.socketUpdateBoard();
       } catch (err) {
         console.log("ERROR: cannot remove checkbox", checkboxId, ",", err);
@@ -680,7 +678,6 @@ export default {
           boardId: this.boardId,
         });
         this.closeChanges();
-        this.saveCard();
         this.socketUpdateBoard();
       } catch (err) {
         console.log("ERROR: cannot add checkbox");
@@ -713,7 +710,6 @@ export default {
         boardId: this.boardId,
       });
       this.isMention();
-      this.saveCard();
       const activity = {
         txt: `added a comment on ${this.card.title}`,
         card: { id: this.card.id, title: this.card.title },
@@ -748,7 +744,6 @@ export default {
         groupId: this.groupId,
         boardId: this.boardId,
       });
-      this.saveCard();
       const activity = {
         txt: `deleted a comment from ${this.card.title}`,
         card: { id: this.card.id, title: this.card.title },

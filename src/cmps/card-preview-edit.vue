@@ -273,8 +273,8 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        this.$emit('socketUpdateBoard')
         eventBus.$emit("addActivity", activity);
+        this.$emit('socketUpdateBoard')
         msg = {
           txt: "Card was successfully removed",
           type: "success",
@@ -299,13 +299,13 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        this.$emit('socketUpdateBoard')
         const group = await this.$store.dispatch({type: "getGroupById", groupId: this.groupId, boardId: this.boardId});
         const activity = {
           txt: `copied ${this.card.title} from ${this.card.title} in list ${group.title}`,
           card: { id: this.card.id, title: this.card.title },
         };
         eventBus.$emit("addActivity", activity);
+        this.$emit('socketUpdateBoard')
         msg = {
           txt: "Card was successfully copied",
           type: "success",

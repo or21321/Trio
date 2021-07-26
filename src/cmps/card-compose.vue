@@ -89,19 +89,19 @@ export default {
           boardId: this.boardId,
         });
         // this.toggleCompose()
-        this.$emit('socketUpdateBoard')
         const group = await this.$store.dispatch({type: "getGroupById", groupId: this.groupId, boardId: this.boardId});
         const activity = { 
           txt: `added ${newCard.title} to ${group.title}`,
           card: { id: newCard.id, title: newCard.title }
           }
+        eventBus.$emit("addActivity", activity)
+        this.$emit('socketUpdateBoard')
         this.cardToEdit = boardService.getEmptyCard();
-          this.$refs.textarea.focus();
+        this.$refs.textarea.focus();
         msg = {
           txt: "Card was successfully added",
           type: "success",
         };
-        eventBus.$emit("addActivity", activity)    
       } catch (err) {
         msg = {
           txt: "Fail to add card, try again later",

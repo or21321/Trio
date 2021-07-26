@@ -52,9 +52,11 @@ export const boardStore = {
                })
             }
 
+            console.log('filterBy.timeLeft', filterBy.timeLeft)
             if (filterBy.timeLeft) {
                g.cards = g.cards.filter(c => {
-                  return (Date.parse(c.dueDate.time) - Date.now()) < filterBy.timeLeft
+                  return (Date.parse(c.dueDate.time) - Date.now() < filterBy.timeLeft &&
+                     Date.parse(c.dueDate.time) > (Date.now() - 1000 * 60 * 60 * 24))
                })
             }
 

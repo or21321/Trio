@@ -4,9 +4,12 @@
     height: 100%;
     padding-bottom: 8px;
     background-repeat: no-repeat;
-   //  background-color: whitesmoke;
     background-image: url('~@/assets/gradient.jpg');
     background-size: cover;
+    &.is-home-page{
+    background-image:unset;
+    background-color: whitesmoke;
+    }
     .main{
        height: 93.1vh;
     }

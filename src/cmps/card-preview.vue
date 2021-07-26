@@ -144,6 +144,7 @@
         </ul>
       </div>
     </section>
+    {{isEdit}}
     <card-preview-edit
       v-if="cardEdit === cardToEdit && isEdit"
       :card="cardToEdit"
@@ -178,7 +179,7 @@ export default {
       required: true,
     },
     darkWindow: {
-      type: Boolean,
+      type: Object,
     },
     loggedinUser: {
       type: Object,
@@ -217,9 +218,9 @@ export default {
         this.countUserNotifications();
       },
     },
-    darkWindow: {
+    "darkWindow.editCard": {
       handler() {
-        this.isEdit = this.darkWindow;
+       this.isEdit = this.darkWindow.editCard;
       },
     },
   },
@@ -266,7 +267,7 @@ export default {
       this.$emit("toggleLabelsTitles");
     },
     setToPreviewEdit(ev, card, deff) {
-      this.$emit("setToPreviewEdit", deff);
+      this.$emit("setToPreviewEdit",'editCard', deff);
       this.cardToEdit = card;
       this.$store.commit({ type: "setCardEdit", card });
     },

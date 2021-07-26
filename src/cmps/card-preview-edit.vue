@@ -349,6 +349,8 @@ export default {
         const cardLabel = this.currBoard().labels.find((label) => {
           return label.id === labelId;
         });
+        console.log('labels1', this.cardToEdit.labelIds)
+        console.log('labels0', this.cardToEdit.labelIds)
         if (cardLabel) acc.push(cardLabel);
         else console.log("cardLabel undefined", cardLabel);
         return acc;

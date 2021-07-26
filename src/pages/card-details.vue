@@ -478,9 +478,6 @@ export default {
           console.log("NOPE");
           return;
         }
-        console.log("watch on card.dueDate.isDone");
-        console.log("THIS.CARD", this.card);
-        console.log('this duedate', this.card.dueDate);
         this.saveCard();
         // this.markDueDateActivity();
       },
@@ -489,7 +486,6 @@ export default {
       mounted() {
     if (this.card) {
       setTimeout(() => {
-        console.log("KUS RABAK", this.card);
         this.$refs.comment.$el.addEventListener(
           "focusout",
           this.checkCommentEmpty
@@ -502,7 +498,6 @@ export default {
       try {
         const loggedinUser = JSON.parse(JSON.stringify(this.loggedinUser));
         const clearedMentions = loggedinUser.mentions.filter((mention) => {
-          console.log("OMFG!!", this.card);
           return mention.cardId !== this.card.id;
         });
         loggedinUser.mentions = clearedMentions;
@@ -544,7 +539,6 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        console.log('AFTER SAVECARD', this.card);
         this.socketUpdateBoard();
       } catch (err) {
         console.log("cannot save card", err);

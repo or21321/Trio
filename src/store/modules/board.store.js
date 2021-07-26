@@ -18,12 +18,15 @@ export const boardStore = {
    },
    getters: {
       boards({ boards }) { return boards },
+      filterBy({ filterBy }) { return filterBy },
       currBoard({ currBoard, filterBy }) {
 
-         if (!currBoard) return
-
+         if (!currBoard) return 
+         if (!filterBy.txt && !filterBy.labelIds.length && !filterBy.memberIds.length && !filterBy.timeLeft) {
+            return currBoard;
+         }
          var boardForDisplay = JSON.parse(JSON.stringify(currBoard))
-
+         
          boardForDisplay.groups.forEach(g => {
 
             if (filterBy.txt) {

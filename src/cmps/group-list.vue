@@ -94,7 +94,7 @@ export default {
       required: true,
     },
     darkWindow: {
-      type: Boolean,
+      type: Object,
     },
     loggedinUser: {
       type: Object,
@@ -168,8 +168,8 @@ export default {
     toggleLabelsTitles() {
       this.$emit("toggleLabelsTitles");
     },
-    setToPreviewEdit(deff) {
-      this.$emit("setToPreviewEdit", deff);
+    setToPreviewEdit(type,deff) {
+      this.$emit("setToPreviewEdit",type, deff);
     },
   },
 };

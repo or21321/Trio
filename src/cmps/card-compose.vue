@@ -14,12 +14,6 @@
       <button class="compose-btn" @click="add" 
       :disabled="!cardToEdit.title" >Add card</button>
       <button @click="toggleCompose" class="material-icons">close</button>
-      <span
-        @click="openComposeOptions"
-        class="material-icons card-compose-options-btn"
-      >
-        more_horiz
-      </span>
     </div>
   </div>
   <div @click="toggleCompose" v-else class="card-compose-btn">
@@ -61,7 +55,6 @@ export default {
       handler() {
          if (this.isComposeOn)
           setTimeout(() => {
-             console.log(this.$refs);
             this.$refs.textarea.focus();
           }, 100);
       },
@@ -122,9 +115,6 @@ export default {
     toggleCompose() {
       this.isComposeOn = !this.isComposeOn;
       if(!this.isComposeOn) this.$emit('closeAddCard')
-    },
-    openComposeOptions() {
-      console.log("openComposeOptions()");
     },
   },
 };

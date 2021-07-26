@@ -219,10 +219,6 @@ export default {
   created() {
     this.cardToEdit = JSON.parse(JSON.stringify(this.card));
   },
-//   mounted(){
-//      console.log('this.$refs.textareaTitle', this.$refs.textareaTitle.$el)
-//         this.$refs.textareaTitle.$el.focus();
-//   },
   watch: {
     "cardToEdit.labelIds": {
       deep: true,
@@ -373,7 +369,6 @@ export default {
       return this.cardToEdit.dueDate.isDone;
     },
     isNoCover(){  
-      // console.log(this.cardToEdit.cover.color)
      return {'no-cover': !this.cardToEdit.cover.color}
     },
     isNoLabelAndCover(){  

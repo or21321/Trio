@@ -278,12 +278,9 @@ export default {
   created() {
     this.getPhotos = debounce(this.getPhotos, 500);
     this.searchCards = debounce(this.searchCards, 500);
-    // this.boardLabels = [];
     this.boardLabels = JSON.parse(JSON.stringify(this.board.labels));
     this.filterIsLabelFilterActive();
-    // this.boardMembers = [];
     this.boardMembers = JSON.parse(JSON.stringify(this.board.members));
-    console.log("HEY", this.cardsFilterBy.labelIds);
   },
   destroyed() {
     this.cardsFilterBy = {
@@ -302,7 +299,6 @@ export default {
     },
     activities() {
       return JSON.parse(JSON.stringify(this.board.activities)).reverse();
-      // return this.board.activities
     },
     title() {
       var title = "";
@@ -331,7 +327,6 @@ export default {
       immediate: true,
       handler() {
         if (this.deeperOption === "searchCards") {
-          console.log("HADNLDER");
           this.filterIsLabelFilterActive();
           this.filterIsMemberFilterActive();
         }
@@ -394,9 +389,6 @@ export default {
       this.searchCards();
     },
     filterIsLabelFilterActive() {
-      // if (!this.boardLabels.length || this.deeperOption !== "searchCards")
-      //   return;
-      console.log("Hey", this.boardLabels);
       const boardLabels = JSON.parse(JSON.stringify(this.boardLabels)).map(
         (bLabel) => {
           bLabel.isFilterBy = this.cardsFilterBy.labelIds.some(
@@ -420,7 +412,6 @@ export default {
       }
 
       this.cardsFilterBy.memberIds.push(memberId);
-      console.log("this.cardsFilterBy.memberIds", this.cardsFilterBy.memberIds);
       this.filterIsMemberFilterActive();
       this.searchCards();
     },
@@ -438,10 +429,8 @@ export default {
       this.boardMembers = boardMembers;
     },
     filterCardsByDueDate(timeLeft) {
-      console.log("filterCardsByDueDate, timeLeft", timeLeft);
       const isFilteredBy =
         timeLeft === this.cardsFilterBy.timeLeft ? true : false;
-      console.log("isFilteredByIdx", isFilteredBy);
 
       if (isFilteredBy) {
         this.cardsFilterBy.timeLeft = 0;
@@ -454,7 +443,6 @@ export default {
       this.searchCards();
     },
     filterIsDueDateFilterActive(timeLeft) {
-      console.log("filterIsDeDateFilterActive()");
       if (this.deeperOption !== "searchCards") return;
 
       const dateFilterOptions = this.dateFilterOptions.map((dueDateOption) => {
@@ -464,11 +452,9 @@ export default {
         } else {
           dueDateOption.isFilterBy =
             dueDateOption.timeLeft === timeLeft ? true : false;
-          console.log(dueDateOption);
           return dueDateOption;
         }
       });
-      console.log("dateFilterOptions", dateFilterOptions);
       this.dateFilterOptions = dateFilterOptions;
     },
   },

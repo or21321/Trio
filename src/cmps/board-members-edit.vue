@@ -71,7 +71,6 @@ export default {
     members: {
       // immediate: true,
       handler() {
-        console.log("Watcher on members");
         this.filterBoardMembers();
       },
     },
@@ -99,10 +98,8 @@ export default {
         };
         this.membersToEdit.push(miniUser);
       } else {
-        // console.log("Remove");
         this.membersToEdit.splice(isUserMemberIdx, 1);
       }
-      // console.log("members to update", this.membersToEdit);
       this.updateMembers();
     },
 
@@ -118,7 +115,6 @@ export default {
         this.filteredBoardMembers = users;
     },
     updateMembers() {
-      console.log("update", this.membersToEdit);
       this.$emit("updateMembers", this.membersToEdit);
     },
     close() {

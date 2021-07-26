@@ -1,8 +1,6 @@
 <template>
   <div class="group-list">
     <div class="group-header">
-      <!-- <h2>{{ group.title }}</h2> -->
-      <!-- <input -->
       <contenteditable
         :noHTML="true"
         :contenteditable="true"
@@ -120,44 +118,16 @@ export default {
     this.updateTitleDebounce = debounce(this.saveGroupTitle, 1000);
     
   },
-  mounted() {
-    // this.$refs.groupTitle.addEventListener("focus", () => {
-    //   this.$refs.groupTitle.$el.select()
-    // });
-    // console.log("card-preview", this.$refs.cardPreview[0].$el.clientWidth);
-    // console.log("****", this.$refs.cardCompose.$el.clientWidth);
-    // this.$refs.cardCompose.$el.clientWidth = this.$refs.cardPreview[0].$el.clientWidth
-  },
-  watch: {
-    "$refs.cardPreview": {
-      deep: true,
-      handler() {
-        // this.$refs.cardCompose.$el.clientWidth = this.$refs.cardPreview.$el.clientWidth
-        console.log("!#$#52", this.$refs.cardPreview[0].$el.clientWidth);
-      },
-    },
-  },
   methods: {
     close() {
       this.isTitleEdit = false;
-      console.log("WTF", this.isTitleEdit);
     },
-    // updateCard() {
-    // console.log("from group", { card, groupId: this.group.id });
-    // this.$emit('updateCard', { card, groupId: this.group.id })
-    //   this.$emit("updateBoard");
-    // },
     async showTitleInput() {
       try {
         this.isTitleEdit = true;
-        console.log("Hello", this.isTitleEdit);
         await setTimeout(() => {
-          console.log(this.$refs.titleGroup);
           this.$refs.titleGroup.$el.focus();
         }, 100);
-        // setTimeout(() => {
-        //   this.$refs.titleGroup.$el.select();
-        // }, 150);
       } catch (err) {
         console.log("Error showing input", err);
       }
@@ -192,7 +162,6 @@ export default {
       this.$emit("updateBoard", this.board);
     },
     toggleLabelsTitles() {
-      // this.isLabelsTitlesShown = !this.isLabelsTitlesShown
       this.$emit("toggleLabelsTitles");
     },
     setToPreviewEdit(deff) {

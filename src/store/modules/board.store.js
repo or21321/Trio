@@ -56,7 +56,6 @@ export const boardStore = {
             }
 
          })
-
          return boardForDisplay
 
       },
@@ -75,15 +74,9 @@ export const boardStore = {
          state.filterBy = filterBy
       },
       setCurrBoard(state, { board }) {
-         console.log('Yeafgf', board);
-         // socketService.on(SOCKET_ON_BOARD_UPDATE, board => {
             socketService.on(SOCKET_ON_BOARD_UPDATE, board => {
-               console.log('FROM STORE FROM SOCKET', board);
                state.currBoard = board
             })
-            // state.currBoard = board
-         // });
-         console.log('baord', board);
          state.currBoard = board
       },
       setCardEdit(state, { card }) {
@@ -105,7 +98,6 @@ export const boardStore = {
          state.boards.splice(idx, 1);
       },
       addActivity(state, { activity }) {
-         // state.currBoard.activities.unshift(activity)
          state.currBoard.activities.push(activity)
       },
       addBoardToRecentBoards(state, { board }) {
@@ -134,10 +126,8 @@ export const boardStore = {
          if (isUpdate) {
             const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(c => c.id === card.id)
             state.currBoard.groups[groupIdx].cards.splice(cardIdx, 1, card)
-            // Vue.set(state.currBoard.groups[groupIdx].cards, cardIdx, card)
          } else {
             state.currBoard.groups[groupIdx].cards.push(card)
-            // Vue.set(state.currBoard.groups[groupIdx].cards, state.currBoard.groups[groupIdx].cards.length - 1, card)
          }
       },
       addComment(state, { savedComment, card, groupId }) {
@@ -161,9 +151,7 @@ export const boardStore = {
       },
       async loadBoard({ commit }, { boardId }) {
          try {
-            console.log('AHALAN');
             const board = await boardService.getById(boardId)
-            console.log('BOARD', board);
             commit({ type: 'setCurrBoard', board })
             return board
          }
@@ -255,7 +243,6 @@ export const boardStore = {
          if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
          const isUpdate = (card.id) ? true : false;
          try {
-            console.log('saveCard', card);
             const savedCard = await boardService.saveCard(card, groupId, boardId);
             commit({ type: 'saveCard', isUpdate, card: savedCard, groupId });
             return savedCard;
@@ -278,22 +265,20 @@ export const boardStore = {
       },
       async getCardById(context, { cardId, groupId, boardId }) {
          try {
-            return await boardService.getCardById(cardId, groupId, boardId)
+            const card = await boardService.getCardById(cardId, groupId, boardId)
+            return card
          } catch (err) {
             console.log('Cannot get card', cardId, ',', err);
             throw err;
          }
       },
       //Checkbox
-      // async addCheckbox({commit}, { title,checklistId, card, groupId, boardId }) {
       async addCheckbox({ commit, state }, { title, checklistId, card, groupId, boardId }) {
          try {
             const filterBy = state.filterBy
             if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
             const savedCard = await boardService.addCheckbox(title, checklistId, card, groupId, boardId)
-            //   console.log('savedCard after save', savedCard);
             commit({ type: 'saveCard', isUpdate: true, card: savedCard, groupId })
-            //   console.log('savedCard', savedCard);
             return savedCard
          } catch (err) {
             console.log('Cannot add checkbox', title, ',', err);
@@ -326,7 +311,6 @@ export const boardStore = {
             const filterBy = context.state.filterBy
             if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
             const savedComment = await boardService.addComment(commentTxt, card, groupId, boardId)
-            console.log('Ahalan');
             context.commit({ type: 'addComment', savedComment, card, groupId })
          } catch (err) {
             console.log('Cannot add comment', commentTxt, ',', err);

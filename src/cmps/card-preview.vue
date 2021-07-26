@@ -54,10 +54,8 @@
           @click.stop="toggleLabelTitle"
         >
         </span>
-        <!-- <span v-else class="label" v-for="label in cardLabels" :key="label.id" :style="{backgroundColor:label.color}">{{label.title}}</span> -->
       </div>
       <div class="card-labels" v-if="cardLabels.length && isLabelsTitlesShown">
-        <!-- <span class="label-preview" v-for="label in cardLabels" :key="label.id" :style="{backgroundColor:label.color}"></span> -->
         <span
           class="label-preview title-shown"
           v-for="label in cardLabels"
@@ -133,7 +131,6 @@
           </div>
         </div>
         <ul class="card-members" v-if="card.members.length">
-          <!-- Todo: click on avatar open remove-confirm-popup -->
           <avatar
             class="hover-background"
             v-for="member in card.members"
@@ -269,7 +266,6 @@ export default {
       this.$emit("toggleLabelsTitles");
     },
     setToPreviewEdit(ev, card, deff) {
-      console.log(ev);
       this.$emit("setToPreviewEdit", deff);
       this.cardToEdit = card;
       this.$store.commit({ type: "setCardEdit", card });

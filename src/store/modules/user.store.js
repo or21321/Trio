@@ -28,13 +28,9 @@ export const userStore = {
       },
       updateUser(state, { user }) {
          const userIdx = state.users.findIndex(u => u._id === user._id)
-         console.log('from commit before', state.users[userIdx]);
-         console.log('from commit savign user', user);
-         console.log('from commit idx', userIdx);
          state.users.splice(userIdx, 1, user)
       },
       setWatchedUser(state, { user }) {
-         console.log('setWatchedUser', user);
          state.watchedUser = user;
       },
    },
@@ -44,10 +40,8 @@ export const userStore = {
             const user = await userService.getById(userId);
             commit({ type: 'setWatchedUser', user })
             socketService.emit(SOCKET_EMIT_USER_WATCH, userId)
-            console.log('user-watch', userId);
             socketService.off(SOCKET_EVENT_USER_UPDATED)
             socketService.on(SOCKET_EVENT_USER_UPDATED, user => {
-               console.log('user-updated from socket', user);
                commit({ type: 'setWatchedUser', user })
             })
          } catch (err) {
@@ -142,31 +136,5 @@ export const userStore = {
             throw err
          }
       }
-
-
-      // async loadAndWatchUser({ commit }, { userId }) {
-      //    try {
-      //       const user = await userService.getById(userId);
-      //       commit({ type: 'setWatchedUser', user })
-      //       socketService.emit(SOCKET_EMIT_USER_WATCH, userId)
-      //       socketService.off(SOCKET_EVENT_USER_UPDATED)
-      //       socketService.on(SOCKET_EVENT_USER_UPDATED, user => {
-      //          commit({ type: 'setWatchedUser', user })
-      //       })
-      //    } catch (err) {
-      //       console.log('userStore: Error in loadAndWatchUser', err)
-      //       throw err
-      //    }
-      // },
-      // async updateUser({ commit }, { user }) {
-      //    try {
-      //       user = await userService.update(user);
-      //       commit({ type: 'setUser', user })
-      //    } catch (err) {
-      //       console.log('userStore: Error in updateUser', err)
-      //       throw err
-      //    }
-
-      // }
    }
 }

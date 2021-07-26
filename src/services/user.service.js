@@ -1,9 +1,6 @@
-// import { storageService } from './storage.service.js'
+
 import { httpService } from './http.service'
-// import { socketService, SOCKET_EVENT_USER_UPDATED } from './socket.service'
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
-// const SCORE_FOR_REVIEW = 10
-// var gWatchedUser = null;
 
 export const userService = {
    login,
@@ -16,20 +13,12 @@ export const userService = {
    getMiniUser,
    createDemoUsers,
    updateUser
-   // update,
 }
 
-// window.userService = userService
-// Note: due to async, must run one by one...
-// userService.signup({fullname: 'Puki Norma', username: 'user1', password:'123',score: 100, isAdmin: false})
-// userService.signup({fullname: 'Master Adminov', username: 'admin', password:'123', score: 100, isAdmin: true})
-// userService.signup({fullname: 'Muki G', username: 'muki', password:'123', score: 100})
 
 async function getUsers() {
    try {
-      // return await storageService.query('users')
       var users = await httpService.get(`user`)
-      // var users = await storageService.query('users')
       if (!users.length) {
          await createDemoUsers()
       }
@@ -40,15 +29,9 @@ async function getUsers() {
    return users
 }
 
-// createTestUsers() {
-
-// }
-
 async function getById(userId) {
    try {
-      // const user = await storageService.get('users', userId)
       const user = await httpService.get(`user/${userId}`)
-      // gWatchedUser = user;
       return user;
    } catch (err) {
       console.log('userService: Error in getById user', err)
@@ -56,19 +39,6 @@ async function getById(userId) {
    }
 
 }
-
-// async function update(user) {
-//    try {
-//       await storageService.put('users', user)
-//       // user = await httpService.put(`user/${user._id}`, user)
-//       // Handle case in which admin updates other user's details
-//       if (getLoggedinUser()._id === user._id) _saveLocalUser(user)
-//       return user;
-//    } catch (err) {
-//       console.log('userService: Error in update user', err)
-//       throw err
-//    }
-// }
 
 async function login(userCred) {
    try {
@@ -81,9 +51,7 @@ async function login(userCred) {
 }
 async function signup(userCred) {
    try {
-      // const user = await storageService.post('users', userCred)
       const user = await httpService.post('auth/signup', userCred)
-      // socketService.emit('set-user-socket', user._id);
       return _saveLocalUser(user)
    } catch (err) {
       console.log('userService: Error in signup user', err)
@@ -93,7 +61,6 @@ async function signup(userCred) {
 async function logout() {
    sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
    try {
-      // socketService.emit('unset-user-socket');
       return await httpService.post('auth/logout')
    } catch (err) {
       console.log('userService: Error in logout', err)

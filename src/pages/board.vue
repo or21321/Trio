@@ -98,38 +98,16 @@ export default {
       console.log("ERROR, cannot SignupAsGuest or addActivity", err);
     }
   },
-  // mounted() {
-  //   setTimeout(() => {
-  //     console.log("AH", this.$refs.group);
-  //     const groups = this.$refs.group;
-  //     groups.forEach((g) => {
-  //       console.log('G', g.$el);
-  //       g.$el.addEventListener("drag", function (e) {
-  //         this.x = e.x;
-  //         this.y = e.y;
-  //         console.log("this.x", this.x);
-  //         console.log("this.y", this.y);
-  //       });
-  //     });
-  //   }, 150);
-  // },
   computed: {
     boardId() {
       return this.$route.params.boardId;
     },
     board() {
-      console.log("***");
       return this.$store.getters.currBoard;
     },
     isBoardEmpty() {
       return this.board.groups.length === 0 ? true : false;
     },
-    // dragStyle() {
-    //   return {
-    //     'top': `${this.y}px`,
-    //     'left': `${this.x}px`,
-    //   };
-    // },
   },
   watch: {
     "$route.params.boardId": {
@@ -137,12 +115,10 @@ export default {
       async handler() {
         const { boardId } = this.$route.params;
         try {
-          console.log("YALLOW");
           const currBoard = await this.$store.dispatch({
             type: "loadBoard",
             boardId,
           });
-          console.log("from board view", currBoard);
           this.$emit("setBackground", currBoard.style);
           socketService.emit(SOCKET_EMIT_BOARD_WATCH, this.boardId);
         } catch (err) {
@@ -150,11 +126,11 @@ export default {
         }
       },
     },
-    x: {
-      handler() {
-        console.log("Heyo", this.x);
-      },
-    },
+   //  x: {
+   //    handler() {
+   //      console.log("Heyo", this.x);
+   //    },
+   //  },
   },
   data() {
     return {
@@ -262,7 +238,6 @@ export default {
       try {
         const boardToSave = JSON.parse(JSON.stringify(this.board));
         boardToSave.style = style;
-        console.log("boardToSave", boardToSave);
         await this.saveBoard(boardToSave);
         this.$emit("setBackground", style);
       } catch (err) {

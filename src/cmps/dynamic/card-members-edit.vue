@@ -64,14 +64,6 @@ export default {
       console.log("Error loading users:", err);
     }
   },
-  watch: {
-    card: {
-      deep:true,
-      handler() {
-        console.log("Watcher on card");
-      },
-    },
-  },
   computed: {
     users() {
       return this.$store.getters.users;
@@ -123,12 +115,10 @@ export default {
         txt: activityTxt,
         card: { id: this.cardToEdit.id, title: this.cardToEdit.title } 
       }
-      console.log("card to update", this.cardToEdit);
       this.updateCard(this.cardToEdit);
       eventBus.$emit("addActivity", activity);
     },
     updateCard() {
-      console.log("update", this.cardToEdit);
       this.$emit("updateCard", this.cardToEdit,true);
     },
     close() {

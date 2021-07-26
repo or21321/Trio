@@ -238,10 +238,8 @@ export const boardStore = {
          }
       },
       // Card
-      async saveCard({ commit, state }, { card, groupId, boardId }) {
-         const filterBy = state.filterBy
-         if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
-         const isUpdate = (card.id) ? true : false;
+      async saveCard({ commit }, { card, groupId, boardId }) {
+            const isUpdate = (card.id) ? true : false;
          try {
             const savedCard = await boardService.saveCard(card, groupId, boardId);
             commit({ type: 'saveCard', isUpdate, card: savedCard, groupId });

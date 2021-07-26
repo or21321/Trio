@@ -79,6 +79,7 @@ function getLoggedinUser() {
 
 async function updateUser(user) {
    try {
+      console.log('USER', user);
       const savedUser = await httpService.put(`user/${user._id}`, user)
       return savedUser
    } catch (err) {

@@ -159,7 +159,7 @@ async function getCardById(cardId, groupId, boardId) {
       const group = board.groups.find(group => group.id === groupId);
       const card =  group.cards.find(card => card.id === cardId);
       console.log('cardddd', card)
-      return card
+      return card;
    } catch (err) {
       console.log('Error:', err);
    }

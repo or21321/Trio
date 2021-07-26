@@ -408,6 +408,7 @@ export default {
       commentTxt: "",
       iscommentOpen: false,
       isLoading: false,
+      isLoadingCard: false,
       actions: [
         {
           type: "cardMembersEdit",
@@ -444,16 +445,20 @@ export default {
       immediate: true,
       async handler() {
         try {
+           
+          this.isLoadingCard = true;
           await this.loadCard();
-          console.log('this.card', this.card)
-          this.description = this.card.description;
+
           const group = await this.$store.dispatch({
-                type: "getGroupById",
+            type: "getGroupById",
             groupId: this.groupId,
             boardId: this.boardId,
           });
           this.groupName = group.title;
-          this.clearUserNotifications();
+          this.description = this.card.description;
+          this.filterCardLabels();
+          await this.clearUserNotifications();
+          this.isLoadingCard = false;
         } catch (err) {
           console.log("cannot get card", err);
           throw err;
@@ -465,39 +470,38 @@ export default {
         this.filterCardLabels();
       },
     },
-    "card.dueDate.isDone": {
+       "card.dueDate": {
+      deep: true,
       handler() {
-         this.saveCard();
+        if (this.isLoadingCard) {
+          console.log("NOPE");
+          return;
+        }
+        console.log("watch on card.dueDate.isDone");
+        console.log("THIS.CARD", this.card);
+        console.log('this duedate', this.card.dueDate);
+        this.saveCard();
+        // this.markDueDateActivity();
       },
     },
   },
-  //   async created() {
-  //     try {
-  //        const group = await this.$store.dispatch({
-  //           type: "getGroupById",
-  //         groupId: this.groupId,
-  //         boardId: this.boardId,
-  //       });
-  //       this.groupName = group.title;
-  //       this.clearUserNotifications();
-  //     } catch (err) {
-  //       console.log("cannot get group", err);
-  //       throw err;
-  //     }
-  //   },
-  async mounted() {
-    setTimeout(() => {
-      this.$refs.comment.$el.addEventListener(
-        "focusout",
-        this.checkCommentEmpty
-      );
-    }, 500);
+      mounted() {
+    if (this.card) {
+      setTimeout(() => {
+        console.log("KUS RABAK", this.card);
+        this.$refs.comment.$el.addEventListener(
+          "focusout",
+          this.checkCommentEmpty
+        );
+      }, 500);
+    }
   },
   methods: {
     async clearUserNotifications() {
       try {
         const loggedinUser = JSON.parse(JSON.stringify(this.loggedinUser));
         const clearedMentions = loggedinUser.mentions.filter((mention) => {
+          console.log("OMFG!!", this.card);
           return mention.cardId !== this.card.id;
         });
         loggedinUser.mentions = clearedMentions;
@@ -507,6 +511,7 @@ export default {
       }
     },
     filterCardLabels() {
+      if (!this.card) return;
       if (!this.card.labelIds.length) return (this.cardLabels = []);
       this.cardLabels = [];
       this.card.labelIds.forEach((cardLabelId) => {
@@ -530,6 +535,7 @@ export default {
     },
     async saveCard(savedCard, isDaynamicComponent = false) {
       savedCard = isDaynamicComponent ? savedCard : this.card;
+      if (!savedCard) return;
       try {
         this.card = await this.$store.dispatch({
           type: "saveCard",
@@ -537,6 +543,7 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
+        console.log('AFTER SAVECARD', this.card);
         this.socketUpdateBoard();
       } catch (err) {
         console.log("cannot save card", err);
@@ -572,6 +579,7 @@ export default {
       }
     },
     socketUpdateBoard() {
+      if (!this.card) return;
       this.$emit("socketUpdateBoard");
     },
     closeCardDetails() {

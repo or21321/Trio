@@ -714,7 +714,7 @@ export default {
         boardId: this.boardId,
       });
       this.isMention();
-      this.saveCard();
+      await this.saveCard();
       const activity = {
         txt: `added a comment on ${this.card.title}`,
         card: { id: this.card.id, title: this.card.title },

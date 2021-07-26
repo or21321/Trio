@@ -140,6 +140,7 @@ async function saveCard(card, groupId, boardId) {
       const groupIdx = board.groups.findIndex(group => group.id === groupId)
       if (card.id) {
          const cardIdx = board.groups[groupIdx].cards.findIndex(currCard => currCard.id === card.id)
+         console.log('board.groups[groupIdx].cards', board.groups[groupIdx].cards)
          board.groups[groupIdx].cards.splice(cardIdx, 1, card)
       } else {
          card.id = utilService.makeId()
@@ -211,7 +212,7 @@ async function addComment(commentTxt, card, groupId, boardId) {
       }
       card.comments.unshift(comment);
       const savedCard = await saveCard(card, groupId, boardId)
-      console.log('savedCard', savedCard)
+      console.log('savedCard',savedCard)
       return comment
    } catch (err) {
       console.log('Error:', err);

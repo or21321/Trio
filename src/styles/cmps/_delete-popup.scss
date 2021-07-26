@@ -1,0 +1,22 @@
+.delete-popup{
+   top:50%;
+   left:50%;
+   transform: translate(-50%,-50%);
+   background-color: #fff;
+   width: 300px;
+   min-height: unset;
+   height: 150px;
+   z-index: 30;
+   & main{
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-around !important;
+      & .remove-btn{
+         background-color: #b04632;
+         color:white;
+         padding:5px;
+         font-size: 1.2rem;
+         border-radius: 3px;
+      }
+   }
+}

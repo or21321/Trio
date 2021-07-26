@@ -16,13 +16,14 @@
       @setBackground="setBackground"
       :loggedinUser="loggedinUser"
       @setToPreviewEdit="setDarkWindow"
+      @setDarkWindow="setDarkWindow"
       :darkWindow="darkWindow"
     />
     <user-msg />
     <div
       class="darkWindow"
-      v-if="darkWindow"
-      @click="setDarkWindow(false)"
+      v-if="isDarkWindow"
+      @click="closeDarkWindow"
     ></div>
   </div>
 </template>
@@ -44,7 +45,10 @@ export default {
       backgroundColor: "",
       backgroundImg:
         "https://images-na.ssl-images-amazon.com/images/S/sgp-catalog-images/region_US/u8lua-4AD76J88AJT-Full-Image_GalleryBackground-en-US-1585673473334._RI_.jpg",
-      darkWindow: false,
+      darkWindow: {
+         editCard:false,
+         deleteBoard:false,
+      }
     };
   },
   async created() {
@@ -82,6 +86,9 @@ export default {
     watchedUser() {
       return this.$store.getters.watchedUser;
     },
+    isDarkWindow(){
+      return (this.darkWindow.editCard || this.darkWindow.deleteBoard)
+    }
   },
   methods: {
     updateUserMentions() {
@@ -107,9 +114,14 @@ export default {
       this.backgroundColor = style["background-color"];
       this.backgroundImg = style["background-image"];
     },
-    setDarkWindow(deff) {
-      this.darkWindow = deff;
+    setDarkWindow(type,deff) {
+      this.darkWindow[type] = deff;
     },
+    closeDarkWindow(){
+       for (const type in this.darkWindow) {
+          this.darkWindow[type] = false;
+       }
+    }
   },
 };
 </script>

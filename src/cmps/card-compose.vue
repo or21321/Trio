@@ -14,12 +14,6 @@
       <button class="compose-btn" @click="add" 
       :disabled="!cardToEdit.title" >Add card</button>
       <button @click="toggleCompose" class="material-icons">close</button>
-      <span
-        @click="openComposeOptions"
-        class="material-icons card-compose-options-btn"
-      >
-        more_horiz
-      </span>
     </div>
   </div>
   <div @click="toggleCompose" v-else class="card-compose-btn">
@@ -61,7 +55,6 @@ export default {
       handler() {
          if (this.isComposeOn)
           setTimeout(() => {
-             console.log(this.$refs);
             this.$refs.textarea.focus();
           }, 100);
       },
@@ -96,19 +89,19 @@ export default {
           boardId: this.boardId,
         });
         // this.toggleCompose()
-        this.$emit('socketUpdateBoard')
         const group = await this.$store.dispatch({type: "getGroupById", groupId: this.groupId, boardId: this.boardId});
         const activity = { 
           txt: `added ${newCard.title} to ${group.title}`,
           card: { id: newCard.id, title: newCard.title }
           }
+        eventBus.$emit("addActivity", activity)
+        this.$emit('socketUpdateBoard')
         this.cardToEdit = boardService.getEmptyCard();
-          this.$refs.textarea.focus();
+        this.$refs.textarea.focus();
         msg = {
           txt: "Card was successfully added",
           type: "success",
         };
-        eventBus.$emit("addActivity", activity)    
       } catch (err) {
         msg = {
           txt: "Fail to add card, try again later",
@@ -122,9 +115,6 @@ export default {
     toggleCompose() {
       this.isComposeOn = !this.isComposeOn;
       if(!this.isComposeOn) this.$emit('closeAddCard')
-    },
-    openComposeOptions() {
-      console.log("openComposeOptions()");
     },
   },
 };

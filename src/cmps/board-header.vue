@@ -80,9 +80,9 @@
           :board="board"
           class="popup"
           @updateMembers="updateMembers"
-          @removeBoard="removeBoard"
           @close="isSideMenuOpen = false"
           @setBackground="setBackground"
+          @openDeletePopup="openDeletePopup"
         />
       </transition>
     </div>
@@ -172,27 +172,8 @@ export default {
     updateMembers(members) {
       this.$emit("updateMembers", members);
     },
-    async removeBoard(boardId) {
-      var msg = {};
-      try {
-        await this.$store.dispatch({ type: "removeBoard", boardId });
-        this.$store.commit({
-          type: "removeBoardFromRecentBoards",
-          board: this.board,
-        });
-        this.$router.push(`/b`);
-        msg = {
-          txt: "Board was successfully removed",
-          type: "success",
-        };
-      } catch (err) {
-        msg = {
-          txt: "Failed to remove board, try again later",
-          type: "error",
-        };
-      } finally {
-        await this.$store.dispatch({ type: "showMsg", msg });
-      }
+    openDeletePopup(){
+       this.$emit('openDeletePopup')
     },
     openDashboard() {
       this.$emit("openDashboard");

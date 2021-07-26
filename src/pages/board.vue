@@ -7,6 +7,7 @@
       @updateMembers="updateMembers"
       @setBackground="setBackground"
       @openDashboard="isDashboardOpen = true"
+      @openDeletePopup="openDeletePopup"
     ></board-header>
     <div v-dragscroll:nochilddrag class="board-canvas my-scrollbar">
       <draggable
@@ -55,6 +56,9 @@
       :board="board"
       @closeDashboard="isDashboardOpen = false"
     />
+   <delete-popup v-if="isRemovePopupOpen && darkWindow"  
+   @close="isRemovePopupOpen = false" @removeBoard="removeBoard" 
+   @setDarkWindow="setDarkWindow"/>
   </div>
 </template>
 
@@ -69,6 +73,7 @@ import { socketService } from "@/services/socket.service.js";
 import { SOCKET_EMIT_BOARD_WATCH } from "@/services/socket.service";
 import { SOCKET_EMIT_BOARD_UPDATE } from "@/services/socket.service";
 import { eventBus } from "@/services/event-bus-service";
+import deletePopup from "@/cmps/delete-popup";
 // import { SOCKET_ON_BOARD_UPDATE} from '@/services/socket.service'
 
 export default {
@@ -81,10 +86,11 @@ export default {
     groupCompose,
     dashboard,
     draggable,
+   deletePopup
   },
   props: {
     darkWindow: {
-      type: Boolean,
+      type: Object,
     },
     loggedinUser: {
       immediate: true,
@@ -100,27 +106,11 @@ export default {
       console.log("ERROR, cannot SignupAsGuest or addActivity", err);
     }
   },
-  // mounted() {
-  //   setTimeout(() => {
-  //     console.log("AH", this.$refs.group);
-  //     const groups = this.$refs.group;
-  //     groups.forEach((g) => {
-  //       console.log('G', g.$el);
-  //       g.$el.addEventListener("drag", function (e) {
-  //         this.x = e.x;
-  //         this.y = e.y;
-  //         console.log("this.x", this.x);
-  //         console.log("this.y", this.y);
-  //       });
-  //     });
-  //   }, 150);
-  // },
   computed: {
     boardId() {
       return this.$route.params.boardId;
     },
     board() {
-      console.log("***");
       return this.$store.getters.currBoard;
     },
     isBoardEmpty() {
@@ -142,12 +132,10 @@ export default {
       async handler() {
         const { boardId } = this.$route.params;
         try {
-          console.log("YALLOW");
           const currBoard = await this.$store.dispatch({
             type: "loadBoard",
             boardId,
           });
-          console.log("from board view", currBoard);
           this.$emit("setBackground", currBoard.style);
           socketService.emit(SOCKET_EMIT_BOARD_WATCH, this.boardId);
         } catch (err) {
@@ -160,9 +148,9 @@ export default {
         this.$emit("setBackground", this.unfilteredBoard.style);
       },
     },
-    x: {
+    "darkWindow.deleteBoard": {
       handler() {
-        console.log("Heyo", this.x);
+        this.isRemovePopupOpen = this.darkWindow.deleteBoard;
       },
     },
   },
@@ -173,6 +161,7 @@ export default {
       x: 0,
       y: 0,
       dragPreview: null,
+      isRemovePopupOpen:false,
     };
   },
   methods: {
@@ -249,6 +238,28 @@ export default {
     //   console.log("this.x", this.x);
     //   console.log("this.y", this.y);
     // },
+     async removeBoard() {
+      var msg = {};
+      try {
+        await this.$store.dispatch({ type: "removeBoard", boardId:this.boardId });
+        this.$store.commit({
+          type: "removeBoardFromRecentBoards",
+          board: this.board,
+        });
+        this.$router.push(`/b`);
+        msg = {
+          txt: "Board was successfully removed",
+          type: "success",
+        };
+      } catch (err) {
+        msg = {
+          txt: "Failed to remove board, try again later",
+          type: "error",
+        };
+      } finally {
+        await this.$store.dispatch({ type: "showMsg", msg });
+      }
+    },
     socketUpdateBoard() {
       console.log("SOCKETUPDATEBOARDMOTHREREUFJKER SOCKETING");
       socketService.emit(SOCKET_EMIT_BOARD_UPDATE, this.unfilteredBoard);
@@ -329,8 +340,15 @@ export default {
         console.log("Had a problem updating members", err);
       }
     },
-    setToPreviewEdit(deff) {
-      this.$emit("setToPreviewEdit", deff);
+    setToPreviewEdit(type,deff) {
+      this.$emit("setToPreviewEdit",type, deff);
+    },
+    setDarkWindow(type,deff) {
+      this.$emit("setDarkWindow",type, deff);
+    },
+    openDeletePopup(){
+       this.isRemovePopupOpen = true;
+       this.setDarkWindow('deleteBoard',true)
     },
     async setBackground(style) {
       try {

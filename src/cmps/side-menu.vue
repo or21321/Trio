@@ -31,9 +31,9 @@
           <span class="material-icons-outlined icon">search</span>
           <span class="option">Search cards</span>
         </li>
-        <li class="clickable">
+        <li class="clickable" @click="remove">
           <span class="material-icons-outlined icon">delete_outline</span>
-          <span class="option" @click="remove">Delete Board</span>
+          <span class="option" >Delete Board</span>
         </li>
       </ul>
 
@@ -203,6 +203,7 @@
         </ul>
       </div>
     </transition>
+
   </section>
 </template>
 
@@ -211,6 +212,7 @@ import avatar from "vue-avatar";
 import { unsplashService } from "@/services/unsplash.service";
 import { debounce } from "@/services/util.service";
 import activity from "@/cmps/activity";
+
 
 export default {
   props: {
@@ -231,6 +233,7 @@ export default {
       },
       boardMembers: [],
       boardLabels: [],
+
       photosFilterBy: "",
       dateFilterOptions: [
         {
@@ -278,21 +281,20 @@ export default {
   created() {
     this.getPhotos = debounce(this.getPhotos, 500);
     this.searchCards = debounce(this.searchCards, 500);
-    // this.boardLabels = [];
     this.boardLabels = JSON.parse(JSON.stringify(this.board.labels));
+    this.cardsFilterBy = this.$store.getters.filterBy
+    console.log('boardLabels',  this.boardLabels)
     this.filterIsLabelFilterActive();
-    // this.boardMembers = [];
     this.boardMembers = JSON.parse(JSON.stringify(this.board.members));
-    console.log("HEY", this.cardsFilterBy.labelIds);
   },
   destroyed() {
-    this.cardsFilterBy = {
-      txt: "",
-      labelIds: [],
-      memberIds: [],
-      timeLeft: 0,
-    };
-    this.searchCards();
+   //  this.cardsFilterBy = {
+   //    txt: "",
+   //    labelIds: [],
+   //    memberIds: [],
+   //    timeLeft: 0,
+   //  };
+   //  this.searchCards();
   },
   computed: {
     background() {
@@ -302,7 +304,6 @@ export default {
     },
     activities() {
       return JSON.parse(JSON.stringify(this.board.activities)).reverse();
-      // return this.board.activities
     },
     title() {
       var title = "";
@@ -331,7 +332,6 @@ export default {
       immediate: true,
       handler() {
         if (this.deeperOption === "searchCards") {
-          console.log("HADNLDER");
           this.filterIsLabelFilterActive();
           this.filterIsMemberFilterActive();
         }
@@ -361,7 +361,7 @@ export default {
     },
     remove() {
       this.close();
-      this.$emit("removeBoard", this.board._id);
+       this.$emit("openDeletePopup");
     },
     changeBackground(color, photoUrl) {
       const style = {
@@ -394,9 +394,7 @@ export default {
       this.searchCards();
     },
     filterIsLabelFilterActive() {
-      // if (!this.boardLabels.length || this.deeperOption !== "searchCards")
-      //   return;
-      console.log("Hey", this.boardLabels);
+       console.log('this.cardsFilterBy', this.cardsFilterBy)
       const boardLabels = JSON.parse(JSON.stringify(this.boardLabels)).map(
         (bLabel) => {
           bLabel.isFilterBy = this.cardsFilterBy.labelIds.some(
@@ -420,7 +418,6 @@ export default {
       }
 
       this.cardsFilterBy.memberIds.push(memberId);
-      console.log("this.cardsFilterBy.memberIds", this.cardsFilterBy.memberIds);
       this.filterIsMemberFilterActive();
       this.searchCards();
     },
@@ -438,10 +435,8 @@ export default {
       this.boardMembers = boardMembers;
     },
     filterCardsByDueDate(timeLeft) {
-      console.log("filterCardsByDueDate, timeLeft", timeLeft);
       const isFilteredBy =
         timeLeft === this.cardsFilterBy.timeLeft ? true : false;
-      console.log("isFilteredByIdx", isFilteredBy);
 
       if (isFilteredBy) {
         this.cardsFilterBy.timeLeft = 0;
@@ -454,7 +449,6 @@ export default {
       this.searchCards();
     },
     filterIsDueDateFilterActive(timeLeft) {
-      console.log("filterIsDeDateFilterActive()");
       if (this.deeperOption !== "searchCards") return;
 
       const dateFilterOptions = this.dateFilterOptions.map((dueDateOption) => {
@@ -464,17 +458,16 @@ export default {
         } else {
           dueDateOption.isFilterBy =
             dueDateOption.timeLeft === timeLeft ? true : false;
-          console.log(dueDateOption);
           return dueDateOption;
         }
       });
-      console.log("dateFilterOptions", dateFilterOptions);
       this.dateFilterOptions = dateFilterOptions;
     },
   },
   components: {
     avatar,
     activity,
+
   },
 };
 </script>

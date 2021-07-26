@@ -219,10 +219,6 @@ export default {
   created() {
     this.cardToEdit = JSON.parse(JSON.stringify(this.card));
   },
-//   mounted(){
-//      console.log('this.$refs.textareaTitle', this.$refs.textareaTitle.$el)
-//         this.$refs.textareaTitle.$el.focus();
-//   },
   watch: {
     "cardToEdit.labelIds": {
       deep: true,
@@ -279,6 +275,7 @@ export default {
         });
         await this.$emit('socketUpdateBoard')
         eventBus.$emit("addActivity", activity);
+        this.$emit('socketUpdateBoard')
         msg = {
           txt: "Card was successfully removed",
           type: "success",
@@ -303,13 +300,13 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        this.$emit('socketUpdateBoard')
         const group = await this.$store.dispatch({type: "getGroupById", groupId: this.groupId, boardId: this.boardId});
         const activity = {
           txt: `copied ${this.card.title} from ${this.card.title} in list ${group.title}`,
           card: { id: this.card.id, title: this.card.title },
         };
         eventBus.$emit("addActivity", activity);
+        this.$emit('socketUpdateBoard')
         msg = {
           txt: "Card was successfully copied",
           type: "success",
@@ -353,6 +350,8 @@ export default {
         const cardLabel = this.currBoard().labels.find((label) => {
           return label.id === labelId;
         });
+        console.log('labels1', this.cardToEdit.labelIds)
+        console.log('labels0', this.cardToEdit.labelIds)
         if (cardLabel) acc.push(cardLabel);
         else console.log("cardLabel undefined", cardLabel);
         return acc;
@@ -373,7 +372,6 @@ export default {
       return this.cardToEdit.dueDate.isDone;
     },
     isNoCover(){  
-      // console.log(this.cardToEdit.cover.color)
      return {'no-cover': !this.cardToEdit.cover.color}
     },
     isNoLabelAndCover(){  

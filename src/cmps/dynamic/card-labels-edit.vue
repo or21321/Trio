@@ -112,7 +112,6 @@ export default {
   },
   data() {
     return {
-      // labels: JSON.parse(JSON.stringify(this.currBoard.labels)),
       filterBy: "",
       boardToEdit: null,
       cardToEdit: null,
@@ -137,17 +136,12 @@ export default {
     };
   },
   async created() {
-    console.log("cardLabelsEdit creadted!");
     this.cardToEdit = JSON.parse(JSON.stringify(this.card));
-    // this.boardToEdit = JSON.parse(JSON.stringify(this.card));
-    console.log("cardToEdit", this.cardToEdit);
-    console.log("boardToEdit", this.boardToEdit);
   },
   watch: {
     'currBoard': {
       immediate: true,
       handler() {
-        console.log("watch on currBoard");
         this.boardToEdit = JSON.parse(JSON.stringify(this.currBoard));
       },
     },
@@ -159,55 +153,22 @@ export default {
   },
   methods: {
     setLabelColor(color) {
-      console.log("setLabelColor", color);
+
       this.labelToEdit.color = color;
     },
     toggleLabelOnCard(label) {
-      console.log("toggleLabelOnCard()", label);
-      console.log("toggleLabelOnCard()", this.cardToEdit);
       const isLabelOnCardIdx = this.cardToEdit.labelIds.findIndex((labelId) => {
         return labelId === label.id;
       });
-      console.log("isLabelOnCardIdx", isLabelOnCardIdx);
       if (isLabelOnCardIdx === -1) {
-        console.log("Add");
-        // const label = {
-        //   username: user.username,
-        //   fullname: user.fullname,
-        //   id: user._id,
-        //   imgUrl: user.imgUrl,
-        // };
         this.cardToEdit.labelIds.push(label.id);
       } else {
-        console.log("Remove");
         this.cardToEdit.labelIds.splice(isLabelOnCardIdx, 1);
         this.updateCard();
       }
-      console.log("card to update", this.cardToEdit);
       this.updateCard(this.cardToEdit);
     },
-    // filterCardLabels() {
-    //   console.log("card labels from filter", this.card.labels);
-    //   const labels = JSON.parse(JSON.stringify(this.currBoardLabels));
-    //   labels.map((label) => (label.isOnCard = false));
-    //   console.log("labels from filter after deep copy", labels);
-    //   if (this.card.labels.length) {
-    //     this.card.labels.map((cardLabel) => {
-    //       console.log("cardLabel", cardLabel);
-    //       const filteredCardLabels = labels.map((label) => {
-    //         console.log("label", label);
-    //         if (label.id === cardLabel.id) label.isCardMember = true;
-    //         return label;
-    //       });
-    //       console.log("filteredCardLabels", filteredCardLabels);
-    //       this.filteredCardLabels = filteredCardLabels;
-    //     });
-    //   } else {
-    //     this.filteredCardLabels = labels;
-    //   }
-    // },
     updateCard() {
-      console.log("update", this.cardToEdit);
       this.$emit("updateCard", this.cardToEdit,true);
     },
     close() {
@@ -218,10 +179,7 @@ export default {
     },
     async saveLabel() {
       try {
-        console.log("saveLabel()");
-        console.log("this.labelToEdit", this.labelToEdit);
         if (this.labelToEdit.id) {
-          console.log("update label");
           const idx = this.boardToEdit.labels.findIndex(
             (label) => label.id === this.labelToEdit.id
           );
@@ -247,12 +205,9 @@ export default {
       }
     },
     async removeLabel() {
-      console.log("removeLabel()");
-      console.log("label.id", this.labelToEdit.id);
       try {
         // Maybe remove this if
         if (this.labelToEdit.id) {
-          console.log("update label");
           const idx = this.boardToEdit.labels.findIndex(
             (label) => label.id === this.labelToEdit.id
           );
@@ -268,8 +223,6 @@ export default {
       }
     },
     setLabelToEdit(label) {
-      console.log("setLabelToEdit");
-      console.log(label);
       this.labelToEdit = label;
     },
   },

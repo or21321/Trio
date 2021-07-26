@@ -377,7 +377,6 @@ import cardDatesEdit from "@/cmps/dynamic/card-dates-edit";
 import cardCoverEdit from "@/cmps/dynamic/card-cover-edit";
 import activity from "@/cmps/activity";
 import { eventBus } from "@/services/event-bus-service";
-// import {debounce} from '../services/util.service'
 import avatar from "vue-avatar";
 export default {
   components: {
@@ -448,13 +447,12 @@ export default {
         try {
           this.isLoadingCard = true;
           await this.loadCard();
-          console.log("Hey OR!", this.card);
+
           const group = await this.$store.dispatch({
             type: "getGroupById",
             groupId: this.groupId,
             boardId: this.boardId,
           });
-          console.log("Hallow Or!", group);
           this.groupName = group.title;
           this.description = this.card.description;
           await this.clearUserNotifications();
@@ -468,7 +466,6 @@ export default {
     },
     "currBoard.labels": {
       handler() {
-        console.log("watch on currBoard from details");
         this.filterCardLabels();
       },
     },
@@ -479,34 +476,13 @@ export default {
           console.log("NOPE");
           return;
         }
-        console.log("watch on card.dueDate.isDone");
-        console.log("THIS.CARD", this.card);
-        console.log("this duedate", this.card.dueDate);
         this.saveCard();
-        // this.markDueDateActivity();
       },
     },
   },
-  // this.updateDescription = debounce(this.saveCard,1000);
-  // async created() {
-  //   try {
-  //     const group = await this.$store.dispatch({
-  //       type: "getGroupById",
-  //       groupId: this.groupId,
-  //       boardId: this.boardId,
-  //     });
-  //     this.groupName = group.title;
-  //     await this.loadCard();
-  //     await this.clearUserNotifications();
-  //   } catch (err) {
-  //     console.log("cannot get group", err);
-  //     throw err;
-  //   }
-  // },
   mounted() {
     if (this.card) {
       setTimeout(() => {
-        console.log("KUS RABAK", this.card);
         this.$refs.comment.$el.addEventListener(
           "focusout",
           this.checkCommentEmpty
@@ -519,7 +495,6 @@ export default {
       try {
         const loggedinUser = JSON.parse(JSON.stringify(this.loggedinUser));
         const clearedMentions = loggedinUser.mentions.filter((mention) => {
-          console.log("OMFG!!", this.card);
           return mention.cardId !== this.card.id;
         });
         loggedinUser.mentions = clearedMentions;
@@ -531,10 +506,10 @@ export default {
     filterCardLabels() {
       if (!this.card) return;
       if (!this.card.labelIds.length) return (this.cardLabels = []);
+      console.log("filterCardLabels", this.card.labelIds.length);
       this.cardLabels = [];
       this.card.labelIds.forEach((cardLabelId) => {
         const label = this.currBoard.labels.find((label) => {
-          console.log("hey label", label);
           return label.id == cardLabelId;
         });
         if (label) this.cardLabels.push(label);
@@ -548,7 +523,6 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        console.log("OMFG OMFG OMFG OMFG", this.card);
       } catch (err) {
         console.log("Had problem loading card", err);
       }
@@ -556,9 +530,7 @@ export default {
     async saveCard(savedCard, isDaynamicComponent = false) {
       savedCard = isDaynamicComponent ? savedCard : this.card;
       if (!savedCard) return;
-      console.log("HELLO!!!!!!#R#$", savedCard);
-      console.log("HELLO!!!!!!#R#$", this.groupId);
-      console.log("HELLO!!!!!!#R#$", this.boardId);
+      console.log("Savvvvvvvvvvvvv", savedCard);
       try {
         this.card = await this.$store.dispatch({
           type: "saveCard",
@@ -567,6 +539,7 @@ export default {
           boardId: this.boardId,
         });
         console.log("AFTER SAVECARD", this.card);
+        this.filterCardLabels()
         this.socketUpdateBoard();
       } catch (err) {
         console.log("cannot save card", err);
@@ -617,10 +590,6 @@ export default {
     },
     setCurrAction(event, action) {
       // Preparation for positioning dynamic cmps.
-      console.log(
-        "setCurrAction, event",
-        event.path[1].getBoundingClientRect()
-      );
       this.currAction = action;
       this.isPopupShow = true;
     },
@@ -756,7 +725,6 @@ export default {
     },
     isMention() {
       if (!this.commentTxt.includes("@")) return;
-      console.log("isMention()", this.commentTxt);
       const comment = this.commentTxt;
       const userMentioned = comment.split("@")[1].split(" ")[0];
       this.$store.dispatch({
@@ -805,7 +773,6 @@ export default {
     },
     addUserToCard() {
       const user = this.$store.getters.getMyMiniUser;
-      console.log(user);
       this.card.members.push(user);
       this.saveCard();
       const activity = {
@@ -824,12 +791,12 @@ export default {
           boardId: this.boardId,
         });
         //   this.saveCard();
-        this.socketUpdateBoard();
         const activity = {
           txt: `copied ${this.card.title} from ${this.card.title} in list ${this.groupName}`,
           card: { id: this.card.id, title: this.card.title },
         };
         eventBus.$emit("addActivity", activity);
+        this.socketUpdateBoard();
         msg = {
           txt: "Card was successfully copied",
           type: "success",
@@ -889,7 +856,6 @@ export default {
       const isUserMemberIdx = this.card.members.findIndex((member) => {
         return member._id === user._id;
       });
-      console.log(isUserMemberIdx);
       return isUserMemberIdx === -1 ? true : false;
     },
     userIsMemberShip() {

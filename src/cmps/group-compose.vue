@@ -46,7 +46,6 @@ export default {
     if (this.isBoardEmpty) {
       this.isComposeOn = true;
     }
-    console.log("mounted", this.isBoardEmpty);
   },
   data() {
     return {
@@ -58,7 +57,6 @@ export default {
     'isComposeOn': {
       immediate: true,
       handler() {
-        console.log('fk my life');
         if (this.isComposeOn)
           setTimeout(() => {
             this.$refs.titleInput.focus();
@@ -76,14 +74,13 @@ export default {
           group: this.groupToCompose,
           boardId: this.boardId,
         });
-        this.$emit("socketUpdateBoard");
         const activity = { txt: `added ${this.groupToCompose.title} to this board` }
         eventBus.$emit("addActivity", activity)
+        this.$emit("socketUpdateBoard");
         this.groupToCompose = boardService.getEmptyGroup();
         setTimeout(() => {
           this.$refs.titleInput.focus();
         }, 100);
-        // this.toggleCompose();
         msg = {
           txt: "List was successfully added",
           type: "success",

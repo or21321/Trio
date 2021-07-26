@@ -21,13 +21,6 @@ export default {
          required:true
       }
    },
-   watch:{
-      'window.target':{
-         handle(ev){
-            console.log('ev', ev)
-         }
-      }
-   },
    methods:{
       close(){
          this.$emit('closeGroupMenu')

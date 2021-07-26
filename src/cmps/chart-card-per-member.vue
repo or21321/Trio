@@ -23,7 +23,6 @@ export default {
   },
   mounted() {
      const cardByMemberMap = this.getCardByMemberMap;
-     console.log('cardByMemberMap', cardByMemberMap)
       this.setColors();
       this.renderChart({
         labels: Object.keys(cardByMemberMap),
@@ -39,7 +38,7 @@ export default {
   },
   methods: {
       setColors(){
-         for(var i = 0; i < this.board.groups.length; i++){
+         for(var i = 0; i < this.board.members.length; i++){
             this.colors.push(utilService.getRandomColor())
          }
       }

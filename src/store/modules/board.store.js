@@ -18,12 +18,15 @@ export const boardStore = {
    },
    getters: {
       boards({ boards }) { return boards },
+      filterBy({ filterBy }) { return filterBy },
       currBoard({ currBoard, filterBy }) {
 
-         if (!currBoard) return
-
+         if (!currBoard) return 
+         if (!filterBy.txt && !filterBy.labelIds.length && !filterBy.memberIds.length && !filterBy.timeLeft) {
+            return currBoard;
+         }
          var boardForDisplay = JSON.parse(JSON.stringify(currBoard))
-
+         
          boardForDisplay.groups.forEach(g => {
 
             if (filterBy.txt) {
@@ -56,7 +59,6 @@ export const boardStore = {
             }
 
          })
-
          return boardForDisplay
 
       },
@@ -102,7 +104,6 @@ export const boardStore = {
          state.boards.splice(idx, 1);
       },
       addActivity(state, { activity }) {
-         // state.currBoard.activities.unshift(activity)
          state.currBoard.activities.push(activity)
       },
       addBoardToRecentBoards(state, { board }) {
@@ -131,10 +132,8 @@ export const boardStore = {
          if (isUpdate) {
             const cardIdx = state.currBoard.groups[groupIdx].cards.findIndex(c => c.id === card.id)
             state.currBoard.groups[groupIdx].cards.splice(cardIdx, 1, card)
-            // Vue.set(state.currBoard.groups[groupIdx].cards, cardIdx, card)
          } else {
             state.currBoard.groups[groupIdx].cards.push(card)
-            // Vue.set(state.currBoard.groups[groupIdx].cards, state.currBoard.groups[groupIdx].cards.length - 1, card)
          }
       },
       addComment(state, { savedComment, card, groupId }) {
@@ -171,9 +170,7 @@ export const boardStore = {
       },
       async loadBoard({ commit }, { boardId }) {
          try {
-            console.log('AHALAN');
             const board = await boardService.getById(boardId)
-            console.log('BOARD', board);
             commit({ type: 'setCurrBoard', board })
             return board
          }
@@ -262,8 +259,6 @@ export const boardStore = {
       },
       // Card
       async saveCard({ commit }, { card, groupId, boardId }) {
-         // const filterBy = state.filterBy
-         // if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
          const isUpdate = (card.id) ? true : false;
          try {
             const savedCard = await boardService.saveCard(card, groupId, boardId);
@@ -275,8 +270,6 @@ export const boardStore = {
          }
       },
       async removeCard({ commit }, { cardId, groupId, boardId }) {
-         // const filterBy = state.filterBy
-         // if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
          try {
             const savedBoard = await boardService.removeCard(cardId, groupId, boardId)
             commit({ type: 'updateBoard', savedBoard })
@@ -288,24 +281,20 @@ export const boardStore = {
       },
       async getCardById(context, { cardId, groupId, boardId }) {
          try {
-            const currCard = await boardService.getCardById(cardId, groupId, boardId)
-            console.log('currCard', currCard);
-            return currCard
+            const card = await boardService.getCardById(cardId, groupId, boardId)
+            return card
          } catch (err) {
             console.log('Cannot get card', cardId, ',', err);
             throw err;
          }
       },
       //Checkbox
-      // async addCheckbox({commit}, { title,checklistId, card, groupId, boardId }) {
       async addCheckbox({ commit, state }, { title, checklistId, card, groupId, boardId }) {
          try {
             const filterBy = state.filterBy
             if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
             const savedCard = await boardService.addCheckbox(title, checklistId, card, groupId, boardId)
-            //   console.log('savedCard after save', savedCard);
             commit({ type: 'saveCard', isUpdate: true, card: savedCard, groupId })
-            //   console.log('savedCard', savedCard);
             return savedCard
          } catch (err) {
             console.log('Cannot add checkbox', title, ',', err);
@@ -338,7 +327,6 @@ export const boardStore = {
             const filterBy = context.state.filterBy
             if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
             const savedComment = await boardService.addComment(commentTxt, card, groupId, boardId)
-            console.log('Ahalan');
             context.commit({ type: 'addComment', savedComment, card, groupId })
          } catch (err) {
             console.log('Cannot add comment', commentTxt, ',', err);

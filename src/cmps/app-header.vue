@@ -89,9 +89,6 @@ export default {
     toggleBoardCompose() {
       this.isBoardComposeOn = !this.isBoardComposeOn;
     },
-    toggleUserMenu() {
-      console.log("toggleUserMenu()");
-    },
     toggleBoardList() {
       this.isBoardListOpen = !this.isBoardListOpen;
     },
@@ -106,7 +103,6 @@ export default {
       this.isBoardComposeOn = false;
     },
     setBackground(style) {
-      console.log('from app header', style);
       this.$emit("setBackground", style);
     },
     async logout() {

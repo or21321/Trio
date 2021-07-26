@@ -74,9 +74,9 @@ export default {
           group: this.groupToCompose,
           boardId: this.boardId,
         });
-        this.$emit("socketUpdateBoard");
         const activity = { txt: `added ${this.groupToCompose.title} to this board` }
         eventBus.$emit("addActivity", activity)
+        this.$emit("socketUpdateBoard");
         this.groupToCompose = boardService.getEmptyGroup();
         setTimeout(() => {
           this.$refs.titleInput.focus();

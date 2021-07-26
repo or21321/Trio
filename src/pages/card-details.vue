@@ -788,12 +788,12 @@ export default {
           boardId: this.boardId,
         });
         //   this.saveCard();
-        this.socketUpdateBoard();
         const activity = {
           txt: `copied ${this.card.title} from ${this.card.title} in list ${this.groupName}`,
           card: { id: this.card.id, title: this.card.title },
         };
         eventBus.$emit("addActivity", activity);
+        this.socketUpdateBoard();
         msg = {
           txt: "Card was successfully copied",
           type: "success",

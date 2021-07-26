@@ -191,6 +191,7 @@ export default {
       cardChecklistsTodos: [],
       cardLabels: [],
       dueDateHovered: false,
+      isCardDone:false,
       actions: [
         {
           type: "cardMembersEdit",
@@ -231,6 +232,11 @@ export default {
       deep: true,
       handler() {
         this.countCardTodos();
+      },
+    },
+    "this.cardToEdit.dueDate.isDone": {
+      handler() {
+        this.isCardDone = this.cardToEdit.dueDate.isDone
       },
     },
   },
@@ -347,7 +353,7 @@ export default {
     },
     filterCardLabels() {
        this.cardLabels = this.cardToEdit.labelIds.reduce((acc, labelId) => {
-        const cardLabel = this.currBoard().labels.find((label) => {
+        const cardLabel = this.currBoard.labels.find((label) => {
           return label.id === labelId;
         });
         console.log('labels1', this.cardToEdit.labelIds)
@@ -357,20 +363,20 @@ export default {
         return acc;
       }, []);
     },
+  },
+  computed: {
      currBoard() {
        return this.$store.getters.currBoard;
      },
-  },
-  computed: {
      todosIcon() {
       return this.cardChecklistsTodos.length === this.checklistsDoneTodos &&
         this.checklistsDoneTodos
         ? "check_box"
         : "check_box_outline_blank";
     },
-    isCardDone() {
-      return this.cardToEdit.dueDate.isDone;
-    },
+   //  isCardDone() {
+   //    return this.cardToEdit.dueDate.isDone;
+   //  },
     isNoCover(){  
      return {'no-cover': !this.cardToEdit.cover.color}
     },

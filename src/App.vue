@@ -1,6 +1,6 @@
 <template>
   <div
-    class="app"
+    class="app" :class="isHomePageClass"
     :style="{
       backgroundColor: this.backgroundColor,
       backgroundImage: this.backgroundImg,
@@ -42,6 +42,7 @@ export default {
   data() {
     return {
       isHome: false,
+      isHomePage:false,
       backgroundColor: "",
       backgroundImg:
         "https://images-na.ssl-images-amazon.com/images/S/sgp-catalog-images/region_US/u8lua-4AD76J88AJT-Full-Image_GalleryBackground-en-US-1585673473334._RI_.jpg",
@@ -65,7 +66,12 @@ export default {
       immediate: true,
       handler() {
         const routes = ["/", "/login", "/signup"];
-        if (routes.includes(this.$route.path)) this.isHome = true;
+        if (routes.includes(this.$route.path)) {
+           this.isHome = true;
+           if (this.$route.path.includes("/") && !this.$route.path.includes("/login") &&
+           !this.$route.path.includes("/signup")) this.isHomePage = true;
+           else this.isHomePage = false
+        }
         else this.isHome = false;
       },
     },
@@ -88,7 +94,10 @@ export default {
     },
     isDarkWindow(){
       return (this.darkWindow.editCard || this.darkWindow.deleteBoard)
-    }
+    },
+    isHomePageClass(){
+       return { 'is-home-page' : this.isHomePage }
+    },
   },
   methods: {
     updateUserMentions() {

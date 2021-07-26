@@ -56,9 +56,12 @@
       :board="board"
       @closeDashboard="isDashboardOpen = false"
     />
-   <delete-popup v-if="isRemovePopupOpen && darkWindow"  
-   @close="isRemovePopupOpen = false" @removeBoard="removeBoard" 
-   @setDarkWindow="setDarkWindow"/>
+    <delete-popup
+      v-if="isRemovePopupOpen && darkWindow"
+      @close="isRemovePopupOpen = false"
+      @removeBoard="removeBoard"
+      @setDarkWindow="setDarkWindow"
+    />
   </div>
 </template>
 
@@ -86,7 +89,7 @@ export default {
     groupCompose,
     dashboard,
     draggable,
-   deletePopup
+    deletePopup,
   },
   props: {
     darkWindow: {
@@ -136,6 +139,13 @@ export default {
             type: "loadBoard",
             boardId,
           });
+          const filterBy = {
+            txt: "",
+            labelIds: [],
+            memberIds: [],
+            timeLeft: 0,
+          };
+          this.$store.commit({ type: "setFilterBy",filterBy });
           this.$emit("setBackground", currBoard.style);
           socketService.emit(SOCKET_EMIT_BOARD_WATCH, this.boardId);
         } catch (err) {
@@ -161,7 +171,7 @@ export default {
       x: 0,
       y: 0,
       dragPreview: null,
-      isRemovePopupOpen:false,
+      isRemovePopupOpen: false,
     };
   },
   methods: {
@@ -238,10 +248,13 @@ export default {
     //   console.log("this.x", this.x);
     //   console.log("this.y", this.y);
     // },
-     async removeBoard() {
+    async removeBoard() {
       var msg = {};
       try {
-        await this.$store.dispatch({ type: "removeBoard", boardId:this.boardId });
+        await this.$store.dispatch({
+          type: "removeBoard",
+          boardId: this.boardId,
+        });
         this.$store.commit({
           type: "removeBoardFromRecentBoards",
           board: this.board,
@@ -340,15 +353,15 @@ export default {
         console.log("Had a problem updating members", err);
       }
     },
-    setToPreviewEdit(type,deff) {
-      this.$emit("setToPreviewEdit",type, deff);
+    setToPreviewEdit(type, deff) {
+      this.$emit("setToPreviewEdit", type, deff);
     },
-    setDarkWindow(type,deff) {
-      this.$emit("setDarkWindow",type, deff);
+    setDarkWindow(type, deff) {
+      this.$emit("setDarkWindow", type, deff);
     },
-    openDeletePopup(){
-       this.isRemovePopupOpen = true;
-       this.setDarkWindow('deleteBoard',true)
+    openDeletePopup() {
+      this.isRemovePopupOpen = true;
+      this.setDarkWindow("deleteBoard", true);
     },
     async setBackground(style) {
       try {

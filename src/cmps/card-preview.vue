@@ -144,7 +144,6 @@
         </ul>
       </div>
     </section>
-    {{isEdit}}
     <card-preview-edit
       v-if="cardEdit === cardToEdit && isEdit"
       :card="cardToEdit"

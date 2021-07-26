@@ -1,5 +1,5 @@
 <template>
-  <div class="board-header" >
+  <div class="board-header">
     <div class="board-members-section">
       <div class="board-section">
         <contenteditable
@@ -7,21 +7,26 @@
           class="board-header-btn title-board"
           tag="h1"
           :contenteditable="true"
-          v-model="boardTitle"
+          v-model="boardTitleToEdit"
           :noNL="false"
           :noHTML="true"
           @keypress.enter="updateTitle"
-          @input="updateTitleDebounce"
+          @input="updateTitle"
         />
-        <h1 v-else class="board-header-btn title-board" @click="isEditing = !isEditing">
+        <h1
+          v-else
+          class="board-header-btn title-board"
+          @click="isEditing = !isEditing"
+        >
           {{ boardTitle }}
         </h1>
         <span
           class="material-icons-round board-header-btn star"
           @click="toggleStar"
-          :class="selected" 
-          >star_outline</span>
-          <!-- >star_border</span -->
+          :class="selected"
+          >star_outline</span
+        >
+        <!-- >star_border</span -->
       </div>
       <span class="seperator">|</span>
       <div class="members-section">
@@ -55,17 +60,19 @@
       </div>
     </div>
     <div class="menu-section">
-      <button  class="board-header-btn menu-section dashboard" @click="openDashboard">
-       <span class="material-icons-outlined">
-   leaderboard
-      </span> </button>
       <button
-        class="board-header-btn menu-section "
+        class="board-header-btn menu-section dashboard"
+        @click="openDashboard"
+      >
+        <span class="material-icons-outlined"> leaderboard </span>
+      </button>
+      <button
+        class="board-header-btn menu-section"
         @click.stop="isSideMenuOpen = true"
       >
         <span class="material-icons title">more_horiz</span>
-      <span class="word-show">Show&nbsp;</span>
-      <span class="word-menu">menu</span>
+        <span class="word-show">Show&nbsp;</span>
+        <span class="word-menu">menu</span>
       </button>
       <transition name="slide">
         <sideMenu
@@ -88,7 +95,6 @@ import sideMenu from "@/cmps/side-menu";
 import avatar from "vue-avatar";
 import { debounce } from "@/services/util.service";
 
-
 export default {
   props: {
     board: {
@@ -98,7 +104,7 @@ export default {
   },
   data() {
     return {
-      boardTitle: null,
+      boardTitleToEdit: null,
       isEditing: true,
       isMembersMenuOpen: false,
       isSideMenuOpen: false,
@@ -111,18 +117,31 @@ export default {
     users() {
       return this.$store.getters.users;
     },
+    boardTitle() {
+      return JSON.parse(JSON.stringify(this.board.title));
+    },
+    // board() {
+    //   return JSON.parse(JSON.stringify(this.$store.getters.currBoard))
+    // }
   },
   created() {
-    this.updateTitleDebounce = debounce(this.updateTitle, 2000);
+    this.updateTitle = debounce(this.updateTitle, 2000);
   },
   watch: {
-    "$route.params.boardId": {
+    //   "$route.params.boardId": {
+    //     immediate: true,
+    //     handler() {
+    //       setTimeout(() => {
+    //         this.board = this.$store.getters.currBoard;
+    //         this.boardTitle = JSON.parse(JSON.stringify(this.board.title));
+    //       }, 150);
+    //     },
+    //   },
+    boardTitle: {
       immediate: true,
       handler() {
-        setTimeout(() => {
-          this.board = this.$store.getters.currBoard;
-          this.boardTitle = JSON.parse(JSON.stringify(this.board.title));
-        }, 150);
+        console.log("HANDLER MOTHER UFKCER");
+        this.boardTitleToEdit = this.boardTitle;
       },
     },
   },
@@ -139,15 +158,16 @@ export default {
     closeSideMenu() {
       this.isSideMenuOpen = false;
     },
-    updateTitleDebounce() {
-      this.updateTitle();
-    },
+    // updateTitleDebounce() {
+    //   this.updateTitle();
+    // },
     toggleStar() {
       this.$emit("toggleStar");
     },
     updateTitle() {
-      this.isEditing = !this.isEditing;
-      this.$emit("updateTitle", this.boardTitle);
+      this.isEditing = false;
+      console.log("EMITTING", this.boardTitleToEdit);
+      this.$emit("updateTitle", this.boardTitleToEdit);
     },
     updateMembers(members) {
       this.$emit("updateMembers", members);
@@ -155,16 +175,14 @@ export default {
     openDeletePopup(){
        this.$emit('openDeletePopup')
     },
-   
-    openDashboard(){
-      this.$emit('openDashboard');
-    }
+    openDashboard() {
+      this.$emit("openDashboard");
+    },
   },
   components: {
     boardMembersEdit,
     avatar,
     sideMenu,
- 
   },
 };
 </script>

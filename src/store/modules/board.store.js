@@ -77,9 +77,12 @@ export const boardStore = {
          state.filterBy = filterBy
       },
       setCurrBoard(state, { board }) {
-            socketService.on(SOCKET_ON_BOARD_UPDATE, board => {
-               state.currBoard = board
-            })
+         console.log('Yeafgf', board);
+         socketService.on(SOCKET_ON_BOARD_UPDATE, board => {
+            console.log('FROM STORE FROM SOCKET', board);
+            state.currBoard = board
+         })
+         console.log('board', board);
          state.currBoard = board
       },
       setCardEdit(state, { card }) {
@@ -141,6 +144,19 @@ export const boardStore = {
    },
    actions: {
       //Board
+      async saveBoardAfterDrag({ commit,state }, { board }) {
+         const {filterBy} = state
+         if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return Promise.reject()
+         try {
+            console.log('from store', board);
+            const savedBoard = await boardService.save(board)
+            commit({ type:'updateBoard', savedBoard })
+            return savedBoard
+         } catch (err) {
+            console.log('Had a problem updating board after drag - cant do that while filtering', err);
+            throw err
+         }
+      },
       async loadBoards({ commit }) {
          try {
             const boards = await boardService.query()
@@ -163,11 +179,12 @@ export const boardStore = {
             throw err;
          }
       },
-      async saveBoard({ state, commit }, { board }) {
-         const filterBy = state.filterBy
-         if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
+      async saveBoard({ commit }, { board }) {
+         // const filterBy = state.filterBy
+         // if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
          const type = (board._id) ? 'updateBoard' : 'addBoard';
          try {
+            console.log('from store', board);
             const savedBoard = await boardService.save(board)
             commit({ type, savedBoard })
             return savedBoard
@@ -209,11 +226,11 @@ export const boardStore = {
          }
       },
       // Group
-      async saveGroup({ commit, state }, { group, boardId }) {
+      async saveGroup({ commit }, { group, boardId }) {
          const isUpdate = (group.id) ? true : false;
          try {
-            const filterBy = state.filterBy
-            if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
+            // const filterBy = state.filterBy
+            // if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
             const savedGroup = await boardService.saveGroup(group, boardId);
             commit({ type: 'saveGroup', isUpdate, group: savedGroup });
          } catch (err) {
@@ -221,10 +238,10 @@ export const boardStore = {
             throw err;
          }
       },
-      async removeGroup({ commit, state }, { groupId, boardId }) {
+      async removeGroup({ commit }, { groupId, boardId }) {
          try {
-            const filterBy = state.filterBy
-            if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
+            // const filterBy = state.filterBy
+            // if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
             const savedBoard = await boardService.removeGroup(groupId, boardId);
             commit({ type: 'updateBoard', savedBoard });
          } catch (err) {
@@ -242,7 +259,7 @@ export const boardStore = {
       },
       // Card
       async saveCard({ commit }, { card, groupId, boardId }) {
-            const isUpdate = (card.id) ? true : false;
+         const isUpdate = (card.id) ? true : false;
          try {
             const savedCard = await boardService.saveCard(card, groupId, boardId);
             commit({ type: 'saveCard', isUpdate, card: savedCard, groupId });
@@ -252,9 +269,7 @@ export const boardStore = {
             throw err;
          }
       },
-      async removeCard({ commit, state }, { cardId, groupId, boardId }) {
-         const filterBy = state.filterBy
-         if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
+      async removeCard({ commit }, { cardId, groupId, boardId }) {
          try {
             const savedBoard = await boardService.removeCard(cardId, groupId, boardId)
             commit({ type: 'updateBoard', savedBoard })
@@ -296,7 +311,7 @@ export const boardStore = {
             throw err;
          }
       },
-      async removeCheckbox({state}, { checkboxId, checklistId, card, groupId, boardId }) {
+      async removeCheckbox({ state }, { checkboxId, checklistId, card, groupId, boardId }) {
          try {
             const filterBy = state.filterBy
             if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
@@ -318,7 +333,7 @@ export const boardStore = {
             throw err;
          }
       },
-      async removeComment({state}, { commentId, card, groupId, boardId }) {
+      async removeComment({ state }, { commentId, card, groupId, boardId }) {
          try {
             const filterBy = state.filterBy
             if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
@@ -329,7 +344,7 @@ export const boardStore = {
             throw err;
          }
       },
-      async deleteImgFromCard({state}, { commentId, card, groupId, boardId }) {
+      async deleteImgFromCard({ state }, { commentId, card, groupId, boardId }) {
          try {
             const filterBy = state.filterBy
             if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return

@@ -445,7 +445,6 @@ export default {
       immediate: true,
       async handler() {
         try {
-           
           this.isLoadingCard = true;
           await this.loadCard();
 
@@ -456,8 +455,8 @@ export default {
           });
           this.groupName = group.title;
           this.description = this.card.description;
-          this.filterCardLabels();
           await this.clearUserNotifications();
+          this.filterCardLabels();
           this.isLoadingCard = false;
         } catch (err) {
           console.log("cannot get card", err);
@@ -470,7 +469,7 @@ export default {
         this.filterCardLabels();
       },
     },
-       "card.dueDate": {
+    "card.dueDate": {
       deep: true,
       handler() {
         if (this.isLoadingCard) {
@@ -478,11 +477,10 @@ export default {
           return;
         }
         this.saveCard();
-        // this.markDueDateActivity();
       },
     },
   },
-      mounted() {
+  mounted() {
     if (this.card) {
       setTimeout(() => {
         this.$refs.comment.$el.addEventListener(
@@ -508,6 +506,7 @@ export default {
     filterCardLabels() {
       if (!this.card) return;
       if (!this.card.labelIds.length) return (this.cardLabels = []);
+      console.log("filterCardLabels", this.card.labelIds.length);
       this.cardLabels = [];
       this.card.labelIds.forEach((cardLabelId) => {
         const label = this.currBoard.labels.find((label) => {
@@ -538,6 +537,8 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
+        console.log("AFTER SAVECARD", this.card);
+        this.filterCardLabels()
         this.socketUpdateBoard();
       } catch (err) {
         console.log("cannot save card", err);
@@ -547,7 +548,6 @@ export default {
     async removeCard() {
       var msg = {};
       try {
-        this.closeCardDetails();
         const activity = {
           txt: `deleted ${this.card.title} from ${this.groupName}`,
           card: { id: this.card.id, title: this.card.title },
@@ -558,7 +558,9 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        eventBus.$emit("addActivity", activity);
+        await this.socketUpdateBoard();
+        await this.closeCardDetails();
+        await eventBus.$emit("addActivity", activity);
         msg = {
           txt: "Card was successfully removed",
           type: "success",
@@ -574,6 +576,7 @@ export default {
     },
     socketUpdateBoard() {
       if (!this.card) return;
+      console.log("EMITTING SOCKET");
       this.$emit("socketUpdateBoard");
     },
     closeCardDetails() {

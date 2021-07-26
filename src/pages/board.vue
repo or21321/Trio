@@ -2,7 +2,7 @@
   <div class="board-wrapper app-main" v-if="board">
     <board-header
       :board="board"
-      @updateTitle="updateTitle"
+      @updateTitle="updateBoardTitle"
       @toggleStar="toggleStar"
       @updateMembers="updateMembers"
       @setBackground="setBackground"
@@ -16,7 +16,7 @@
         :list="board.groups"
         :animation="200"
         group="groups"
-        @end="dragEnd"
+        @end="updateBoardAfterDrag"
         ref="group"
       >
         <!-- @start="dragStart" -->
@@ -31,9 +31,10 @@
           :darkWindow="darkWindow"
           :isCardPreviewLabelsShown="isCardPreviewLabelsShown"
           @socketUpdateBoard="socketUpdateBoard"
+          @updateBoardAfterDrag="updateBoardAfterDrag"
           @removeGroup="removeGroup"
-          @updateBoard="saveBoard"
           @updateCard="updateCard"
+          @updateGroup="updateGroup"
           @toggleLabelsTitles="toggleLabelsTitles"
           @setToPreviewEdit="setToPreviewEdit"
           :loggedinUser="loggedinUser"
@@ -115,8 +116,8 @@ export default {
     isBoardEmpty() {
       return this.board.groups.length === 0 ? true : false;
     },
-    unfilteredBoard() { 
-      return this.$store.state.boardStore.currBoard
+    unfilteredBoard() {
+      return this.$store.state.boardStore.currBoard;
     },
     // dragStyle() {
     //   return {
@@ -142,16 +143,16 @@ export default {
         }
       },
     },
+    "unfilteredBoard.style": {
+      handler() {
+        this.$emit("setBackground", this.unfilteredBoard.style);
+      },
+    },
     "darkWindow.deleteBoard": {
       handler() {
         this.isRemovePopupOpen = this.darkWindow.deleteBoard;
       },
     },
-   //  x: {
-   //    handler() {
-   //      console.log("Heyo", this.x);
-   //    },
-   //  },
   },
   data() {
     return {
@@ -164,6 +165,23 @@ export default {
     };
   },
   methods: {
+    async updateBoardAfterDrag() {
+      try {
+        console.log("Ahalan ya habub", this.board);
+        await this.$store.dispatch({
+          type: "saveBoardAfterDrag",
+          board: this.board,
+        });
+        this.socketUpdateBoard();
+      } catch (err) {
+        console.log("Had a problem updating board after drag", err);
+        var msg = {
+          txt: "Failed to drag items, try again without active filter",
+          type: "error",
+        };
+        await this.$store.dispatch({ type: "showMsg", msg });
+      }
+    },
     async updateCard(card, groupId) {
       try {
         console.log("from board, updateCard", card, groupId, this.board._id);
@@ -173,11 +191,27 @@ export default {
           groupId: groupId,
           boardId: this.board._id,
         });
-        console.log('da', this.$store.state);
-        this.socketUpdateBoard()
+        console.log("da", this.$store.state);
+        this.socketUpdateBoard();
       } catch (err) {
         console.log("Had a problem updating card from board", err);
       }
+    },
+    async updateGroup(group) {
+      console.log("from board, updateGroupTitle", group, this.board._id);
+      // const groupToSave = await this.$store.dispatch({
+      //   type: "getGroupById",
+      //   groupId: group.id,
+      //   boardId: this.board._id,
+      // });
+      const groupToSave = JSON.parse(JSON.stringify(group));
+      groupToSave.title = group.title;
+      await this.$store.dispatch({
+        type: "saveGroup",
+        group: group,
+        boardId: this.board._id,
+      });
+      this.socketUpdateBoard();
     },
     //  dragStart(e) {
     //    console.log("e", e);
@@ -187,11 +221,11 @@ export default {
 
     //    e.originalEvent.dataTransfer.setDragImage(new Image(), 0, 0);
     //  },
-    dragEnd() {
-      // this.dragPreview.remove();
-      // this.dragPreview = null;
-      this.saveBoard();
-    },
+    // dragEnd() {
+    // this.dragPreview.remove();
+    // this.dragPreview = null;
+    // this.saveBoard();
+    // },
     // clone(original) {
     //   console.log('original', original);
     //   return original
@@ -227,6 +261,7 @@ export default {
       }
     },
     socketUpdateBoard() {
+      console.log("SOCKETUPDATEBOARDMOTHREREUFJKER SOCKETING");
       socketService.emit(SOCKET_EMIT_BOARD_UPDATE, this.unfilteredBoard);
     },
     loadBoard() {
@@ -235,14 +270,24 @@ export default {
     toggleLabelsTitles() {
       this.isCardPreviewLabelsShown = !this.isCardPreviewLabelsShown;
     },
-    async updateTitle(title) {
-      this.board.title = title;
-      await this.$store.dispatch({ type: "saveBoard", board: this.board });
+    async updateBoardTitle(title) {
+      try {
+        const boardToSave = JSON.parse(JSON.stringify(this.unfilteredBoard));
+        console.log("boardToSave", boardToSave);
+        boardToSave.title = title;
+        console.log("title", boardToSave.title);
+        await this.$store.dispatch({ type: "saveBoard", board: boardToSave });
+        this.socketUpdateBoard();
+      } catch (err) {
+        console.log("Had a problem updating board title", err);
+      }
     },
     async toggleStar() {
       try {
-        this.board.isStarred = !this.board.isStarred;
-        this.$store.dispatch({ type: "saveBoard", board: this.board });
+        const boardToSave = this.unfilteredBoard;
+        boardToSave.isStarred = !boardToSave.isStarred;
+        await this.$store.dispatch({ type: "saveBoard", board: boardToSave });
+        this.socketUpdateBoard();
       } catch (err) {
         console.log("ERROR: cannot save board ", err);
       }
@@ -266,6 +311,7 @@ export default {
         };
         const activity = { txt: `deleted list ${group.title}` };
         eventBus.$emit("addActivity", activity);
+        this.socketUpdateBoard();
       } catch (err) {
         msg = {
           txt: "Fail remove list, try again later",
@@ -286,9 +332,13 @@ export default {
       }
     },
     async updateMembers(members) {
-      const updatedBoard = this.board;
-      updatedBoard.members = members;
-      this.saveBoard(updatedBoard);
+      try {
+        const boardToSave = this.unfilteredBoard;
+        boardToSave.members = members;
+        this.saveBoard(boardToSave);
+      } catch (err) {
+        console.log("Had a problem updating members", err);
+      }
     },
     setToPreviewEdit(type,deff) {
       this.$emit("setToPreviewEdit",type, deff);
@@ -302,10 +352,11 @@ export default {
     },
     async setBackground(style) {
       try {
-        const boardToSave = JSON.parse(JSON.stringify(this.board));
+        const boardToSave = this.unfilteredBoard;
         boardToSave.style = style;
         await this.saveBoard(boardToSave);
-        this.$emit("setBackground", style);
+        this.socketUpdateBoard();
+        // this.$emit("setBackground", style);
       } catch (err) {
         console.log("Had problem setting background", err);
       }

@@ -279,7 +279,6 @@ export default {
           groupId: this.groupId,
           boardId: this.boardId,
         });
-        await this.$emit('socketUpdateBoard')
         eventBus.$emit("addActivity", activity);
         this.$emit('socketUpdateBoard')
         msg = {

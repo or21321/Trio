@@ -180,8 +180,6 @@ export const boardStore = {
          }
       },
       async saveBoard({ commit }, { board }) {
-         // const filterBy = state.filterBy
-         // if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
          const type = (board._id) ? 'updateBoard' : 'addBoard';
          try {
             console.log('from store', board);
@@ -214,10 +212,7 @@ export const boardStore = {
       },
       async addActivity(context, { activity }) {
          try {
-            const filterBy = context.state.filterBy
-            if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
             const boardId = context.state.currBoard._id
-            // activity.byMember = context.getters.getMyMiniUser
             const newActivity = await boardService.addActivity(activity, boardId);
             context.commit({ type: 'addActivity', activity: newActivity, boardId })
          } catch (err) {
@@ -229,8 +224,6 @@ export const boardStore = {
       async saveGroup({ commit }, { group, boardId }) {
          const isUpdate = (group.id) ? true : false;
          try {
-            // const filterBy = state.filterBy
-            // if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
             const savedGroup = await boardService.saveGroup(group, boardId);
             commit({ type: 'saveGroup', isUpdate, group: savedGroup });
          } catch (err) {
@@ -240,8 +233,6 @@ export const boardStore = {
       },
       async removeGroup({ commit }, { groupId, boardId }) {
          try {
-            // const filterBy = state.filterBy
-            // if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
             const savedBoard = await boardService.removeGroup(groupId, boardId);
             commit({ type: 'updateBoard', savedBoard });
          } catch (err) {
@@ -289,10 +280,8 @@ export const boardStore = {
          }
       },
       //Checkbox
-      async addCheckbox({ commit, state }, { title, checklistId, card, groupId, boardId }) {
+      async addCheckbox({ commit}, { title, checklistId, card, groupId, boardId }) {
          try {
-            const filterBy = state.filterBy
-            if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
             const savedCard = await boardService.addCheckbox(title, checklistId, card, groupId, boardId)
             commit({ type: 'saveCard', isUpdate: true, card: savedCard, groupId })
             return savedCard
@@ -301,20 +290,16 @@ export const boardStore = {
             throw err;
          }
       },
-      async removeChecklist({ state }, { checklistId, card, groupId, boardId }) {
+      async removeChecklist(context, { checklistId, card, groupId, boardId }) {
          try {
-            const filterBy = state.filterBy
-            if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
             boardService.removeChecklist(checklistId, card, groupId, boardId)
          } catch (err) {
             console.log('Cannot remove checklist', checklistId, ',', err);
             throw err;
          }
       },
-      async removeCheckbox({ state }, { checkboxId, checklistId, card, groupId, boardId }) {
+      async removeCheckbox(context, { checkboxId, checklistId, card, groupId, boardId }) {
          try {
-            const filterBy = state.filterBy
-            if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
             boardService.removeCheckbox(checkboxId, checklistId, card, groupId, boardId)
          } catch (err) {
             console.log('Cannot remove checklist', checklistId, ',', err);
@@ -324,8 +309,6 @@ export const boardStore = {
       //Comment
       async addComment(context, { commentTxt, card, groupId, boardId }) {
          try {
-            const filterBy = context.state.filterBy
-            if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
             const savedComment = await boardService.addComment(commentTxt, card, groupId, boardId)
             context.commit({ type: 'addComment', savedComment, card, groupId })
          } catch (err) {
@@ -333,10 +316,20 @@ export const boardStore = {
             throw err;
          }
       },
-      async removeComment({ state }, { commentId, card, groupId, boardId }) {
+      async removeComment(context, { commentId, card, groupId, boardId }) {
          try {
-            const filterBy = state.filterBy
-            if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
+            const savedCard = await boardService.removeComment(commentId, card, groupId, boardId)
+            console.log('savedCard after removeComment', savedCard);
+            return savedCard
+            // commit({type:'removeComment', })
+         }
+         catch (err) {
+            console.log('Cannot remove board ', boardId, ',', err);
+            throw err;
+         }
+      },
+      async deleteImgFromCard(context, { commentId, card, groupId, boardId }) {
+         try {
             await boardService.removeComment(commentId, card, groupId, boardId)
          }
          catch (err) {
@@ -344,21 +337,8 @@ export const boardStore = {
             throw err;
          }
       },
-      async deleteImgFromCard({ state }, { commentId, card, groupId, boardId }) {
+      async copyCard({ commit}, { card, groupId, boardId }) {
          try {
-            const filterBy = state.filterBy
-            if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
-            await boardService.removeComment(commentId, card, groupId, boardId)
-         }
-         catch (err) {
-            console.log('Cannot remove board ', boardId, ',', err);
-            throw err;
-         }
-      },
-      async copyCard({ commit, state }, { card, groupId, boardId }) {
-         try {
-            const filterBy = state.filterBy
-            if (filterBy.txt || filterBy.labelIds.length || filterBy.memberIds.length || filterBy.timeLeft) return
             const newCard = await boardService.copyCard(card, groupId, boardId)
             commit({ type: 'saveCard', isUpdate: false, card: newCard, groupId })
             return newCard;

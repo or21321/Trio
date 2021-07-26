@@ -223,7 +223,8 @@ async function removeComment(commentId, card, groupId, boardId) {
    try {
       const commentIdx = card.comments.findIndex(comment => comment.id === commentId)
       card.comments.splice(commentIdx, 1)
-      await saveCard(card, groupId, boardId)
+      const savedCard = await saveCard(card, groupId, boardId)
+      return savedCard
    } catch (err) {
       console.log('Error:', err);
    }

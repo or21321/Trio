@@ -538,7 +538,7 @@ export default {
           boardId: this.boardId,
         });
         console.log("AFTER SAVECARD", this.card);
-        this.filterCardLabels()
+        this.filterCardLabels();
         this.socketUpdateBoard();
       } catch (err) {
         console.log("cannot save card", err);
@@ -702,21 +702,26 @@ export default {
     },
     //COMMENTS
     async addComment() {
-      await this.$store.dispatch({
-        type: "addComment",
-        commentTxt: this.commentTxt,
-        card: this.card,
-        groupId: this.groupId,
-        boardId: this.boardId,
-      });
-      this.isMention();
-      const activity = {
-        txt: `added a comment on ${this.card.title}`,
-        card: { id: this.card.id, title: this.card.title },
-      };
-      eventBus.$emit("addActivity", activity);
-      this.commentTxt = "";
-      this.iscommentOpen = false;
+      try {
+        await this.$store.dispatch({
+          type: "addComment",
+          commentTxt: this.commentTxt,
+          card: this.card,
+          groupId: this.groupId,
+          boardId: this.boardId,
+        });
+        this.isMention();
+        const activity = {
+          txt: `added a comment on ${this.card.title}`,
+          card: { id: this.card.id, title: this.card.title },
+        };
+        eventBus.$emit("addActivity", activity);
+        this.socketUpdateBoard()
+        this.commentTxt = "";
+        this.iscommentOpen = false;
+      } catch (err) {
+        console.log("Had a problem adding comment", err);
+      }
     },
     isMention() {
       if (!this.commentTxt.includes("@")) return;
@@ -737,18 +742,20 @@ export default {
       return comment.byMember._id === this.$store.getters.loggedinUser._id;
     },
     async removeComment(commentId) {
-      await this.$store.dispatch({
+      const card = await this.$store.dispatch({
         type: "removeComment",
         commentId,
         card: this.card,
         groupId: this.groupId,
         boardId: this.boardId,
       });
+      console.log('card', card);
       const activity = {
         txt: `deleted a comment from ${this.card.title}`,
         card: { id: this.card.id, title: this.card.title },
       };
-      eventBus.$emit("addActivity", activity);
+      this.card = card
+      await eventBus.$emit("addActivity", activity);
       this.socketUpdateBoard();
     },
     setShowComments() {
@@ -815,7 +822,7 @@ export default {
           txt: `removed completed mark from ${checkbox.title} on card ${this.card.title}`,
         };
       activity.card = { id: this.card.id, title: this.card.title };
-      this.saveCard();
+      await this.saveCard();
       eventBus.$emit("addActivity", activity);
     },
     markDueDateActivity() {
